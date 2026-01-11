@@ -1,6 +1,6 @@
 # chatgpt explains stuff
 
-**CB buffer on blackhole:**https://chatgpt.com/share/69632024-69fc-800c-86d5-a8c74bfc8f37
+**CB buffer on blackhole:** https://chatgpt.com/share/69632024-69fc-800c-86d5-a8c74bfc8f37
 
 **NoC:** https://chatgpt.com/share/6962a9c9-9598-800c-a80d-7f92accbc60a
 
