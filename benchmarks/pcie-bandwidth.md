@@ -270,6 +270,85 @@ These use `SysmemManager` and should measure actual DMA performance, but require
    - IOMMU translation overhead
    - Non-optimal DMA channel configuration
 
+## Why Are Reads So Slow? (~44 MB/s vs ~7.6 GB/s Writes)
+
+The massive read/write asymmetry is fundamental to how PCIe works at the protocol level.
+
+### PCIe Writes are "Posted" (Fast)
+
+**Posted writes = fire and forget:**
+
+```
+CPU: "Write this data to address X"
+     [sends packet, doesn't wait for response]
+     [continues immediately]
+     [write-combining buffers batch multiple writes]
+```
+
+**Characteristics:**
+- CPU doesn't wait for confirmation
+- Multiple writes pipeline together
+- Write-combining buffers coalesce small writes into larger PCIe transactions
+- Achieves high throughput through parallelism
+
+### PCIe Reads are Synchronous (Slow)
+
+**Non-posted reads = request/response:**
+
+```
+CPU: "Read from address X"
+     [sends read request]
+     [WAITS for response]
+     PCIe travels to device (~500-1000ns)...
+     Device fetches data...
+     Response travels back...
+     [CPU finally gets data]
+     CPU: "Read from address X+4"
+     [whole cycle repeats]
+```
+
+**Each read incurs full round-trip latency:**
+- PCIe latency: ~500-1000ns per transaction
+- Sequential reads cannot pipeline effectively
+- Even with prefetching, fundamentally limited by latency
+
+### The Math
+
+**Example: Reading 1MB in 4-byte chunks via MMIO**
+
+```
+Reads needed: 1MB / 4B = 262,144 reads
+Round-trip time: ~1000ns each
+Total time: 262ms
+Bandwidth: 1MB / 262ms = 3.8 MB/s
+```
+
+Even with larger read transactions and some pipelining, MMIO reads are stuck around 40-80 MB/s.
+
+### Why This Happens
+
+1. **Writes don't wait** - Posted transactions, batched, pipelined
+2. **Reads must wait** - Every read stalls for round-trip
+3. **Write-combining helps writes** - No equivalent optimization for reads
+4. **PCIe protocol favors writes** - Designed this way intentionally
+
+### Universal PCIe Behavior
+
+This asymmetry is **not specific to Tenstorrent** - it's fundamental to PCIe:
+
+- GPUs have the same asymmetry (GPU→Host slow, Host→GPU fast)
+- Network cards, storage controllers, all PCIe devices
+- Why DMA helps: hardware can issue reads without CPU stalling
+- Even with DMA reads: 200-500 MB/s typical (still way slower than writes)
+
+### Best Practices
+
+1. **Minimize reads from device** - Every read is expensive
+2. **Batch data on device** - Process/accumulate results on-chip
+3. **Bulk transfer when done** - One large DMA read > many small reads
+4. **Use writes for control** - Write commands to device, not read status
+5. **Device-initiated transfers** - Let device DMA results to host memory
+
 ## Recommendations for Real DMA Testing
 
 ### Use tt-metal benchmarks instead
