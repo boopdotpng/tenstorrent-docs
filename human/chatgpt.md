@@ -4,4 +4,6 @@
 
 **NoC:** https://chatgpt.com/share/6962a9c9-9598-800c-a80d-7f92accbc60a
 
-**Broad high-level overview:**: https://chatgpt.com/share/695b23c6-7184-800c-b2d7-0ca809ab1f1c
+**Broad high-level overview:** https://chatgpt.com/share/695b23c6-7184-800c-b2d7-0ca809ab1f1c
+
+**Fast dispatch cores:** https://chatgpt.com/share/6966853c-2574-800c-a54b-067e3893f95f

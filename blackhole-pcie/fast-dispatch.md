@@ -125,6 +125,53 @@ tt_cxy_pair prefetcher = get_next_available_dispatch_core(mmio_device_id);
 tt_cxy_pair dispatcher = get_next_available_dispatch_core(mmio_device_id);
 ```
 
+### Verified Logical → Physical (NOC0) Mapping (Blackhole)
+
+Dispatch cores are declared as logical relative coords in `tt-metal/tt_metal/core_descriptors/blackhole_140_arch.yaml`:
+```yaml
+dispatch_cores:
+  [[-1, 0], [-1, 1], [-1, 2], [-1, 3], [-1, 4], [-1, 5], [-1, 6], [-1, 7], [-1, 8], [-1, 9]]
+```
+
+Logical relative → logical absolute uses `get_core_coord_from_relative()` (so `-1` resolves to last column of the logical grid):
+```
+CoreCoord get_core_coord_from_relative(const RelativeCoreCoord& in, const CoreCoord& grid_size) {
+  coord.x = in.x + ((in.x < 0) ? grid_size.x : 0);
+  coord.y = in.y + ((in.y < 0) ? grid_size.y : 0);
+}
+```
+
+For Blackhole, the Tensix logical grid size is 14x10. That means:
+```
+[-1, y] → logical (13, y) for y in 0..9
+```
+
+Logical → physical (NOC0) translation uses `metal_SocDescriptor::get_physical_tensix_core_from_logical()`, which maps through the Blackhole coordinate manager and `blackhole::TENSIX_CORES_NOC0` in `tt-umd/device/api/umd/device/arch/blackhole_implementation.hpp`. For the last logical column:
+```
+logical (13, 0..9) → physical NOC0 (16, 2..11)
+```
+
+This matches the earlier “(16, 2) through (16, 11)” statement.
+
+### NOC Address Width (Kernel Driver API)
+
+The kernel driver NoC mapping config uses 64-bit addresses:
+```c
+typedef struct tt_noc_addr_config_t {
+  uint64_t addr;
+  uint16_t x_end;
+  uint16_t y_end;
+  uint16_t x_start;
+  uint16_t y_start;
+  uint8_t noc;
+  uint8_t mcast;
+  uint8_t ordering;
+  uint8_t static_vc;
+} tt_noc_addr_config_t;
+```
+
+So the NoC address base for PCIe/sysmem (`4ULL << 58`) is compatible with the driver interface; it is not truncated to 32 bits.
+
 ## L1 Memory Layout in Prefetch Core
 
 From `dispatch_mem_map.cpp` and `command_queue_common.hpp`:
