@@ -224,3 +224,74 @@ You can find most of these in tt-metal/tt-umd, but the goal is to reimplement th
 - Host queue memory regions: `~/tenstorrent/tt-umd/src/firmware/riscv/blackhole/host_mem_address_map.h`.
 - Programming model: `~/tenstorrent/boop-docs/blackhole-architecture/04_programming_model.md`.
 - Example kernel flow: `~/tenstorrent/tt-metal/tt_metal/programming_examples/add_2_integers_in_riscv/add_2_integers_in_riscv.md`.
+
+## Renderer details: what tinygrad feeds it
+
+Tinygrad’s renderer takes a **linearized list of UOps** for a single kernel. This list is already fully lowered:
+loads, stores, index math, loops (`Ops.RANGE`/`Ops.END`), and workitem IDs (`Ops.SPECIAL`) are explicit.
+The renderer never sees a high-level “matmul”; it sees straight-line kernel IR.
+
+Relevant code path:
+- `tinygrad/codegen/__init__.py` (`get_program`, `do_linearize`, `do_render`)
+- `tinygrad/renderer/__init__.py` (`ProgramSpec.from_uop`)
+- `tinygrad/renderer/cstyle.py` (`CStyleLanguage.render`)
+
+## AMD renderer complexity (baseline for TT)
+
+AMD’s C-style renderer is not huge. It builds on `CStyleLanguage` and adds:
+- workitem intrinsics (`__ockl_get_*`)
+- barriers and local memory annotations
+- type maps for bf16/fp8
+- tensor core intrinsics and wrapper glue
+- extra headers/prefix code in `render_kernel`
+
+Files:
+- `tinygrad/renderer/cstyle.py` (CStyleLanguage + AMD HIP renderer)
+- `tinygrad/renderer/llvmir.py` (AMD LLVM renderer)
+
+The core pattern-match rules live in `CStyleLanguage`. AMD adds a relatively thin layer on top.
+
+## TT’s 3-kernel model in tinygrad terms
+
+Tinygrad expects **one ProgramSpec per kernel**. TT typically needs three kernels (reader, compute, writer).
+The least invasive approach is:
+
+- Renderer emits multiple sources (BRISC/NCRISC/TRISC).
+- Compiler builds all of them and bundles the outputs into one `lib` blob.
+- `TTProgram.__call__` unpacks and launches all three cores, then syncs.
+
+This keeps tinygrad’s core IR and scheduler unchanged.
+
+## L1 reuse: how often and where it matters
+
+Cross-kernel L1 reuse is likely **rare** in a default tinygrad flow, because tinygrad already fuses long
+elementwise chains into a single kernel. The critical L1 reuse is **within** each kernel’s reader/compute/writer trio.
+
+Practical expectations by kernel type:
+
+- Elementwise chains: fused, L1 reuse is intra-kernel only.
+- Reductions / layernorm stats: L1 reuse is important inside the kernel; cross-kernel reuse is uncommon.
+- GEMM / conv: heavy L1 tiling inside the kernel; cross-kernel reuse usually not needed.
+- Attention: strong L1 reuse inside each matmul/softmax; cross-kernel reuse only if you write fused attention kernels.
+- Norm + residual + activation: cross-kernel reuse only if you fuse; otherwise DRAM between kernels.
+
+So: you can ship a correct backend without persistent L1 across kernels, as long as each TT kernel stages
+tiles in L1 for its own reader/compute/writer flow.
+
+## Launch shape and BEAM constraints for TT
+
+TT kernels do not expose GPU-style threads/workgroups. Expect one launch shape per kernel and no local size tuning.
+
+Recommended renderer defaults:
+- `has_threads = False`, `has_local = False`
+- ignore `local_size`, and treat `global_size` as a single scalar range
+- avoid emitting `Ops.SPECIAL` for workitem IDs unless you define a TT-specific mapping
+
+This implies BEAM/local/global tuning should be disabled or ignored for TT:
+- ensure no tensor-core or workgroup-dependent opts are applied
+- keep opts focused on algebraic transforms, not launch dims
+
+## Tiling parameters
+
+TT kernels still need explicit tiling, even without threads. The simplest path is to pass tiling
+parameters as kernel arguments and let the kernel implement the reader/compute/writer loops using those args.
