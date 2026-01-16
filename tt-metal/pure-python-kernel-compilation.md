@@ -131,6 +131,19 @@ If you want to avoid reimplementing `chlkc_*` generation:
 
 See `boop-docs/tt-metal/jit-kernel-binaries.md` for the cache layout.
 
+## ELF loading: DISCRETE vs XIP (tt-metal)
+
+tt-metal supports two broad ways of turning an ELF into “bytes written to L1”:
+
+- `DISCRETE`: write each span to its linked address (PT_LOAD-by-address).
+- `CONTIGUOUS_XIP`: run the in-memory “XIP” transform (`ElfFile::MakeExecuteInPlace()`), then pack spans contiguously and stream them into a chosen base address.
+
+Notes:
+
+- The cache may contain `*.elf.xip.elf` files. These are post-transform debug dumps; they are not just “different PT_LOAD addresses”. The transform primarily rewrites RISC-V relocation sites/instructions so the code can run from the packed placement (notably translating some absolute `lui`/`lo12` sequences into PC-relative `auipc`/`pcrel_lo12` sequences).
+- Even if the program headers look similar before/after, the bytes differ (patched instruction immediates / relocation addends).
+- Separately from XIP, Blackhole uses a RISCV “local mem” alias range at `0xFFB0_0000..`. tt-metal does not host-write this directly; it relocates these addresses into per-core L1 init scratch (`local_init_addr`) and device firmware copies them into true local-mem at runtime.
+
 ## Blackhole firmware sources
 
 Firmware is built from C++ sources in `tt_metal/hw/firmware/src/tt-1xx/` (not blobs). The Blackhole HAL selects these

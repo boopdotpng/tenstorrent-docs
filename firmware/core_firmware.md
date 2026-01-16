@@ -10,6 +10,17 @@
 - `tt-metal` loads firmware during device/context initialization, then reuses it for all kernels.
 - For a pure-Python driver, the safest approach is to always load firmware at startup; it is not per-kernel and is fast enough to do once per device open.
 
+## Holding Tensix RISCs in reset (during firmware upload)
+- When (re)loading firmware, keep BRISC/NCRISC/TRISC0/1/2 in reset while you overwrite their L1 code/data regions.
+- On Blackhole, the per-tile soft-reset register is `RISCV_DEBUG_REG_SOFT_RESET_0` at tile-local address `0xFFB121B0`.
+- Bits (1 = held in reset):
+  - BRISC: `0x00800`
+  - TRISC0/1/2: `0x07000`
+  - NCRISC: `0x40000`
+- Assert all Tensix RISCs: write `0x47800` (or RMW: OR these bits into the current value).
+- Deassert: clear those bits (write `0x0` if you want everything running; some bring-up sequences release cores in stages).
+- Reference: tt-metal/UMD does a cluster broadcast write of this register (`tt_metal/third_party/umd/device/cluster.cpp`).
+
 ## Does it change per kernel or runtime args?
 - Firmware is built per architecture and build configuration, not per kernel.
 - Runtime arguments do not change the firmware image; they are passed through mailboxes and control structures at run time.
