@@ -2,6 +2,14 @@
 
 This note is a “how to think about it” doc for Tensix compute: what the major units are, what the main register files look like, and how TT-Metal’s `init_sfpu` + SFPI map onto the underlying hardware.
 
+## Scope note (Blackhole vs Wormhole)
+
+You said you’re interested in **Blackhole**.
+
+- The **overall mental model** (Dst as the hub, SFPU/LReg is 32×32-bit SIMD, pack/unpack plumbs tiles in/out, `init_sfpu` configures that plumbing) applies to both Wormhole and Blackhole.
+- The **Blackhole ISA docs** cover SFPU/`Dst`/`LReg` well, and include “what changed vs Wormhole” notes in the SFPU page.
+- The **Blackhole ISA docs currently appear to be missing** a few key pages (notably `MatrixUnit.md` and `SrcASrcB.md`), so this doc links to the Wormhole versions for those specifics until Blackhole equivalents land.
+
 Primary references (worth skimming in parallel):
 
 - ISA docs: `tt-isa-documentation/WormholeB0/TensixTile/README.md`
@@ -125,7 +133,7 @@ for (uint32_t v = 0; v < vectors_per_tile; ++v) {
 }
 ```
 
-The easiest way to think about it:
+The easiest way to think about **it**:
 
 - `sfpi::vFloat` is a **32-lane** vector value (one “SFPU vector”).
 - `sfpi::dst_reg[i]` is a convenient *view* of “the current `Dst` tile slot” broken into **32 vectors** (which is why you commonly see `vectors_per_tile = 32`).
@@ -180,4 +188,3 @@ Refs (Wormhole paths shown, Blackhole has analogous headers):
 
 - If you change which CBs you read/write, call `init_sfpu` (or the relevant init) with the new CB indices.
 - If you change data formats (bf16 vs fp16 vs fp32) or face count/tiling behavior, you usually need a different LLK init or reconfig path; “it’s just `dst_reg` math” is only true once the unpack/pack plumbing is configured to feed the SFPU correctly.
-
