@@ -373,91 +373,108 @@ cq_size = host_channel_size / num_hw_cqs;
 
 For a minimal implementation: **~16MB should be sufficient** for basic operation.
 
-## Python Implementation Sketch
+## blackhole-py Implementation
+
+The fast dispatch implementation lives in `blackhole-py/fast_device.py` as a `FastDevice` class that inherits from the slow-dispatch `Device` class. Both can be used side by side.
+
+### Architecture
+
+```
+Device (device.py)          FastDevice (fast_device.py)
+├── Direct TLB writes       ├── Inherits from Device
+├── One PCIe txn per write   ├── _FastCQ command queue
+├── Polls GO_MSG directly    ├── Prefetch + Dispatch cores
+└── Works on USB4/UT3G       └── Sysmem pinned via IOMMU
+```
+
+### Usage — Side by Side
 
 ```python
-# Constants for Blackhole
-DISPATCH_L1_BASE = 0x196b0
-PREFETCH_Q_RING_OFFSET = 0x100
-PREFETCH_Q_RING_ADDR = DISPATCH_L1_BASE + PREFETCH_Q_RING_OFFSET  # 0x197b0
+from device import Device
+from fast_device import FastDevice
 
-# Prefetch core physical coords (first dispatch core)
-PREFETCH_CORE_X = 16
-PREFETCH_CORE_Y = 2
+# Slow dispatch (direct TLB writes)
+dev = Device("/dev/tenstorrent/0")
+dev.run(cores=[(1, 2)], kernels={"brisc": k}, rt_args={"brisc": [42]})
 
-# IOCTL
-TENSTORRENT_IOCTL_PIN_PAGES = 7
-TENSTORRENT_PIN_PAGES_NOC_DMA = 1 << 1
-
-class FastDispatch:
-  def __init__(self, fd, sysmem_size=16*1024*1024):
-    # 1. Allocate sysmem (IOMMU path - NO HUGEPAGES)
-    self.sysmem = mmap.mmap(-1, sysmem_size,
-                            prot=mmap.PROT_READ | mmap.PROT_WRITE,
-                            flags=mmap.MAP_PRIVATE | mmap.MAP_ANONYMOUS | mmap.MAP_POPULATE)
-
-    # 2. Pin for NOC DMA access (IOMMU will handle scatter-gather)
-    self.noc_addr = self._pin_pages_noc_dma(fd, self.sysmem, sysmem_size)
-
-    # 3. TLB to prefetch core L1 for writing fetch queue entries
-    self.prefetch_tlb, self.prefetch_mm = get_tlbs(
-      fd, BH_TLB_2M_WINDOW_SIZE,
-      TLBConfig(
-        noc_addr=PREFETCH_Q_RING_ADDR,
-        x_start=PREFETCH_CORE_X, y_start=PREFETCH_CORE_Y,
-        x_end=PREFETCH_CORE_X, y_end=PREFETCH_CORE_Y,
-        noc=NOC_0
-      )
-    )
-
-    # Track pointers
-    self.issue_q_wr_ptr = 64  # After host CQ control pointers (4 * 16B)
-    self.prefetch_q_offset = 0  # Offset within TLB window
-
-  def _pin_pages_noc_dma(self, fd, buf, size):
-    """Pin pages and get NOC address via IOMMU (no hugepages needed)"""
-    # Get virtual address of mmap buffer
-    buf_addr = ctypes.addressof(ctypes.c_char.from_buffer(buf))
-
-    # Pack input struct
-    pin_in = struct.pack("<IIqq",
-                         24,  # output_size (extended output has noc_address)
-                         TENSTORRENT_PIN_PAGES_NOC_DMA,  # flags - NO CONTIGUOUS!
-                         buf_addr,
-                         size)
-
-    # Allocate output buffer
-    pin_out = bytearray(24)
-
-    # Call ioctl
-    fcntl.ioctl(fd, TENSTORRENT_IOCTL_PIN_PAGES, pin_in + pin_out)
-
-    # Parse extended output
-    phys_addr, noc_addr = struct.unpack("<QQ", pin_out[:16])
-    return noc_addr
-
-  def enqueue_command(self, cmd_bytes):
-    """Enqueue a command sequence to fast dispatch"""
-    cmd_len = len(cmd_bytes)
-    aligned_len = (cmd_len + 15) & ~15  # Align to 16 bytes
-
-    # 1. Write command to issue queue (sysmem - host memory)
-    self.sysmem[self.issue_q_wr_ptr:self.issue_q_wr_ptr + cmd_len] = cmd_bytes
-
-    # 2. Write fetch queue entry (TLB write to prefetch core L1)
-    # This tells prefetch core: "fetch <size> bytes from issue queue"
-    fetch_entry = aligned_len >> 4  # Size in 16-byte units (uint16_t)
-    struct.pack_into("<H", self.prefetch_mm, self.prefetch_q_offset, fetch_entry)
-
-    # Update pointers
-    self.issue_q_wr_ptr += aligned_len
-    self.prefetch_q_offset += 2  # sizeof(uint16_t)
-
-  def close(self):
-    """Cleanup"""
-    # Unpin pages, free TLB, close mmap
-    pass
+# Fast dispatch (command queue via prefetch/dispatch cores)
+fdev = FastDevice("/dev/tenstorrent/0")
+fdev.run(cores=[(1, 2)], kernels={"brisc": k}, rt_args={"brisc": [42]})
 ```
+
+Both have the same `run()` interface. `FastDevice` overrides `run()` to enqueue commands through the CQ instead of writing via TLB.
+
+### What FastDevice Does Differently
+
+**Initialization** (`FastDevice.__init__`):
+1. Calls `Device.__init__` (firmware upload, DRAM allocator, etc.)
+2. Picks two dispatch cores from the rightmost tensix column (prefetch + dispatch)
+3. Creates `_FastCQ` — allocates & pins sysmem, sets up TLB to prefetch core
+4. Loads `cq_prefetch_brisc.elf` and `cq_dispatch_brisc.elf` to those cores
+5. Starts both cores with GO signals
+
+**Command dispatch** (`FastDevice.run`):
+Instead of writing kernel config + go signals directly to L1 via TLB:
+```python
+# Slow path: win.write(TensixL1.KERNEL_CONFIG_BASE, img)
+# Fast path:
+self._cq.enqueue_write_linear(tile=core, addr=TensixL1.KERNEL_CONFIG_BASE, data=img)
+self._cq.enqueue_write_linear(tile=core, addr=TensixL1.GO_MSG, data=as_bytes(reset))
+self._cq.enqueue_write_linear(tile=core, addr=TensixL1.GO_MSG_INDEX, data=...)
+self._cq.enqueue_write_linear(tile=core, addr=TensixL1.LAUNCH, data=as_bytes(launch))
+self._cq.enqueue_write_linear(tile=core, addr=TensixL1.GO_MSG, data=as_bytes(go))
+```
+
+Each `enqueue_write_linear` wraps the data in:
+1. **CQDispatchCmdLarge** (WRITE_LINEAR) — tells dispatch core where to write in L1
+2. **CQPrefetchCmd** (RELAY_INLINE) — tells prefetch core the data is inline in the issue queue
+3. Pads to 64B PCIE_ALIGNMENT
+4. Writes to host sysmem issue queue
+5. Writes a 16-bit prefetch queue entry to device L1 via TLB (triggers fetch)
+
+### _FastCQ Internals
+
+```
+Host sysmem (16MB, IOMMU-pinned)          Prefetch Core L1 (via TLB)
+┌────────────────────────────┐            ┌──────────────────────┐
+│ Issue Queue (8MB)          │◄─── NOC ───│ PREFETCH_Q_RD_PTR    │
+│  [prefetch+dispatch cmds]  │   DMA read │ PREFETCH_Q_PCIE_RD   │
+│  [prefetch+dispatch cmds]  │            │ ...                  │
+│  ...                       │            │ PREFETCH_Q ring buf  │
+├────────────────────────────┤            │  [size_16b entries]  │◄── Host TLB writes
+│ Completion Queue (4MB)     │            └──────────────────────┘
+│  [device writes events]    │
+└────────────────────────────┘
+```
+
+**Key flow:**
+1. Host writes command bytes to sysmem issue queue (regular memcpy)
+2. Host writes 16-bit size entry to prefetch queue in device L1 (TLB write)
+3. Prefetch core sees new entry, DMA-reads that many bytes from sysmem
+4. Prefetch core forwards to dispatch core
+5. Dispatch core writes payload to target worker L1 via NOC
+
+### ABI Structures (abi.py)
+
+The fast dispatch ABI definitions live in `abi.py` alongside the slow dispatch ones:
+
+| Structure | Purpose |
+|-----------|---------|
+| `FastDispatch` | Constants — alignment, offsets, queue sizes |
+| `CQPrefetchCmdId` | Prefetch command IDs (RELAY_INLINE=5, TERMINATE=11, etc.) |
+| `CQDispatchCmdId` | Dispatch command IDs (WRITE_LINEAR=1, SEND_GO_SIGNAL=14, etc.) |
+| `CQPrefetchCmd` | 16-byte prefetch command (cmd_id + union payload) |
+| `CQDispatchCmdLarge` | 32-byte dispatch command (cmd_id + union payload) |
+| `PinPagesIn/Out` | IOCTL 7 — pin sysmem for NOC DMA |
+| `UnpinPagesIn` | IOCTL 10 — unpin sysmem |
+
+### Current Limitations
+
+- Only supports single-core dispatch (`len(cores) == 1`)
+- No issue queue wrap-around (overflow = error)
+- No completion queue polling (still polls GO_MSG via TLB for done)
+- No SEND_GO_SIGNAL dispatch command (uses WRITE_LINEAR for go signals)
+- No multi-CQ support
 
 ## Dispatch Core Physical Coordinates (Blackhole)
 
