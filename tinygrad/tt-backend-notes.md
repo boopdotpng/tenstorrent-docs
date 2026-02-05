@@ -1,3 +1,7 @@
+# Tinygrad + Tenstorrent backend notes (Blackhole)
+
+This file merges the TT backend design doc, SFPI layout notes, and the 2026-01 audit.
+
 # Tinygrad Tenstorrent backend (blackhole, pure python driver)
 
 This document describes what it takes to add a Tenstorrent backend to tinygrad using only:
@@ -295,3 +299,255 @@ This implies BEAM/local/global tuning should be disabled or ignored for TT:
 
 TT kernels still need explicit tiling, even without threads. The simplest path is to pass tiling
 parameters as kernel arguments and let the kernel implement the reader/compute/writer loops using those args.
+# Tinygrad TT backend (tt-metal toolchain): layout + SFPI bringup notes
+
+This captures the root causes behind `tinygrad/test.py` not working on Blackhole, what fixes were needed, and what a “templated” TT backend should look like when:
+- data movement stays in `tt-llk`-heavy kernels, and
+- compute is authored in SFPI.
+
+## Quick checklist (before running any workloads)
+
+- Reset the card (isolates kernel issues from bad device state):
+  - `~/tenstorrent/.venv/bin/tt-smi -r`
+- Ensure the SFPI RISC-V toolchain is discoverable:
+  - Set `TT_METAL_HOME` to your `tt-metal` checkout, or rely on tinygrad’s auto-discovery.
+
+## Root causes
+
+### 1) Toolchain path: `TT_METAL_HOME`
+
+Tinygrad’s TT kernel compiler needs `riscv-tt-elf-g++` and friends from tt-metal’s SFPI toolchain.
+If `TT_METAL_HOME` is unset/mis-set, compilation fails (commonly at `riscv-tt-elf-nm` lookup).
+
+Current behavior is: prefer `TT_METAL_HOME`, else search upward for an in-tree `tt-metal/`, else fall back to `/opt/tenstorrent/tt-metal`.
+
+Relevant code:
+- `tinygrad/tinygrad/runtime/support/tenstorrent/compiler.py`
+
+### 2) Memory layout mismatch: row-major vs `TILED_NFACES`
+
+tt-metal’s unpack/pack path (and the standard “dataflow + SFPI compute” examples) assume tensors in DRAM are in **tiled layout**. For Blackhole elementwise kernels, the common expectation is `TILED_NFACES`:
+- tiles are `32x32`
+- each tile is stored as 4 faces (`16x16`) in face order (nfaces)
+
+If you write row-major host buffers directly into DRAM, kernels will “work” only for degenerate cases (like fills), and produce garbage/NaNs for real inputs because unpack interprets the bytes as tiled faces.
+
+Fix approach used here:
+- tilize host data *when creating TT tensors from numpy*
+- untilize on `Tensor.data()` / `Tensor.numpy()` for TT tensors
+
+Relevant code:
+- `tinygrad/tinygrad/runtime/support/tenstorrent/tilize.py`
+- `tinygrad/tinygrad/tensor.py`
+
+Practical note:
+- This is intentionally a “boundary conversion” hack to get correctness; longer-term, TT should store tensors internally as tiled and only convert when crossing CPU/host boundaries.
+
+### 3) Renderer op selection: avoid matching address math
+
+Tinygrad UOps contain lots of integer `Ops.ADD`/`Ops.MUL` for pointer/index math. A naive “if `Ops.ADD` exists” check will incorrectly emit a binary add kernel even when the kernel is actually a fill/store-const pattern.
+
+The renderer must:
+- match compute ops based on **float-typed** ops (not integer address ops)
+- only emit true binary kernels when it actually has 2 input globals (in addition to output)
+- treat scalar ops (`x * const`, `x + const`) as a unary-scalar kernel (or as binary with an explicit constant tile)
+
+Relevant code:
+- `tinygrad/tinygrad/runtime/ops_tt.py`
+
+## SFPI specifics that matter for correctness
+
+### `dst_reg` indexing for binary ops
+
+For `32x32` tiles, the SFPI convention used by shipped tt-metal SFPU examples is:
+- iterate `r in [0..31]` per tile
+- second operand tile starts at `+32`
+
+In other words:
+- `vectors_per_tile = 32`
+- `tile_stride = 32`
+
+If you treat a tile as “64 rows” in SFPI space, you’ll read/write the wrong `dst_reg` slots and corrupt results.
+
+Reference:
+- `boop-docs/tt-metal/blackhole-kernel-development-audit-sfpi.md`
+
+## What the “templated” backend should look like
+
+Tinygrad’s CUDA-like “emit arbitrary kernels per graph” model doesn’t match Tenstorrent well. A better fit is a small kernel library with a few valid dataflow templates, plus SFPI compute templates:
+
+### Data movement (keep `tt-llk` here)
+
+- `reader_unary`: DRAM → CB0
+- `reader_binary`: DRAM → CB0/CB1
+- `writer`: CBout → DRAM
+- Optional: dedicated tilize/untilize kernels if you want device-side conversions (but host-side is simpler for bringup).
+
+These should be mostly boilerplate, parameterized by:
+- CB ids
+- data format
+- tile_bytes / page_size
+- per-core tile ranges
+
+### Compute (SFPI-only)
+
+Compute kernels should be minimal and template-driven:
+- `compute_fill(value)`
+- `compute_unary(op)`
+- `compute_unary_scalar(op, scalar)` (compile-time constant)
+- `compute_binary(op)`
+
+All should follow:
+- `copy_tile` inputs to Dst slots
+- SFPI loop over `dst_reg[0..31]` (+32 for second tile)
+- `pack_tile` to output CB
+
+## Debugging tips
+
+- If a kernel times out/hangs, reset the device before retrying:
+  - `~/tenstorrent/.venv/bin/tt-smi -r`
+- Beware tinygrad constant folding: `Tensor.ones(...) + Tensor.ones(...)` may compile to a fill kernel and won’t validate binary add paths.
+  - Use non-constant inputs (e.g. `np.arange`) to validate real readers/unpack.
+
+# Tinygrad + Tenstorrent (Blackhole) backend audit (tt-metal toolchain, SFPI compute)
+
+This is a snapshot of what was required to get `tinygrad/test.py` running on a Tenstorrent Blackhole card, what was actually broken, what we changed, and what’s still missing for a “real” backend.
+
+Baseline assumptions:
+- Device: Blackhole (p100a/p150a)
+- Kernels compiled with tt-metal’s SFPI toolchain (not using the tt-metal runtime)
+- Data-movement kernels can stay `tt-llk`-heavy; compute should be SFPI
+
+## Operational notes
+
+Before running any workloads on device:
+- Reset the device to clear any wedged state from prior bad kernels:
+  - `~/tenstorrent/.venv/bin/tt-smi -r`
+
+If kernel compilation fails, set:
+- `TT_METAL_HOME=/home/boop/tenstorrent/tt-metal` (or your checkout)
+
+## What was wrong (root causes)
+
+### 1) Toolchain discovery (`TT_METAL_HOME`)
+
+The TT compiler wrapper needed tt-metal’s SFPI toolchain (`riscv-tt-elf-g++`, `riscv-tt-elf-nm`, etc). The original code effectively assumed a fixed install path, which broke in a repo checkout setup.
+
+Fix: auto-discover `tt-metal/` via `TT_METAL_HOME` or by walking parent dirs.
+- `tinygrad/tinygrad/runtime/support/tenstorrent/compiler.py`
+
+### 2) “DRAM allocation / reading is failing” was actually *layout*
+
+tt-metal’s unpack/pack path expects DRAM tensors in a tiled layout. For typical Blackhole elementwise kernels that means:
+- 32x32 tiles
+- `TILED_NFACES` (four 16x16 faces per tile)
+
+Tinygrad tensors are row-major by default. If you write row-major host data directly to DRAM and then run a tt-metal-style tiled kernel, unpack interprets the bytes as faces/tiles and you get garbage/NaNs (this looks like “bad DRAM reads”).
+
+Fix for bringup correctness:
+- tilize host numpy inputs when creating TT tensors
+- untilize on TT `Tensor.data()` / `Tensor.numpy()` so results compare correctly
+- `tinygrad/tinygrad/runtime/support/tenstorrent/tilize.py`
+- `tinygrad/tinygrad/tensor.py`
+
+### 3) Renderer matched the wrong ops (address math vs compute math)
+
+Tinygrad UOps include lots of integer ops (`Ops.ADD`, `Ops.MUL`) for pointer/index arithmetic. If you match “binary add” just because `Ops.ADD` exists, you can emit a 2-input kernel for a program that has no real 2-input float compute.
+
+Fix: only match compute ops based on float-typed ops and actual global buffer count.
+- `tinygrad/tinygrad/runtime/ops_tt.py`
+
+### 4) SFPI `dst_reg` indexing for binary ops (Float32)
+
+For a 32x32 tile, tt-metal’s SFPU/SFPI examples operate over:
+- `vectors_per_tile = 32`
+- operand tile stride = `+32`
+
+Treating Float32 as “64 SFPI rows per tile” and using `+64` for the second operand corrupts results.
+
+Fix: use `32` rows and `+32` stride for SFPI loops and operand placement.
+- `tinygrad/tinygrad/runtime/ops_tt.py`
+
+## What changed (code)
+
+### Toolchain path
+- `tinygrad/tinygrad/runtime/support/tenstorrent/compiler.py`
+  - Add `_find_tt_metal_home()` and define `TT_METAL_HOME` from env or repo.
+
+### Host tilize/untilize (TILED_NFACES)
+- `tinygrad/tinygrad/runtime/support/tenstorrent/tilize.py`
+  - Implements `tilize_nfaces_bytes` / `untilize_nfaces_bytes` for tile-aligned shapes.
+- `tinygrad/tinygrad/tensor.py`
+  - Numpy → TT tensor creation tilizes when shape is rank≥2 and tile-aligned.
+  - TT tensor `data()`/`numpy()` untilize on the way out (rank≥2).
+
+### Renderer/kernel selection and SFPI compute
+- `tinygrad/tinygrad/runtime/ops_tt.py`
+  - Add `dtypes.float` to dtype mapping.
+  - Add 0-input constant fill kernel when UOps are a constant store pattern.
+  - Add unary-scalar kernel lowering for `x op const` (compile-time scalar).
+  - Only emit binary kernels when the kernel truly has 2 input globals.
+  - Use `vectors_per_tile=32` and `tile_stride=32` for SFPI row loops and second operand offset.
+  - NOC index split matches the known-good pattern: NCRISC on noc0, BRISC on noc1.
+
+## Why `blackhole-py` “worked without tilize”
+
+`blackhole-py` is tile-native:
+- It allocates DRAM with `page_size = tile_size_bytes` and treats the buffer as “N tiles of 32x32 elements”.
+- Reader/writer use `noc_async_read_tile(i, ...)` / `noc_async_write_tile(i, ...)` by tile index.
+- It never interprets the buffer as a row-major `(H,W)` matrix, and validation compares element order in the same flat “tile order”.
+
+So there’s no row-major ↔ tiled mismatch in that workflow; it’s already using the tiled convention end-to-end.
+- `blackhole-py/main.py`
+
+## What’s still missing (for a “real” backend)
+
+### Layout + shapes
+- Only tile-aligned rank≥2 numpy tensors are tilized/untilized. Anything not divisible by 32 needs padding/masking strategy.
+- `.to("CPU")` and non-numpy sources (lists/bytes) are not fully layout-aware (boundary handling is incomplete).
+
+### Views and tinygrad semantics
+Tinygrad treats many views as “free” (reshape/permute/expand/shrink fold into index math).
+With tiled layout, many of these are not representable as metadata-only views:
+- `permute/transpose`: generally requires a real relayout kernel
+- `reshape` that changes how `(H,W)` is interpreted: generally a relayout
+- arbitrary `shrink/slice`: needs mask/pad or real copy unless tile-aligned
+
+A TT-friendly approach is:
+- device tensors are *physically tiled* as the invariant
+- only a small subset of views remain views; everything else lowers to a small set of templated data-movement relayout kernels
+
+### Op coverage
+Currently bringup targets a tiny set:
+- fill, unary, unary-scalar, binary ops for float (as exercised by simple tests)
+
+Missing for broader tinygrad:
+- reductions, matmul/conv, broadcasts, where/compare, transcendental ops, etc.
+
+## What the “optimal” backend shape should look like
+
+Tenstorrent doesn’t fit “emit arbitrary CUDA-like kernels per graph” well. A better fit is a small kernel library:
+
+### Data movement (keep tt-llk here)
+- One unary reader, one binary reader, one writer
+- Optional tilize/untilize kernels if you want device-side conversions (often not needed if TT tensors stay tiled)
+- Optional relayout kernels for views that can’t stay metadata-only
+
+### Compute (SFPI-only)
+- `fill(value)`
+- `unary(op)`
+- `unary_scalar(op, scalar)` (scalar baked in)
+- `binary(op)`
+
+All compute kernels should follow the same boilerplate:
+- `copy_tile` inputs to Dst slots
+- SFPI loop over `dst_reg[0..31]`, using `+32` for the second operand tile
+- `pack_tile` to output CB
+
+## Debugging guidance
+
+- Always reset after a hang:
+  - `~/tenstorrent/.venv/bin/tt-smi -r`
+- Beware constant folding: `Tensor.ones(...) + Tensor.ones(...)` can compile down to a fill kernel and won’t validate binary readers/unpack.
+  - Use non-constant inputs (e.g. `np.arange`) to exercise real binary kernels.
+

@@ -1,3 +1,117 @@
+# SFPI and kernel development (Blackhole)
+
+This consolidates SFPI mental models, add1 SFPI kernel notes, dst/srca staging, and the Blackhole SFPI audit.
+
+## add1_sfpu: SFPI-based compute kernel
+
+This note shows how to replace `add_unary_tile` with raw SFPI ops in the `add1_sfpu` programming example.
+
+### What changed
+
+- New compute kernel: `tt-metal/tt_metal/programming_examples/add1_sfpu/kernels/compute/add1_sfpi.cpp`.
+- Uses `sfpi::vFloat` and `sfpi::dst_reg` to add a scalar across all 32 vectors in a tile.
+- Keeps existing CB flow (`init_sfpu`, `copy_tile`, `pack_tile`) but removes LLK unary ops from the compute path.
+
+### Switch the example to the new kernel
+
+```cpp
+KernelHandle add1_kernel_id = CreateKernel(
+  program,
+  OVERRIDE_KERNEL_PREFIX "add1_sfpu/kernels/compute/add1_sfpi.cpp",
+  core,
+  ComputeConfig{
+    .math_fidelity = MathFidelity::HiFi4,
+    .math_approx_mode = false,
+  });
+```
+
+### Notes
+
+- SFPI code is guarded by `#ifdef TRISC_MATH` since the SFPU is only on the MATH core.
+- `sfpi::dst_reg` is indexed by vector; a full 32x32 tile is 32 vectors.
+- This approach is compatible with compiler-generated SFPI C++.
+
+### TT-LLK dependencies in the original unary-op kernel
+
+The original compute kernel depends on TT-LLK through these headers and APIs:
+
+- Headers:
+  - `compute_kernel_api/eltwise_unary/eltwise_unary.h`
+  - `compute_kernel_api/eltwise_unary/binop_with_scalar.h`
+  - `compute_kernel_api/tile_move_copy.h`
+  - `compute_kernel_api/common.h`
+- APIs used:
+  - `init_sfpu(...)`
+  - `binop_with_scalar_tile_init()`
+  - `add_unary_tile(...)`
+  - `tile_regs_acquire/commit/wait/release`, `copy_tile`, `pack_tile`, `cb_*`
+
+## SFPU/SFPI: Dst math vs SrcA staging
+
+When you write SFPI like:
+```cpp
+sfpi::dst_reg[v] = sfpi::dst_reg[v] + 1.0f;
+```
+
+the SFPU operates on `Dst` via `SFPLOAD`/`SFPSTORE` (Dst ↔ LReg). Many kernels still use `SrcA` as an intermediate on the data-movement path:
+
+- `copy_tile(...)` is an UNPACK step plus a MATH datacopy that lands in `Dst`.
+- For fp16/bf16, the LLK unpack path commonly stages through `SrcA`.
+- Unpack directly to `Dst` is a special-case used for 32-bit inputs.
+
+## Tensix coprocessor mental model (SrcA/SrcB/Dst, SFPU vs FPU, SFPI, init_sfpu)
+
+This is a “how to think about it” doc for Tensix compute: what the major units are, what the main register files look like, and how TT-Metal’s `init_sfpu` + SFPI map onto the underlying hardware.
+
+### Scope note (Blackhole vs Wormhole)
+
+- The overall mental model applies to both Wormhole and Blackhole.
+- The Blackhole ISA docs currently appear to be missing a few key pages (notably `MatrixUnit.md` and `SrcASrcB.md`), so this doc links to the Wormhole versions for those specifics.
+
+Primary references:
+- ISA docs: `tt-isa-documentation/WormholeB0/TensixTile/README.md`
+- SFPU (Vector Unit): `.../VectorUnit.md`
+- FPU (Matrix Unit): `.../MatrixUnit.md`
+- Register files: `.../Dst.md`, `.../SrcASrcB.md`, `.../LReg.md`, `.../RWCs.md`
+- TT-Metal init: `compute_kernel_api/eltwise_unary/eltwise_unary.h:17`
+
+### What “the Tensix coprocessor” is (from a programmer POV)
+
+Treat a Tensix tile as a small heterogeneous machine with:
+- Matrix engine (FPU) consuming `SrcA`/`SrcB`, accumulating into `Dst`.
+- SIMD vector engine (SFPU) operating on 32 lanes of 32-bit values.
+- Unpack/pack engines that move tiles between L1 and the register files.
+- Hardware address counters (`RWCs` and `ADCs`).
+
+### SFPU vs FPU
+
+- **Matrix Unit (FPU)**: specialized low-precision matrix/elementwise engine. Inputs in `SrcA`/`SrcB`, outputs in `Dst`.
+- **Vector Unit (SFPU)**: general-purpose SIMD engine operating on 32×32-bit lanes via LReg and Dst.
+
+### Register files
+
+**SrcA/SrcB**
+- 2 banks × 64 rows × 16 columns × 19-bit data
+- Double-buffered between unpackers and matrix unit
+
+**Dst**
+- `uint16_t DstBits[1024][16]` + valid bits
+- Dst16b (bf16/fp16/int) or Dst32b (fp32/int32)
+
+**LReg**
+- `LReg[17][32]`, 32 lanes × 32 bits
+
+### SFPLOAD/SFPSTORE granularity
+
+SFPI vectors correspond to 32-lane loads from Dst; address selection uses RWCs configured by LLK.
+
+### What `init_sfpu(icb, ocb)` does
+
+`init_sfpu` configures unpack/pack + math datapath so tiles can be moved in/out and threads agree on formats and sync.
+
+
+## Full audit notes (verbatim)
+
 # Tenstorrent tt-metal (Blackhole / p100a) Kernel Development Audit (SFPI-first)
 
 Scope: low-level kernel primitives and patterns, with emphasis on SFPI (SFPU) usage over high-level tt-llk wrappers.

@@ -42,7 +42,7 @@ For the minimal `WRITE_LINEAR`-only path, this may not cause an immediate hang â
 
 Originally suspected as the root cause, but **this is actually correct**. The prefetch and dispatch firmware only take 3 runtime args (fabric routing IDs), all of which are 0 for single-chip MMIO. All real configuration (buffer addresses, NOC coords, queue sizes) is baked into the ELFs as compile-time `#define` macros.
 
-See `fast-dispatch-rt-args-and-defines.md` for full analysis.
+See `blackhole/fast-dispatch-abi.md` for full analysis.
 
 ## Bug 5: Potential semaphore mismatch
 

@@ -1,10 +1,7 @@
 # LLK + SFPI docs
 
-This folder combines TT-LLK and SFPI notes for Blackhole.
+This folder keeps SFPI/LLK notes separate from TT-Metal runtime docs.
 
 Files:
-- `llk-kernel-inventory.md`: Kernel families + SFPU op catalog and ML op buckets.
-- `llk-blackhole-sfpu-vs-non-sfpu.md`: SFPU vs non-SFPU examples and excerpts.
-- `pack-unpack-walkthrough.md`: Pack/unpack/tilize/untilize deep dive.
-- `llk-ops-and-sfpi-model.md`: LLK/SFPI programming model overview.
-- `sfpi.md`: SFPI reference notes.
+- `sfpi.md`: SFPI repo layout, build, API, ops, and examples.
+- `llk-and-sfpi-model.md`: LLK kernel inventory, SFPU vs non-SFPU examples, and pack/unpack/tilize/untilize walkthrough.

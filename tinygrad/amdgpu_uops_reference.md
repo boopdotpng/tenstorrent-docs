@@ -4,6 +4,8 @@ This describes only the UOps that actually appear in `extra/amdgpu_uops_report.m
 and what they typically lower to in C/HIP-style GPU code (as implemented by `AMDHIPRenderer` in
 `tinygrad/renderer/cstyle.py`).
 
+`amdgpu_uops_report.md` is an auto-generated dump. Treat it as a raw artifact and use this file as the curated reference.
+
 At this stage:
 - The input list is *linearized*: it’s already ordered “as code”.
 - Many UOps are emitted as SSA-ish expressions; others become statements (`for`, `if`, stores, declarations).
