@@ -9,3 +9,4 @@ Files:
 - `dataflow-and-cbs.md`: CB semantics, dataflow patterns, buffer copies, L1-direct vs DRAM.
 - `sfpi-and-kernel-dev.md`: SFPI mental model, add1 SFPI kernel, dst/srca staging.
 - `debug-env-vars.md`: debugging and profiling env vars.
+- `distributed-training-in-tt-metal.md`: MeshDevice/distributed APIs, sharding, and collective mapping.
