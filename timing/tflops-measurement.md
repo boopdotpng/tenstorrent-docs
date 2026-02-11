@@ -68,3 +68,32 @@ Practical fixes without refactoring `run()`:
 1. **Increase `TIMED_ITERS` to >= 10** — averaging reduces noise even with per-iteration sync
 2. **Only trust `wall` timing** — the dispatch/compute split is not meaningful
 3. For real pipelined numbers, `FastDevice.run()` needs to be split into enqueue + sync
+
+## 2026-02-10 update: root cause on P100A
+
+For the `tt-metal` vs `blackhole-py` matmul gap investigated on 2026-02-10, the dominant issue was not kernel math or command encoding.
+
+### What differed
+
+- `blackhole-py` was running the card at idle clock during workload (`AICLK=800`).
+- `tt-metal` moved the card to busy clock during workload (`AICLK=1350`).
+- This was measured with `tt-smi -s --snapshot_no_tty` sampled while each benchmark ran.
+
+### Evidence from the run
+
+- `blackhole-py` baseline: ~`2.00 ms`, ~`118 TFLOPS`, max sampled `AICLK=800`.
+- `tt-metal` single-file example: ~`1.09 ms`, ~`216 TFLOPS`, max sampled `AICLK=1350`.
+
+### Fix applied in blackhole-py runtime
+
+- On device init: send ARC message `AICLK_GO_BUSY` and wait until telemetry leaves idle.
+- On close: send ARC message `AICLK_GO_LONG_IDLE`.
+
+After this fix:
+
+- `blackhole-py` (no host batching): ~`1.25 ms`, ~`189 TFLOPS`.
+- `blackhole-py` with host batching (`run_many`/`RUN_BATCH`): ~`1.12 ms`, ~`210 TFLOPS`.
+
+### Takeaway
+
+Measurement methodology still matters (sync pattern and batching), but in this specific gap the first-order cause was power/clock state management. Runtime should own this automatically so users do not need manual clock handling.
