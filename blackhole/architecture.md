@@ -247,14 +247,24 @@ The coprocessor is the primary compute engine: Unpack → Compute → Pack on ti
 
 32-wide SIMD operating on 32-bit lanes.
 
-**LReg storage:** 17 registers × 32 lanes × 32-bit
+**LReg storage:** `uint32_t LReg[17][32]` — 17 registers, each 32 lanes of 32 bits.
 - `LReg[0-7]`: general purpose
 - `LReg[8]`: constant 0.8373
 - `LReg[9]`: constant 0.0
 - `LReg[10]`: constant 1.0
-- `LReg[11-14]`: broadcast regs (8 lanes → 32 lanes)
+- `LReg[11-14]`: broadcast regs (8 lanes → 32 lanes, written via `SFPCONFIG`)
 - `LReg[15]`: lane indices (0, 2, 4, ..., 62)
-- `LReg[16]`: macro scheduling only
+- `LReg[16]`: macro scheduling only (`SFPLOADMACRO`)
+
+**Dst ↔ LReg data movement (`SFPLOAD`/`SFPSTORE`):**
+Each transfer moves a **4×8 = 32 element slice** of Dst into/out of one LReg. The 32 lanes map to 4 consecutive Dst rows × 8 columns (even or odd), laid out as a 4×8 grid:
+```
+Lane 0-7   ← Dst Row R+0, columns 0,2,4,...,14  (or odd: 1,3,...,15)
+Lane 8-15  ← Dst Row R+1
+Lane 16-23 ← Dst Row R+2
+Lane 24-31 ← Dst Row R+3
+```
+A 32×32 tile occupies 64 Dst rows, so processing an entire tile through the SFPU requires **16 SFPLOAD/SFPSTORE pairs** (even columns only) or 32 (both even and odd). This is why the SFPU is ~64× slower than the FPU for bulk math — the FPU's MVMUL processes 8×16 elements per cycle through a systolic array, while the SFPU works on 32 elements at a time through a vector pipeline.
 
 **Instruction classes:**
 - **FP32 arithmetic (2-cycle, 1 IPC):** `SFPADD`, `SFPMAD`, `SFPMUL`, `SFPADDI`, `SFPMULI`, `SFPLUT`, `SFPLUTFP32`
@@ -272,19 +282,44 @@ The coprocessor is the primary compute engine: Unpack → Compute → Pack on ti
 - `SFPLOADMACRO` can schedule a load + up to 4 additional SFPU ops to keep sub-units active.
 - Per-lane predication uses a flag stack for SIMT-style control flow.
 
-**Reference:** `tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/VectorUnit.md`
-(architecture is shared; Blackhole adds a small number of instructions).
+**Blackhole-specific additions:**
+- `SFPARECIP` — approximate reciprocal / exp
+- `SFPGT`, `SFPLE` — greater-than / less-equal comparisons
+- `SFPMUL24` — 24-bit integer multiply (upper/lower modes)
+- Arithmetic right shifts on `vInt` (Wormhole only had logical shifts)
+- Enhanced modes for `SFPCAST`, `SFPPUSHC`, `SFPSTOCHRND`
+
+**Reference:** `tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md`
 
 ### Matrix Unit (FPU)
 
 Low-precision matrix engine operating on Dst tiles.
 
-**Capabilities:**
-- Matrix multiply-accumulate (MAC)
-- Multiple data types (BF16, FP16, INT8, etc)
+**SrcA / SrcB register files:**
+- 2 banks × 64 rows × 16 columns × **19-bit** data
+- Double-buffered between unpackers and the matrix unit
+- Operand mapping is swapped: `in0` (A matrix) loads into **SrcB**, `in1` (B matrix) loads into **SrcA**
 
-**Instructions:**
-- `MVMUL`, `DOTPV`, `GAPOOL`, `GMPOOL`, `ELWMUL`, `ELWADD`, `ELWSUB`
+The 19-bit width is intentional — the FPU is a low-precision engine. The widest input format is **TF32** (1+8+10 = 19 bits). FP32 inputs are truncated to TF32 (losing 13 mantissa bits). Supported types: TF32, BF16 (overlaid onto TF32 with 3 zero LSBs), FP16, INT8. For full FP32 element-wise math, use the SFPU instead (via LReg/Dst32b), which is ~64× slower but fully precise.
+
+**Core instruction — MVMUL:**
+```
+DST[8, 16] += SrcB[8, 16] × SrcA[16, 16]
+```
+One MVMUL processes 8 output rows. A full 32×32 tile = 4 face pairs = **16 MVMULs**. Accumulation into DST is always full-precision (FP32 or BF16), regardless of input type or fidelity.
+
+**Math fidelity** trades precision for speed by varying which mantissa bit slices are multiplied:
+
+| Fidelity | Phases | Relative Speed | BH P100A TFLOPS (110 cores, FP16 accum) |
+|----------|--------|----------------|------------------------------------------|
+| LoFi     | 1      | 1×             | 175.5                                    |
+| HiFi2    | 2      | ~0.99×         | 173.6 (recommended sweet spot)           |
+| HiFi3    | 3      | ~0.33×         | —                                        |
+| HiFi4    | 4      | ~0.25×         | 115.6                                    |
+
+FP32 accumulation reduces throughput by ~26% (LoFi: 129.7 TFLOPS) and halves Dst capacity (8 tiles → 4 tiles per half).
+
+**Other instructions:** `DOTPV`, `GAPOOL`, `GMPOOL`, `ELWMUL`, `ELWADD`, `ELWSUB`
 
 ### Unpacker / Packer
 

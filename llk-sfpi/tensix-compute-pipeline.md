@@ -52,6 +52,22 @@ L1 (circular buffers)
 - `in1` (your "B" matrix CB) loads into **SrcA**
 - MVMUL computes `D = B * A`, i.e. `D[8,16] = SrcB[8,16] * SrcA[16,16]`
 
+### SrcA / SrcB physical layout
+
+Each source register file has:
+- **2 banks × 64 rows × 16 columns × 19-bit** data
+- Double-buffered between the unpackers and the matrix unit
+
+The 19-bit width caps input precision at **TF32** (1+8+10 bits). FP32 is truncated to TF32 on load (losing 13 mantissa bits). Fidelity phases compensate by multiplying different mantissa bit slices across passes — LoFi uses only the top bits, HiFi4 uses all available slices. For full FP32 element-wise ops, use the SFPU (via LReg/Dst32b), which is precise but ~64× slower than the FPU.
+
+### DST physical layout
+
+Same storage viewed two ways:
+- **Dst16b mode:** 1024 rows × 16 cols × 16-bit → holds **16 tiles** of 32×32 (8 per half)
+- **Dst32b mode:** 512 rows × 16 cols × 32-bit → holds **8 tiles** (4 per half)
+
+One 32×32 tile occupies 64 consecutive Dst rows. From SFPI, each `dst_reg[row]` is a 32-element vector with stride 2, so a tile spans `dst_reg[0..31]`.
+
 ## DST double-buffering and semaphores
 
 DST has two halves. MATH and PACK alternate between them using hardware semaphores:
@@ -84,6 +100,17 @@ Two different compute units share the DST register file:
 | **SFPU** | Element-wise vector ops. Reads/writes DST directly. | `SFPMUL`, `SFPMAD`, `SFPLOAD`, `SFPSTORE`, etc. |
 
 FPU handles matmul. SFPU handles everything else (activations, eltwise, reductions). They cannot run simultaneously -- a kernel does FPU work (matmul) then SFPU work (post-processing) on the same DST data.
+
+### Why the FPU is ~64× faster than the SFPU
+
+The performance gap comes from how each unit accesses data:
+
+- **FPU (`MVMUL`)**: processes an **8×16 = 128 element** chunk per cycle through a systolic array, reading directly from SrcA/SrcB and accumulating into Dst. One instruction, 128 MACs.
+- **SFPU (`SFPMAD`)**: operates on **32 elements** per instruction (one LReg), at 2-cycle latency. Each SFPLOAD/SFPSTORE transfers a **4×8 = 32 element slice** of Dst (4 consecutive rows × 8 even-or-odd columns). Processing a full 32×32 tile requires 16+ load/compute/store rounds.
+
+At 1 GHz: `MVMUL` = 4.096 TFLOP/s per core, `SFPMAD` = 0.064 TFLOP/s per core.
+
+The SFPU's advantage is **full 32-bit precision** on all operands (via LReg), whereas the FPU truncates inputs to ≤19 bits (TF32). The architecture is designed so the FPU handles bulk matmul throughput and the SFPU handles element-wise post-processing (activations, normalization, etc.) where the 64× slowdown doesn't matter because these ops are applied once per output tile rather than in an inner loop.
 
 ## MOP: the hardware loop engine
 
@@ -293,3 +320,63 @@ MATH((llk_math_matmul<MATH_FIDELITY, MM_THROTTLE>(0)));
 ```
 
 Where `llk_math_matmul` calls `set_dst_write_addr` + `ckernel_template::run()` + `TTI_SETRWC`. The explicit version gives you visibility and control over each step.
+
+## Pipeline scheduling constraints
+
+After writing an 8×16 block to DST, the same block **cannot be read for 4 cycles**. This means:
+- You need ≥5 distinct 8×16 blocks in flight for a **zero-bubble pipeline**
+- For multi-fidelity, the fidelity loop should be the **outer** loop to avoid stalls (each phase writes different blocks before re-reading)
+
+## MOP config registers
+
+The MOP expander is configured through 9 write-only registers at `TENSIX_MOP_CFG_BASE` (`0xFFB80000`). Each TRISC thread has its own set.
+
+**Template 1 (double-nested loop, used for matmul):**
+
+| Register | Field | Purpose |
+|----------|-------|---------|
+| `MopCfg[0]` | `OuterCount` | Outer loop iterations |
+| `MopCfg[1]` | `InnerCount` | Inner loop iterations (e.g. fidelity phases) |
+| `MopCfg[2]` | `StartOp` | Emitted once before inner loop |
+| `MopCfg[3]` | `EndOp0` | Emitted after inner loop |
+| `MopCfg[4]` | `EndOp1` | Emitted after EndOp0 |
+| `MopCfg[5]` | `LoopOp0` | Main inner loop body (often a `REPLAY` instruction) |
+| `MopCfg[6]` | `LoopOp1` | Alternating inner loop body (or NOP) |
+| `MopCfg[7]` | `Loop0Last` | Override LoopOp for last outer iteration |
+| `MopCfg[8]` | `Loop1Last` | Override LoopOp for last inner iteration (non-last outer) |
+
+**Template 0 (mask-based, used by unpackers):** uses a 32-bit `zmask` to selectively skip iterations. The high 16 bits are set via `TT_MOP_CFG(zmask >> 16)`, the low 16 via the `TT_MOP` instruction itself.
+
+Always call `mop_sync()` before reprogramming MopCfg -- it blocks until any in-flight MOP expansion finishes.
+
+A single MOP instruction can expand into up to **32,639 backend instructions** (the product of outer × inner × replay length). The MOP emits one instruction per cycle to the backend, so RISC-V is free to set up the next tile's addresses while the current MOP is executing.
+
+## Matmul throttling
+
+Throttling limits FPU throughput by inserting NOP instructions between MVMULs in the MOP replay buffer. It exists for **power/thermal management**, not correctness.
+
+### How it works
+
+Without throttle (`THROTTLE_LEVEL=0`), the replay buffer contains 16 back-to-back MVMULs. With throttle, NOPs are interleaved:
+
+| Level | Throughput | Pattern |
+|-------|-----------|---------|
+| 0 | 100% (default) | `MVMUL MVMUL MVMUL MVMUL ...` |
+| 1 | 73% | 1 NOP per ~3 MVMULs |
+| 2 | 67% | 1 NOP per ~2 MVMULs |
+| 3 | 50% | 1:1 NOP-to-MVMUL ratio |
+| 4 | 40% | ~1.5 NOPs per MVMUL |
+| 5 | 33% | 2 NOPs per MVMUL |
+
+The throttled sequence is recorded into the replay buffer at init time, replacing the normal MVMUL-only sequence. The MOP loop structure stays the same.
+
+### Static vs dynamic throttle
+
+**Static (compile-time):** `THROTTLE_LEVEL` is a template parameter on `_llk_math_matmul_init_`. Default is 0. When nonzero, `matmul_configure_mop_throttled` builds a replay buffer with NOPs interleaved. Only supported for full 32×32 tiles.
+
+**Dynamic (runtime, Blackhole only):** `matmul_block` in tt-metal reads an ARC firmware scratch register (`MEM_L1_ARC_FW_SCRATCH`) at runtime. If firmware has flagged thermal constraints, the kernel dynamically switches to the throttled MOP (`MM_THROTTLE_MAX`). This means even a perfectly written kernel can be silently throttled.
+
+### How to tell if a kernel is throttled
+
+- **Static:** check the `THROTTLE_LEVEL` template parameter passed to `_llk_math_matmul_init_`. If 0, no static throttling.
+- **Dynamic:** firmware-driven. If throughput is unexpectedly low (e.g. ~130 TFLOPS instead of ~175 TFLOPS on BH LoFi) with everything else correct, dynamic throttle is a likely suspect. The check happens in `compute_kernel_api/matmul.h` inside the `matmul_block` call path.
