@@ -11,3 +11,5 @@ Files:
 - `fast-dispatch-host-bringup-notes.md`: host-side bring-up gotchas from tt-metal kernel sources.
 - `tile-addresses-and-l1-map.md`: tile coords and Tensix L1 offsets used for kernel/CB/mailbox bring-up.
 - `firmware.md`: core firmware lifecycle, reset sequencing, and fan control analysis.
+- `grid-utilization.md`: 10×11 grid analysis, column 14 notch problem, uneven tile distribution, performance math.
+- `matmul-autogen-design.md`: auto-generator design for arbitrary (M,K,N) matmul on the 10×11 grid.

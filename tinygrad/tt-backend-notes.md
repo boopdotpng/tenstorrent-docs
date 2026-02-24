@@ -2,6 +2,11 @@
 
 This file merges the TT backend design doc, SFPI layout notes, and the 2026-01 audit.
 
+See also:
+- `runtime-gap-analysis.md`: blackhole-py runtime completeness assessment, template renderer architecture, build priority plan.
+- `blackhole-dataflow-hardcode-patterns.md`: CB limits, kernel arities, recommended template set.
+- `matmul-peak-fuzz-and-cq-batching.md`: CQ batching limits and stability test results.
+
 # Tinygrad Tenstorrent backend (blackhole, pure python driver)
 
 This document describes what it takes to add a Tenstorrent backend to tinygrad using only:
