@@ -1,6 +1,6 @@
 # Tinygrad UOps Reference for TT Renderer
 
-Generated: `2026-02-28 14:50:57` | Device: `AMD` | Commit: `e3003631f`
+Generated: `2026-02-28 14:58:28` | Device: `AMD` | Commit: `e3003631f`
 
 ## How to read
 
@@ -54,7 +54,7 @@ compute:   ADD=4 CAST=3 CONST=2 GEP=8 INDEX=3 LOAD=2 SHL=1 STORE=1 VECTORIZE=1
    26 INDEX              float.ptr(64)                [0,6]             
    27 CAST               float.vec(4).ptr(64)         [26]              
    28 STORE              void                         [27,25]           
-   29 SINK               void                         [28]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   29 SINK               void                         [28]               KernelInfo(name='E_16_4', axis_types=(), dont_use_locals=False, applied_opts=(Op
 ```
 
 **mul** — `a * b`
@@ -91,7 +91,7 @@ compute:   CAST=3 CONST=2 GEP=8 INDEX=3 LOAD=2 MUL=4 SHL=1 STORE=1 VECTORIZE=1
    26 INDEX              float.ptr(64)                [0,6]             
    27 CAST               float.vec(4).ptr(64)         [26]              
    28 STORE              void                         [27,25]           
-   29 SINK               void                         [28]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   29 SINK               void                         [28]               KernelInfo(name='E_16_4n1', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **sub** — `a - b`
@@ -128,7 +128,7 @@ compute:   CAST=3 CONST=2 GEP=8 INDEX=3 LOAD=2 SHL=1 STORE=1 SUB=4 VECTORIZE=1
    26 INDEX              float.ptr(64)                [0,6]             
    27 CAST               float.vec(4).ptr(64)         [26]              
    28 STORE              void                         [27,25]           
-   29 SINK               void                         [28]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   29 SINK               void                         [28]               KernelInfo(name='E_16_4n2', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **div** — `a / b`
@@ -169,7 +169,7 @@ compute:   CAST=3 CONST=2 GEP=8 INDEX=3 LOAD=2 MUL=4 RECIPROCAL=4 SHL=1 STORE=1 
    30 INDEX              float.ptr(64)                [0,6]             
    31 CAST               float.vec(4).ptr(64)         [30]              
    32 STORE              void                         [31,29]           
-   33 SINK               void                         [32]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   33 SINK               void                         [32]               KernelInfo(name='E_16_4n3', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **max** — `maximum(a, b)`
@@ -210,7 +210,7 @@ compute:   CAST=3 CMPLT=4 CONST=2 GEP=8 INDEX=3 LOAD=2 SHL=1 STORE=1 VECTORIZE=1
    30 INDEX              float.ptr(64)                [0,6]             
    31 CAST               float.vec(4).ptr(64)         [30]              
    32 STORE              void                         [31,29]           
-   33 SINK               void                         [32]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   33 SINK               void                         [32]               KernelInfo(name='E_16_4n4', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **cmplt** — `(a < b).float()`
@@ -251,7 +251,7 @@ compute:   CAST=7 CMPLT=4 CONST=2 GEP=8 INDEX=3 LOAD=2 SHL=1 STORE=1 VECTORIZE=1
    30 INDEX              float.ptr(64)                [0,6]             
    31 CAST               float.vec(4).ptr(64)         [30]              
    32 STORE              void                         [31,29]           
-   33 SINK               void                         [32]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   33 SINK               void                         [32]               KernelInfo(name='E_16_4n5', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 ---
@@ -284,7 +284,7 @@ compute:   CAST=2 CONST=2 GEP=4 INDEX=2 LOAD=1 NEG=4 SHL=1 STORE=1 VECTORIZE=1
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n6', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **exp2** — `a.exp2()`
@@ -313,7 +313,7 @@ compute:   CAST=2 CONST=2 EXP2=4 GEP=4 INDEX=2 LOAD=1 SHL=1 STORE=1 VECTORIZE=1
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n7', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **log2** — `a.log2()`
@@ -342,7 +342,7 @@ compute:   CAST=2 CONST=2 GEP=4 INDEX=2 LOAD=1 LOG2=4 SHL=1 STORE=1 VECTORIZE=1
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n8', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **sin** — `a.sin()`
@@ -371,7 +371,7 @@ compute:   CAST=2 CONST=2 GEP=4 INDEX=2 LOAD=1 SHL=1 SIN=4 STORE=1 VECTORIZE=1
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n9', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **sqrt** — `a.sqrt()`
@@ -400,7 +400,7 @@ compute:   CAST=2 CONST=2 GEP=4 INDEX=2 LOAD=1 SHL=1 SQRT=4 STORE=1 VECTORIZE=1
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n10', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **reciprocal** — `a.reciprocal()`
@@ -429,7 +429,7 @@ compute:   CAST=2 CONST=2 GEP=4 INDEX=2 LOAD=1 RECIPROCAL=4 SHL=1 STORE=1 VECTOR
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n11', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -490,7 +490,7 @@ compute:   CAST=5 CMPLT=4 CONST=2 GEP=16 INDEX=5 LOAD=4 SHL=1 STORE=1 VECTORIZE=
    46 INDEX              float.ptr(64)                [0,8]             
    47 CAST               float.vec(4).ptr(64)         [46]              
    48 STORE              void                         [47,45]           
-   49 SINK               void                         [48]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   49 SINK               void                         [48]               KernelInfo(name='E_16_4n12', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -551,7 +551,7 @@ compute:   ADD=3 CMPEQ=1 CONST=4 INDEX=10 LOAD=6 SHL=1 STORE=6
    46 IF                 void                         [44,45]           
    47 STORE              void                         [45,43]           
    48 ENDIF              void                         [46]              
-   49 SINK               void                         [47]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[91m16\x1b[0m\x1b[90m_\x1b[0m\x1b[31m16\x1
+   49 SINK               void                         [47]               KernelInfo(name='r_16_16', axis_types=(), dont_use_locals=False, applied_opts=(O
 ```
 
 **sum_axis0** — `a.sum(axis=0)`
@@ -596,7 +596,7 @@ compute:   ADD=2 CMPEQ=1 CONST=4 INDEX=7 LOAD=4 SHL=1 STORE=4
    34 IF                 void                         [32,33]           
    35 STORE              void                         [33,31]           
    36 ENDIF              void                         [34]              
-   37 SINK               void                         [35]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m16\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1
+   37 SINK               void                         [35]               KernelInfo(name='r_16_16n1', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **sum_axis1** — `a.sum(axis=1)`
@@ -641,7 +641,7 @@ compute:   ADD=2 CMPEQ=1 CONST=4 INDEX=7 LOAD=4 SHL=1 STORE=4
    34 IF                 void                         [32,33]           
    35 STORE              void                         [33,31]           
    36 ENDIF              void                         [34]              
-   37 SINK               void                         [35]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m16\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1
+   37 SINK               void                         [35]               KernelInfo(name='r_16_16n2', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **max_1d** — `a.max()`
@@ -700,7 +700,7 @@ compute:   ADD=1 CMPEQ=1 CMPLT=2 CONST=4 INDEX=10 LOAD=6 SHL=1 STORE=6 WHERE=2
    48 IF                 void                         [46,47]           
    49 STORE              void                         [47,45]           
    50 ENDIF              void                         [48]              
-   51 SINK               void                         [49]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[91m16\x1b[0m\x1b[90m_\x1b[0m\x1b[31m16\x1
+   51 SINK               void                         [49]               KernelInfo(name='r_16_16n3', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **mean** — `a.mean(axis=1)`
@@ -747,7 +747,7 @@ compute:   ADD=2 CMPEQ=1 CONST=5 INDEX=7 LOAD=4 MUL=1 SHL=1 STORE=4
    36 IF                 void                         [32,33]           
    37 STORE              void                         [33,35]           
    38 ENDIF              void                         [36]              
-   39 SINK               void                         [37]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m16\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1
+   39 SINK               void                         [37]               KernelInfo(name='r_16_16n4', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -804,7 +804,7 @@ compute:   ADD=4 CMPEQ=1 CONST=4 INDEX=8 LOAD=5 MUL=1 SHL=2 STORE=4
    42 IF                 void                         [40,41]           
    43 STORE              void                         [41,38]           
    44 ENDIF              void                         [42]              
-   45 SINK               void                         [43]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m16\x1b[0m\x1b[90m_\x1b[0m\x1b[34m16\x1
+   45 SINK               void                         [43]               KernelInfo(name='r_16_16_16', axis_types=(), dont_use_locals=False, applied_opts
 ```
 
 **matmul_64** — `A@B (64x64)`
@@ -1176,7 +1176,7 @@ compute:   ADD=77 CAST=12 CONST=21 GEP=32 INDEX=60 LOAD=40 MUL=64 SHL=5 STORE=36
   361 STORE              void                         [357,346]         
   362 STORE              void                         [358,343]         
   363 GROUP              void                         [362,359,360,361] 
-  364 SINK               void                         [363]              KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m2\x1b[0m\x1b[90m_\x1b[0m\x1b[36m8\x1b[
+  364 SINK               void                         [363]              KernelInfo(name='r_2_8_16_4_4_16_4', axis_types=(), dont_use_locals=False, appli
 ```
 
 **matvec** — `A@v (64x64@64)`
@@ -1243,7 +1243,7 @@ compute:   ADD=4 CMPEQ=1 CONST=7 INDEX=11 LOAD=7 MUL=1 SHL=2 STORE=6
    56 IF                 void                         [54,55]           
    57 STORE              void                         [55,53]           
    58 ENDIF              void                         [56]              
-   59 SINK               void                         [57]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m64\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1
+   59 SINK               void                         [57]               KernelInfo(name='r_64_16_4', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -1276,7 +1276,7 @@ compute:   CAST=6 CONST=2 GEP=4 INDEX=2 LOAD=1 SHL=1 STORE=1 VECTORIZE=1
    18 INDEX              half.ptr(64)                 [0,5]             
    19 CAST               half.vec(4).ptr(64)          [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n13', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **f16_to_f32** — `a.float()`
@@ -1305,7 +1305,7 @@ compute:   CAST=6 CONST=2 GEP=4 INDEX=2 LOAD=1 SHL=1 STORE=1 VECTORIZE=1
    18 INDEX              float.ptr(64)                [0,5]             
    19 CAST               float.vec(4).ptr(64)         [18]              
    20 STORE              void                         [19,17]           
-   21 SINK               void                         [20]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   21 SINK               void                         [20]               KernelInfo(name='E_16_4n14', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **f32_to_int** — `a.int()`
@@ -1344,7 +1344,7 @@ compute:   ADD=3 CAST=5 CONST=4 GEP=4 INDEX=5 LOAD=1 SHL=1 STORE=4
    28 STORE              void                         [20,25]           
    29 STORE              void                         [21,22]           
    30 GROUP              void                         [29,26,27,28]     
-   31 SINK               void                         [30]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   31 SINK               void                         [30]               KernelInfo(name='E_16_4n15', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **int_to_f32** — `a.float()`
@@ -1379,7 +1379,7 @@ compute:   ADD=3 CAST=5 CONST=4 INDEX=5 LOAD=4 SHL=1 STORE=1 VECTORIZE=1
    24 INDEX              float.ptr(64)                [0,5]             
    25 CAST               float.vec(4).ptr(64)         [24]              
    26 STORE              void                         [25,23]           
-   27 SINK               void                         [26]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   27 SINK               void                         [26]               KernelInfo(name='E_16_4n16', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -1413,7 +1413,7 @@ compute:   ADD=4 CAST=2 CONST=3 GEP=4 INDEX=2 LOAD=1 SHL=1 STORE=1 VECTORIZE=1
    19 INDEX              float.ptr(64)                [0,5]             
    20 CAST               float.vec(4).ptr(64)         [19]              
    21 STORE              void                         [20,18]           
-   22 SINK               void                         [21]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   22 SINK               void                         [21]               KernelInfo(name='E_16_4n17', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **row_add** — `a + row`
@@ -1453,7 +1453,7 @@ compute:   ADD=5 CAST=3 CONST=2 GEP=8 INDEX=3 LOAD=2 SHL=2 STORE=1 VECTORIZE=1
    29 INDEX              float.ptr(64)                [0,9]             
    30 CAST               float.vec(4).ptr(64)         [29]              
    31 STORE              void                         [30,28]           
-   32 SINK               void                         [31]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m4\x1b[0m\x1b[90m_\x1b[0m\x1b[36m4\x1b[
+   32 SINK               void                         [31]               KernelInfo(name='E_4_4_4', axis_types=(), dont_use_locals=False, applied_opts=(O
 ```
 
 **col_add** — `a + col`
@@ -1488,7 +1488,7 @@ compute:   ADD=5 CAST=2 CONST=2 GEP=4 INDEX=3 LOAD=2 SHL=2 STORE=1 VECTORIZE=1
    24 INDEX              float.ptr(64)                [0,11]            
    25 CAST               float.vec(4).ptr(64)         [24]              
    26 STORE              void                         [25,23]           
-   27 SINK               void                         [26]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m4\x1b[0m\x1b[90m_\x1b[0m\x1b[36m4\x1b[
+   27 SINK               void                         [26]               KernelInfo(name='E_4_4_4n1', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -1526,7 +1526,7 @@ compute:   CAST=2 CMPLT=4 CONST=3 GEP=4 INDEX=2 LOAD=1 SHL=1 STORE=1 VECTORIZE=1
    23 INDEX              float.ptr(64)                [0,5]             
    24 CAST               float.vec(4).ptr(64)         [23]              
    25 STORE              void                         [24,22]           
-   26 SINK               void                         [25]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   26 SINK               void                         [25]               KernelInfo(name='E_16_4n18', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **gelu** — `a.gelu()`
@@ -1590,7 +1590,7 @@ compute:   ADD=8 CAST=2 CONST=5 EXP2=4 GEP=4 INDEX=2 LOAD=1 MUL=20 RECIPROCAL=4 
    53 INDEX              float.ptr(64)                [0,5]             
    54 CAST               float.vec(4).ptr(64)         [53]              
    55 STORE              void                         [54,52]           
-   56 SINK               void                         [55]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   56 SINK               void                         [55]               KernelInfo(name='E_16_4n19', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **softmax** — `a.softmax()`
@@ -1654,7 +1654,7 @@ compute:   ADD=2 CMPEQ=1 CMPLT=2 CONST=6 INDEX=10 LOAD=6 SHL=2 STORE=6 WHERE=2
    53 IF                 void                         [51,52]           
    54 STORE              void                         [52,50]           
    55 ENDIF              void                         [53]              
-   56 SINK               void                         [54]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m4\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1b
+   56 SINK               void                         [54]               KernelInfo(name='r_4_16_4', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 #### `r_4_16_4n1`  gs=[4, 1, 1] ls=[16, 1, 1]
 structure: AFTER=5 BARRIER=1 DEFINE_LOCAL=1 DEFINE_REG=2 END=2 ENDIF=1 IF=1 PARAM=3 RANGE=2 SINK=1 SPECIAL=2
@@ -1721,7 +1721,7 @@ compute:   ADD=4 CMPEQ=1 CONST=7 EXP2=1 INDEX=11 LOAD=7 MUL=1 SHL=2 STORE=6 SUB=
    58 IF                 void                         [56,57]           
    59 STORE              void                         [57,55]           
    60 ENDIF              void                         [58]              
-   61 SINK               void                         [59]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m4\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1b
+   61 SINK               void                         [59]               KernelInfo(name='r_4_16_4n1', axis_types=(), dont_use_locals=False, applied_opts
 ```
 #### `E_4_16_4`  gs=[1, 1, 1] ls=[4, 16, 1]
 structure: PARAM=4 SINK=1 SPECIAL=2
@@ -1773,7 +1773,7 @@ compute:   ADD=1 CAST=2 CONST=5 EXP2=4 GEP=4 INDEX=4 LOAD=3 MUL=8 RECIPROCAL=1 S
    43 INDEX              float.ptr(256)               [0,16]            
    44 CAST               float.vec(4).ptr(256)        [43]              
    45 STORE              void                         [44,42]           
-   46 SINK               void                         [45]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m4\x1b[0m\x1b[90m_\x1b[0m\x1b[36m16\x1b
+   46 SINK               void                         [45]               KernelInfo(name='E_4_16_4', axis_types=(), dont_use_locals=False, applied_opts=(
 ```
 
 **layernorm** — `a.layernorm()`
@@ -1837,7 +1837,7 @@ compute:   ADD=4 CMPEQ=1 CONST=7 INDEX=10 LOAD=6 MUL=1 SHL=2 STORE=6
    53 IF                 void                         [49,50]           
    54 STORE              void                         [50,52]           
    55 ENDIF              void                         [53]              
-   56 SINK               void                         [54]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m4\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1b
+   56 SINK               void                         [54]               KernelInfo(name='r_4_16_4n2', axis_types=(), dont_use_locals=False, applied_opts
 ```
 #### `r_4_16_4n3`  gs=[4, 1, 1] ls=[16, 1, 1]
 structure: AFTER=5 BARRIER=1 DEFINE_LOCAL=1 DEFINE_REG=2 END=2 ENDIF=1 IF=1 PARAM=3 RANGE=2 SINK=1 SPECIAL=2
@@ -1908,7 +1908,7 @@ compute:   ADD=5 CMPEQ=1 CONST=8 INDEX=11 LOAD=7 MUL=2 RECIPROCAL=1 SHL=2 SQRT=1
    62 IF                 void                         [54,55]           
    63 STORE              void                         [55,61]           
    64 ENDIF              void                         [62]              
-   65 SINK               void                         [63]               KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m4\x1b[0m\x1b[90m_\x1b[0m\x1b[91m16\x1b
+   65 SINK               void                         [63]               KernelInfo(name='r_4_16_4n3', axis_types=(), dont_use_locals=False, applied_opts
 ```
 #### `E_4_16_4n1`  gs=[1, 1, 1] ls=[4, 16, 1]
 structure: PARAM=4 SINK=1 SPECIAL=2
@@ -1950,7 +1950,7 @@ compute:   ADD=1 CAST=2 CONST=4 GEP=4 INDEX=4 LOAD=3 MUL=4 SHL=2 STORE=1 SUB=4 V
    33 INDEX              float.ptr(256)               [0,16]            
    34 CAST               float.vec(4).ptr(256)        [33]              
    35 STORE              void                         [34,32]           
-   36 SINK               void                         [35]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m4\x1b[0m\x1b[90m_\x1b[0m\x1b[36m16\x1b
+   36 SINK               void                         [35]               KernelInfo(name='E_4_16_4n1', axis_types=(), dont_use_locals=False, applied_opts
 ```
 
 **muladd** — `(a*b)+c`
@@ -1999,7 +1999,7 @@ compute:   ADD=4 CAST=4 CONST=2 GEP=12 INDEX=4 LOAD=3 MUL=4 SHL=1 STORE=1 VECTOR
    38 INDEX              float.ptr(64)                [0,7]             
    39 CAST               float.vec(4).ptr(64)         [38]              
    40 STORE              void                         [39,37]           
-   41 SINK               void                         [40]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   41 SINK               void                         [40]               KernelInfo(name='E_16_4n20', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -2034,7 +2034,7 @@ compute:   ADD=3 CAST=1 CONST=4 INDEX=5 LOAD=4 SHL=1 STORE=1 VECTORIZE=1
    20 INDEX              float.ptr(64)                [0,19]            
    21 CAST               float.vec(4).ptr(64)         [20]              
    22 STORE              void                         [21,17]           
-   23 SINK               void                         [22]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   23 SINK               void                         [22]               KernelInfo(name='E_16_4n21', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **reshape** — `a.reshape(64).contiguous()`
@@ -2090,7 +2090,7 @@ compute:   ADD=8 CAST=4 CONST=2 GEP=12 INDEX=4 LOAD=3 SHL=1 STORE=1 VECTORIZE=1
    38 INDEX              float.ptr(64)                [0,7]             
    39 CAST               float.vec(4).ptr(64)         [38]              
    40 STORE              void                         [39,37]           
-   41 SINK               void                         [40]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   41 SINK               void                         [40]               KernelInfo(name='E_16_4n22', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 **wsum4** — `a*.25+b*.25+c*.25+d*.25`
@@ -2168,7 +2168,7 @@ compute:   ADD=12 CAST=5 CONST=3 GEP=16 INDEX=5 LOAD=4 MUL=16 SHL=1 STORE=1 VECT
    67 INDEX              float.ptr(64)                [0,8]             
    68 CAST               float.vec(4).ptr(64)         [67]              
    69 STORE              void                         [68,66]           
-   70 SINK               void                         [69]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   70 SINK               void                         [69]               KernelInfo(name='E_16_4n23', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
@@ -2198,7 +2198,7 @@ compute:   ADD=3 CAST=5 CONST=4 INDEX=1 SHL=1 STORE=1 VECTORIZE=1
    15 INDEX              float.ptr(64)                [0,4]             
    16 CAST               float.vec(4).ptr(64)         [15]              
    17 STORE              void                         [16,14]           
-   18 SINK               void                         [17]               KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b
+   18 SINK               void                         [17]               KernelInfo(name='E_16_4n24', axis_types=(), dont_use_locals=False, applied_opts=
 ```
 
 ---
