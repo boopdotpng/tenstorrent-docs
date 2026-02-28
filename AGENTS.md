@@ -48,7 +48,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"SFPI API/reference details?"** -> `llk-sfpi/sfpi.md`
 
 - **"How would a tinygrad TT backend be structured?"** -> `tinygrad/tt-backend-notes.md`
-- **"What do AMD UOps mean (curated)?"** -> `tinygrad/amdgpu_uops_reference.md`
+- **"What UOps does the renderer see?"** -> `tinygrad/amdgpu_uops_reference.md` (~2.2k lines; concise, generated from realized tensors)
 - **"Need raw UOp dump evidence?"** -> `tinygrad/amdgpu_uops_report.md` (very large; avoid unless necessary)
 
 - **"Need raw instruction dumps for a kernel?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`
@@ -57,7 +57,8 @@ Compact router for this repo so you can find answers fast without reading everyt
 
 Use these only when you need deep detail or raw artifacts:
 
-- `tinygrad/amdgpu_uops_report.md` (~17k lines): generated raw UOp dump.
+- `tinygrad/amdgpu_uops_reference.md` (~2.2k lines): concise UOp reference for renderer dev.
+- `tinygrad/amdgpu_uops_report.md` (~17k lines): old raw UOp dump (superseded by reference).
 - `disasms/add1_sfpu_single_file/firmware_brisc.objdump.txt` (~1.1k lines): raw disasm.
 - `tt-metal/sfpi-and-kernel-dev.md` (~1.0k lines): broad SFPI + Tensix deep dive.
 - `tt-metal/kernel-build-and-cache.md` (~700 lines): full build/cache/disasm pipeline.
