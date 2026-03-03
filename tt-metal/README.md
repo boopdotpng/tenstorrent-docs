@@ -10,3 +10,4 @@ Files:
 - `sfpi-and-kernel-dev.md`: SFPI mental model, add1 SFPI kernel, dst/srca staging.
 - `debug-env-vars.md`: debugging and profiling env vars.
 - `distributed-training-in-tt-metal.md`: MeshDevice/distributed APIs, sharding, and collective mapping.
+- `reduction-padding-strategies.md`: How tt-metal pads partial tiles for reductions (identity elements, MIN=-MAX(-x), moreh binary masks).
