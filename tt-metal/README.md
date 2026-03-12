@@ -12,3 +12,4 @@ Files:
 - `distributed-training-in-tt-metal.md`: MeshDevice/distributed APIs, sharding, and collective mapping.
 - `reduction-padding-strategies.md`: How tt-metal pads partial tiles for reductions (identity elements, MIN=-MAX(-x), moreh binary masks).
 - `when-to-use-4-role-mcast.md`: Arithmetic intensity analysis — when 4-role 2D multicast helps (matmul-class) vs hurts (eltwise, reduction).
+- `tilize-untilize-and-tile-layout.md`: 32x32 tile / 16x16 face format, host vs device tilize paths, Blackhole LLK register mechanics, DMA layer is layout-agnostic, matmul input requirements.
