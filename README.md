@@ -29,7 +29,6 @@ if you're learning how tenstorrent cards work from scratch:
 - `firmware/` -- firmware architecture, upload sequence, build system
 - `matmul/` -- matrix multiply deep dives (ELI5 through peak performance analysis)
 - `multi-chip/` -- multi-host architecture, TT-Fabric, topology, data-parallel training
-- `tinygrad/` -- tinygrad TT backend design, gap analyses, test progression
 - `disasms/` -- raw RISC-V objdump artifacts
 - `human/` -- human-authored notes (read-only)
 

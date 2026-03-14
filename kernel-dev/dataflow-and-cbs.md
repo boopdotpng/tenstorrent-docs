@@ -7,9 +7,14 @@ CB API (dataflow): `tt-metal/tt_metal/hw/inc/api/dataflow/dataflow_api.h`.
 
 ## CBs (circular buffers)
 
-- 32 CBs per Tensix tile (`c_0` through `c_31`)
+- 32 CBs per Tensix tile (`c_0` through `c_31`), conventionally grouped:
+  - `c_0..c_7`: inputs
+  - `c_8..c_15`: params/dataflow intermediates
+  - `c_16..c_23`: outputs
+  - `c_24..c_31`: scratch/intermed
 - CBs are **per-core**, not shared across cores
 - CB config: base address, total size, page size, page count
+- Practical compute kernel arity limit: 3-4 input CBs. Higher fan-in should be split at the graph level.
 
 Producer flow:
 - `cb_reserve_back(cb, n)`: wait until at least `n` free tiles exist in the CB.

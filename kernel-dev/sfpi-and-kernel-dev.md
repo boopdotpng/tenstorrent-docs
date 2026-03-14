@@ -381,18 +381,7 @@ Compiler implication:
 
 ---
 
-## 2. Dataflow kernels and CBs
-
-See `dataflow-and-cbs.md` for the canonical reference on:
-- CB semantics (reserve/push/wait/pop), overflow behavior, `get_tile_size()`
-- `InterleavedAddrGenFast` per-dtype byte sizes and address generation
-- Complete reader/writer kernel examples (NCRISC/BRISC) for all data formats
-- Reader -> compute -> writer synchronization pattern
-- Async vs sync NoC DMA, buffer copies, L1-direct path
-
----
-
-## 3. Runtime args (memory layout, sharing, limits, mutability)
+## 2. Runtime args (memory layout, sharing, limits, mutability)
 
 ### 3.1 What `get_arg_val<T>(idx)` does
 
@@ -434,13 +423,7 @@ Yes (they live in writable L1 memory), but:
 
 ---
 
-## 4. Circular buffers
-
-See `dataflow-and-cbs.md` for the complete CB reference (semantics, `get_tile_size`, overflow behavior, reader/writer kernel examples, `InterleavedAddrGenFast` per-dtype byte sizes, canonical sync patterns, async NoC DMA, buffer copies, L1-direct path).
-
----
-
-## 5. Non-tile-aligned shapes (partial tiles, padding, masking)
+## 3. Non-tile-aligned shapes (partial tiles, padding, masking)
 
 ### 5.1 The key invariant: most compute kernels assume full tiles
 
@@ -795,23 +778,4 @@ Concrete implications for your compiler:
   - decide padding value per op (sum pads with 0; max pads with -inf; etc)
   - materialize padding before tile compute (via tilize/pad), or handle via specialized “untilize/unpadding” transforms after compute
 
----
-
-## 14. Where TTNN “lowers” high-level ops (breadcrumbs)
-
-Useful places to read for lowering patterns:
-
-- Binary eltwise device ops:
-  - `tt-metal/ttnn/cpp/ttnn/operations/eltwise/binary/device/binary_device_operation.cpp`
-  - `tt-metal/ttnn/cpp/ttnn/operations/eltwise/binary/device/*program_factory*.cpp`
-- Common program factory helpers:
-  - `tt-metal/ttnn/cpp/ttnn/operations/eltwise/binary/device/eltwise_multi_core_program_factory_common.hpp`
-- Layout conversions and padding:
-  - `tt-metal/ttnn/cpp/ttnn/operations/core/to_layout/to_layout_op.cpp`
-  - `tt-metal/ttnn/cpp/ttnn/operations/data_movement/pad/pad.cpp`
-
-These are the places where:
-
-- padded-vs-logical shape decisions are made,
-- CB sizes and tile loops are computed,
-- per-core runtime args like `start_tile`/`num_tiles` are chosen.
+Key pattern: tile loops are derived from `padded_shape()` not `logical_shape()`. Execute over the padded tile grid.

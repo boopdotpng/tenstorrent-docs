@@ -392,3 +392,17 @@ Output tensor (tiled, or row-major if untilize_out=true)
 | `ttnn/cpp/ttnn/operations/data_movement/tilize/` | Device tilize op, program factories, kernels |
 | `ttnn/cpp/ttnn/operations/data_movement/untilize/` | Device untilize op, program factories, kernels |
 | `tech_reports/tensor_layouts/tensor_layouts.md` | Official tile/face layout documentation |
+
+## Cost of common operations on tiled memory
+
+| Operation | Cost | Why |
+|---|---|---|
+| Contiguous slice | **Free** | Adjust DRAM base address + tile count in runtime args |
+| Reshape (same memory order) | **Free** | Only changes how tile IDs are computed in kernel args |
+| Broadcast/expand | **Free-ish** | Multicast NOC naturally broadcasts; a core reads the same tile repeatedly |
+| Transpose/permute | **Expensive** | Tile format is row-major 32x32; transposing requires a kernel to read and rewrite in different order |
+| Tile-aligned padding | **Free** | Just adds zero-tiles |
+| Non-aligned padding | **Moderate** | Needs a kernel to rewrite partial tiles |
+| Flip/reverse | **Moderate** | Needs a kernel to reverse tile order and/or intra-tile data |
+
+Non-contiguous stride patterns (e.g., `as_strided` for pooling windows) require actual data movement -- the tile format means you can't just reinterpret pointers. Tensors smaller than 32x32 always waste compute due to tile padding.

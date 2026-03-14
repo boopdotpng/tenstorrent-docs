@@ -248,6 +248,15 @@ The coprocessor is the primary compute engine: Unpack -> Compute -> Pack on tile
 
 FP32 accumulation: ~26% throughput reduction, halves Dst capacity.
 
+**Chip-level throughput** (110 cores at 1.35 GHz):
+
+| Unit | Per core | 110 cores |
+|------|----------|-----------|
+| FPU (matmul) | 5.53 TFLOP/s | ~608 peak, ~175 sustained |
+| SFPU (elementwise) | ~0.029 TFLOP/s | ~3.2 TFLOP/s |
+
+SFPU-only is acceptable when the op is memory-bound or fused into a matmul epilogue (runs on Dst registers, no L1 round-trip). Not acceptable for compute-heavy standalone ops (e.g., large softmax with exp+reduce+div).
+
 ## Programming model
 
 ### Execution Model

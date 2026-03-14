@@ -14,7 +14,6 @@ Compact router for this repo so you can find answers fast without reading everyt
 - `firmware/`: firmware architecture, upload sequence, build system.
 - `matmul/`: matrix multiply (ELI5 intros through peak performance analysis and gap analysis).
 - `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
-- `tinygrad/`: tinygrad TT backend design, gap analyses, test progression, UOp reference.
 - `disasms/`: raw RISC-V objdump artifacts.
 - `human/`: human-authored notes (read-only).
 
@@ -78,22 +77,14 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Multi-host / remote cards / training walkthrough?"** -> `multi-chip/multi-host-and-remote-card-architecture.md`
 - **"TT-Fabric / topology / routing?"** -> `multi-chip/fabric-and-topology-internals.md`
 
-### Tinygrad
-- **"Tinygrad TT backend design?"** -> `tinygrad/tt-backend-notes.md`
-- **"Runtime gap analysis?"** -> `tinygrad/runtime-gap-analysis.md`
-- **"UOps reference for renderer?"** -> `tinygrad/amdgpu_uops_reference.md`
-
 ### Raw artifacts
 - **"Need raw instruction dumps?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`
 
 ## Very long files (read with intent)
 
-- `tinygrad/amdgpu_uops_reference.md` (~2.2k lines): UOp reference for renderer dev.
-- `kernel-dev/sfpi-and-kernel-dev.md` (~870 lines): broad SFPI + kernel dev audit.
+- `kernel-dev/sfpi-and-kernel-dev.md` (~780 lines): broad SFPI + kernel dev audit.
 - `hardware/tensix-compute-units.md` (~770 lines): complete ISA reference.
 - `build-and-dispatch/kernel-build-and-cache.md` (~700 lines): full build/cache pipeline.
-- `tinygrad/tt-backend-notes.md` (~550 lines): complete backend design plan.
-
 If you only need orientation, prefer the README reading order and this router.
 
 ## Fast search strategy (default)
