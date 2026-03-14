@@ -13,3 +13,4 @@ Files:
 - `firmware.md`: core firmware lifecycle, reset sequencing, and fan control analysis.
 - `grid-utilization.md`: 10×11 grid analysis, column 14 notch problem, uneven tile distribution, performance math.
 - `matmul-autogen-design.md`: auto-generator design for arbitrary (M,K,N) matmul on the 10×11 grid.
+- `erisc-cores-and-ethernet-launch.md`: ERISC vs Tensix architecture comparison, ETH L1 memory map, firmware dispatch loop, and how to launch ERISC programs via NOC writes.
