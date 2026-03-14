@@ -226,121 +226,27 @@ Tensix Tile:
 - Min latency: 12 cycles
 - Used for synchronization and reductions
 
-## Tensix coprocessor
+## Tensix coprocessor (summary)
 
-The coprocessor is the primary compute engine: Unpack → Compute → Pack on tile-sized data.
+The coprocessor is the primary compute engine: Unpack -> Compute -> Pack on tile-sized data. For the complete ISA reference (instruction tables, throughput numbers, register file details, MOP/replay buffer), see `tensix-compute-units.md`.
 
-### Dst (Destination Register File)
+**Key components:**
 
-**Dimensions:**
-- 1024 rows × 16 columns × 16-bit (Dst16b mode)
-- 512 rows × 16 columns × 32-bit (Dst32b mode)
-- Same storage: `uint16_t DstBits[1024][16]`
+- **Dst (Destination Register File):** 1024x16x16-bit (Dst16b) or 512x16x32-bit (Dst32b). Holds 16 tiles (32x32). Valid bits per row for pipeline flow control.
+- **SFPU (Vector Unit):** 32-wide SIMD, 32-bit lanes. Operates on Dst via LReg (17 registers x 32 lanes). ~64x slower than FPU for bulk math, but fully precise FP32 and general-purpose. Per-lane predication for control flow.
+- **FPU (Matrix Unit):** Low-precision systolic array. `MVMUL: DST[8,16] += SrcB[8,16] x SrcA[16,16]`. Inputs are 19-bit max (TF32). 16 MVMULs per 32x32 tile.
+- **Unpacker (x2):** L1 -> SrcA/SrcB/Dst. Format conversion, tilization.
+- **Packer (x4):** Dst -> L1. Format conversion.
 
-**Supported data types:**
-- **Dst16b**: BF16, FP16, INT8 (sign-magnitude), INT16
-- **Dst32b**: FP32, INT32 (sign-magnitude)
+**Math fidelity** (BH P100A, 110 cores, FP16 accum):
 
-**Valid bits:** each row has a valid bit for pipeline flow control.
+| Fidelity | Phases | TFLOPS |
+|----------|--------|--------|
+| LoFi     | 1      | 175.5  |
+| HiFi2    | 2      | 173.6  |
+| HiFi4    | 4      | 115.6  |
 
-### Vector Unit (SFPU)
-
-32-wide SIMD operating on 32-bit lanes.
-
-**LReg storage:** `uint32_t LReg[17][32]` — 17 registers, each 32 lanes of 32 bits.
-- `LReg[0-7]`: general purpose
-- `LReg[8]`: constant 0.8373
-- `LReg[9]`: constant 0.0
-- `LReg[10]`: constant 1.0
-- `LReg[11-14]`: broadcast regs (8 lanes → 32 lanes, written via `SFPCONFIG`)
-- `LReg[15]`: lane indices (0, 2, 4, ..., 62)
-- `LReg[16]`: macro scheduling only (`SFPLOADMACRO`)
-
-**Dst ↔ LReg data movement (`SFPLOAD`/`SFPSTORE`):**
-Each transfer moves a **4×8 = 32 element slice** of Dst into/out of one LReg. The 32 lanes map to 4 consecutive Dst rows × 8 columns (even or odd), laid out as a 4×8 grid:
-```
-Lane 0-7   ← Dst Row R+0, columns 0,2,4,...,14  (or odd: 1,3,...,15)
-Lane 8-15  ← Dst Row R+1
-Lane 16-23 ← Dst Row R+2
-Lane 24-31 ← Dst Row R+3
-```
-A 32×32 tile occupies 64 Dst rows, so processing an entire tile through the SFPU requires **16 SFPLOAD/SFPSTORE pairs** (even columns only) or 32 (both even and odd). This is why the SFPU is ~64× slower than the FPU for bulk math — the FPU's MVMUL processes 8×16 elements per cycle through a systolic array, while the SFPU works on 32 elements at a time through a vector pipeline.
-
-**Instruction classes:**
-- **FP32 arithmetic (2-cycle, 1 IPC):** `SFPADD`, `SFPMAD`, `SFPMUL`, `SFPADDI`, `SFPMULI`, `SFPLUT`, `SFPLUTFP32`
-- **Field manipulation (1-cycle):** `SFPEXMAN`, `SFPEXEXP`, `SFPSETMAN`, `SFPSETEXP`, `SFPSETSGN`, `SFPDIVP2`
-- **Integer ops (1–2 cycles):** `SFPIADD`, `SFPMUL24`, `SFPABS`
-- **Bit ops (1 cycle):** `SFPAND`, `SFPOR`, `SFPXOR`, `SFPNOT`, `SFPSHFT`, `SFPSHFT2`, `SFPLZ`
-- **Conversions (1 cycle):** `SFPCAST`, `SFPSTOCHRND` (FP32↔BF16/TF32/INT)
-- **Data movement:** `SFPLOAD`/`SFPSTORE` (Dst ↔ LReg), `SFPTRANSP`, `SFPCONFIG`
-- **Conditional execution:** `SFPENCC`, `SFPSETCC`, `SFPPUSHC`, `SFPCOMPC`, `SFPPOPC`
-
-**Lane layout:** 32 lanes as a 4×8 grid for cross-lane ops.
-
-**Execution model:**
-- 5 sub-units (load, simple, MAD, round, store) but only 1 instruction accepted per cycle.
-- `SFPLOADMACRO` can schedule a load + up to 4 additional SFPU ops to keep sub-units active.
-- Per-lane predication uses a flag stack for SIMT-style control flow.
-
-**Blackhole-specific additions:**
-- `SFPARECIP` — approximate reciprocal / exp
-- `SFPGT`, `SFPLE` — greater-than / less-equal comparisons
-- `SFPMUL24` — 24-bit integer multiply (upper/lower modes)
-- Arithmetic right shifts on `vInt` (Wormhole only had logical shifts)
-- Enhanced modes for `SFPCAST`, `SFPPUSHC`, `SFPSTOCHRND`
-
-**Reference:** `tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md`
-
-### Matrix Unit (FPU)
-
-Low-precision matrix engine operating on Dst tiles.
-
-**SrcA / SrcB register files:**
-- 2 banks × 64 rows × 16 columns × **19-bit** data
-- Double-buffered between unpackers and the matrix unit
-- Operand mapping is swapped: `in0` (A matrix) loads into **SrcB**, `in1` (B matrix) loads into **SrcA**
-
-The 19-bit width is intentional — the FPU is a low-precision engine. The widest input format is **TF32** (1+8+10 = 19 bits). FP32 inputs are truncated to TF32 (losing 13 mantissa bits). Supported types: TF32, BF16 (overlaid onto TF32 with 3 zero LSBs), FP16, INT8. For full FP32 element-wise math, use the SFPU instead (via LReg/Dst32b), which is ~64× slower but fully precise.
-
-**Core instruction — MVMUL:**
-```
-DST[8, 16] += SrcB[8, 16] × SrcA[16, 16]
-```
-One MVMUL processes 8 output rows. A full 32×32 tile = 4 face pairs = **16 MVMULs**. Accumulation into DST is always full-precision (FP32 or BF16), regardless of input type or fidelity.
-
-**Math fidelity** trades precision for speed by varying which mantissa bit slices are multiplied:
-
-| Fidelity | Phases | Relative Speed | BH P100A TFLOPS (110 cores, FP16 accum) |
-|----------|--------|----------------|------------------------------------------|
-| LoFi     | 1      | 1×             | 175.5                                    |
-| HiFi2    | 2      | ~0.99×         | 173.6 (recommended sweet spot)           |
-| HiFi3    | 3      | ~0.33×         | —                                        |
-| HiFi4    | 4      | ~0.25×         | 115.6                                    |
-
-FP32 accumulation reduces throughput by ~26% (LoFi: 129.7 TFLOPS) and halves Dst capacity (8 tiles → 4 tiles per half).
-
-**Other instructions:** `DOTPV`, `GAPOOL`, `GMPOOL`, `ELWMUL`, `ELWADD`, `ELWSUB`
-
-### Unpacker / Packer
-
-**Unpacker (×2):**
-- Moves data L1 → Dst
-- Performs format conversion and layout/tilization
-- Supports block-floating-point formats (BFP2/4/8)
-
-**Packer (×4):**
-- Moves data Dst → L1
-- Performs format conversion
-- Parallel operation for bandwidth
-
-### Data Type Support (Dst-focused)
-
-- **BF16:** 1+8+7 (sign+exp+mant)
-- **FP16:** 1+5+10 (custom encoding, not IEEE754)
-- **FP32:** 1+8+23 (custom encoding, closer to IEEE754)
-- **INT8/16/32:** sign-magnitude
-
-**Conversions:** Unpacker/Packer handle I/O conversions; SFPU provides cast instructions.
+FP32 accumulation: ~26% throughput reduction, halves Dst capacity.
 
 ## Programming model
 

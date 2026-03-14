@@ -1,6 +1,6 @@
-# Fast Dispatch: Architecture, Implementation, and Mismatches
+# Fast Dispatch: Architecture, Implementation, and Bring-Up Notes
 
-Research report comparing tt-metal's fast dispatch implementation with blackhole-py's.
+Research report comparing tt-metal's fast dispatch implementation with blackhole-py's. Includes bug analysis and practical bring-up checklist.
 
 ---
 
@@ -375,6 +375,33 @@ Commands are 16 bytes (or 32 bytes for "large" variants), defined in `cq_command
 
 ## Mismatches and Bugs
 
+### 0a. Race condition: firmware overwritten while BRISC is running
+
+`Device.__init__()` uploads generic firmware to **all** Tensix tiles and releases BRISC from reset. Then `_start_dispatch_cores()` overwrites L1 on the prefetch and dispatch cores with the dispatch ELFs while BRISC is already executing the generic firmware from that same L1.
+
+**Fix**: Hold the dispatch cores in reset before writing the dispatch firmware. Write the ELF segments, then release BRISC. The reset can be done via the soft-reset register (`RISCV_DEBUG_REG_SOFT_RESET_0`).
+
+### 0b. `run()` polls via wrong TLB target
+
+```python
+cfg = TLBConfig(addr=0, start=core, end=core, ...)  # <-- never applied to win
+mmio_cfg = TLBConfig(addr=mmio_base, ...)
+with TLBWindow(self.fd, TLBSize.MiB_2) as win:
+  self._set_tile_noc_translation_enabled(win, mmio_cfg, core, ...)  # reconfigures win to MMIO space
+  while win.uc[TensixL1.GO_MSG + 3] != DevMsgs.RUN_MSG_DONE:  # reads MMIO, not L1
+```
+
+The TLB window is configured for MMIO register space, but the poll loop reads `GO_MSG + 3` (L1 offset ~0x373) through it. This reads garbage from MMIO space, not the worker's L1.
+
+**Fix**: After `_set_tile_noc_translation_enabled`, reconfigure the TLB window to point at the worker core's L1 using `cfg` before polling.
+
+### Likely hang sequence
+
+1. `Device.__init__()` boots all tiles with generic firmware, including the dispatch cores
+2. `_start_dispatch_cores()` overwrites dispatch core L1 while BRISC is running -> **corrupted state / crash on dispatch cores**
+3. Even if the firmware survives the race, the dispatch subordinate is missing
+4. `run()` sends commands via CQ, then polls `GO_MSG` through a wrongly-configured TLB -> **reads garbage, times out**
+
 ### 1. CRITICAL: Missing JAL at 0x0 for dispatch cores
 
 **tt-metal** writes the JAL trampoline at L1 address 0x0 for **ALL** Tensix cores, including dispatch cores (`metal_context.cpp:1263-1267`).
@@ -468,3 +495,37 @@ The dispatch ELFs are manually copied from tt-metal's build cache. If tt-metal u
 | `tt_metal/hw/firmware/src/tt-1xx/ncrisc.cc` | NCRISC base firmware |
 | `tt_metal/hw/inc/internal/tt-1xx/blackhole/dev_mem_map.h` | Memory map constants |
 | `tt_metal/hw/inc/hostdev/dev_msgs.h` | Go/launch message structures |
+
+---
+
+## Host Bring-Up Checklist
+
+Practical notes for implementing a minimal host-side fast-dispatch path (single chip, MMIO).
+
+### Prefetch queue entries are ownership markers
+
+The prefetch queue (`PREFETCH_Q`) is an array of `uint16_t` entries in prefetch core L1. `0` means slot is free; nonzero means slot owned by prefetcher and contains command size in 16B units. Prefetch kernel clears consumed entries back to `0`. Host must wait for target slot to become `0` before writing to avoid overwriting unread commands.
+
+### Issue queue wrap rules are device-driven
+
+Prefetcher wraps PCIe read pointer when `pcie_read_ptr + size > pcie_base + pcie_size`. Keep issue records 64B aligned (`PCIE_ALIGNMENT`). Mirror the same wrap model in host writer.
+
+### Dispatch subordinate (NCRISC) is not optional for real GO overlap
+
+Without subordinate NCRISC firmware, command streams that rely on async GO signaling or worker semaphore tracking will stall. See bug 0a/3 above.
+
+### Runtime args are tiny; config is compile-time
+
+Prefetch and dispatch BRISC kernels only need 3 runtime args (`my_dev_id`, `to_dev_id`, `router_direction`), usually `0,0,0` on single-chip. Most behavior comes from compile-time defines generated during tt-metal kernel compilation. Precompiled ELFs are tightly coupled to build-time dispatch settings.
+
+### Semaphore IDs are host/kernel contract
+
+IDs like `MY_DOWNSTREAM_CB_SEM_ID` come from `CreateSemaphore()` during kernel setup. If you boot standalone precompiled dispatch ELFs, host semaphore initialization must match the IDs baked into those ELFs.
+
+### Minimal stable bring-up sequence
+
+1. Assert soft reset before overwriting dispatch-core L1 firmware.
+2. Write dispatch firmware images (all required ELFs including subordinate).
+3. Initialize CQ control blocks (`PREFETCH_Q_*`, completion ptrs, sync sems).
+4. Write launch/go mailbox state.
+5. Deassert required RISCVs (prefetch BRISC; dispatch BRISC+NCRISC if subordinate used).

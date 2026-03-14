@@ -1,34 +1,8 @@
-# Fast dispatch architecture and ABI (Blackhole)
+# Fast dispatch ABI: memory layout and compile-time defines (Blackhole)
 
-This consolidates fast-dispatch overview, CQ layout/alignments, and compile-time defines.
+CQ control area layouts, compile-time defines for prefetch/dispatch kernels, and IOMMU/hugepage details. This is the low-level ABI reference.
 
-## Overview: slow vs fast dispatch
-
-**Slow dispatch:**
-- Host writes directly to worker L1 via TLB windows
-- Each write is a separate PCIe transaction
-
-**Fast dispatch:**
-- Host writes commands to system memory (hugepage or IOMMU-mapped)
-- Device reads commands via PCIe DMA
-- On-device prefetch/dispatch cores process commands and write to workers via NoC
-
-## Two write destinations
-
-### 1) System memory (issue queue)
-```
-Host Memory (Hugepage or IOMMU mmap)
-├── Issue Queue (commands)
-├── Completion Queue (device writes completion events here)
-└── Control pointers (read/write pointers)
-```
-
-No hugepages needed with IOMMU. tt-metal uses regular mmap.
-
-### 2) Prefetch core L1 (TLB)
-Small control writes to notify the device that new commands are ready:
-- `PREFETCH_Q` entries (sizes of commands to fetch)
-- `ISSUE_Q_WR` pointer update
+For the dispatch pipeline architecture, kernel catalog, and command protocol, see `dispatch-kernel-pipeline-internals.md`. For blackhole-py implementation notes and bugs, see `fast-dispatch-implementation-notes.md`.
 
 ## IOMMU vs hugepage path
 

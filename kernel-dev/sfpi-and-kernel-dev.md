@@ -381,108 +381,14 @@ Compiler implication:
 
 ---
 
-## 2. Dataflow kernels: dtype variants + `InterleavedAddrGenFast`
+## 2. Dataflow kernels and CBs
 
-### 2.1 What `InterleavedAddrGenFast<is_dram>` actually does per dtype
-
-Definition: `tt-metal/tt_metal/hw/inc/internal/dataflow/dataflow_api_addrgen.h`.
-
-`InterleavedAddrGenFast<DRAM, tile_hw>` computes the base address for “tile/page id `id`” as:
-
-- bank selection: `id → (bank_offset_index, bank_index)`
-- address offset: `MUL_WITH_TILE_SIZE<tile_hw>(data_format, bank_offset_index)`
-
-The `MUL_WITH_TILE_SIZE` logic is compile-time and uses `data_format` to compute bytes-per-tile:
-
-- For `tile_hw = 1024` (32×32):
-  - `Float32 / Int32 / UInt32`: `index << 12` → `4096` bytes per tile
-  - `Float16 / Float16_b / UInt16`: `index << 11` → `2048` bytes per tile
-  - `UInt8`: `index << 10` → `1024` bytes per tile
-  - `Bfp8 / Bfp8_b`: `index<<10 + index<<6` → `1024 + 64 = 1088` bytes per tile (mantissas + exponents)
-  - `Bfp4`: `index<<9 + index<<6` → `512 + 64 = 576` bytes per tile
-  - `Bfp2`: `index<<8 + index<<6` → `256 + 64 = 320` bytes per tile
-
-See the exact switch in `tt-metal/tt_metal/hw/inc/internal/dataflow/dataflow_api_addrgen.h`.
-
-### 2.2 Does `data_format` affect NOC transactions?
-
-Not directly.
-
-- Address: yes (via `MUL_WITH_TILE_SIZE`).
-- Transaction size: determined by `addrgen.page_size` passed to `noc_async_read_tile` / `noc_async_write_tile` (see `tt-metal/tt_metal/hw/inc/api/dataflow/dataflow_api.h` around `noc_async_read_tile` overloads).
-
-So:
-
-- `data_format` must be consistent with `page_size`.
-- If you pass mismatched `page_size`, you can read/write the wrong number of bytes even if the address math is “right”.
-
-### 2.3 Reader/writer kernels (complete examples)
-
-These are minimal “tile stream” kernels; change only `DataFormat::*` and CB ids / args.
-
-Authoritative baseline: `tt-metal/tt_metal/programming_examples/add1_sfpu/add1_sfpu_single_file.cpp` embeds both reader and writer kernels as strings.
-
-#### Reader (NCRISC): Float32 / Float16_b / Bfp8 (DRAM → CB)
-
-Float32:
-
-```c++
-void kernel_main() {
-  uint32_t in_addr = get_arg_val<uint32_t>(0);
-  uint32_t n_tiles = get_arg_val<uint32_t>(1);
-
-  constexpr uint32_t cb_in = tt::CBIndex::c_0;
-  const uint32_t tile_bytes = get_tile_size(cb_in);
-
-  const InterleavedAddrGenFast<true> in = {
-    .bank_base_address = in_addr,
-    .page_size = tile_bytes,
-    .data_format = DataFormat::Float32,
-  };
-
-  for (uint32_t i = 0; i < n_tiles; ++i) {
-    cb_reserve_back(cb_in, 1);
-    uint32_t l1 = get_write_ptr(cb_in);
-    noc_async_read_tile(i, in, l1);
-    noc_async_read_barrier();
-    cb_push_back(cb_in, 1);
-  }
-}
-```
-
-Float16_b: identical except `data_format = DataFormat::Float16_b`.
-
-Bfp8: identical except `data_format = DataFormat::Bfp8` (or `DataFormat::Bfp8_b`).
-
-#### Writer (BRISC): Float32 / Float16_b / Bfp8 (CB → DRAM)
-
-Float32:
-
-```c++
-void kernel_main() {
-  uint32_t out_addr = get_arg_val<uint32_t>(0);
-  uint32_t n_tiles = get_arg_val<uint32_t>(1);
-
-  constexpr uint32_t cb_out = tt::CBIndex::c_16;
-  const uint32_t tile_bytes = get_tile_size(cb_out);
-
-  const InterleavedAddrGenFast<true> out = {
-    .bank_base_address = out_addr,
-    .page_size = tile_bytes,
-    .data_format = DataFormat::Float32,
-  };
-
-  for (uint32_t i = 0; i < n_tiles; ++i) {
-    cb_wait_front(cb_out, 1);
-    uint32_t l1 = get_read_ptr(cb_out);
-    noc_async_write_tile(i, out, l1);
-    noc_async_write_barrier();
-    cb_pop_front(cb_out, 1);
-  }
-}
-```
-
-Float16_b / Bfp8: identical except `data_format = ...`.
+See `dataflow-and-cbs.md` for the canonical reference on:
+- CB semantics (reserve/push/wait/pop), overflow behavior, `get_tile_size()`
+- `InterleavedAddrGenFast` per-dtype byte sizes and address generation
+- Complete reader/writer kernel examples (NCRISC/BRISC) for all data formats
+- Reader -> compute -> writer synchronization pattern
+- Async vs sync NoC DMA, buffer copies, L1-direct path
 
 ---
 
@@ -528,65 +434,9 @@ Yes (they live in writable L1 memory), but:
 
 ---
 
-## 4. Circular buffer (CB) deep dive (reserve/push/wait/pop)
+## 4. Circular buffers
 
-CB API (compute): `tt-metal/tt_metal/include/compute_kernel_api/cb_api.h`.
-CB API (dataflow): `tt-metal/tt_metal/hw/inc/api/dataflow/dataflow_api.h`.
-
-### 4.1 Semantics
-
-- Producer side:
-  - `cb_reserve_back(cb, n)`: wait until at least `n` free tiles exist in the CB.
-  - write tile bytes into `get_write_ptr(cb)` region.
-  - `cb_push_back(cb, n)`: publish those tiles (increments “received” counter).
-- Consumer side:
-  - `cb_wait_front(cb, n)`: wait until at least `n` tiles are available to read.
-  - read from `get_read_ptr(cb)`.
-  - `cb_pop_front(cb, n)`: consume/free those tiles (increments “acked” counter + advances rd ptr).
-
-### 4.2 `get_tile_size(cb)` source of truth
-
-Dataflow side: `tt-metal/tt_metal/hw/inc/api/dataflow/dataflow_api.h`:
-
-- `get_tile_size(operand)` returns `unpack_tile_size[operand]` (format/shape metadata compiled into the kernel when `DATA_FORMATS_DEFINED` is enabled).
-
-Host side must configure CB page sizes consistently (see `CircularBufferConfig::set_page_size` usage in `tt-metal/tt_metal/programming_examples/add1_sfpu/add1_sfpu_single_file.cpp`).
-
-### 4.3 What if you reserve more than the CB can hold?
-
-Behavior is “hang forever” (blocking spin).
-
-There is no hard runtime error; `cb_reserve_back` will spin until `free_space_pages >= num_pages`.
-If `num_pages > fifo_num_pages`, that condition is impossible.
-
-### 4.4 Reader → Compute → Writer synchronization pattern (canonical)
-
-`tt-metal/tt_metal/programming_examples/add1_sfpu/add1_sfpu_single_file.cpp` shows the full pipeline:
-
-- Reader (NCRISC):
-  - `cb_reserve_back(cb_in, 1)`
-  - `noc_async_read_tile(...)`
-  - `cb_push_back(cb_in, 1)`
-- Compute (TRISC):
-  - `tile_regs_acquire()`
-  - `cb_wait_front(cb_in, 1)`
-  - `copy_tile(cb_in, 0, dst_idx)`
-  - SFPI compute
-  - `tile_regs_commit(); tile_regs_wait();`
-  - `cb_reserve_back(cb_out, 1)`
-  - `pack_tile(dst_idx, cb_out)`
-  - `cb_pop_front(cb_in, 1)`
-  - `tile_regs_release()`
-  - `cb_push_back(cb_out, 1)`
-- Writer (BRISC):
-  - `cb_wait_front(cb_out, 1)`
-  - `noc_async_write_tile(...)`
-  - `cb_pop_front(cb_out, 1)`
-
-Double buffering is achieved by:
-
-- CB depth ≥ 2 (so reader and compute can overlap),
-- and the DST “section” ping/pong mechanism (see next section).
+See `dataflow-and-cbs.md` for the complete CB reference (semantics, `get_tile_size`, overflow behavior, reader/writer kernel examples, `InterleavedAddrGenFast` per-dtype byte sizes, canonical sync patterns, async NoC DMA, buffer copies, L1-direct path).
 
 ---
 

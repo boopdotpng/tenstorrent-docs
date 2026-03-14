@@ -4,26 +4,19 @@ Compact router for this repo so you can find answers fast without reading everyt
 
 ## Start here
 
-- Read `README.md` first for project goal + top-level folder map.
-- Next level of routing: open the folder-level `README.md` when it exists:
-  - `blackhole/README.md`
-  - `tt-metal/README.md`
-  - `llk-sfpi/README.md`
-  - `disasms/README.md`
-- For folders without a `README.md`, jump to the primary doc directly:
-  - `tinygrad/` -> `tinygrad/tt-backend-notes.md`
-  - `debugging/` -> `debugging/register-memory-tooling.md`
-  - `human/` -> read-only notes (`human/chatgpt.md`, `human/tinygrad-backend.md`)
+- Read `README.md` first for project goal, reading order, and folder map.
 
-## Folder map (what lives where)
+## Folder map
 
-- `blackhole/`: hardware + platform behavior (architecture, PCIe/tt-kmd, firmware, coords/translation, fast-dispatch ABI).
-- `tt-metal/`: kernel build/load/dispatch/dataflow/SFPI notes and one launch example (`add1_nondistributed_launch.cpp`).
-- `llk-sfpi/`: LLK/SFPI conceptual docs, separate from TT-Metal runtime notes.
-- `tinygrad/`: tinygrad backend planning + AMD UOp docs.
-- `debugging/`: register/memory tooling workflow.
+- `hardware/`: chip architecture, NoC, Tensix tiles, PCIe, coordinates, ERISC, grid utilization.
+- `kernel-dev/`: SFPI/LLK programming, compute pipeline, CBs/dataflow, tile layout, kernel fusion, reduction padding.
+- `build-and-dispatch/`: kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging tools/env vars.
+- `firmware/`: firmware architecture, upload sequence, build system.
+- `matmul/`: matrix multiply (ELI5 intros through peak performance analysis and gap analysis).
+- `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
+- `tinygrad/`: tinygrad TT backend design, gap analyses, test progression, UOp reference.
 - `disasms/`: raw RISC-V objdump artifacts.
-- `human/`: human-authored docs, read-only.
+- `human/`: human-authored notes (read-only).
 
 ## Guardrail
 
@@ -31,45 +24,80 @@ Compact router for this repo so you can find answers fast without reading everyt
 
 ## Router: what to read for each question
 
-- **"How does Blackhole hardware work?"** -> `blackhole/architecture.md`
-- **"Why is coord X/Y weird or out of range?"** -> `blackhole/coordinates-and-translation.md`
-- **"How do PCIe, BARs, TLB, IOCTLs work?"** -> `blackhole/pcie-and-tt-kmd.md`
-- **"What is the fast-dispatch queue ABI/layout?"** -> `blackhole/fast-dispatch-abi.md`
-- **"Firmware/reset/fan/control flow?"** -> `blackhole/firmware.md`
+### Hardware
+- **"How does Blackhole hardware work?"** -> `hardware/architecture.md`
+- **"Tensix compute units / FPU / SFPU ISA?"** -> `hardware/tensix-compute-units.md`
+- **"Why is coord X/Y weird or out of range?"** -> `hardware/coordinates-and-translation.md`
+- **"How do PCIe, BARs, TLB, IOCTLs work?"** -> `hardware/pcie-and-tt-kmd.md`
+- **"PCIe DMA vs sysmem?"** -> `hardware/pcie-dma-and-sysmem.md`
+- **"L1 address map / tile addresses?"** -> `hardware/tile-addresses-and-l1-map.md`
+- **"Grid utilization / column 14?"** -> `hardware/grid-utilization.md`
+- **"ERISC / ethernet cores?"** -> `hardware/erisc-cores-and-ethernet-launch.md`
 
-- **"How are kernels built/cached/disassembled?"** -> `tt-metal/kernel-build-and-cache.md`
-- **"How are kernels loaded/XIP/runtime args packed?"** -> `tt-metal/kernel-loading-and-abi.md`
-- **"Fast vs slow dispatch behavior?"** -> `tt-metal/dispatch-modes.md`
-- **"CB semantics and dataflow patterns?"** -> `tt-metal/dataflow-and-cbs.md`
-- **"SFPI kernel writing + Tensix mental model?"** -> `tt-metal/sfpi-and-kernel-dev.md`
-- **"Debug env vars?"** -> `tt-metal/debug-env-vars.md`
+### Kernel development
+- **"How to write SFPI kernels?"** -> `kernel-dev/sfpi-and-kernel-dev.md`
+- **"SFPI API reference?"** -> `kernel-dev/sfpi.md`
+- **"LLK vs SFPI model?"** -> `kernel-dev/llk-and-sfpi-model.md`
+- **"Compute pipeline / matmul programming?"** -> `kernel-dev/tensix-compute-pipeline.md`
+- **"Replay buffer / MOP for SFPU?"** -> `kernel-dev/replay-buffer-and-mop-for-sfpu.md`
+- **"SFPU execution model / masking?"** -> `kernel-dev/sfpi-execution-model-and-masking.md`
+- **"Kernel fusion (matmul + SFPU epilogue)?"** -> `kernel-dev/kernel-fusion.md`
+- **"FPU fidelity phases?"** -> `kernel-dev/fpu-matmul-fidelity-phases.md`
+- **"CB semantics / dataflow patterns?"** -> `kernel-dev/dataflow-and-cbs.md`
+- **"Tile layout / tilize / untilize?"** -> `kernel-dev/tilize-untilize-and-tile-layout.md`
+- **"Reduction padding strategies?"** -> `kernel-dev/reduction-padding-strategies.md`
 
-- **"LLK vs SFPI model and examples?"** -> `llk-sfpi/llk-and-sfpi-model.md`
-- **"SFPI API/reference details?"** -> `llk-sfpi/sfpi.md`
+### Build and dispatch
+- **"How are kernels built/cached?"** -> `build-and-dispatch/kernel-build-and-cache.md`
+- **"How are kernels loaded/XIP/runtime args?"** -> `build-and-dispatch/kernel-loading-and-abi.md`
+- **"Fast vs slow dispatch?"** -> `build-and-dispatch/dispatch-modes.md`
+- **"Dispatch kernel catalog / CQ command protocol?"** -> `build-and-dispatch/dispatch-kernel-pipeline-internals.md`
+- **"Fast dispatch ABI / compile-time defines?"** -> `build-and-dispatch/fast-dispatch-abi.md`
+- **"Concrete CQ command trace?"** -> `build-and-dispatch/fast-dispatch-cq-dump.md`
+- **"Blackhole-py fast dispatch bugs/notes?"** -> `build-and-dispatch/fast-dispatch-implementation-notes.md`
+- **"Slow dispatch TLB write sequence?"** -> `build-and-dispatch/slow-dispatch-tlb-writes.md`
+- **"Debug env vars?"** -> `build-and-dispatch/debug-env-vars.md`
+- **"Dispatch benchmarking?"** -> `build-and-dispatch/dispatch-benchmark-howto.md`
+- **"Register/memory debugging tools?"** -> `build-and-dispatch/register-memory-tooling.md`
 
-- **"How would a tinygrad TT backend be structured?"** -> `tinygrad/tt-backend-notes.md`
-- **"What UOps does the renderer see?"** -> `tinygrad/amdgpu_uops_reference.md` (~2.2k lines; concise, generated from realized tensors)
-- **"Need raw UOp dump evidence?"** -> `tinygrad/amdgpu_uops_report.md` (very large; avoid unless necessary)
+### Firmware
+- **"Firmware source architecture?"** -> `firmware/firmware-source-architecture.md`
+- **"Firmware upload sequence?"** -> `firmware/firmware-upload-sequence.md`
+- **"Building firmware / fwbundles?"** -> `firmware/firmware-build-system.md`
 
-- **"Need raw instruction dumps for a kernel?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`
+### Matmul
+- **"How does matmul work on TT? (ELI5)"** -> `matmul/fast-matmul-eli5.md`
+- **"Why 4 dataflow roles for matmul?"** -> `matmul/matmul-2d-mcast-role-split-eli5.md`
+- **"When to use 4-role multicast?"** -> `matmul/when-to-use-4-role-mcast.md`
+- **"Matmul autogen design?"** -> `matmul/matmul-autogen-design.md`
+- **"Matmul peak performance / porting?"** -> `matmul/matmul-peak-block-lifecycle-and-blackhole-py-port.md`
+- **"FP32 vs FP16 accumulation?"** -> `matmul/fp32-accumulation.md`
+- **"Matmul benchmark results?"** -> `matmul/matmul-peak-sweep.md`
+
+### Multi-chip
+- **"Multi-host / remote cards / training walkthrough?"** -> `multi-chip/multi-host-and-remote-card-architecture.md`
+- **"TT-Fabric / topology / routing?"** -> `multi-chip/fabric-and-topology-internals.md`
+
+### Tinygrad
+- **"Tinygrad TT backend design?"** -> `tinygrad/tt-backend-notes.md`
+- **"Runtime gap analysis?"** -> `tinygrad/runtime-gap-analysis.md`
+- **"UOps reference for renderer?"** -> `tinygrad/amdgpu_uops_reference.md`
+
+### Raw artifacts
+- **"Need raw instruction dumps?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`
 
 ## Very long files (read with intent)
 
-Use these only when you need deep detail or raw artifacts:
-
-- `tinygrad/amdgpu_uops_reference.md` (~2.2k lines): concise UOp reference for renderer dev.
-- `tinygrad/amdgpu_uops_report.md` (~17k lines): old raw UOp dump (superseded by reference).
-- `disasms/add1_sfpu_single_file/firmware_brisc.objdump.txt` (~1.1k lines): raw disasm.
-- `tt-metal/sfpi-and-kernel-dev.md` (~1.0k lines): broad SFPI + Tensix deep dive.
-- `tt-metal/kernel-build-and-cache.md` (~700 lines): full build/cache/disasm pipeline.
+- `tinygrad/amdgpu_uops_reference.md` (~2.2k lines): UOp reference for renderer dev.
+- `kernel-dev/sfpi-and-kernel-dev.md` (~870 lines): broad SFPI + kernel dev audit.
+- `hardware/tensix-compute-units.md` (~770 lines): complete ISA reference.
+- `build-and-dispatch/kernel-build-and-cache.md` (~700 lines): full build/cache pipeline.
 - `tinygrad/tt-backend-notes.md` (~550 lines): complete backend design plan.
 
-If you only need orientation, prefer folder READMEs and the router above.
+If you only need orientation, prefer the README reading order and this router.
 
 ## Fast search strategy (default)
 
-1. Read `README.md` + relevant folder `README.md`.
-2. Open exactly one target doc from the router list.
+1. Read `README.md` for orientation.
+2. Use the router above to find the one target doc.
 3. Only expand to long/raw files if the target doc lacks the needed detail.
-
-This repo is intentionally note-heavy; optimize for the shortest path to one authoritative file.
