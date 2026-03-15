@@ -32,6 +32,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"L1 address map / tile addresses?"** -> `hardware/tile-addresses-and-l1-map.md`
 - **"Grid utilization / column 14?"** -> `hardware/grid-utilization.md`
 - **"ERISC / ethernet cores?"** -> `hardware/erisc-cores-and-ethernet-launch.md`
+- **"Packer L1 acc Float16 bug?"** -> `hardware/packer-l1-acc-float16-hardware-bug.md`
 
 ### Kernel development
 - **"How to write SFPI kernels?"** -> `kernel-dev/sfpi-and-kernel-dev.md`
