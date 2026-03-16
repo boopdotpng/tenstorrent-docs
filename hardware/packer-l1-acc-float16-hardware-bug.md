@@ -37,14 +37,73 @@ When the packer's L1 accumulation operates on **IEEE Float16 (A-exponent, 5-bit 
 
 These are all-ones patterns in the sign+exponent+mantissa fields.
 
-### Characteristics
+### Trigger conditions
 
-- **Deterministic**: exactly the same count and positions on every run with the same inputs
-- **1 corrupted value per affected tile**: each bad tile has exactly one NaN element at a seemingly random intra-tile position (varying face, row, column)
-- **Scales with accumulation count**: more L1 accumulation cycles → more corrupted tiles
-- **Scattered across cores**: no spatial clustering by core, row, or column
+The bug requires **all three** of these conditions:
 
-### Reproduction data (blackhole-py matmul, `F16=1 TT_USB=1`)
+1. **FPU matmul instruction** (`matmul_block`) producing values in DST
+2. **Packer L1 accumulation** (`pack_reconfig_l1_acc(1)`) writing IEEE Float16
+3. **Multiple subblocks** packed per L1 acc cycle (`in1_num_subblocks >= 2`)
+
+What does **not** trigger the bug (even with Float16 + L1 acc enabled):
+
+| Scenario | Result |
+|----------|--------|
+| `copy_tile` + L1 acc (no matmul) | Clean |
+| Matmul + L1 acc with 1 subblock (in1_num_subblocks=1) | Clean |
+| Matmul + L1 acc with Float16_b | Clean |
+| Matmul + multiple subblocks + reload (no L1 acc) | Clean |
+
+The minimal repro uses the matmul inner loop from `matmul_peak` with subblock 8h×1w, `in0_block_w=4`, `in1_num_subblocks=6`.
+
+### It is data-dependent
+
+The corrupted position is **not fixed** — it depends on the input data. Different random seeds produce NaN at different tiles and intra-tile positions:
+
+| Seed | Tile | Face | Intra-tile position | Raw |
+|------|------|------|---------------------|-----|
+| 42 | 20 | (0,1) | (0,2) | 0xffff |
+| 1 | 44 | (1,0) | (0,7) | 0x7fff |
+| 256 | 16 | (0,0) | (13,15) | 0x7fff |
+| 256 | 39 | (1,0) | (1,13) | 0x7fff |
+| 9999 | 42 | (0,0) | (7,1) | 0x7fff |
+
+However, for a **given input**, the corruption is completely deterministic — same position, same value on every run.
+
+Not every block count triggers the bug either. With the minimal repro kernel (10 cores, subblock 8h×1w, `in0_block_w=4`):
+
+| Blocks | L1 acc cycles | NaN per core |
+|--------|---------------|-------------|
+| 3–6 | 1–4 | 0 |
+| **7** | **5** | **1** |
+| 8–24 | 6–22 | 0 |
+| **25** | **23** | **2** |
+| 26–27 | 24–25 | 0 |
+| **28** | **26** | **1** |
+| 29–30 | 27–28 | 0 |
+| **31–32** | **29–30** | **1** |
+| 48, 64 | 46, 62 | 0 |
+
+The pattern is irregular — specific block counts produce NaN because the accumulated partial sum at the affected element hits a bad bit pattern in the A-exponent adder.
+
+### Software simulation produces correct values
+
+Tracing the accumulation block-by-block in Python float16 for the corrupted position shows **completely mundane, well-behaved values**:
+
+```
+blocks=7, position (m=3,n=1,r=28,c=10):
+  block 0: L1 = -0.627  (0xb904)
+  block 1: L1 = +0.015  (0x2380)   ← L1 acc: -0.627 + 0.642
+  block 2: L1 = -0.301  (0xb4d0)
+  block 3: L1 = +0.418  (0x36b0)
+  block 4: L1 = +0.797  (0x3a60)
+  block 5: L1 = +0.910  (0x3b48)   ← hardware produces 0x7fff (NaN) here
+  block 6: L1 = +1.667  (0x3eab)   ← final (reload, no L1 acc)
+```
+
+No overflow, no denorm, no edge case. The packer hardware produces all-ones NaN from ordinary small floats.
+
+### Reproduction data (blackhole-py matmul_peak, `F16=1 TT_USB=1`)
 
 5120×4096×5632 matmul, inputs uniform in [-0.5, 0.5], subblock 8h×1w:
 
@@ -59,23 +118,43 @@ These are all-ones patterns in the sign+exponent+mantissa fields.
 
 `num_blocks=1` has zero L1 acc cycles (only one block, packs directly to output). `num_blocks=2` has zero L1 acc cycles (block 0 writes to intermediate CB, block 1 reloads and writes to output — no accumulation). L1 accumulation engages starting at `num_blocks=3` (block 1 calls `llk_pack_reconfig_l1_acc(1)`).
 
-### Sample corrupted positions
+## Proof It Is Not a Compiler Bug
+
+Disassembling the compiled RISC-V kernels for Float16 vs Float16_b shows:
+
+| RISC core | Instructions | Difference |
+|-----------|-------------|------------|
+| trisc0 (unpack) | 534 | 3 immediate values (format descriptor constants) |
+| trisc1 (math/FPU) | 507 | **Zero** — byte-for-byte identical |
+| trisc2 (pack) | 434 | 2 immediate values (THCON packer config constants) |
+
+The **opcodes, loop structure, register allocation, and branch targets are identical**. The only differences are literal constants written to hardware config registers that tell the packer which exponent format to use:
 
 ```
-[  241, 4150] tile=(7,129)  face=(1,1) intra=(1,6)   raw=0xffff  ref=-0.878
-[  243,  852] tile=(7,26)   face=(1,1) intra=(3,4)   raw=0x7fff  ref=4.750
-[  324,  792] tile=(10,24)  face=(0,1) intra=(4,8)   raw=0xffff  ref=0.845
-[  504, 3704] tile=(15,115) face=(1,1) intra=(8,8)   raw=0x7fff  ref=9.926
-[  834, 2114] tile=(26,66)  face=(0,0) intra=(2,2)   raw=0x7fff  ref=-3.276
+                        bf16              f16
+                        ────              ───
+trisc2 pack config:     0xb61e1a01        0xb61e0201     ← THCON section register
+trisc2 format desc:     1361 (0x551)      273 (0x111)    ← exponent type encoding
 ```
 
-No pattern in face, intra-tile position, or reference value. The sign of the NaN does not consistently match the expected sign.
+The compiler generates the same code. The hardware produces different results.
+
+## Proof It Is the L1 Acc Hardware Path
+
+Running the **same matmul, same data, same Float16 format** with two different accumulation strategies:
+
+| Mode | How it works | Result |
+|------|-------------|--------|
+| L1 acc ON | `pack_reconfig_l1_acc(1)` — packer does `L1 = DST + L1` in hardware | **10 NaN** |
+| L1 acc OFF (reload) | `pack_reconfig_l1_acc(0)` — unpack CB24→DST, matmul adds to DST, pack overwrites CB24 | **Clean** |
+
+The mathematical result is identical. The only difference is whether the addition happens in the packer's hardware adder (L1 acc) or in the DST registers via the unpack+matmul path (reload). The packer's A-exponent adder is broken.
 
 ## Why Float16_b Works
 
 Float16_b (bfloat16) uses B-exponent (8-bit exponent, 7-bit mantissa) — the same exponent format as Float32 and the FPU's internal representation. The packer's L1 accumulation hardware appears to be designed and tested for B-exponent formats.
 
-IEEE Float16 uses A-exponent (5-bit exponent, 10-bit mantissa). The L1 accumulation read-add-write cycle likely mishandles the A-exponent bit layout during the addition step, producing garbage for specific element values or positions.
+IEEE Float16 uses A-exponent (5-bit exponent, 10-bit mantissa). The L1 accumulation read-add-write cycle mishandles the A-exponent bit layout during the addition step, producing all-ones NaN for specific input value combinations.
 
 ## How tt-metal Avoids This
 
@@ -90,15 +169,6 @@ tt::DataFormat interm0_data_format = packer_l1_acc_en
 
 When `packer_l1_acc_en=true`, the intermediate CB is **always Float16_b or Float32**, never Float16. This sidesteps the hardware bug entirely.
 
-However, this approach requires the compiler to support **separate `pack_src_format` and `pack_dst_format` per CB**, because the DST register data format (determined by the input exponent precision) may differ from the intermediate CB format. tt-metal's `data_format.cpp` handles this by computing `pack_src_format` and `pack_dst_format` independently:
-
-```cpp
-// data_format.cpp — pack_src for Float16 with fp32_dest_acc_en
-} else if (data_format == DataFormat::Float16) {
-    pack_src_format = DataFormat::Float16_b;  // match DST's B-exponent output
-}
-```
-
 ## Workarounds
 
 | Approach | Complexity | Performance impact |
@@ -108,24 +178,33 @@ However, this approach requires the compiler to support **separate `pack_src_for
 | **Restrict Float16 to small K**: only allow `num_blocks ≤ 2` for Float16 matmul | Low — planner constraint | Limits use cases |
 | **Use Float16_b internally**: convert F16↔BF16 in dataflow kernels | Medium — format conversion in readers/writers | Small (NOC-bound anyway) |
 
+## Minimal Reproducer
+
+`blackhole-py/examples/l1_acc_bug.py` — standalone repro with configurable parameters:
+
+```bash
+# Reproduce (10 cores, 7 blocks, Float16) — produces 10 NaN
+PYTHONPATH=. TT_USB=1 uv run examples/l1_acc_bug.py
+
+# Verify Float16_b is clean with same kernel
+PYTHONPATH=. TT_USB=1 F16=0 uv run examples/l1_acc_bug.py
+
+# Verify reload path (no L1 acc) is clean with same data
+PYTHONPATH=. TT_USB=1 NO_L1_ACC=1 uv run examples/l1_acc_bug.py
+
+# Stress test (120 cores, 32 blocks)
+PYTHONPATH=. TT_USB=1 CORES=0 uv run examples/l1_acc_bug.py 32
+
+# Different random data
+PYTHONPATH=. TT_USB=1 SEED=256 uv run examples/l1_acc_bug.py 32
+```
+
+Companion analysis script: `examples/analyze_l1_acc.py` — traces block-by-block accumulation in software to show the expected values at corrupted positions.
+
+Companion disassembly script: `examples/disasm_l1_acc.py` — compiles the compute kernel for Float16 vs Float16_b and diffs the RISC-V disassembly.
+
 ## Related: F32_ACC DST Overflow (Fixed)
 
 A separate issue discovered during the same investigation: when `FP32_DEST_ACC_EN=1`, the DST register file capacity halves (16→8 tiles). With `DST_SYNC_MODE=0` (half-sync), each acquire/release cycle only gets 4 tiles. An 8-tile subblock overflows DST, causing register aliasing and completely garbled output (PCC ≈ 0.5).
 
 **Fix**: set `dst_full_sync=True` when `f32_acc=True` — gives the full 8-tile DST per cycle. Confirmed working in blackhole-py.
-
-## Test Commands
-
-```bash
-# Reproduce the Float16 L1 acc bug (97 NaN values)
-PYTHONPATH=. F16=1 TT_USB=1 uv run examples/matmul_peak.py
-
-# Verify Float16 works with num_blocks=1 (no L1 acc)
-PYTHONPATH=. F16=1 TT_USB=1 uv run examples/matmul_peak.py 5120 128 5632
-
-# Verify F32_ACC fix works
-PYTHONPATH=. F32_ACC=1 TT_USB=1 uv run examples/matmul_peak.py
-
-# Verify default bf16 unaffected
-PYTHONPATH=. TT_USB=1 uv run examples/matmul_peak.py
-```
