@@ -14,6 +14,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - `firmware/`: firmware architecture, upload sequence, build system.
 - `matmul/`: matrix multiply (ELI5 intros through peak performance analysis and gap analysis).
 - `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
+- `llk-sfpi/`: LLK/SFPI instruction-level compute pipeline, ISA analysis, FPU fidelity, kernel fusion.
 - `disasms/`: raw RISC-V objdump artifacts.
 - `human/`: human-authored notes (read-only).
 
@@ -33,6 +34,10 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Grid utilization / column 14?"** -> `hardware/grid-utilization.md`
 - **"ERISC / ethernet cores?"** -> `hardware/erisc-cores-and-ethernet-launch.md`
 - **"Packer L1 acc Float16 bug?"** -> `hardware/packer-l1-acc-float16-hardware-bug.md`
+
+### LLK / SFPI / ISA
+- **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md`
+- **"Which instructions are dead / unused?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md`
 
 ### Kernel development
 - **"How to write SFPI kernels?"** -> `kernel-dev/sfpi-and-kernel-dev.md`
