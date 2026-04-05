@@ -1,38 +1,60 @@
-# tenstorrent documentation
+# Tenstorrent Blackhole Documentation
 
-documentation for the tenstorrent blackhole p100a. most of this has been written by Codex or Claude, but the human folder is explicitly my own writing and documentation.
+Unofficial documentation for the Tenstorrent Blackhole P100A / P150 AI accelerator, built from reverse-engineering, disassembly, and hands-on experimentation. Covers hardware architecture, kernel programming, the build/dispatch pipeline, firmware, and multi-chip operation.
 
-Quick bash script to clone all relevant repos is [here](https://gist.github.com/boopdotpng/4577ad1106d903d1566416823dee6140).
+Most of this was written by Codex or Claude. The `human/` folder is explicitly human-authored.
 
-## objective
+Quick bash script to clone all relevant repos: [here](https://gist.github.com/boopdotpng/4577ad1106d903d1566416823dee6140).
 
-write a tinygrad backend for tenstorrent cards (blackhole first). The goal of these docs is to remove as many layers of abstraction as possible from the tenstorrent stack. The highest level I'm willing to read and use is tt-metal.
+## New here?
 
-## suggested reading order
+Start with **[intro.md](intro.md)** — a self-contained introduction to the Blackhole chip, how it computes, and how to run your first program with [blackhole-py](https://github.com/boopdotpng/blackhole-py).
 
-if you're learning how tenstorrent cards work from scratch:
+## Reading order
 
-1. `hardware/architecture.md` -- what is the chip (NoC, Tensix tiles, RISC-V cores, L1, memory map)
-2. `matmul/fast-matmul-eli5.md` -- how computation works (ELI5: 3-kernel model, matrix engine, multicast)
-3. `kernel-dev/sfpi-and-kernel-dev.md` -- how to write a kernel (SFPI ops, dst_reg, working examples)
-4. `kernel-dev/dataflow-and-cbs.md` -- how data moves on-chip (CB semantics, reader/writer patterns)
-5. `build-and-dispatch/kernel-build-and-cache.md` -- how kernels get built (JIT pipeline, cache, toolchain)
-6. `build-and-dispatch/dispatch-modes.md` -- how they get to the chip (fast vs slow dispatch)
-7. `firmware/firmware-upload-sequence.md` -- how the chip boots (reset, firmware segments, GO messages)
-8. `multi-chip/multi-host-and-remote-card-architecture.md` -- scaling beyond one card
+After the intro, go deeper:
 
-## folder layout
+1. `hardware/architecture.md` — chip architecture (NoC, Tensix tiles, RISC-V cores, L1, memory map)
+2. `matmul/fast-matmul-eli5.md` — how computation works (3-kernel model, matrix engine, multicast)
+3. `kernel-dev/sfpi-and-kernel-dev.md` — how to write a kernel (SFPI ops, dst_reg, working examples)
+4. `kernel-dev/dataflow-and-cbs.md` — how data moves on-chip (CB semantics, reader/writer patterns)
+5. `build-and-dispatch/kernel-build-and-cache.md` — how kernels get built (JIT pipeline, cache, toolchain)
+6. `build-and-dispatch/dispatch-modes.md` — how they get to the chip (fast vs slow dispatch)
+7. `firmware/firmware-upload-sequence.md` — how the chip boots (reset, firmware segments, GO messages)
+8. `multi-chip/multi-host-and-remote-card-architecture.md` — scaling beyond one card
 
-- `hardware/` -- chip architecture, coordinate systems, PCIe, ERISC, grid utilization
-- `kernel-dev/` -- SFPI/LLK programming, compute pipeline, CBs/dataflow, tile layout, kernel fusion
-- `build-and-dispatch/` -- kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging
-- `firmware/` -- firmware architecture, upload sequence, build system
-- `matmul/` -- matrix multiply deep dives (ELI5 through peak performance analysis)
-- `multi-chip/` -- multi-host architecture, TT-Fabric, topology, data-parallel training
-- `disasms/` -- raw RISC-V objdump artifacts
-- `human/` -- human-authored notes (read-only)
+## Folder layout
 
-## current software assessment
+| Folder | Contents |
+|--------|----------|
+| `hardware/` | Chip architecture, coordinate systems, PCIe, ERISC, grid utilization, performance counters, known hardware bugs |
+| `kernel-dev/` | SFPI/LLK programming, compute pipeline, CBs/dataflow, tile layout, kernel fusion |
+| `build-and-dispatch/` | Kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging |
+| `firmware/` | Firmware architecture, upload sequence, build system |
+| `matmul/` | Matrix multiply deep dives (ELI5 through peak performance) |
+| `multi-chip/` | Multi-host architecture, TT-Fabric, topology, data-parallel training |
+| `llk-sfpi/` | ISA analysis, instruction usage statistics |
+| `disasms/` | Raw RISC-V objdump artifacts |
+| `human/` | Human-authored notes (read-only) |
+
+## Related repos
+
+| Repo | What it is |
+|------|-----------|
+| [blackhole-py](https://github.com/boopdotpng/blackhole-py) | Minimal Python driver — compiles and dispatches kernels directly, no TT-Metal. Library docs live there. |
+| [tt-metal](https://github.com/tenstorrent/tt-metal) | Official Tenstorrent software stack (TT-Metalium + TT-NN) |
+| [tt-llk](https://github.com/tenstorrent/tt-llk) | Low-Level Kernel library (header-only C++ compute primitives) |
+| [sfpi](https://github.com/tenstorrent/sfpi) | SFPU compiler toolchain (modified GCC/binutils for Tensix RISC-V) |
+| [tt-isa-documentation](https://github.com/tenstorrent/tt-isa-documentation) | Official Blackhole A0 ISA reference |
+| [luwen](https://github.com/tenstorrent/luwen) | Rust user-mode hardware access library |
+| [tt-kmd](https://github.com/tenstorrent/tt-kmd) | Linux kernel-mode driver |
+| [tt-smi](https://github.com/tenstorrent/tt-smi) | System management interface (telemetry, resets) |
+
+## Motivation
+
+The goal is to write a [tinygrad](https://github.com/tinygrad/tinygrad) backend for Tenstorrent cards (Blackhole first). These docs exist to remove as many layers of abstraction as possible from the Tenstorrent stack.
+
+## Current software assessment
 
 - `ttnn` seems largely unfinished (it doesn't support f16 even though tt-metal does)
 - the build process hardcodes clang-17 everywhere -- in tt-metal this is particularly annoying to change

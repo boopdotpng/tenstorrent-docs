@@ -4,7 +4,8 @@ Compact router for this repo so you can find answers fast without reading everyt
 
 ## Start here
 
-- Read `README.md` first for project goal, reading order, and folder map.
+- New to Blackhole? Read `intro.md` first.
+- Read `README.md` for project goal, reading order, and folder map.
 
 ## Folder map
 
@@ -34,6 +35,8 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Grid utilization / column 14?"** -> `hardware/grid-utilization.md`
 - **"ERISC / ethernet cores?"** -> `hardware/erisc-cores-and-ethernet-launch.md`
 - **"Packer L1 acc Float16 bug?"** -> `hardware/packer-l1-acc-float16-hardware-bug.md`
+- **"Hardware performance counters?"** -> `hardware/performance-counters.md`
+- **"Blackhole emulator spec / full HW reference?"** -> `hardware/blackhole-emulator-spec.md`
 
 ### LLK / SFPI / ISA
 - **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md`
