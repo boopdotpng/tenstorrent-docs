@@ -37,6 +37,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Packer L1 acc Float16 bug?"** -> `hardware/packer-l1-acc-float16-hardware-bug.md`
 - **"Hardware performance counters?"** -> `hardware/performance-counters.md`
 - **"Blackhole emulator spec / full HW reference?"** -> `hardware/blackhole-emulator-spec.md`
+- **"Small transfer latency / DMA vs kernel launch?"** -> `hardware/small-transfer-optimization.md`
 
 ### LLK / SFPI / ISA
 - **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md` or `llk-sfpi/instruction-frequency-report.md`
