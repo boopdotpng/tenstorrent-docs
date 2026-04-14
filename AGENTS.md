@@ -39,8 +39,10 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Blackhole emulator spec / full HW reference?"** -> `hardware/blackhole-emulator-spec.md`
 
 ### LLK / SFPI / ISA
-- **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md`
-- **"Which instructions are dead / unused?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md`
+- **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md` or `llk-sfpi/instruction-frequency-report.md`
+- **"Which instructions are dead / unused?"** -> `llk-sfpi/instruction-frequency-report.md` (comprehensive: 747 ELFs, inline + FIFO-pushed instructions)
+- **"Instruction frequency / counts?"** -> `llk-sfpi/instruction-frequency-report.md`
+- **"Which dsl.py instructions to delete?"** -> `llk-sfpi/instruction-frequency-report.md` (used-vs-unused with delete recommendations)
 
 ### Kernel development
 - **"How to write SFPI kernels?"** -> `kernel-dev/sfpi-and-kernel-dev.md`
