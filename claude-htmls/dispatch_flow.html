@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>blackhole-py Dispatch Write Flow</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --ink: #18202a;
+      --muted: #5f6b7a;
+      --line: #c9d1dc;
+      --device: #eaf3ff;
+      --program: #ecf8f1;
+      --dispatch: #fff5df;
+      --fast: #f1edff;
+      --slow: #ffecec;
+      --host: #eef0f3;
+      --border: #9aa7b6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      padding: 28px 32px 16px;
+      border-bottom: 1px solid var(--line);
+      background: white;
+    }
+    h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: 0; }
+    p { margin: 0; color: var(--muted); max-width: 1100px; }
+    main { padding: 24px 32px 40px; }
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .key {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 9px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--muted);
+    }
+    .swatch { width: 14px; height: 14px; border: 1px solid var(--border); border-radius: 3px; }
+    .device { background: var(--device); }
+    .program { background: var(--program); }
+    .dispatch { background: var(--dispatch); }
+    .fast { background: var(--fast); }
+    .slow { background: var(--slow); }
+    .host { background: var(--host); }
+    .chart {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .lane {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+    .lane.full { grid-column: 1 / -1; }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+    .flow {
+      display: grid;
+      gap: 10px;
+    }
+    .node {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: white;
+    }
+    .node h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+    .node ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+    .node li { margin: 2px 0; }
+    .node.device { background: var(--device); }
+    .node.program { background: var(--program); }
+    .node.dispatch { background: var(--dispatch); }
+    .node.fast { background: var(--fast); }
+    .node.slow { background: var(--slow); }
+    .node.host { background: var(--host); }
+    .arrow {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(154,167,182,.45);
+      border-radius: 4px;
+      padding: 0 3px;
+      color: #27313d;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .note {
+      margin-top: 18px;
+      padding: 12px 14px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+    }
+    @media (max-width: 900px) {
+      .chart, .split { grid-template-columns: 1fr; }
+      .lane.full { grid-column: auto; }
+      header, main { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>blackhole-py Dispatch Write Flow</h1>
+    <p>Device/session initialization is separate from per-program kernel launch. Program layout produces bytes and L1 addresses; dispatch chooses how to deliver them.</p>
+  </header>
+  <main>
+    <div class="legend">
+      <span class="key"><span class="swatch device"></span>Device init</span>
+      <span class="key"><span class="swatch program"></span>Program layout</span>
+      <span class="key"><span class="swatch dispatch"></span>Common dispatch IR</span>
+      <span class="key"><span class="swatch slow"></span>Slow direct writes</span>
+      <span class="key"><span class="swatch fast"></span>Fast CQ path</span>
+      <span class="key"><span class="swatch host"></span>Host/sysmem messages</span>
+    </div>
+
+    <section class="chart">
+      <div class="lane full">
+        <h2>1. Device Startup / Runtime Init</h2>
+        <div class="flow">
+          <div class="node device">
+            <h3>Open device and discover usable hardware</h3>
+            <ul>
+              <li>Open PCIe device and bring ARC/device to usable state.</li>
+              <li>Read ARC telemetry pointers from <code>SCRATCH_RAM_12/13</code>.</li>
+              <li>Read enabled Tensix and GDDR bank masks.</li>
+              <li>Build worker core list and DRAM bank tile list.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node device">
+            <h3>Upload worker firmware to every worker core</h3>
+            <ul>
+              <li>Write MMIO <code>RISCV_DEBUG_REG_SOFT_RESET_0 = SOFT_RESET_ALL</code>.</li>
+              <li>Write each firmware PT_LOAD segment into worker L1.</li>
+              <li>Remap firmware local-RAM segments into per-core scratch L1.</li>
+              <li>Write BRISC bootstrap JAL at L1 address <code>0x0</code>.</li>
+              <li>Write <code>GO_MSG = RUN_MSG_INIT</code>.</li>
+              <li>Write NOC bank table to <code>MEM_BANK_TO_NOC_SCRATCH</code>.</li>
+              <li>Write MMIO reset PCs for NCRISC/TRISC0/TRISC1/TRISC2.</li>
+              <li>Write MMIO soft reset release value <code>SOFT_RESET_BRISC_ONLY_RUN</code>.</li>
+              <li>Poll one worker core until <code>GO_MSG + 3 == RUN_MSG_DONE</code>.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node fast">
+            <h3>If fast dispatch is enabled, initialize CQ runtime</h3>
+            <ul>
+              <li>Pin host sysmem for issue queue, completions, timestamps, and core timing.</li>
+              <li>Prefetch core L1 writes: queue read pointer, PCIe read pointer, zero prefetch queue.</li>
+              <li>Dispatch core L1 writes: completion pointers, event words, zero sync semaphore region.</li>
+              <li>Upload CQ prefetch/dispatch kernels at <code>KERNEL_CONFIG_BASE + offset</code>.</li>
+              <li>Write CQ launch message to <code>LAUNCH</code>.</li>
+              <li>Write CQ go signal to <code>GO_MSG</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane full">
+        <h2>2. Optional Host Data Movement</h2>
+        <div class="split">
+          <div class="node slow">
+            <h3>Slow DRAM write/read path</h3>
+            <ul>
+              <li>Host writes DRAM pages directly through TLB windows.</li>
+              <li>Writes barrier flags to <code>Dram.BARRIER_BASE</code>.</li>
+              <li>Polls barrier flags for posted write completion.</li>
+            </ul>
+          </div>
+          <div class="node fast">
+            <h3>Fast DRAM write/read path</h3>
+            <ul>
+              <li>Host copies payload into pinned sysmem.</li>
+              <li>Runtime launches a generated DRAM fill/drain kernel program.</li>
+              <li>That transfer program follows the same program dispatch path below.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane full">
+        <h2>3. Program Layout Contract</h2>
+        <div class="flow">
+          <div class="node program">
+            <h3><code>asm.py</code>: Kernel</h3>
+            <ul>
+              <li>Owns instruction image, local data, and ABI declarations.</li>
+              <li><code>rta(lambda x, y: list[int])</code> produces per-core runtime args.</li>
+              <li><code>crta(...)</code> stores common runtime args.</li>
+              <li><code>compile()</code> returns kernel <code>Segment(addr, data)</code> entries.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node program">
+            <h3><code>program.py</code>: Program layout per core</h3>
+            <ul>
+              <li>Selects role kernels for each core: sender vs recv variants.</li>
+              <li>Evaluates selected kernel RTAs for that core.</li>
+              <li>Aggregates selected kernel CRTAs.</li>
+              <li>Packs RTA/CRTA blob at <code>KERNEL_CONFIG_BASE</code>.</li>
+              <li>Packs CB config at <code>KERNEL_CONFIG_BASE + local_cb_off</code>.</li>
+              <li>Places kernel text/local data at assigned <code>KERNEL_CONFIG_BASE + text_off</code> slots.</li>
+              <li>Builds launch message bytes at <code>LAUNCH</code>.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node dispatch">
+            <h3>Ideal common output</h3>
+            <ul>
+              <li><code>dict[Core, list[Segment]]</code> where each segment is an absolute L1 address and bytes.</li>
+              <li>No device handle, no TLB writes, no CQ records, no firmware upload.</li>
+              <li>Dispatch may stamp dispatch-specific launch fields such as mode or host-assigned id.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane full">
+        <h2>4. Dispatch Builds a Shared Launch IR</h2>
+        <div class="flow">
+          <div class="node dispatch">
+            <h3>Program segments become abstract writes</h3>
+            <ul>
+              <li><code>Write(cores, addr, data)</code> for uniform bytes shared by many cores.</li>
+              <li><code>Write(cores, addr, list[bytes])</code> for same address but per-core bytes.</li>
+              <li>Dispatch groups identical <code>(addr, data)</code> pairs and forms multicast rectangles where possible.</li>
+              <li>Dispatch keeps per-core RTA blobs as packed per-core writes when they differ.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node dispatch">
+            <h3>Dispatch protocol messages around program bytes</h3>
+            <ul>
+              <li>Write <code>GO_MSG = RUN_MSG_RESET_READ_PTR_FROM_HOST</code>.</li>
+              <li>Write <code>GO_MSG_INDEX = 0</code>.</li>
+              <li>Write all program layout segments.</li>
+              <li>Emit abstract <code>Launch(cores)</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <h2>5A. Slow Dispatch Lowering</h2>
+        <div class="flow">
+          <div class="node slow">
+            <h3>Direct TLB writes</h3>
+            <ul>
+              <li>For uniform <code>Write</code>, split target cores into multicast rectangles.</li>
+              <li>For each rectangle, set TLB target and write bytes directly to L1.</li>
+              <li>For per-core <code>list[bytes]</code>, set TLB target per core and write its payload.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node slow">
+            <h3>Slow launch signal</h3>
+            <ul>
+              <li>For <code>Launch(cores)</code>, write <code>GO_MSG = RUN_MSG_GO</code> to target cores.</li>
+              <li>Poll every launched core until <code>GO_MSG + 3 == RUN_MSG_DONE</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <h2>5B. Fast Dispatch Lowering</h2>
+        <div class="flow">
+          <div class="node fast">
+            <h3>CQ command generation</h3>
+            <ul>
+              <li>Uniform multicast writes lower to <code>CQWritePackedLarge</code>.</li>
+              <li>Same-address per-core payloads lower to <code>CQWritePacked</code>.</li>
+              <li>Optional timestamp commands are inserted before/after each program.</li>
+              <li>Optional core timing control writes go to <code>TIMING_CONTROL</code>.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node host">
+            <h3>Host issue queue messages</h3>
+            <ul>
+              <li>Each CQ command is wrapped in a relay-inline record in pinned sysmem.</li>
+              <li>Host writes record size into the prefetch core queue slot.</li>
+              <li>Prefetch/dispatch firmware pulls commands from sysmem and performs device writes.</li>
+            </ul>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node fast">
+            <h3>Fast launch and completion</h3>
+            <ul>
+              <li><code>Launch(cores)</code> lowers to <code>CQSetGoSignalNocData</code>.</li>
+              <li>Then <code>CQWaitStream(DONE_STREAM, 0)</code>.</li>
+              <li>Then <code>CQSendGoSignal(RUN_MSG_GO)</code>.</li>
+              <li>Then <code>CQWaitStream(DONE_STREAM, len(cores))</code>.</li>
+              <li>Host appends <code>CQHostEvent(event_id)</code> and waits for completion sysmem doorbell.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="note">
+      <strong>Boundary summary:</strong>
+      device init writes firmware, bank tables, and CQ runtime state. Program layout emits kernel-launch bytes.
+      Dispatch owns write grouping, multicast/packed-write optimization, go signaling, and completion handling.
+    </div>
+  </main>
+</body>
+</html>
