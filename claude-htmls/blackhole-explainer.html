@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inside Blackhole — a tour of every subsystem (with the emulator as our map)</title>
+<style>
+:root {
+  --bg:        #0b0d10;
+  --bg-2:      #11151a;
+  --bg-3:      #161b22;
+  --line:      #232a33;
+  --line-2:    #2f3845;
+  --ink:       #e7ecf2;
+  --ink-dim:   #a4adba;
+  --ink-faint: #6b7383;
+  --accent:    #8c5cff;   /* Tensix purple */
+  --accent-2:  #4ad6c8;   /* NoC teal      */
+  --warm:      #ff9b54;   /* DRAM orange   */
+  --eth:       #ffd166;   /* Ethernet      */
+  --cpu:       #6cc7ff;   /* L2CPU blue    */
+  --pcie:      #ff6f9c;   /* PCIe pink     */
+  --arc:       #b6c0cf;
+  --good:      #7ee787;
+  --mono:      ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); }
+body {
+  margin: 0;
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap   { max-width: 1080px; margin: 0 auto; padding: 64px 28px 120px; }
+.eyebrow{ color: var(--accent-2); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; font-weight: 600; }
+h1      { font-size: clamp(34px, 5vw, 56px); line-height: 1.05; letter-spacing: -.02em; margin: 12px 0 16px; }
+h1 em   { color: var(--accent); font-style: normal; }
+h2      { font-size: 30px; letter-spacing: -.01em; margin: 64px 0 8px; }
+h2 .num { color: var(--ink-faint); font-family: var(--mono); font-weight: 400; margin-right: 12px; }
+h3      { font-size: 20px; margin: 32px 0 6px; }
+h4      { font-size: 16px; margin: 20px 0 4px; color: var(--ink); }
+p       { color: var(--ink-dim); margin: 8px 0; }
+p strong, li strong { color: var(--ink); font-weight: 600; }
+a       { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code    { font-family: var(--mono); font-size: 13.5px; background: var(--bg-3); padding: 1px 6px; border-radius: 4px; color: #d8c8ff; border: 1px solid var(--line); }
+pre     { background: var(--bg-3); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow:auto; font-family: var(--mono); font-size: 13px; line-height: 1.55; color: #d8e1ec; }
+
+/* lede / hero */
+.lede   { color: var(--ink-dim); font-size: 19px; line-height: 1.55; margin-top: 16px; max-width: 70ch; }
+.byline { color: var(--ink-faint); font-size: 13px; margin-top: 24px; font-family: var(--mono); }
+.byline span { color: var(--ink-dim); }
+
+/* cards / callouts */
+.card   { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin: 16px 0; }
+.note   { background: linear-gradient(180deg, rgba(140,92,255,.08), rgba(140,92,255,.02)); border: 1px solid rgba(140,92,255,.25); border-radius: 12px; padding: 14px 18px; margin: 16px 0; color: var(--ink-dim); font-size: 14.5px; }
+.note b { color: #cfb9ff; }
+.tip    { background: linear-gradient(180deg, rgba(74,214,200,.08), rgba(74,214,200,.02)); border: 1px solid rgba(74,214,200,.25); border-radius: 12px; padding: 14px 18px; margin: 16px 0; color: var(--ink-dim); font-size: 14.5px; }
+.tip b  { color: #9defde; }
+
+/* spec table */
+table   { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+th, td  { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th      { color: var(--ink-faint); font-weight: 500; font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+td.num  { font-family: var(--mono); color: var(--ink); }
+td      { color: var(--ink-dim); }
+td b    { color: var(--ink); }
+
+/* legend chips */
+.legend { display:flex; flex-wrap:wrap; gap: 8px 14px; margin: 14px 0 8px; font-size: 13px; color: var(--ink-dim); }
+.chip   { display:inline-flex; align-items:center; gap: 7px; }
+.chip .sw { width: 12px; height: 12px; border-radius: 3px; border: 1px solid rgba(255,255,255,.08); }
+
+/* svg containers */
+.figure { margin: 22px 0 8px; }
+.figure svg { display:block; width:100%; height:auto; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; }
+.figcap { color: var(--ink-faint); font-size: 12.5px; margin-top: 8px; font-family: var(--mono); }
+
+/* two columns */
+.cols { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 16px 0; }
+@media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+
+/* TOC */
+.toc { columns: 2; gap: 28px; padding: 16px 18px; background: var(--bg-2); border:1px solid var(--line); border-radius: 12px; margin: 24px 0 8px; font-size: 14.5px; }
+.toc a { color: var(--ink); display:block; padding: 4px 0; }
+.toc a:hover { color: var(--accent-2); }
+.toc .n { color: var(--ink-faint); font-family: var(--mono); margin-right: 8px; }
+@media (max-width: 760px) { .toc { columns: 1; } }
+
+hr { border: none; border-top: 1px solid var(--line); margin: 56px 0; }
+.kbd { font-family: var(--mono); font-size: 12px; padding: 1px 6px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 4px; background: var(--bg-3); color: var(--ink); }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<div class="eyebrow">Hardware tour · Tenstorrent</div>
+<h1>Inside <em>Blackhole</em> — a guided tour of every subsystem, using the emulator as our map.</h1>
+<p class="lede">
+Blackhole is Tenstorrent's standalone AI ASIC: a 2D torus of tiles, where each tile is a small computer in its own right.
+This post walks through every kind of tile on the chip — what it contains, how it talks to the others, and what role it plays —
+using the structure of the <code>blackhole-py/emu</code> cycle-structured emulator as scaffolding, because the emulator's source layout
+is a remarkably faithful diagram of the real silicon.
+</p>
+
+<p class="byline">A reference / explainer · <span>aimed at someone who has never opened a Blackhole datasheet but is comfortable with computer architecture.</span></p>
+
+<div class="toc">
+  <a href="#big-picture"><span class="n">01</span>The big picture</a>
+  <a href="#noc"><span class="n">02</span>The NoC</a>
+  <a href="#tensix"><span class="n">03</span>Tensix tile</a>
+  <a href="#tensix-coproc"><span class="n">04</span>The Tensix coprocessor</a>
+  <a href="#dram"><span class="n">05</span>DRAM tile</a>
+  <a href="#l2cpu"><span class="n">06</span>L2CPU tile</a>
+  <a href="#eth"><span class="n">07</span>Ethernet tile</a>
+  <a href="#pcie"><span class="n">08</span>PCIe tile</a>
+  <a href="#arc"><span class="n">09</span>ARC &amp; Security</a>
+  <a href="#emu"><span class="n">10</span>The emulator</a>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="big-picture"><span class="num">01</span>The big picture</h2>
+
+<p>
+A Blackhole ASIC is, internally, a <strong>grid of tiles</strong> — small, mostly-self-contained computers — wired together by two networks-on-chip.
+Every tile, regardless of its function, sits at a coordinate on that grid and speaks the same packet-based protocol. There are no global buses, no shared
+caches across tiles, and no special "host" core baked in: the host (when there is one) is just whatever sits behind a PCIe tile.
+</p>
+
+<p>The full chip, before any harvesting, contains:</p>
+
+<table>
+  <thead><tr><th>Tile kind</th><th>Count</th><th>Why it exists</th></tr></thead>
+  <tbody>
+    <tr><td><b>Tensix</b> (worker / compute)</td><td class="num">140</td><td>The AI workhorses. Where matmuls and elementwise ops actually happen.</td></tr>
+    <tr><td><b>DRAM</b> (memory edge)</td><td class="num">24</td><td>32 GiB of GDDR6, exposed in groups of three tiles per 4 GiB channel.</td></tr>
+    <tr><td><b>L2CPU</b> (CPU cluster edge)</td><td class="num">4</td><td>Sixteen SiFive x280 RV64 cores total — capable of running Linux on-chip.</td></tr>
+    <tr><td><b>Ethernet</b> (network edge)</td><td class="num">14</td><td>Up to 12 connected at 400 GbE each — chip-to-chip fabric, not just I/O.</td></tr>
+    <tr><td><b>PCIe</b> (host edge)</td><td class="num">2</td><td>PCIe 5.0 x16. Usually one connected to a host, one idle.</td></tr>
+    <tr><td><b>ARC &amp; Security</b> (management)</td><td class="num">2</td><td>Power, thermal, boot, and root-of-trust. Customer code never runs here.</td></tr>
+  </tbody>
+</table>
+
+<p>
+Product SKUs <em>harvest</em> some of those — the p150 board, for example, ships with 140 Tensix and 24 DRAM tiles enabled, but only 12 of the 14 Ethernet
+tiles and 1 of the 2 PCIe tiles routed to physical pins. Harvested tiles still exist as silicon; they just aren't usable.
+</p>
+
+<div class="figure">
+<!-- Stylised floorplan -->
+<svg viewBox="0 0 1080 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Blackhole floorplan">
+  <defs>
+    <style>
+      .lbl { fill: #a4adba; font: 600 11px ui-monospace, monospace; }
+      .lblL { fill: #e7ecf2; font: 700 13px ui-monospace, monospace; }
+      .tile { stroke: #232a33; stroke-width: 1; }
+      .tx   { fill: #1a1430; }   .tx-b   { stroke: #8c5cff; }
+      .dr   { fill: #2a1a10; }   .dr-b   { stroke: #ff9b54; }
+      .l2   { fill: #0e2436; }   .l2-b   { stroke: #6cc7ff; }
+      .eth  { fill: #2a230a; }   .eth-b  { stroke: #ffd166; }
+      .pci  { fill: #2a1422; }   .pci-b  { stroke: #ff6f9c; }
+      .arc  { fill: #1c2026; }   .arc-b  { stroke: #b6c0cf; }
+      .axis { fill: #6b7383; font: 11px ui-monospace, monospace; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1080" height="540" fill="#11151a"/>
+
+  <!-- column / row coords -->
+  <g class="axis">
+    <text x="60" y="26">col 0</text>
+    <text x="980" y="26">col 16</text>
+    <text x="20" y="60">row 0</text>
+    <text x="20" y="510">row 11</text>
+  </g>
+
+  <!-- We'll lay out a stylised 17 x 12 grid (not literal; representative). -->
+  <!-- Tensix block (the bulk of the die) -->
+  <g>
+    <!-- Large Tensix area -->
+    <g>
+      <!-- rows 1..10, cols 2..14 -->
+      <!-- We draw 14 cols x 10 rows of small rects to imply 140 -->
+      <g>
+        <!-- generated -->
+      </g>
+    </g>
+  </g>
+
+  <!-- I'll just draw rectangles directly, since SVG must be static -->
+  <!-- Tensix grid: 14 x 10 = 140 -->
+  <g>
+    <!-- macro: 14 cols * 10 rows starting at (160, 60) cell 50x40 -->
+  </g>
+
+  <!-- Manual placement -->
+  <!-- Tensix cells -->
+  <g>
+    <g>
+      <!-- row 0 -->
+      <rect class="tile tx tx-b" x="160" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="208" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="256" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="304" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="352" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="400" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="448" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="496" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="544" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="592" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="640" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="688" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="736" y="60"  width="46" height="36"/>
+      <rect class="tile tx tx-b" x="784" y="60"  width="46" height="36"/>
+    </g>
+  </g>
+
+  <!-- duplicate via JS-like? No, SVG inline only. I'll draw a few representative rows and label the rest. -->
+  <!-- Replicate rows 1..9 -->
+  <g>
+    <!-- y from 100, 140, 180, ... 420 -->
+    <g><!-- row 1 -->
+      <rect class="tile tx tx-b" x="160" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="100" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="100" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="140" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="140" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="180" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="180" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="220" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="220" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="260" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="260" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="300" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="300" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="340" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="340" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="380" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="380" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="420" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="420" width="46" height="36"/>
+    </g>
+    <g>
+      <rect class="tile tx tx-b" x="160" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="208" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="256" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="304" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="352" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="400" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="448" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="496" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="544" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="592" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="640" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="688" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="736" y="460" width="46" height="36"/><rect class="tile tx tx-b" x="784" y="460" width="46" height="36"/>
+    </g>
+  </g>
+
+  <!-- DRAM column on the left edge (24 tiles in groups of 3) -->
+  <g>
+    <rect class="tile dr dr-b" x="60"  y="60"  width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="100" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="140" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="180" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="220" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="260" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="300" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="340" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="380" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="420" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="60"  y="460" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="60"  width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="100" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="140" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="180" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="220" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="260" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="300" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="340" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="380" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="420" width="46" height="36"/>
+    <rect class="tile dr dr-b" x="108" y="460" width="46" height="36"/>
+  </g>
+
+  <!-- Right column: Ethernet + PCIe + L2CPU + ARC -->
+  <g>
+    <!-- top: Ethernet (14) -->
+    <rect class="tile eth eth-b" x="836" y="60"  width="46" height="36"/>
+    <rect class="tile eth eth-b" x="884" y="60"  width="46" height="36"/>
+    <rect class="tile eth eth-b" x="932" y="60"  width="46" height="36"/>
+    <rect class="tile eth eth-b" x="980" y="60"  width="46" height="36"/>
+    <rect class="tile eth eth-b" x="836" y="100" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="884" y="100" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="932" y="100" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="980" y="100" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="836" y="140" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="884" y="140" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="932" y="140" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="980" y="140" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="836" y="180" width="46" height="36"/>
+    <rect class="tile eth eth-b" x="884" y="180" width="46" height="36"/>
+
+    <!-- L2CPU (4) -->
+    <rect class="tile l2 l2-b" x="932" y="180" width="46" height="36"/>
+    <rect class="tile l2 l2-b" x="980" y="180" width="46" height="36"/>
+    <rect class="tile l2 l2-b" x="836" y="220" width="46" height="36"/>
+    <rect class="tile l2 l2-b" x="884" y="220" width="46" height="36"/>
+
+    <!-- PCIe (2) -->
+    <rect class="tile pci pci-b" x="932" y="220" width="46" height="36"/>
+    <rect class="tile pci pci-b" x="980" y="220" width="46" height="36"/>
+
+    <!-- ARC + Sec -->
+    <rect class="tile arc arc-b" x="836" y="260" width="46" height="36"/>
+    <rect class="tile arc arc-b" x="884" y="260" width="46" height="36"/>
+
+    <!-- Filler (empty NoC nodes) -->
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="932" y="260" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="980" y="260" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="836" y="300" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="884" y="300" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="932" y="300" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="980" y="300" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="836" y="340" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="884" y="340" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="932" y="340" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="980" y="340" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="836" y="380" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="884" y="380" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="932" y="380" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="980" y="380" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="836" y="420" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="884" y="420" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="932" y="420" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="980" y="420" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="836" y="460" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="884" y="460" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="932" y="460" width="46" height="36"/>
+    <rect class="tile" fill="#0e1116" stroke="#2f3845" x="980" y="460" width="46" height="36"/>
+  </g>
+
+  <!-- Labels -->
+  <text class="lblL" x="60"  y="525">DRAM</text>
+  <text class="lblL" x="160" y="525">Tensix worker grid (140)</text>
+  <text class="lblL" x="836" y="525">edges: ETH · L2CPU · PCIe · ARC · empty</text>
+</svg>
+<div class="figcap">Stylised floorplan. The real chip is a 2D torus (left/right and top/bottom edges wrap). Exact coordinates are documented in <code>tt-isa-documentation/BlackholeA0/Diagrams</code>.</div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="sw" style="background:#1a1430;border-color:#8c5cff;"></span>Tensix</span>
+  <span class="chip"><span class="sw" style="background:#2a1a10;border-color:#ff9b54;"></span>DRAM</span>
+  <span class="chip"><span class="sw" style="background:#0e2436;border-color:#6cc7ff;"></span>L2CPU</span>
+  <span class="chip"><span class="sw" style="background:#2a230a;border-color:#ffd166;"></span>Ethernet</span>
+  <span class="chip"><span class="sw" style="background:#2a1422;border-color:#ff6f9c;"></span>PCIe</span>
+  <span class="chip"><span class="sw" style="background:#1c2026;border-color:#b6c0cf;"></span>ARC / Security</span>
+  <span class="chip"><span class="sw" style="background:#0e1116;border-color:#2f3845;"></span>empty (router only)</span>
+</div>
+
+<div class="tip"><b>Why a torus?</b> Every tile is at most ~half the grid dimension away from any other tile (in hops), so worst-case NoC latency is bounded and predictable. The torus also lets traffic flow uniformly without "edges" piling up at the corners.</div>
+
+<!-- ============================================================== -->
+<h2 id="noc"><span class="num">02</span>The NoC — how every tile talks</h2>
+
+<p>
+There are <strong>two</strong> NoCs on Blackhole. Both connect the exact same set of tiles and form a 2D torus. They are physically separate, and they
+<em>flow in opposite directions</em>: NoC #0 routes one way around the torus, NoC #1 the other. Software can pick either (or both, e.g. one for reads, one for writes)
+to relieve congestion and avoid deadlock.
+</p>
+
+<h3>Packets, flits, and NIUs</h3>
+<ul>
+  <li>Every transaction is one or more <b>packets</b>; every packet is one header flit + up to 256 data flits.</li>
+  <li>Every flit is exactly <b>512 bits (64 B)</b>. So a single flit carries one cache-line-sized blob of data.</li>
+  <li>Each tile hosts a <b>NIU</b> (NoC Interface Unit) per NoC — that's the gateway between the tile's address space and the NoC fabric.</li>
+  <li>Routers, sitting between NIUs at every grid coordinate, handle the actual hop-by-hop movement.</li>
+</ul>
+
+<h3>Transaction kinds</h3>
+<table>
+  <thead><tr><th>Type</th><th>Purpose</th><th>Notable variants</th></tr></thead>
+  <tbody>
+    <tr><td><b>Read</b></td><td>Pull a contiguous span from receiver's address space back to (usually) the initiator's L1.</td><td>—</td></tr>
+    <tr><td><b>Write</b></td><td>Push initiator data (or a 32-bit immediate) into receiver's address space.</td><td>posted, broadcast (to a rectangle of Tensix tiles), inline 32-bit, dual-target first 128 b, "notify overlay" flag</td></tr>
+    <tr><td><b>Atomic</b></td><td>RMW against a 128-bit slot in receiver L1; 32-bit response back.</td><td>increment, increment-and-get, 16-bit CAS, indexed store, 4-byte swap, posted variants</td></tr>
+  </tbody>
+</table>
+
+<p>
+On Tensix and Ethernet tiles, the NIU's <em>data path</em> is wired straight into the tile's address space — so a NoC read is functionally a read from another tile's
+L1 (or registers) and arrives in your L1. The NIU's <em>control path</em> shows up as MMIO registers in the local tile, so the local RISC-V cores can post and poll
+NoC commands. Each tile also has a <b>NoC Overlay</b>: a small coprocessor that handles common patterns (like circular-buffer pointer updates, semaphore signalling
+on packet arrival, multicast fan-out) without burning a RISC-V to manage them.
+</p>
+
+<div class="figure">
+<svg viewBox="0 0 1080 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4ad6c8"/>
+    </marker>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8c5cff"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="320" fill="#11151a"/>
+  <!-- Five tile boxes in a row -->
+  <g font-family="ui-monospace, monospace" font-size="12" fill="#e7ecf2">
+    <g transform="translate(40,90)">
+      <rect width="180" height="160" rx="10" fill="#161b22" stroke="#2f3845"/>
+      <text x="14" y="22" font-weight="700">Tile A (Tensix)</text>
+      <rect x="12"  y="38" width="74"  height="38" fill="#0e1116" stroke="#8c5cff"/><text x="20" y="60">RISC-V #0</text>
+      <rect x="94"  y="38" width="74"  height="38" fill="#0e1116" stroke="#8c5cff"/><text x="102" y="60">RISC-V #1</text>
+      <rect x="12"  y="84" width="156" height="34" fill="#0e1116" stroke="#4ad6c8"/><text x="20" y="105">L1 (1.5 MiB)</text>
+      <rect x="12"  y="124" width="74" height="28" fill="#0e1116" stroke="#4ad6c8"/><text x="20" y="142">NIU0</text>
+      <rect x="94"  y="124" width="74" height="28" fill="#0e1116" stroke="#4ad6c8"/><text x="102" y="142">NIU1</text>
+    </g>
+    <g transform="translate(280,90)">
+      <rect width="120" height="160" rx="10" fill="#161b22" stroke="#2f3845"/>
+      <text x="14" y="22" font-weight="700">Router</text>
+      <text x="14" y="42" fill="#a4adba">NoC #0</text>
+      <rect x="12" y="50" width="96" height="40" fill="#0e1116" stroke="#4ad6c8"/>
+      <text x="14" y="100" fill="#a4adba">NoC #1</text>
+      <rect x="12" y="108" width="96" height="40" fill="#0e1116" stroke="#8c5cff"/>
+    </g>
+    <g transform="translate(460,90)">
+      <rect width="120" height="160" rx="10" fill="#161b22" stroke="#2f3845"/>
+      <text x="14" y="22" font-weight="700">Router</text>
+      <rect x="12" y="50" width="96" height="40" fill="#0e1116" stroke="#4ad6c8"/>
+      <rect x="12" y="108" width="96" height="40" fill="#0e1116" stroke="#8c5cff"/>
+    </g>
+    <g transform="translate(640,90)">
+      <rect width="120" height="160" rx="10" fill="#161b22" stroke="#2f3845"/>
+      <text x="14" y="22" font-weight="700">Router</text>
+      <rect x="12" y="50" width="96" height="40" fill="#0e1116" stroke="#4ad6c8"/>
+      <rect x="12" y="108" width="96" height="40" fill="#0e1116" stroke="#8c5cff"/>
+    </g>
+    <g transform="translate(820,90)">
+      <rect width="220" height="160" rx="10" fill="#161b22" stroke="#2f3845"/>
+      <text x="14" y="22" font-weight="700">Tile B (DRAM)</text>
+      <rect x="12"  y="38" width="196" height="34" fill="#0e1116" stroke="#ff9b54"/><text x="20" y="60">GDDR6 channel (4 GiB)</text>
+      <rect x="12"  y="80" width="196" height="34" fill="#0e1116" stroke="#8c5cff"/><text x="20" y="102">RISC-V (mgmt) + small L1</text>
+      <rect x="12"  y="120" width="92"  height="28" fill="#0e1116" stroke="#4ad6c8"/><text x="20" y="138">NIU0</text>
+      <rect x="116" y="120" width="92"  height="28" fill="#0e1116" stroke="#4ad6c8"/><text x="124" y="138">NIU1</text>
+    </g>
+  </g>
+
+  <!-- arrows (NoC0 right-going teal) -->
+  <line x1="220" y1="160" x2="280" y2="160" stroke="#4ad6c8" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="400" y1="160" x2="460" y2="160" stroke="#4ad6c8" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="580" y1="160" x2="640" y2="160" stroke="#4ad6c8" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="760" y1="160" x2="820" y2="160" stroke="#4ad6c8" stroke-width="2" marker-end="url(#arr)"/>
+  <!-- NoC1 left-going purple -->
+  <line x1="280" y1="218" x2="220" y2="218" stroke="#8c5cff" stroke-width="2" marker-end="url(#arr2)"/>
+  <line x1="460" y1="218" x2="400" y2="218" stroke="#8c5cff" stroke-width="2" marker-end="url(#arr2)"/>
+  <line x1="640" y1="218" x2="580" y2="218" stroke="#8c5cff" stroke-width="2" marker-end="url(#arr2)"/>
+  <line x1="820" y1="218" x2="760" y2="218" stroke="#8c5cff" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- captions -->
+  <g font-family="ui-monospace, monospace" font-size="11" fill="#a4adba">
+    <text x="40" y="40" font-size="13" fill="#e7ecf2" font-weight="700">A NoC transaction</text>
+    <text x="40" y="58">RISC-V on Tile A writes a control register on its NIU0 → NIU0 issues a Read packet that hops</text>
+    <text x="40" y="74">routers along NoC #0 to Tile B's NIU0; B's NIU pulls bytes from local GDDR6 and replies on NoC #0.</text>
+    <text x="40" y="290" fill="#4ad6c8">━ NoC #0 (one direction)</text>
+    <text x="280" y="290" fill="#8c5cff">━ NoC #1 (opposite direction, physically separate)</text>
+  </g>
+</svg>
+<div class="figcap">A read on Blackhole: just NIU → router → router → NIU. The "request packet" goes one way; the "response packet" comes back the same way (NIUs sit on both NoCs).</div>
+</div>
+
+<div class="note"><b>Software responsibility.</b> NoC hardware guarantees deadlock freedom for most ordinary traffic, but a few advanced features (multi-packet transactions, broadcasts without path reservation, mismatched virtual-channel use) push that guarantee onto you. Tooling like <code>tt-metalium</code> generally hides this from app authors.</div>
+
+<!-- ============================================================== -->
+<h2 id="tensix"><span class="num">03</span>Tensix tile — the worker</h2>
+
+<p>
+Each Tensix tile is the chip's atomic unit of <em>compute</em>. Despite the name "tile," a single Tensix is itself a multi-core little computer. Inside, you get:
+</p>
+
+<table>
+  <tbody>
+    <tr><td><b>L1 SRAM</b></td><td class="num">1536 KiB</td><td>Plain RAM (not a cache). Locally addressable, NoC-addressable from any other tile.</td></tr>
+    <tr><td><b>5× "Baby" RISC-V cores</b></td><td class="num">5</td><td>Small RV32 cores: <code>BRISC</code>, <code>NCRISC</code>, and three <code>TRISC</code>s.</td></tr>
+    <tr><td><b>NoC connections</b></td><td class="num">2</td><td>NIU0 + NIU1, one per NoC.</td></tr>
+    <tr><td><b>NoC Overlay</b></td><td class="num">1</td><td>Coprocessor that helps drive NoC transactions without RISC-V intervention.</td></tr>
+    <tr><td><b>Tensix coprocessor</b></td><td class="num">1</td><td>The big AI engine — see below. Not a RISC-V; it has its own ISA.</td></tr>
+    <tr><td><b>Utilities</b></td><td>—</td><td>Mailboxes, TDMA-RISC, debug timestamper, PIC.</td></tr>
+  </tbody>
+</table>
+
+<h3>The labour split</h3>
+<p>
+The 5 baby RISC-Vs are not where work gets done — they're <em>conductors</em>. The expected division of labour is:
+</p>
+<ul>
+  <li><b>2 RISC-Vs drive the NoCs</b> (one per NoC) — typically <code>BRISC</code> and <code>NCRISC</code>. They issue reads/writes, watch flags, and stage data in/out of L1.</li>
+  <li><b>3 RISC-Vs drive the Tensix coprocessor</b> — <code>TRISC0</code>, <code>TRISC1</code>, <code>TRISC2</code>. They emit Tensix instructions to keep the unpackers, math units, and packers fed.</li>
+</ul>
+<p>
+A baby RISC-V on its own is anemic — that's by design. Performance comes from the Tensix coprocessor next door, and from the NoC overlay handling
+hot-path streaming. The RISC-V is just the choreographer.
+</p>
+
+<div class="figure">
+<svg viewBox="0 0 1080 460" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .box { fill: #161b22; stroke: #2f3845; }
+      .b-tx { stroke: #8c5cff; }
+      .b-l1 { stroke: #4ad6c8; }
+      .b-noc{ stroke: #4ad6c8; }
+      .b-cop{ stroke: #ff9b54; }
+      .ttl { font: 700 13px ui-monospace,monospace; fill:#e7ecf2; }
+      .lab { font: 12px ui-monospace,monospace; fill:#a4adba; }
+      .tag { font: 700 11px ui-monospace,monospace; fill:#cfb9ff; }
+    </style>
+  </defs>
+  <rect width="1080" height="460" fill="#11151a"/>
+
+  <!-- L1 in the middle (acts as the bus) -->
+  <rect class="box b-l1" x="380" y="160" width="320" height="80" rx="8"/>
+  <text class="ttl" x="395" y="185">L1 SRAM — 1536 KiB</text>
+  <text class="lab" x="395" y="208">Locally addressable + NoC-addressable.</text>
+  <text class="lab" x="395" y="226">All on-tile traffic transits this RAM.</text>
+
+  <!-- 5 baby RISC-Vs across the top -->
+  <g>
+    <rect class="box b-tx" x="60"  y="40" width="160" height="80" rx="8"/>
+    <text class="ttl" x="76" y="62">BRISC (RV32)</text>
+    <text class="lab" x="76" y="84">drives NoC #0 (NIU0)</text>
+    <text class="tag" x="76" y="104">overseer</text>
+
+    <rect class="box b-tx" x="240" y="40" width="160" height="80" rx="8"/>
+    <text class="ttl" x="256" y="62">NCRISC (RV32)</text>
+    <text class="lab" x="256" y="84">drives NoC #1 (NIU1)</text>
+    <text class="tag" x="256" y="104">overseer</text>
+
+    <rect class="box b-tx" x="420" y="40" width="160" height="80" rx="8"/>
+    <text class="ttl" x="436" y="62">TRISC0 (RV32)</text>
+    <text class="lab" x="436" y="84">unpacker dispatch</text>
+    <text class="tag" x="436" y="104">choreographer</text>
+
+    <rect class="box b-tx" x="600" y="40" width="160" height="80" rx="8"/>
+    <text class="ttl" x="616" y="62">TRISC1 (RV32)</text>
+    <text class="lab" x="616" y="84">math (FPU/SFPU)</text>
+    <text class="tag" x="616" y="104">choreographer</text>
+
+    <rect class="box b-tx" x="780" y="40" width="160" height="80" rx="8"/>
+    <text class="ttl" x="796" y="62">TRISC2 (RV32)</text>
+    <text class="lab" x="796" y="84">packer dispatch</text>
+    <text class="tag" x="796" y="104">choreographer</text>
+  </g>
+
+  <!-- NIUs / NoC overlay on the left -->
+  <g>
+    <rect class="box b-noc" x="60" y="160" width="160" height="34" rx="6"/>
+    <text class="ttl" x="74" y="183">NIU0 — NoC #0</text>
+    <rect class="box b-noc" x="60" y="206" width="160" height="34" rx="6"/>
+    <text class="ttl" x="74" y="229">NIU1 — NoC #1</text>
+    <rect class="box b-noc" x="60" y="252" width="160" height="60" rx="6"/>
+    <text class="ttl" x="74" y="276">NoC Overlay</text>
+    <text class="lab" x="74" y="296">streams · semaphores · multicast</text>
+  </g>
+
+  <!-- Tensix coprocessor on the right -->
+  <g>
+    <rect class="box b-cop" x="780" y="160" width="240" height="240" rx="10"/>
+    <text class="ttl" x="796" y="184">Tensix coprocessor</text>
+
+    <rect class="box b-cop" x="796" y="200" width="208" height="32" rx="6"/>
+    <text class="lab" x="806" y="221">2× Unpacker — L1 → engines</text>
+
+    <rect class="box b-cop" x="796" y="240" width="100" height="40" rx="6"/>
+    <text class="lab" x="806" y="265">FPU (matrix)</text>
+
+    <rect class="box b-cop" x="904" y="240" width="100" height="40" rx="6"/>
+    <text class="lab" x="914" y="265">SFPU (vec 32)</text>
+
+    <rect class="box b-cop" x="796" y="288" width="208" height="32" rx="6"/>
+    <text class="lab" x="806" y="309">ThCon — scalar/L1 access (incl. atomics)</text>
+
+    <rect class="box b-cop" x="796" y="328" width="208" height="32" rx="6"/>
+    <text class="lab" x="806" y="349">DST register file (matmul accumulators)</text>
+
+    <rect class="box b-cop" x="796" y="368" width="208" height="24" rx="6"/>
+    <text class="lab" x="806" y="385">4× Packer — engines → L1</text>
+  </g>
+
+  <!-- Utility cluster bottom-left -->
+  <g>
+    <rect class="box" x="60" y="334" width="280" height="80" rx="8" stroke="#6b7383"/>
+    <text class="ttl" x="76" y="356">Utilities</text>
+    <text class="lab" x="76" y="376">Mailboxes · TDMA-RISC</text>
+    <text class="lab" x="76" y="394">Debug Timestamper · PIC</text>
+  </g>
+
+  <!-- arrows from RISC-Vs into L1 -->
+  <g stroke="#4ad6c8" stroke-width="1.5" fill="none">
+    <path d="M140,120 L140,160" />
+    <path d="M320,120 L320,160" />
+    <path d="M500,120 L500,160" />
+    <path d="M680,120 L680,160" />
+    <path d="M860,120 L860,160" />
+  </g>
+  <!-- arrows L1 <-> NIUs and L1 <-> Tensix -->
+  <g stroke="#4ad6c8" stroke-width="1.5" fill="none">
+    <path d="M220,177 L380,180" />
+    <path d="M220,223 L380,210" />
+  </g>
+  <g stroke="#ff9b54" stroke-width="1.5" fill="none">
+    <path d="M700,200 L780,216" />
+    <path d="M700,220 L780,228" />
+  </g>
+  <text class="lab" x="40" y="440" fill="#6b7383">Inside one Tensix tile</text>
+</svg>
+<div class="figcap">All on-tile traffic transits L1. The five RISC-Vs don't compute — they keep the NoC and the Tensix coprocessor busy.</div>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="tensix-coproc"><span class="num">04</span>The Tensix coprocessor — where math actually happens</h2>
+
+<p>
+This is the most distinctively Tenstorrent part of the chip. It's a wide pipeline organised around <strong>tiles of data</strong> (typically 32×32 elements) that
+flow from L1, into "DST" accumulator registers, and back out to L1. Three engines and a thread controller share the pipeline, and four kinds of mover
+shuffle data on the boundaries.
+</p>
+
+<div class="cols">
+  <div class="card">
+    <h4>Unpacker (×2)</h4>
+    <p>Streams operand tiles out of L1, applies any required format conversion (BFP8 → BF16, padding, etc.), and lands them in the engine's source registers. Two unpackers in parallel, so an FPU op can have both operands in flight at once.</p>
+  </div>
+  <div class="card">
+    <h4>Matrix unit / FPU</h4>
+    <p>The matmul engine. Low-precision multiply-accumulate (think BFP8/BF16/FP16 in, FP32 accumulate) over 32×32 tiles. Also handles a few non-matmul matrix operations (transpose, broadcast variants). This is what gives Blackhole its peak TFLOPs.</p>
+  </div>
+  <div class="card">
+    <h4>Vector unit / SFPU</h4>
+    <p>32-wide SIMD over 32-bit lanes. FP32 multiply-accumulate, transcendentals, comparisons, lookup-table activations, integer ops. This is where things like GELU, softmax tails, and quantisation pre/post-process actually run.</p>
+  </div>
+  <div class="card">
+    <h4>Scalar unit / ThCon</h4>
+    <p>Integer scalar ops, plus 128-bit memory operations against L1 — including the L1 atomics other tiles can target over the NoC. Sometimes called the "thread controller." Cheap glue logic for the TRISCs.</p>
+  </div>
+  <div class="card">
+    <h4>Packer (×4)</h4>
+    <p>Pulls results out of the DST accumulator file, format-converts (e.g. FP32 → BFP8), and writes back to L1. Four packers means a single math op can fan out into multiple outputs in parallel.</p>
+  </div>
+  <div class="card">
+    <h4>DST register file</h4>
+    <p>The accumulator scratchpad: a small bank of FP32 (or FP16/BF16) tiles where matmul results live before being packed. Half-/full-DST sync modes pick how aggressively the packers and the FPU can overlap.</p>
+  </div>
+</div>
+
+<h3>How a "kernel" actually executes</h3>
+<p>
+A typical Tensix kernel is three parallel TRISC programs, all reading from a small <code>cfg</code>-register layout and a few shared mailboxes:
+</p>
+<pre>TRISC0 (unpack)   loop:  unpack_tile_a()   unpack_tile_b()   signal(MATH)
+TRISC1 (math)     loop:  wait(UNPACK)      matmul()          signal(PACK)
+TRISC2 (pack)     loop:  wait(MATH)        pack_tile()       signal(WRITER)
+BRISC/NCRISC      loop:  noc_async_read()  noc_async_write() handle CB ptrs</pre>
+<p>
+Synchronisation is done via small hardware mailboxes (the <code>sync</code> module in the emulator) and via L1 semaphores that NoC atomics target. The <em>circular buffer</em>
+(CB) abstraction in tt-metal layers cleanly on top: producers reserve pages, consumers wait for pages, the NoC overlay can poke pointers when remote writes land.
+</p>
+
+<div class="tip"><b>Mental model.</b> A Tensix tile is a tiny dataflow machine bolted onto a NoC port. Five RV32s compose a stream from L1, through the Tensix engines, back to L1, and then off to another tile. There is no cache hierarchy hiding anything — every byte motion is software-visible.</div>
+
+<!-- ============================================================== -->
+<h2 id="dram"><span class="num">05</span>DRAM tile — the GDDR6 edge</h2>
+
+<p>
+There are <strong>24 DRAM tiles</strong> on a full Blackhole, exposing <strong>32 GiB of GDDR6</strong>. The trick is that the same 4 GiB chunk of GDDR6 is exposed by
+<em>three</em> DRAM tiles in parallel — so each 4 GiB region has 3 entry points on the NoC. That lets compute consume bandwidth from three sides at once,
+which is how Blackhole reaches usable memory bandwidth without a single monolithic memory controller bottleneck.
+</p>
+
+<p>Inside a DRAM tile:</p>
+<ul>
+  <li>The <b>NIU's data path</b> is wired straight to the GDDR6 channel — a NoC read on this tile's address space is, mechanically, a GDDR6 read.</li>
+  <li>One small <b>"baby" RISC-V core</b> + a small piece of L1, used for management, init, and bookkeeping (not for customer compute).</li>
+  <li>Two NIUs (one per NoC), as everywhere else.</li>
+</ul>
+
+<p>
+Harvested products (e.g. p100) disable some DRAM tiles, leaving 21 of 24 active and 28 of 32 GiB usable.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="l2cpu"><span class="num">06</span>L2CPU tile — the on-chip Linux box</h2>
+
+<p>
+This is the most surprising tile to a newcomer: Blackhole has a real CPU complex on-die. <strong>Four L2CPU tiles</strong>, each one a coherent cluster of
+<strong>four SiFive x280</strong> RV64 cores. That's <b>16 application-class CPUs</b> sharing the same NoC as everything else.
+</p>
+
+<table>
+  <tbody>
+    <tr><td>x280 cores per L2CPU tile</td><td class="num">4</td></tr>
+    <tr><td>L2CPU tiles per chip</td><td class="num">4</td></tr>
+    <tr><td>L1-D cache (per core)</td><td class="num">32 KiB</td></tr>
+    <tr><td>L1-I cache (per core)</td><td class="num">32 KiB</td></tr>
+    <tr><td>L2 cache (per core)</td><td class="num">128 KiB</td></tr>
+    <tr><td>L3 cache (per cluster)</td><td class="num">2 MiB</td></tr>
+    <tr><td>NoC TLB windows (per tile)</td><td class="num">256</td></tr>
+  </tbody>
+</table>
+
+<p>
+Each cluster has a <em>direct connection</em> to one neighbouring DRAM tile (CPUs 0-3 to D5; 4-7 to D6; 8-15 share D7), which means it sees a fixed slice
+of GDDR6 in its address space without going over the NoC. For everywhere else — other DRAM tiles, Tensix L1, even host memory through PCIe — the L2CPU
+provides <strong>256 TLB windows</strong> mapping NoC regions into the x280's virtual address space. So the x280s can <code>mmap</code> any tile in the chip, run
+Linux, and treat the whole NoC as memory.
+</p>
+
+<div class="note"><b>Watch out:</b> due to a hardware bug in A0, once an x280 hart leaves reset, you can't put it back into reset without resetting the whole ASIC (<code>tt-smi -r</code>). Software typically uses RNMIs to "park" harts instead.</div>
+
+<p>
+The <code>tt-bh-linux</code> repo in this tree is the in-tree Linux that boots on those cores. It's a normal-ish RISC-V kernel that happens to live inside an AI accelerator.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="eth"><span class="num">07</span>Ethernet tile — the chip-to-chip fabric</h2>
+
+<p>
+Blackhole's Ethernet tiles are not just I/O — they are a primary scale-out mechanism. Each Ethernet tile drives one <strong>400 GbE</strong> link, with the
+full MAC / PCS / PHY on-die. A pair of tiles ganged together feeds one <b>QSFP-DD</b> port, giving 800 GbE per port. The p150 board exposes 4 ports
+(8 connected tiles), with 4 more Ethernet tiles present but not wired to a connector.
+</p>
+
+<p>Inside an Ethernet tile:</p>
+<ul>
+  <li><b>512 KiB of L1</b> SRAM (smaller than a Tensix's, but same flavour: plain RAM on the NoC).</li>
+  <li><b>2 baby RISC-V cores</b> — yes, both run customer code; the second one is new in Blackhole.</li>
+  <li><b>2 NIUs + 1 NoC overlay</b>, exactly like a Tensix.</li>
+  <li>1× <b>400 GbE link</b>, surfaced as 3 TX queues + 3 RX queues with substantial header insertion/removal logic in front of them.</li>
+</ul>
+
+<p>
+This makes Ethernet tiles look, from a programmer's point of view, very much like a "Tensix tile that has 400 GbE instead of a Tensix coprocessor." The
+tt-metal fabric layer (and projects like <code>tt-metal-lite-fabric</code>) treats them exactly that way, weaving multi-chip dataflow programs across NoCs of multiple
+Blackholes as if it were one bigger NoC.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="pcie"><span class="num">08</span>PCIe tile — the host bridge</h2>
+
+<p>
+Two <strong>PCIe 5.0 x16</strong> tiles. Both are physically present on every Blackhole; only one is connected at a time on shipping boards. The PCIe tile is
+where customer code typically <em>arrives</em>: the host driver writes a kernel image into a Tensix's L1 over PCIe, then writes a launch-message that the
+RISC-V cores polling on it pick up.
+</p>
+
+<h3>The conversion stack</h3>
+<p>The PCIe tile is a two-way protocol gateway:</p>
+<table>
+  <thead><tr><th>Direction</th><th>Stack</th></tr></thead>
+  <tbody>
+    <tr><td>Host → device</td><td>PCIe TLP &nbsp;→&nbsp; AXI &nbsp;→&nbsp; NoC packet</td></tr>
+    <tr><td>Device → host</td><td>NoC packet &nbsp;→&nbsp; one-or-more AXI &nbsp;→&nbsp; one-or-more PCIe TLPs (split for max-payload + 4 K boundaries)</td></tr>
+  </tbody>
+</table>
+<p>
+A NoC request larger than 128 B will likely become multiple PCIe TLPs on the wire; that's a normal thing to budget for when sizing transfers. The
+device-to-host address space was extended to <b>64 bits</b> in Blackhole (it was 32 in Wormhole), and there's a fresh 32 GiB region in BAR4 on the host
+side — both make zero-copy host-side IO substantially nicer.
+</p>
+
+<div class="note"><b>Trivia:</b> only <code>PCIe 1</code> has a direct wire to the ARC tile. So if your boot sequence is going through <code>PCIe 0</code> (as on p150), reaching ARC from the host actually goes <em>through</em> the NoC. That's transparent in software, but it shows up if you're staring at an ILA trace.</div>
+
+<!-- ============================================================== -->
+<h2 id="arc"><span class="num">09</span>ARC &amp; Security tiles</h2>
+
+<p>
+Two small management tiles round out the chip. They don't run customer kernels.
+</p>
+
+<div class="cols">
+  <div class="card">
+    <h4>ARC tile</h4>
+    <p>Houses the chip's management processor (an ARC core, hence the name). It owns power and thermal management, clock/voltage trim, telemetry, and the boot state machine. Tools like <code>tt-smi</code> and <code>luwen</code> talk to it. The Zephyr-based firmware that runs here lives under <code>tt-zephyr-platforms</code>.</p>
+  </div>
+  <div class="card">
+    <h4>Security tile</h4>
+    <p>Root-of-trust + secure boot anchor. Holds keys, performs early image verification, and gates the rest of the chip from coming up if the chain of trust fails. Customers typically don't interact with it directly.</p>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="emu"><span class="num">10</span>The emulator — and why its layout mirrors the chip</h2>
+
+<p>
+That brings us to <code>blackhole-py/emu</code>. It's a <em>cycle-structured</em> emulator: not a perfect-cycle-accurate model of every transistor, but a model where
+work is decomposed into the same units as the silicon and advanced through the same kinds of phases. That makes its source tree a useful map of the chip:
+</p>
+
+<table>
+  <thead><tr><th>Emulator file / package</th><th>What it models</th></tr></thead>
+  <tbody>
+    <tr><td><code>device.py</code></td><td>The whole Blackhole ASIC — instantiates all tiles at their NoC coordinates and wires them up.</td></tr>
+    <tr><td><code>noc.py</code></td><td>The two NoCs: routers, NIUs, request/response packets, atomics, virtual channels, deadlock-aware paths.</td></tr>
+    <tr><td><code>memory.py</code></td><td>Address spaces and L1 banks (Tensix L1, DRAM L1, GDDR6 channels).</td></tr>
+    <tr><td><code>rv.py</code></td><td>RV32 / RV64 baby-RISC-V (and x280-shaped) execution, with the Blackhole instruction extensions.</td></tr>
+    <tr><td><code>tensix_core.py</code></td><td>The Tensix coprocessor as an aggregate — wraps the units below into one issue/commit pipeline.</td></tr>
+    <tr><td><code>tensix/unpack.py</code></td><td>The two unpackers and their format conversions.</td></tr>
+    <tr><td><code>tensix/math.py</code></td><td>Matrix unit (FPU) + vector unit (SFPU) functional + timing models.</td></tr>
+    <tr><td><code>tensix/thcon.py</code></td><td>Scalar unit / thread controller (ThCon) — incl. the L1 atomic engine.</td></tr>
+    <tr><td><code>tensix/pack.py</code></td><td>The four packers + DST → L1 paths.</td></tr>
+    <tr><td><code>tensix/mover.py</code></td><td>The dedicated L1↔engine movers (the "TDMA"-flavoured paths).</td></tr>
+    <tr><td><code>tensix/sync.py</code></td><td>Mailboxes &amp; semaphores between the three TRISCs.</td></tr>
+    <tr><td><code>tensix/tdma.py</code></td><td>TDMA-RISC: the small DMA helper exposed to the baby cores.</td></tr>
+    <tr><td><code>tensix/cfg_layout.py</code></td><td>The Tensix configuration register file (the "knobs" that select formats, tile shapes, sync modes, ...).</td></tr>
+    <tr><td><code>tensix/formats.py</code></td><td>BF16 / FP16 / FP32 / BFP8 / BFP4 etc. encode/decode.</td></tr>
+    <tr><td><code>timing.py</code></td><td>The cycle-phase scheduler.</td></tr>
+    <tr><td><code>isa.py</code></td><td>Decode metadata for both RISC-V and Tensix instructions.</td></tr>
+  </tbody>
+</table>
+
+<h3>The four phases per cycle</h3>
+<p>The emulator advances through four ordered phases each cycle, as documented in <code>emu/README.md</code>:</p>
+
+<div class="figure">
+<svg viewBox="0 0 1080 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="200" fill="#11151a"/>
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a4adba"/>
+    </marker>
+  </defs>
+  <g font-family="ui-monospace, monospace" font-size="12">
+    <g>
+      <rect x="40"  y="60" width="220" height="80" rx="10" fill="#1a1430" stroke="#8c5cff"/>
+      <text x="56" y="86" font-weight="700" fill="#e7ecf2">1 · COMPLETE</text>
+      <text x="56" y="108" fill="#a4adba">events whose scheduled</text>
+      <text x="56" y="124" fill="#a4adba">cycle has arrived run</text>
+    </g>
+    <g>
+      <rect x="290" y="60" width="220" height="80" rx="10" fill="#0e2436" stroke="#6cc7ff"/>
+      <text x="306" y="86" font-weight="700" fill="#e7ecf2">2 · COMMIT</text>
+      <text x="306" y="108" fill="#a4adba">completed ops publish</text>
+      <text x="306" y="124" fill="#a4adba">externally visible state</text>
+    </g>
+    <g>
+      <rect x="540" y="60" width="220" height="80" rx="10" fill="#102a1c" stroke="#7ee787"/>
+      <text x="556" y="86" font-weight="700" fill="#e7ecf2">3 · ISSUE</text>
+      <text x="556" y="108" fill="#a4adba">cores &amp; threads issue</text>
+      <text x="556" y="124" fill="#a4adba">new work into units</text>
+    </g>
+    <g>
+      <rect x="790" y="60" width="220" height="80" rx="10" fill="#2a230a" stroke="#ffd166"/>
+      <text x="806" y="86" font-weight="700" fill="#e7ecf2">4 · LATCH</text>
+      <text x="806" y="108" fill="#a4adba">objects transfer</text>
+      <text x="806" y="124" fill="#a4adba">next-cycle state into now</text>
+    </g>
+  </g>
+  <line x1="260" y1="100" x2="290" y2="100" stroke="#a4adba" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="510" y1="100" x2="540" y2="100" stroke="#a4adba" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="760" y1="100" x2="790" y2="100" stroke="#a4adba" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <path d="M900,150 C900,180 60,180 60,150" stroke="#a4adba" stroke-width="1.5" fill="none" marker-end="url(#arr3)"/>
+  <text x="500" y="178" font-family="ui-monospace, monospace" font-size="11" fill="#6b7383">next cycle</text>
+</svg>
+<div class="figcap">The phase split prevents same-cycle observation bugs that pure functional models accidentally allow.</div>
+</div>
+
+<p>
+The crucial property: <strong>instructions don't directly mutate architectural state when decoded.</strong> They issue <em>operations</em> into units, which reserve resources in
+a scoreboard and schedule a completion cycle. Real silicon couldn't possibly let one component peek at another's same-cycle write — and Python loop order would
+quietly let it, if the model were a single big <code>step()</code>. The phase split forces the model to honour the same visibility rules as the chip.
+</p>
+
+<h3>Why this matters for understanding the chip</h3>
+<p>
+The emulator is a <em>second source of truth</em> alongside the ISA documentation. When a question like "can a packer commit while the math unit is mid-flight?"
+or "does an unpacker's L1 read get reordered around an NoC write to the same address?" comes up, the answer is encoded both in the spec and in the way the
+units' <code>commit</code> and <code>issue</code> phases are wired together in the emulator. They should agree; if they don't, that's a bug in one of them.
+</p>
+
+<p>
+The same shape applies to the bigger picture. <code>device.py</code> instantiates each tile kind from this post — Tensix, DRAM, L2CPU, Ethernet, PCIe, ARC,
+Security — and connects their NIUs through the <code>noc.py</code> torus. If you can read the constructor of <code>device.py</code>, you can read the chip.
+</p>
+
+<hr>
+
+<h3>Appendix · further reading inside this tree</h3>
+<ul>
+  <li><code>tt-isa-documentation/BlackholeA0/README.md</code> — authoritative tile inventory.</li>
+  <li><code>tt-isa-documentation/BlackholeA0/TensixTile/</code> — full Tensix programmer's manual, including L1, baby-RISC-V memory map, mailboxes, debug timestamper.</li>
+  <li><code>tt-isa-documentation/BlackholeA0/NoC/</code> — atomics, overlay, routers, virtual channels.</li>
+  <li><code>tt-isa-documentation/BlackholeA0/L2CPUTile/</code> — caches, TLB windows, RNMIs, reset caveats.</li>
+  <li><code>tt-isa-documentation/BlackholeA0/EthernetTile/</code> — TX/RX queues, header logic.</li>
+  <li><code>tt-isa-documentation/BlackholeA0/PCIExpressTile/</code> — host-to-device and device-to-host block diagrams.</li>
+  <li><code>blackhole-py/emu/</code> — the cycle-structured emulator described above.</li>
+  <li><code>tt-metal/</code> — the runtime &amp; programming model atop all of this.</li>
+  <li><code>tt-zephyr-platforms/</code> — Zephyr firmware running on ARC.</li>
+  <li><code>tt-bh-linux/</code> — Linux running on the L2CPU x280 cores.</li>
+</ul>
+
+<p class="byline">Written as a personal reference. Corrections welcome — the chip is genuinely interesting and the documentation is good; this is just one viewing angle on it.</p>
+
+</main>
+</body>
+</html>
