@@ -1,0 +1,314 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1540" viewBox="0 0 1920 1540" role="img" aria-labelledby="title desc">
+  <title id="title">matmul_peak compute sync graph B2</title>
+  <desc id="desc">Compute-focused synchronization graph for examples/matmul_peak.py 5000x5000x5000 showing per-core setup, CB state transitions, MOP and replay programming, SrcA/SrcB staging, DST ping-pong, and output publication.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L11,4.5 L0,9 z" fill="#24313d"/>
+    </marker>
+    <marker id="warnArrow" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L11,4.5 L0,9 z" fill="#a6421b"/>
+    </marker>
+    <style>
+      .bg { fill: #fbfaf7; }
+      .title { font: 700 28px Arial, sans-serif; fill: #17202a; }
+      .subtitle { font: 14px Arial, sans-serif; fill: #52606d; }
+      .lane { fill: #ffffff; stroke: #d9dde2; stroke-width: 1; }
+      .laneLabel { font: 700 14px Arial, sans-serif; fill: #24313d; }
+      .phase { font: 700 12px Arial, sans-serif; fill: #45515d; letter-spacing: 0; }
+      .box { rx: 7; ry: 7; stroke-width: 1.4; }
+      .producer { fill: #fff2d6; stroke: #b98b2f; }
+      .cb { fill: #e8f7f5; stroke: #3a958c; }
+      .trisc0 { fill: #e8f2ff; stroke: #4f80b6; }
+      .trisc1 { fill: #f0eefe; stroke: #7d6cc7; }
+      .trisc2 { fill: #edf7ee; stroke: #5d995f; }
+      .state { fill: #ffffff; stroke: #8794a3; }
+      .warn { fill: #fff0e9; stroke: #c76638; }
+      .boxTitle { font: 700 13px Arial, sans-serif; fill: #17202a; }
+      .boxText { font: 11.2px Arial, sans-serif; fill: #283542; }
+      .small { font: 10.5px Arial, sans-serif; fill: #53606b; }
+      .tag { font: 700 10px Arial, sans-serif; fill: #ffffff; }
+      .line { stroke: #24313d; stroke-width: 2.1; fill: none; marker-end: url(#arrow); }
+      .thin { stroke: #24313d; stroke-width: 1.4; fill: none; marker-end: url(#arrow); }
+      .cbLine { stroke: #1f6f64; stroke-width: 2.2; fill: none; stroke-dasharray: 7 5; marker-end: url(#arrow); }
+      .semLine { stroke: #7058a8; stroke-width: 2.0; fill: none; stroke-dasharray: 4 4; marker-end: url(#arrow); }
+      .cfgLine { stroke: #4f80b6; stroke-width: 1.8; fill: none; stroke-dasharray: 3 5; marker-end: url(#arrow); }
+      .dstLine { stroke: #b15f00; stroke-width: 2.1; fill: none; stroke-dasharray: 10 5; marker-end: url(#arrow); }
+      .warnLine { stroke: #a6421b; stroke-width: 2.2; fill: none; stroke-dasharray: 8 5; marker-end: url(#warnArrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1920" height="1540"/>
+  <text class="title" x="40" y="42">matmul_peak compute sync graph B2</text>
+  <text class="subtitle" x="40" y="68">Compute-focused zoom for the tuned 5000 cube: padded 5120x5184x6144, 118 program cores, per_core_m/n=16, in0_block_w=6, num_blocks=27, CB0/1=192 pages, CB16/24=256 pages.</text>
+
+  <rect class="state" x="36" y="90" width="1848" height="36" rx="8"/>
+  <text class="phase" x="72" y="113">PRODUCERS FILL CBS</text>
+  <text class="phase" x="280" y="113">TRISC SETUP / CONFIG</text>
+  <text class="phase" x="565" y="113">K BLOCK LOOP</text>
+  <text class="phase" x="770" y="113">SUBBLOCK INNER LOOP</text>
+  <text class="phase" x="1110" y="113">MATH / DST PING-PONG</text>
+  <text class="phase" x="1395" y="113">PACK TO CB24/CB16</text>
+  <text class="phase" x="1650" y="113">OUTPUT DRAIN</text>
+
+  <line x1="250" y1="90" x2="250" y2="1435" stroke="#d9dde2"/>
+  <line x1="535" y1="90" x2="535" y2="1435" stroke="#d9dde2"/>
+  <line x1="740" y1="90" x2="740" y2="1435" stroke="#d9dde2"/>
+  <line x1="1075" y1="90" x2="1075" y2="1435" stroke="#d9dde2"/>
+  <line x1="1365" y1="90" x2="1365" y2="1435" stroke="#d9dde2"/>
+  <line x1="1605" y1="90" x2="1605" y2="1435" stroke="#d9dde2"/>
+
+  <rect class="lane" x="36" y="148" width="1848" height="90" rx="8"/>
+  <rect class="lane" x="36" y="252" width="1848" height="100" rx="8"/>
+  <rect class="lane" x="36" y="366" width="1848" height="104" rx="8"/>
+  <rect class="lane" x="36" y="484" width="1848" height="188" rx="8"/>
+  <rect class="lane" x="36" y="686" width="1848" height="120" rx="8"/>
+  <rect class="lane" x="36" y="820" width="1848" height="196" rx="8"/>
+  <rect class="lane" x="36" y="1030" width="1848" height="214" rx="8"/>
+  <rect class="lane" x="36" y="1258" width="1848" height="104" rx="8"/>
+  <rect class="lane" x="36" y="1376" width="1848" height="66" rx="8"/>
+
+  <text class="laneLabel" x="52" y="174">BRISC: A producer</text>
+  <text class="laneLabel" x="52" y="278">NCRISC: B producer / C consumer</text>
+  <text class="laneLabel" x="52" y="392">CB state</text>
+  <text class="laneLabel" x="52" y="510">TRISC0 unpack</text>
+  <text class="laneLabel" x="52" y="712">SrcA / SrcB</text>
+  <text class="laneLabel" x="52" y="846">TRISC1 math / DST</text>
+  <text class="laneLabel" x="52" y="1056">TRISC2 pack</text>
+  <text class="laneLabel" x="52" y="1284">Output drain</text>
+  <text class="laneLabel" x="52" y="1402">Legend / hot spots</text>
+
+  <g id="producers">
+    <rect class="box producer" x="78" y="187" width="184" height="38"/>
+    <text class="boxTitle" x="92" y="203">A tiles arrive</text>
+    <text class="boxText" x="92" y="219">reserve CB0, DRAM read, mcast</text>
+    <rect class="box producer" x="78" y="292" width="184" height="38"/>
+    <text class="boxTitle" x="92" y="308">B tiles arrive</text>
+    <text class="boxText" x="92" y="324">reserve CB1, DRAM read, mcast</text>
+  </g>
+
+  <g id="cb-state">
+    <rect class="box cb" x="286" y="383" width="160" height="46"/>
+    <text class="boxTitle" x="300" y="401">CB0 A full</text>
+    <text class="boxText" x="300" y="417">received += in0_block</text>
+    <rect class="box cb" x="286" y="433" width="160" height="46"/>
+    <text class="boxTitle" x="300" y="451">CB1 B full</text>
+    <text class="boxText" x="300" y="467">received += in1_block</text>
+
+    <rect class="box cb" x="1278" y="386" width="168" height="46"/>
+    <text class="boxTitle" x="1292" y="404">CB24 partial full</text>
+    <text class="boxText" x="1292" y="420">TRISC2 publishes received</text>
+    <rect class="box cb" x="1486" y="386" width="168" height="46"/>
+    <text class="boxTitle" x="1500" y="404">CB16 final full</text>
+    <text class="boxText" x="1500" y="420">visible after pack STOREREG</text>
+
+    <rect class="box cb" x="1668" y="390" width="156" height="40"/>
+    <text class="boxTitle" x="1682" y="407">CB16 empty</text>
+    <text class="boxText" x="1682" y="423">NCRISC pops after write barrier</text>
+  </g>
+
+  <g id="trisc0">
+    <rect class="box trisc0" x="286" y="518" width="206" height="122"/>
+    <text class="boxTitle" x="300" y="536">TRISC0 setup</text>
+    <text class="boxText" x="300" y="554">reset cfg_state_id</text>
+    <text class="boxText" x="300" y="570">UNPACK_CFG_CONTEXT=0</text>
+    <text class="boxText" x="300" y="586">THCON tile descriptors</text>
+    <text class="boxText" x="300" y="602">face dim table, SRCA_SET=4</text>
+    <text class="boxText" x="300" y="618">MOP_CFG0 = UNPACK_AB</text>
+    <text class="boxText" x="300" y="634">UNPACK_SYNC sem init max=2</text>
+
+    <rect class="box trisc0" x="558" y="520" width="188" height="66"/>
+    <text class="boxTitle" x="572" y="538">wait inputs</text>
+    <text class="boxText" x="572" y="556">cb_wait_front(CB0)</text>
+    <text class="boxText" x="572" y="572">cb_wait_front(CB1)</text>
+
+    <rect class="box trisc0" x="790" y="520" width="252" height="126"/>
+    <text class="boxTitle" x="804" y="538">unpack subblock</text>
+    <text class="boxText" x="804" y="556">read CB0/CB1 ptrs + tile size</text>
+    <text class="boxText" x="804" y="572">write THCON_SEC1/0_REG3 base</text>
+    <text class="boxText" x="804" y="588">PC_UNPACK_SYNC = 0</text>
+    <text class="boxText" x="804" y="604">TTSTALLWAIT(TRISC_CFG)</text>
+    <text class="boxText" x="804" y="620">emit SRCB or SRCA replay load</text>
+    <text class="boxText" x="804" y="636">TTMOP(0, out_subblock-1, ctxmask)</text>
+
+    <rect class="box trisc0" x="1110" y="532" width="176" height="72"/>
+    <text class="boxTitle" x="1124" y="550">context ping-pong</text>
+    <text class="boxText" x="1124" y="568">UNPACK_CFG_CONTEXT ^= 1</text>
+    <text class="boxText" x="1124" y="584">THCON context 0/1 alternates</text>
+    <text class="boxText" x="1124" y="600">TTSEMGET(UNPACK_SYNC)</text>
+
+    <rect class="box trisc0" x="1342" y="520" width="198" height="86"/>
+    <text class="boxTitle" x="1356" y="538">release inputs</text>
+    <text class="boxText" x="1356" y="556">after unpack ordered</text>
+    <text class="boxText" x="1356" y="572">cb_pop_front(CB0/1)</text>
+    <text class="boxText" x="1356" y="588">tensix_ack=True</text>
+    <text class="boxText" x="1356" y="604">acked via TTSTOREREG</text>
+
+    <rect class="box trisc0" x="1342" y="614" width="198" height="44"/>
+    <text class="boxTitle" x="1356" y="632">partial reload path</text>
+    <text class="boxText" x="1356" y="648">CB24 wait/pop before next K</text>
+  </g>
+
+  <g id="src">
+    <rect class="box state" x="800" y="718" width="180" height="54"/>
+    <text class="boxTitle" x="814" y="736">SrcA / SrcB valid</text>
+    <text class="boxText" x="814" y="754">unpack feeds FPU sources</text>
+    <text class="boxText" x="814" y="768">SRCA/SRCB advanced by RWC</text>
+    <rect class="box state" x="1036" y="718" width="204" height="54"/>
+    <text class="boxTitle" x="1050" y="736">source reuse choice</text>
+    <text class="boxText" x="1050" y="754">reuse A when out_w >= out_h</text>
+    <text class="boxText" x="1050" y="768">else column-major B reuse</text>
+  </g>
+
+  <g id="trisc1">
+    <rect class="box trisc1" x="286" y="862" width="226" height="124"/>
+    <text class="boxTitle" x="300" y="880">TRISC1 setup</text>
+    <text class="boxText" x="300" y="898">TLM src/dst formats</text>
+    <text class="boxText" x="300" y="914">addrmods AB/DST/Bias</text>
+    <text class="boxText" x="300" y="930">load replay slot 16</text>
+    <text class="boxText" x="300" y="946">MATH_PACK sem init</text>
+    <text class="boxText" x="300" y="962">DEST_ACCESS_CFG + offset=0</text>
+    <text class="boxText" x="300" y="978">direct backend: no math MOP use</text>
+
+    <rect class="box trisc1" x="558" y="878" width="190" height="58"/>
+    <text class="boxTitle" x="572" y="896">wait pack room</text>
+    <text class="boxText" x="572" y="914">TTSEMWAIT(MATH_PACK)</text>
+    <text class="boxText" x="572" y="930">STALL_ON_MAX</text>
+
+    <rect class="box trisc1" x="800" y="854" width="258" height="126"/>
+    <text class="boxTitle" x="814" y="872">math tile loop</text>
+    <text class="boxText" x="814" y="890">for inner in in0_block_w=6</text>
+    <text class="boxText" x="814" y="906">for each output tile in subblock</text>
+    <text class="boxText" x="814" y="922">write DST target cfg to INSTRN_BUF</text>
+    <text class="boxText" x="814" y="938">direct: TTREPLAY(slot16) x fidelity</text>
+    <text class="boxText" x="814" y="954">non-direct: TTMOP(1,0,0) path</text>
+    <text class="boxText" x="814" y="970">TTSETRWC advances SrcA/SrcB/DST</text>
+
+    <rect class="box trisc1" x="1110" y="846" width="218" height="150"/>
+    <text class="boxTitle" x="1124" y="864">DST ping-pong</text>
+    <text class="boxText" x="1124" y="882">dest_offset_id selects half</text>
+    <text class="boxText" x="1124" y="898">math writes DST half N</text>
+    <text class="boxText" x="1124" y="914">TTSTALLWAIT(MATH|SFPU)</text>
+    <text class="boxText" x="1124" y="930">TTSEMPOST(MATH_PACK)</text>
+    <text class="boxText" x="1124" y="946">tensix_sync(TRISC1)</text>
+    <text class="boxText" x="1124" y="962">dest_offset_id ^= 1</text>
+    <text class="boxText" x="1124" y="978">pack reads prior half</text>
+
+    <rect class="box warn" x="1384" y="872" width="204" height="82"/>
+    <text class="boxTitle" x="1398" y="890">optional reload math</text>
+    <text class="boxText" x="1398" y="908">for final/reload blocks</text>
+    <text class="boxText" x="1398" y="924">switch reload format</text>
+    <text class="boxText" x="1398" y="940">reload MOP or fp32 sem path</text>
+  </g>
+
+  <g id="trisc2">
+    <rect class="box trisc2" x="286" y="1076" width="234" height="138"/>
+    <text class="boxTitle" x="300" y="1094">TRISC2 setup</text>
+    <text class="boxText" x="300" y="1112">pack local format tables</text>
+    <text class="boxText" x="300" y="1128">dest addr DMA regs</text>
+    <text class="boxText" x="300" y="1144">ALU/pack config RMW</text>
+    <text class="boxText" x="300" y="1160">tile header from CB16</text>
+    <text class="boxText" x="300" y="1176">MOP_CFG2 = PACK_MOP</text>
+    <text class="boxText" x="300" y="1192">PCK_DEST_RD_CTRL, strides</text>
+    <text class="boxText" x="300" y="1208">dest_offset_id=0</text>
+
+    <rect class="box trisc2" x="558" y="1090" width="188" height="58"/>
+    <text class="boxTitle" x="572" y="1108">wait math data</text>
+    <text class="boxText" x="572" y="1126">TTSEMWAIT(MATH_PACK)</text>
+    <text class="boxText" x="572" y="1142">STALL_ON_ZERO</text>
+
+    <rect class="box trisc2" x="800" y="1068" width="246" height="134"/>
+    <text class="boxTitle" x="814" y="1086">pack tile to CB</text>
+    <text class="boxText" x="814" y="1104">cb_reserve_back(CB24/16)</text>
+    <text class="boxText" x="814" y="1120">read dest_offset_id</text>
+    <text class="boxText" x="814" y="1136">write PACK DST_TARGET_CFG</text>
+    <text class="boxText" x="814" y="1152">per tile: SETADC/DMAREG</text>
+    <text class="boxText" x="814" y="1168">TTWRCFG L1_Dest_addr</text>
+    <text class="boxText" x="814" y="1184">TTMOP(1,0,0) + sync</text>
+    <text class="boxText" x="814" y="1200">TTSETADCZW reset</text>
+
+    <rect class="box trisc2" x="1110" y="1078" width="216" height="100"/>
+    <text class="boxTitle" x="1124" y="1096">publish packed pages</text>
+    <text class="boxText" x="1124" y="1114">cb_push_back(CB24/16)</text>
+    <text class="boxText" x="1124" y="1130">tensix_received=True</text>
+    <text class="boxText" x="1124" y="1146">received via TTSTOREREG</text>
+    <text class="boxText" x="1124" y="1162">ordered behind pack FIFO</text>
+    <text class="boxText" x="1124" y="1178">then TTSEMGET(MATH_PACK)</text>
+
+    <rect class="box trisc2" x="1384" y="1068" width="220" height="134"/>
+    <text class="boxTitle" x="1398" y="1086">partial/final split</text>
+    <text class="boxText" x="1398" y="1104">blocks 0..25: pack partials</text>
+    <text class="boxText" x="1398" y="1120">CB24, maybe L1-acc reconfig</text>
+    <text class="boxText" x="1398" y="1136">block 26: switch output fmt</text>
+    <text class="boxText" x="1398" y="1152">pack final to CB16</text>
+    <text class="boxText" x="1398" y="1168">ZEROACC selected half</text>
+    <text class="boxText" x="1398" y="1184">dest_offset_id ^= 1</text>
+  </g>
+
+  <g id="output">
+    <rect class="box producer" x="1628" y="1290" width="210" height="58"/>
+    <text class="boxTitle" x="1642" y="1308">NCRISC output</text>
+    <text class="boxText" x="1642" y="1326">cb_wait_front(CB16)</text>
+    <text class="boxText" x="1642" y="1342">noc writes, barrier, pop CB16</text>
+  </g>
+
+  <g id="edges">
+    <path class="cbLine" d="M262 207 C310 225 322 300 348 383"/>
+    <path class="cbLine" d="M262 312 C322 328 342 374 366 433"/>
+    <path class="cbLine" d="M446 406 C500 438 548 498 558 548"/>
+    <path class="cbLine" d="M446 456 C510 470 548 514 558 568"/>
+
+    <path class="line" d="M492 580 H558"/>
+    <path class="line" d="M746 552 H790"/>
+    <path class="cfgLine" d="M1042 584 H1110"/>
+    <path class="line" d="M986 646 C972 682 944 704 920 718"/>
+    <path class="line" d="M1240 745 C1290 785 1330 826 1360 872"/>
+
+    <path class="semLine" d="M1210 996 C1148 1020 710 1028 650 1090"/>
+    <path class="line" d="M748 906 H800"/>
+    <path class="line" d="M1058 920 H1110"/>
+    <path class="dstLine" d="M1219 996 V1078"/>
+    <path class="dstLine" d="M1218 1178 C1212 1218 1198 1256 1112 1268 C1020 1282 956 1232 938 1202"/>
+    <path class="line" d="M746 1118 H800"/>
+    <path class="line" d="M1046 1136 H1110"/>
+
+    <path class="cbLine" d="M1326 1126 C1360 1110 1372 1086 1384 1086"/>
+    <path class="cbLine" d="M1494 1068 C1460 808 1438 690 1441 614"/>
+    <path class="cbLine" d="M1494 1202 C1500 1240 1515 1300 1628 1318"/>
+    <path class="cbLine" d="M1446 409 H1486"/>
+    <path class="cbLine" d="M1654 409 H1668"/>
+    <path class="cbLine" d="M1838 1320 C1858 1130 1818 520 1824 430"/>
+
+    <path class="cbLine" d="M1540 560 C1600 520 1640 500 1746 430"/>
+    <path class="semLine" d="M1328 930 C1390 962 1418 1010 1440 1068"/>
+    <path class="cfgLine" d="M520 1144 C610 1198 704 1200 800 1184"/>
+    <path class="cfgLine" d="M512 924 C602 954 704 952 800 938"/>
+    <path class="warnLine" d="M1540 635 C1640 700 1722 935 1732 1290"/>
+  </g>
+
+  <g id="hotspots">
+    <rect class="box warn" x="305" y="1396" width="296" height="32"/>
+    <text class="boxText" x="320" y="1417">CB reserve/backpressure: producers and TRISC2 stall on acked pages</text>
+    <rect class="box warn" x="646" y="1396" width="330" height="32"/>
+    <text class="boxText" x="661" y="1417">Deferred tokens are correctness-critical: no eager received/acked stores</text>
+    <rect class="box warn" x="1020" y="1396" width="278" height="32"/>
+    <text class="boxText" x="1035" y="1417">DST ping-pong is shared state: math posts half, pack consumes half</text>
+    <rect class="box warn" x="1344" y="1396" width="310" height="32"/>
+    <text class="boxText" x="1359" y="1417">5000 profile hot: NCRISC/BRISC receive waits + TRISC2 pack body</text>
+  </g>
+
+  <g id="legend">
+    <rect class="state" x="40" y="1460" width="1840" height="48" rx="8"/>
+    <line x1="70" y1="1484" x2="118" y2="1484" class="line"/>
+    <text class="small" x="128" y="1488">control/data dependency</text>
+    <line x1="310" y1="1484" x2="358" y2="1484" class="cbLine"/>
+    <text class="small" x="368" y="1488">CB full/empty token movement</text>
+    <line x1="590" y1="1484" x2="638" y2="1484" class="semLine"/>
+    <text class="small" x="648" y="1488">Tensix semaphore wait/post/get</text>
+    <line x1="895" y1="1484" x2="943" y2="1484" class="cfgLine"/>
+    <text class="small" x="953" y="1488">config/register programming</text>
+    <line x1="1200" y1="1484" x2="1248" y2="1484" class="dstLine"/>
+    <text class="small" x="1258" y="1488">DST / src ping-pong state</text>
+    <line x1="1490" y1="1484" x2="1538" y2="1484" class="warnLine"/>
+    <text class="small" x="1548" y="1488">hot or failure-sensitive edge</text>
+  </g>
+</svg>
