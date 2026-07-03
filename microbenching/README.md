@@ -1,32 +1,37 @@
 # Blackhole Microbenching
 
-This directory archives the Blackhole microbenchmark scripts and their
-checked-in reports. It was moved out of `blackhole-py` so the driver repo can
-stay focused on library code and runnable examples.
+Archive of the Blackhole microbenchmark scripts and checked-in reports that
+used to live in `blackhole-py/microbenching/`.
 
-## Layout
+## Start Here
 
-| Path | Contents |
-|------|----------|
-| `status.md` | Current pass/fail/timing summary and known quarantined benches |
-| `docs/noc/` | NoC, DRAM endpoint, multicast, arbitration, and scheduler reports |
-| `docs/tensix/` | Tensix pack/unpack, DRISC DMA, and related reports |
-| `tensix/` | Tensix/SFPU/DRISC benchmark scripts |
-| `noc/` | NoC, multicast, endpoint, and topology benchmark scripts |
-| `riscv/` | RISC-V core, memory, contention, and clone-model scripts |
-| `matmul/` | Matmul, GEMV, attention-stage, and decode bridge scripts |
-| `models/` | Host-side summary and NoC scheduling/modeling utilities |
+| Need | File |
+|------|------|
+| Current pass/fail state, missing primitives, quarantined benches | `status.md` |
+| Raw report index | `docs/README.md` |
+| NoC guide from zero | `docs/noc/reading-guide.md` |
+| NoC/DRAM/multicast report data | `docs/noc/` |
+| Tensix/DRISC/pack-unpack report data | `docs/tensix/` |
+| Scripts | `tensix/`, `noc/`, `riscv/`, `matmul/`, `models/` |
+
+## Archive Shape
+
+- `tensix/`: SFPU, DRISC, pack/unpack, semaphore/CB, and instruction-issue benches.
+- `noc/`: NoC, multicast, endpoint, topology, and coordinate probes.
+- `riscv/`: RISC-V core, memory, contention, clone-model, and visibility probes.
+- `matmul/`: GEMV, attention-stage, decode bridge, and shape/model scripts.
+- `models/`: host-side summaries, NoC scheduler model, and workload expansion tools.
+- `docs/`: raw markdown reports and hardware logs.
 
 ## Running
 
-The scripts are archived with their original `blackhole-py/microbenching/...`
-path assumptions. To run or revive one, copy the relevant files or this whole
-directory back into a `blackhole-py` checkout and run it there, for example:
+The scripts are preserved with their original `blackhole-py/microbenching/...`
+path assumptions. To run one, copy the needed files or this whole directory
+back into a `blackhole-py` checkout and run it there:
 
 ```bash
 PYTHONPATH=. python3 microbenching/tensix/microbench_sfpu_transcendental.py --iters 4096
 ```
 
-Report-writing defaults append under `microbenching/docs/` after the directory
-has been copied back. Use `--no-report` for smoke runs that should not modify
-checked-in reports.
+Use `--no-report` for smoke runs unless you intentionally want to append to the
+archived markdown reports.

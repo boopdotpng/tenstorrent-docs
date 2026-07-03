@@ -89,8 +89,9 @@ Compact router for this repo so you can find answers fast without reading everyt
 ### Microbenching
 - **"What microbenchmarks currently run or fail?"** -> `microbenching/status.md`
 - **"How do I run or update microbench scripts?"** -> `microbenching/README.md`
-- **"NoC benchmark reports/results?"** -> `microbenching/docs/noc/`
-- **"Tensix/DRISC/SFPU benchmark reports/results?"** -> `microbenching/docs/tensix/`
+- **"Explain NoC microbenching from zero?"** -> `microbenching/docs/noc/reading-guide.md`
+- **"NoC benchmark reports/results?"** -> `microbenching/docs/README.md`
+- **"Tensix/DRISC/SFPU benchmark reports/results?"** -> `microbenching/docs/README.md`
 - **"Microbench source scripts?"** -> `microbenching/{tensix,noc,riscv,matmul,models}/`
 
 ### Multi-chip

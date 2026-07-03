@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title desc">
+  <title id="title">NoC microbench measurement loop</title>
+  <desc id="desc">The host launches a kernel, the source core seeds buffers and issues NoC commands, the target observes payload or marker data, and the host reads result records.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#475569"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .host { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.5; }
+      .src { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.5; }
+      .dst { fill: #ecfdf5; stroke: #047857; stroke-width: 1.5; }
+      .out { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.5; }
+      .label { font: 14px sans-serif; fill: #0f172a; font-weight: 600; }
+      .small { font: 12px sans-serif; fill: #334155; }
+      .flow { stroke: #475569; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="bg" width="760" height="300" rx="12"/>
+  <text class="label" x="32" y="34">How a NoC microbench measures</text>
+
+  <rect class="host" x="36" y="92" width="130" height="104" rx="8"/>
+  <text class="label" x="82" y="120">Host</text>
+  <text class="small" x="58" y="148">launch kernel</text>
+  <text class="small" x="58" y="168">read results</text>
+
+  <rect class="src" x="216" y="72" width="154" height="144" rx="8"/>
+  <text class="label" x="255" y="100">Source core</text>
+  <text class="small" x="238" y="126">seed L1 buffers</text>
+  <text class="small" x="238" y="146">read wall clock</text>
+  <text class="small" x="238" y="166">issue packets</text>
+  <text class="small" x="238" y="186">wait counters</text>
+
+  <rect class="dst" x="420" y="72" width="154" height="144" rx="8"/>
+  <text class="label" x="458" y="100">Target side</text>
+  <text class="small" x="442" y="126">receive payload</text>
+  <text class="small" x="442" y="146">observe marker</text>
+  <text class="small" x="442" y="166">timestamp if needed</text>
+  <text class="small" x="442" y="186">validate sentinel</text>
+
+  <rect class="out" x="624" y="92" width="100" height="104" rx="8"/>
+  <text class="label" x="650" y="120">Report</text>
+  <text class="small" x="644" y="148">cycles</text>
+  <text class="small" x="644" y="168">B/cyc</text>
+
+  <path class="flow" d="M166 144 H210"/>
+  <path class="flow" d="M370 144 H414"/>
+  <path class="flow" d="M574 144 H618"/>
+  <path class="flow" d="M674 196 C674 252 98 252 98 202"/>
+</svg>

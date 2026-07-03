@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title desc">
+  <title id="title">NoC transaction anatomy</title>
+  <desc id="desc">A source RISC programs NIU registers, fires NOC_CMD_CTRL, traffic crosses the NoC, and completion is observed through counters or returned data.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#475569"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #334155; stroke-width: 1.5; }
+      .niu { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.5; }
+      .target { fill: #ecfdf5; stroke: #047857; stroke-width: 1.5; }
+      .label { font: 14px sans-serif; fill: #0f172a; font-weight: 600; }
+      .small { font: 12px sans-serif; fill: #334155; }
+      .flow { stroke: #475569; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .resp { stroke: #d97706; stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="bg" width="760" height="300" rx="12"/>
+  <text class="label" x="32" y="34">NoC transaction anatomy</text>
+
+  <rect class="box" x="40" y="78" width="150" height="128" rx="8"/>
+  <text class="label" x="66" y="104">Source tile</text>
+  <text class="small" x="62" y="130">BRISC/NCRISC</text>
+  <text class="small" x="62" y="150">chooses addr, bytes,</text>
+  <text class="small" x="62" y="168">NoC id, flags</text>
+
+  <rect class="niu" x="238" y="62" width="170" height="160" rx="8"/>
+  <text class="label" x="284" y="88">NIU command</text>
+  <text class="small" x="258" y="116">NOC_TARG_ADDR_*</text>
+  <text class="small" x="258" y="136">NOC_RET_ADDR_*</text>
+  <text class="small" x="258" y="156">NOC_CTRL flags</text>
+  <text class="small" x="258" y="176">NOC_AT_LEN_BE</text>
+  <text class="small" x="258" y="196">NOC_CMD_CTRL = 1</text>
+
+  <rect class="box" x="456" y="92" width="110" height="100" rx="8"/>
+  <text class="label" x="486" y="120">NoC</text>
+  <text class="small" x="476" y="146">packets</text>
+  <text class="small" x="476" y="164">VCs</text>
+
+  <rect class="target" x="610" y="64" width="120" height="160" rx="8"/>
+  <text class="label" x="644" y="92">Target</text>
+  <text class="small" x="632" y="120">L1 or DRAM</text>
+  <text class="small" x="632" y="140">read/write</text>
+  <text class="small" x="632" y="160">atomic</text>
+  <text class="small" x="632" y="180">multicast</text>
+
+  <path class="flow" d="M190 142 H232"/>
+  <path class="flow" d="M408 142 H450"/>
+  <path class="flow" d="M566 142 H604"/>
+  <path class="resp" d="M668 224 C668 272 326 272 326 228"/>
+  <text class="small" x="358" y="264">read response / non-posted ACK / counter change</text>
+</svg>

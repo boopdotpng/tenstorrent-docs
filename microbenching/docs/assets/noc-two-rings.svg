@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+  <title id="title">Blackhole dual NoC mental model</title>
+  <desc id="desc">A small tile grid showing NoC0 routing right and down, and NoC1 routing left and up, with wraparound edges.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#d97706"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .tile { fill: #ffffff; stroke: #334155; stroke-width: 1.5; }
+      .dram { fill: #ecfdf5; stroke: #047857; stroke-width: 1.5; }
+      .label { font: 14px sans-serif; fill: #0f172a; }
+      .small { font: 12px sans-serif; fill: #334155; }
+      .noc0 { stroke: #2563eb; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+      .noc1 { stroke: #d97706; stroke-width: 3; fill: none; marker-end: url(#arrow-orange); }
+      .wrap { stroke-dasharray: 6 5; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="760" height="360" rx="12"/>
+  <text class="label" x="32" y="34">Dual NoC model</text>
+  <text class="small" x="32" y="56">NoC0 generally routes right/down. NoC1 generally routes left/up. Edges wrap like a torus.</text>
+
+  <g transform="translate(96 96)">
+    <rect class="dram" x="-64" y="36" width="48" height="48" rx="6"/>
+    <text class="small" x="-58" y="65">DRAM</text>
+    <rect class="dram" x="336" y="36" width="48" height="48" rx="6"/>
+    <text class="small" x="342" y="65">DRAM</text>
+
+    <g>
+      <rect class="tile" x="0" y="0" width="64" height="48" rx="6"/>
+      <rect class="tile" x="96" y="0" width="64" height="48" rx="6"/>
+      <rect class="tile" x="192" y="0" width="64" height="48" rx="6"/>
+      <rect class="tile" x="288" y="0" width="64" height="48" rx="6"/>
+      <rect class="tile" x="0" y="84" width="64" height="48" rx="6"/>
+      <rect class="tile" x="96" y="84" width="64" height="48" rx="6"/>
+      <rect class="tile" x="192" y="84" width="64" height="48" rx="6"/>
+      <rect class="tile" x="288" y="84" width="64" height="48" rx="6"/>
+      <rect class="tile" x="0" y="168" width="64" height="48" rx="6"/>
+      <rect class="tile" x="96" y="168" width="64" height="48" rx="6"/>
+      <rect class="tile" x="192" y="168" width="64" height="48" rx="6"/>
+      <rect class="tile" x="288" y="168" width="64" height="48" rx="6"/>
+    </g>
+    <text class="small" x="17" y="29">T</text>
+    <text class="small" x="113" y="29">T</text>
+    <text class="small" x="209" y="29">T</text>
+    <text class="small" x="305" y="29">T</text>
+    <text class="small" x="17" y="113">T</text>
+    <text class="small" x="113" y="113">T</text>
+    <text class="small" x="209" y="113">T</text>
+    <text class="small" x="305" y="113">T</text>
+    <text class="small" x="17" y="197">T</text>
+    <text class="small" x="113" y="197">T</text>
+    <text class="small" x="209" y="197">T</text>
+    <text class="small" x="305" y="197">T</text>
+
+    <path class="noc0" d="M64 24 H94"/>
+    <path class="noc0" d="M160 24 H190"/>
+    <path class="noc0" d="M256 24 H286"/>
+    <path class="noc0" d="M320 48 V82"/>
+    <path class="noc0" d="M320 132 V166"/>
+    <path class="noc0 wrap" d="M352 192 C432 192 432 24 360 24"/>
+
+    <path class="noc1" d="M288 108 H258"/>
+    <path class="noc1" d="M192 108 H162"/>
+    <path class="noc1" d="M96 108 H66"/>
+    <path class="noc1" d="M32 84 V50"/>
+    <path class="noc1 wrap" d="M0 192 C-72 192 -72 24 -8 24"/>
+  </g>
+
+  <g transform="translate(540 106)">
+    <line class="noc0" x1="0" y1="0" x2="70" y2="0"/>
+    <text class="small" x="88" y="5">NoC0: right/down</text>
+    <line class="noc1" x1="70" y1="46" x2="0" y2="46"/>
+    <text class="small" x="88" y="51">NoC1: left/up</text>
+    <rect class="tile" x="0" y="92" width="38" height="28" rx="5"/>
+    <text class="small" x="50" y="112">Tensix tile</text>
+    <rect class="dram" x="0" y="138" width="38" height="28" rx="5"/>
+    <text class="small" x="50" y="158">DRAM endpoint</text>
+  </g>
+</svg>
