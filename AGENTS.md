@@ -14,6 +14,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - `build-and-dispatch/`: kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging tools/env vars.
 - `firmware/`: firmware architecture, upload sequence, build system.
 - `matmul/`: matrix multiply (ELI5 intros through peak performance analysis and gap analysis).
+- `microbenching/`: hardware microbenchmark scripts, run reports, status, and small host-side models.
 - `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
 - `llk-sfpi/`: LLK/SFPI instruction-level compute pipeline, ISA analysis, FPU fidelity, kernel fusion.
 - `disasms/`: raw RISC-V objdump artifacts.
@@ -84,6 +85,13 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Matmul peak performance / porting?"** -> `matmul/matmul-peak-block-lifecycle-and-blackhole-py-port.md`
 - **"FP32 vs FP16 accumulation?"** -> `matmul/fp32-accumulation.md`
 - **"Matmul benchmark results?"** -> `matmul/matmul-peak-sweep.md`
+
+### Microbenching
+- **"What microbenchmarks currently run or fail?"** -> `microbenching/status.md`
+- **"How do I run or update microbench scripts?"** -> `microbenching/README.md`
+- **"NoC benchmark reports/results?"** -> `microbenching/docs/noc/`
+- **"Tensix/DRISC/SFPU benchmark reports/results?"** -> `microbenching/docs/tensix/`
+- **"Microbench source scripts?"** -> `microbenching/{tensix,noc,riscv,matmul,models}/`
 
 ### Multi-chip
 - **"Multi-host / remote cards / training walkthrough?"** -> `multi-chip/multi-host-and-remote-card-architecture.md`

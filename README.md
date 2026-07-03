@@ -32,6 +32,7 @@ After the intro, go deeper:
 | `build-and-dispatch/` | Kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging |
 | `firmware/` | Firmware architecture, upload sequence, build system |
 | `matmul/` | Matrix multiply deep dives (ELI5 through peak performance) |
+| `microbenching/` | Hardware microbenchmark scripts, reports, status, and host-side models |
 | `multi-chip/` | Multi-host architecture, TT-Fabric, topology, data-parallel training |
 | `llk-sfpi/` | ISA analysis, instruction usage statistics |
 | `disasms/` | Raw RISC-V objdump artifacts |
