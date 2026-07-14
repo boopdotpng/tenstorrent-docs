@@ -22,6 +22,7 @@ After the intro, go deeper:
 6. `build-and-dispatch/dispatch-modes.md` — how they get to the chip (fast vs slow dispatch)
 7. `firmware/firmware-upload-sequence.md` — how the chip boots (reset, firmware segments, GO messages)
 8. `multi-chip/multi-host-and-remote-card-architecture.md` — scaling beyond one card
+9. `tinygrad/internals-guide.md` — tinygrad's UOp compiler and the Blackhole backend seam
 
 ## Folder layout
 
@@ -36,6 +37,7 @@ After the intro, go deeper:
 | `multi-chip/` | Multi-host architecture, TT-Fabric, topology, data-parallel training |
 | `llk-sfpi/` | ISA analysis, instruction usage statistics |
 | `disasms/` | Raw RISC-V objdump artifacts |
+| `tinygrad/` | Current tinygrad lowering/UOp/matcher references, Blackhole mapping, patch projects, and historical probes |
 | `human/` | Human-authored notes (read-only) |
 
 ## Related repos

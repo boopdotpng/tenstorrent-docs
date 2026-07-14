@@ -2,6 +2,12 @@
 
 Date: 2026-05-31
 
+> **Historical design note.** The model target and Blackhole strategy remain
+> useful, but tinygrad's July 2026 codegen rewrite removed `GEP`, vector dtypes,
+> and several stages referenced below. Use
+> [the current internals guide](internals-guide.md) and
+> [Blackhole mapping](blackhole-backend-map.md) for the current compiler seam.
+
 This note collects the current plan for using a small modern Llama-family model as
 the end-to-end target for a Tenstorrent Blackhole backend. The intended path is:
 

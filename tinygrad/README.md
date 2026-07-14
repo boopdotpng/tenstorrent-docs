@@ -1,7 +1,27 @@
-# tinygrad Notes
+# tinygrad internals and Blackhole notes
 
-This folder holds tinygrad-specific notes and UOp lowering probes for exploring where a Tenstorrent backend should hook into tinygrad.
+These notes explain current tinygrad internals and explore where a
+Tenstorrent Blackhole backend should hook into the compiler.
 
-- `tinygrad-uop-arange-slice-sum-stages.md`: stage-by-stage walkthrough for `Tensor.arange(100)[45:55].sum()`.
-- `llama3-blackhole-backend-plan.md`: end-to-end Llama 3.2 1B target plan for `blackhole-py` primitives and a future tinygrad/Blackhole integration hook.
-- `uop-probes/`: broader probe corpus covering movement, elementwise ops, reductions, matmul, conv/pool, memory effects, and attention/LLM patterns.
+Start here:
+
+- [`internals-guide.md`](internals-guide.md): Tensor-method DAG through
+  callify, rangeify, scheduling, codegen, and the current linearizer; also the
+  ShapeTracker migration and present compiler rough edges.
+- [`uops-reference.md`](uops-reference.md): all 82 current `Ops`, grouped and
+  explained by compiler phase.
+- [`pattern-matchers-reference.md`](pattern-matchers-reference.md): exhaustive
+  production matcher inventory and purpose, with HCQ2/test scopes separated.
+- [`blackhole-backend-map.md`](blackhole-backend-map.md): how compiler stages
+  and UOps map to P100A/P150 programs, tiles, cores, CBs, NoC, and runtime.
+- [`patch-projects.md`](patch-projects.md): a learning and contribution ladder
+  from compiler probes through bounded tinygrad patches and backend milestones.
+
+Historical material:
+
+- [`tinygrad-uop-arange-slice-sum-stages.md`](tinygrad-uop-arange-slice-sum-stages.md):
+  May 2026 stage trace for `Tensor.arange(100)[45:55].sum()`.
+- [`uop-probes/`](uop-probes/README.md): pre-July probe corpus covering
+  movement, elementwise, reductions, matmul, conv/pool, effects, and LLM graphs.
+- [`llama3-blackhole-backend-plan.md`](llama3-blackhole-backend-plan.md):
+  Llama 3.2 1B target plan; compiler-stage details are partly historical.

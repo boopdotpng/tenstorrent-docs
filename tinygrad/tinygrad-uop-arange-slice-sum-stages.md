@@ -2,6 +2,13 @@
 
 Date: 2026-05-20
 
+> **Historical compiler trace.** This capture predates tinygrad's July 2026
+> shape-based codegen rewrite. It intentionally contains the then-current
+> `GEP`, vector-dtype, and old reduction/expansion stages; those are not present
+> at the revision documented in
+> [the current internals guide](internals-guide.md). Do not use this page as the
+> current pass order.
+
 Expression:
 
 ```python

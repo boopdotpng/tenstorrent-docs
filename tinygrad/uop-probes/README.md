@@ -1,5 +1,11 @@
 # tinygrad UOp Probe Corpus
 
+> **Historical compiler traces.** These probes were captured before tinygrad's
+> July 2026 shape-based codegen rewrite. They preserve useful evidence about the
+> earlier compiler, including `GEP`, vector dtypes, and old reduction/expansion
+> stages, but they are not dumps from current master. Start with the
+> [current internals guide](../internals-guide.md) for today's pipeline.
+
 This directory collects small, human-readable UOp lowering probes for evaluating where a Tenstorrent backend should hook into tinygrad.
 
 The goal is to compare stages that still preserve program intent against stages that have already become GPU-style address math, scalarized lanes, or renderer-ready linear UOps.

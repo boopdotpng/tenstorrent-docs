@@ -18,6 +18,8 @@ Compact router for this repo so you can find answers fast without reading everyt
 - `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
 - `llk-sfpi/`: LLK/SFPI instruction-level compute pipeline, ISA analysis, FPU fidelity, kernel fusion.
 - `disasms/`: raw RISC-V objdump artifacts.
+- `tinygrad/`: current compiler internals, UOps, matchers, Blackhole mapping,
+  patch projects, and historical lowering probes.
 - `human/`: human-authored notes (read-only).
 
 ## Guardrail
@@ -97,6 +99,15 @@ Compact router for this repo so you can find answers fast without reading everyt
 ### Multi-chip
 - **"Multi-host / remote cards / training walkthrough?"** -> `multi-chip/multi-host-and-remote-card-architecture.md`
 - **"TT-Fabric / topology / routing?"** -> `multi-chip/fabric-and-topology-internals.md`
+
+### tinygrad internals and backend work
+- **"How does a Tensor expression lower to code?"** -> `tinygrad/internals-guide.md`
+- **"What are all current UOps?"** -> `tinygrad/uops-reference.md`
+- **"What does every PatternMatcher do?"** -> `tinygrad/pattern-matchers-reference.md`
+- **"How was ShapeTracker removed / what replaced it?"** -> `tinygrad/internals-guide.md`
+- **"Where should a Blackhole backend hook in?"** -> `tinygrad/blackhole-backend-map.md`
+- **"What tinygrad project or patch should I try?"** -> `tinygrad/patch-projects.md`
+- **"Need concrete old UOp stage dumps?"** -> `tinygrad/uop-probes/README.md` (historical, pre-July 2026)
 
 ### Raw artifacts
 - **"Need raw instruction dumps?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`
