@@ -1,0 +1,36 @@
+# Tinygrad raw UOp dump
+# {"artifact": "10_callified_call", "description": "CALL wrapper, inner shaped SINK, and normalized ABI parameters; renderer neutral.", "node_count": 23, "op_counts": {"AFTER": 2, "BUFFER": 3, "CALL": 1, "CONST": 4, "PARAM": 3, "REDUCE": 2, "RESHAPE": 3, "SINK": 1, "STACK": 2, "STORE": 2}, "root_op": "CALL", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), None, False, False), src=(
+  UOp(Ops.SINK, dtypes.void, arg=None, src=(
+    UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+      x2:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+          x4:=UOp(Ops.CONST, dtypes.weakint, arg=4, src=()),)),
+        x5:=UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+          x4,
+          UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),)),)),
+      UOp(Ops.STORE, dtypes.void, arg=None, src=(
+        x2,
+        UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (1,)), src=(
+          x9:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+              x11:=UOp(Ops.CONST, dtypes.weakint, arg=256, src=()),)),
+            UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+              x4,
+              UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),)),)),)),)),)),
+    UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+      x15:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+          x4,)),
+        x5,)),
+      UOp(Ops.STORE, dtypes.void, arg=None, src=(
+        x15,
+        UOp(Ops.REDUCE, dtypes.float, arg=(Ops.MAX, (1,)), src=(
+          x9,)),)),)),)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(7, device='PYTHON'), src=(
+    x4,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(6, device='PYTHON'), src=(
+    x11,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(8, device='PYTHON'), src=(
+    x4,)),))

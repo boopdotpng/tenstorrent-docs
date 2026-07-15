@@ -1,0 +1,143 @@
+# Tinygrad raw UOp dump
+# {"artifact": "70_kernel_00_python_linear", "description": "Python-renderer linear UOps; deliberately too late for tile/core/CB planning.", "node_count": 57, "op_counts": {"ADD": 1, "AFTER": 5, "BARRIER": 1, "BUFFER": 3, "CMPEQ": 1, "CONST": 8, "END": 2, "ENDIF": 1, "IF": 1, "INDEX": 10, "LINEAR": 1, "LOAD": 6, "MULACC": 3, "PARAM": 2, "RANGE": 2, "RECIPROCAL": 1, "SINK": 1, "SPECIAL": 1, "SQRT": 1, "STORE": 6}, "root_op": "LINEAR", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.LINEAR, dtypes.void, arg=None, src=(
+  x0:=UOp(Ops.CONST, dtypes.int, arg=1, src=()),
+  x1:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+    x0,)),
+  x2:=UOp(Ops.CONST, dtypes.int, arg=2048, src=()),
+  x3:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+    x2,)),
+  x4:=UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(0, addrspace=AddrSpace.REG), src=(
+    x0,)),
+  x5:=UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(1, addrspace=AddrSpace.REG), src=(
+    x0,)),
+  x6:=UOp(Ops.CONST, dtypes.int, arg=16, src=()),
+  x7:=UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(0, addrspace=AddrSpace.LOCAL), src=(
+    x6,)),
+  x8:=UOp(Ops.SPECIAL, dtypes.int, arg='lidx0', src=(
+    x6,)),
+  x9:=UOp(Ops.CONST, dtypes.int, arg=0, src=()),
+  x10:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x4,
+    x9,)),
+  x11:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(0.0), src=()),
+  x12:=UOp(Ops.CONST, dtypes.int, arg=128, src=()),
+  x13:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x10,
+    x11,)),
+  x14:=UOp(Ops.RANGE, dtypes.int, arg=(0, AxisType.REDUCE), src=(
+    x12,)),
+  x15:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x8,
+    x12,
+    x14,)),
+  x16:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x3,
+    x15,)),
+  x17:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x16,)),
+  x18:=UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x4,
+    x13,
+    x14,)),
+  x19:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x18,
+    x9,)),
+  x20:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x19,)),
+  x21:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x17,
+    x17,
+    x20,)),
+  x22:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x10,
+    x21,)),
+  x23:=UOp(Ops.END, dtypes.void, arg=None, src=(
+    x22,
+    x14,)),
+  x24:=UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x4,
+    x23,)),
+  x25:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x24,
+    x9,)),
+  x26:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x25,)),
+  x27:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x7,
+    x8,)),
+  x28:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x27,
+    x26,)),
+  x29:=UOp(Ops.BARRIER, dtypes.void, arg=None, src=(
+    x28,)),
+  x30:=UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x7,
+    x29,)),
+  x31:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x5,
+    x9,)),
+  x32:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x31,
+    x11,)),
+  x33:=UOp(Ops.RANGE, dtypes.int, arg=(101, AxisType.REDUCE), src=(
+    x6,
+    x23,)),
+  x34:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x30,
+    x33,)),
+  x35:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x34,)),
+  x36:=UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x5,
+    x32,
+    x33,)),
+  x37:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x36,
+    x9,)),
+  x38:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x37,)),
+  x39:=UOp(Ops.ADD, dtypes.float, arg=None, src=(
+    x38,
+    x35,)),
+  x40:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x31,
+    x39,)),
+  x41:=UOp(Ops.END, dtypes.void, arg=None, src=(
+    x40,
+    x33,)),
+  x42:=UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x5,
+    x41,)),
+  x43:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x42,
+    x9,)),
+  x44:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x43,)),
+  x45:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x1,
+    x9,)),
+  x46:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1e-05), src=()),
+  x47:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(0.00048828125), src=()),
+  x48:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x44,
+    x47,
+    x46,)),
+  x49:=UOp(Ops.SQRT, dtypes.float, arg=None, src=(
+    x48,)),
+  x50:=UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+    x49,)),
+  x51:=UOp(Ops.CMPEQ, dtypes.bool, arg=None, src=(
+    x8,
+    x9,)),
+  x52:=UOp(Ops.IF, dtypes.void, arg=None, src=(
+    x51,
+    x45,)),
+  x53:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x45,
+    x50,)),
+  UOp(Ops.ENDIF, dtypes.void, arg=None, src=(
+    x52,)),
+  UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[91m16\x1b[0m\x1b[90m_\x1b[0m\x1b[31m128\x1b[0m\x1b[90m\x1b[0m', axis_types=(), dont_use_locals=False, applied_opts=(Opt(op=OptOps.GROUPTOP, axis=0, arg=16),), opts_to_apply=None, estimates=None, beam=0), tag=1, src=(
+    x53,)),))

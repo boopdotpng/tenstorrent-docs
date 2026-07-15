@@ -1,0 +1,37 @@
+# Tinygrad raw UOp dump
+# {"artifact": "00_shaped_sink", "description": "Finished Tensor graph before callify; renderer neutral.", "node_count": 23, "op_counts": {"ADD": 1, "BUFFER": 2, "CONST": 4, "EXPAND": 1, "MUL": 4, "RECIPROCAL": 2, "REDUCE": 1, "RESHAPE": 4, "SINK": 1, "SQRT": 1, "STACK": 2}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=None, src=(
+  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    UOp(Ops.MUL, dtypes.float, arg=None, src=(
+      x2:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+        UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(36, device='PYTHON'), src=(
+          x4:=UOp(Ops.CONST, dtypes.weakint, arg=2048, src=()),)),
+        x5:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+          x6:=UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),
+          x6,
+          x4,)),)),
+      UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+        UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+          UOp(Ops.SQRT, dtypes.float, arg=None, src=(
+            UOp(Ops.ADD, dtypes.float, arg=None, src=(
+              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (2,)), src=(
+                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                    x2,
+                    x2,)),)),
+                UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                    UOp(Ops.CONST, dtypes.float, arg=ConstFloat(2048.0), src=()),
+                    x17:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                      x6,
+                      x6,
+                      x6,)),)),)),)),
+              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1e-05), src=()),
+                x17,)),)),)),)),
+        x5,)),)),
+    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+      UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(37, device='PYTHON'), src=(
+        x4,)),
+      x5,)),)),))

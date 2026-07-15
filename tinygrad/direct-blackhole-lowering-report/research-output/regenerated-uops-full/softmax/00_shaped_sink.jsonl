@@ -1,0 +1,26 @@
+{"arg": "256", "dtype": "dtypes.weakint", "id": 0, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(30, device='PYTHON')", "dtype": "dtypes.float", "id": 1, "op": "BUFFER", "shape": ["256"], "src": [0], "tag": "None"}
+{"arg": "2", "dtype": "dtypes.weakint", "id": 2, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "128", "dtype": "dtypes.weakint", "id": 3, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 4, "op": "STACK", "shape": ["2"], "src": [2, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 5, "op": "RESHAPE", "shape": ["2", "128"], "src": [1, 4], "tag": "None"}
+{"arg": "(Ops.MAX, (1,))", "dtype": "dtypes.float", "id": 6, "op": "REDUCE", "shape": ["2", "1"], "src": [5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 7, "op": "DETACH", "shape": ["2", "1"], "src": [6], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 8, "op": "EXPAND", "shape": ["2", "128"], "src": [7, 4], "tag": "None"}
+{"arg": "ConstFloat(-1.0)", "dtype": "dtypes.float", "id": 9, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "1", "dtype": "dtypes.weakint", "id": 10, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 11, "op": "STACK", "shape": ["2"], "src": [10, 10], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 12, "op": "RESHAPE", "shape": ["1", "1"], "src": [9, 11], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 13, "op": "EXPAND", "shape": ["2", "128"], "src": [12, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 14, "op": "MUL", "shape": ["2", "128"], "src": [8, 13], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 15, "op": "ADD", "shape": ["2", "128"], "src": [5, 14], "tag": "None"}
+{"arg": "ConstFloat(1.4426950408889634)", "dtype": "dtypes.float", "id": 16, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 17, "op": "RESHAPE", "shape": ["1", "1"], "src": [16, 11], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 18, "op": "EXPAND", "shape": ["2", "128"], "src": [17, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 19, "op": "MUL", "shape": ["2", "128"], "src": [15, 18], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 20, "op": "EXP2", "shape": ["2", "128"], "src": [19], "tag": "None"}
+{"arg": "(Ops.ADD, (1,))", "dtype": "dtypes.float", "id": 21, "op": "REDUCE", "shape": ["2", "1"], "src": [20], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 22, "op": "RECIPROCAL", "shape": ["2", "1"], "src": [21], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 23, "op": "EXPAND", "shape": ["2", "128"], "src": [22, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 24, "op": "MUL", "shape": ["2", "128"], "src": [20, 23], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 25, "op": "SINK", "shape": null, "src": [24], "tag": "None"}

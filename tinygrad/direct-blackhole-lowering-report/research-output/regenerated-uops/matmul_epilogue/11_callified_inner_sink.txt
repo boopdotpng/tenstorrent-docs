@@ -1,0 +1,61 @@
+# Tinygrad raw UOp dump
+# {"artifact": "11_callified_inner_sink", "description": "The shaped inner SINK proposed as the direct TT lowerer input.", "node_count": 35, "op_counts": {"ADD": 1, "AFTER": 1, "CMPLT": 1, "CONST": 5, "EXPAND": 2, "MUL": 1, "PARAM": 4, "PERMUTE": 1, "REDUCE": 1, "RESHAPE": 8, "SINK": 1, "STACK": 7, "STORE": 1, "WHERE": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=None, src=(
+  UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x1:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+      UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+        x3:=UOp(Ops.CONST, dtypes.weakint, arg=128, src=()),)),
+      x4:=UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+        x5:=UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),
+        x3,)),)),
+    UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      x1,
+      UOp(Ops.WHERE, dtypes.float, arg=None, src=(
+        UOp(Ops.CMPLT, dtypes.bool, arg=None, src=(
+          x9:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+              UOp(Ops.CONST, dtypes.float, arg=ConstFloat(0.0), src=()),
+              UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                x5,
+                x5,)),)),
+            x4,)),
+          x13:=UOp(Ops.ADD, dtypes.float, arg=None, src=(
+            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+              UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (2,)), src=(
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+                          x21:=UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),)),
+                        UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                          x5,
+                          x21,)),)),
+                      UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                        x5,
+                        x5,
+                        x21,)),)),
+                    UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                      x5,
+                      x3,
+                      x21,)),)),
+                  UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+                          UOp(Ops.CONST, dtypes.weakint, arg=8192, src=()),)),
+                        UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                          x21,
+                          x3,)),)),
+                      UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                        x5,
+                        x21,
+                        x3,)),)),)),)),)),
+              x4,)),
+            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+              UOp(Ops.PARAM, dtypes.float, arg=ParamArg(3, device='PYTHON'), src=(
+                x3,)),
+              x4,)),)),)),
+        x13,
+        x9,)),)),)),))

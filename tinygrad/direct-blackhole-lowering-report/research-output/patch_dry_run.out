@@ -1,0 +1,8 @@
+$ patch --dry-run -p1 < research-output/architecture_hook.diff
+checking file tinygrad/tinygrad/schedule/__init__.py
+checking file tinygrad/tinygrad/schedule/backend.py
+checking file tinygrad/test/unit/test_backend_graph_lowerer.py
+
+$ (cd blackhole-py-rewrite && patch --dry-run -p1 < ../research-output/first_patch.diff)
+checking file program.py
+checking file tests/test_program_bind.py

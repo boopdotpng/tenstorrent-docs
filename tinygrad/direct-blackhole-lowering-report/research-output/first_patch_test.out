@@ -1,0 +1,9 @@
+test_rejects_foreign_param_with_same_name (tests.test_program_bind.TestProgramBind.test_rejects_foreign_param_with_same_name) ... ok
+test_rejects_incompatible_buffer_abi (tests.test_program_bind.TestProgramBind.test_rejects_incompatible_buffer_abi) ... ok
+test_rejects_out_of_range_address (tests.test_program_bind.TestProgramBind.test_rejects_out_of_range_address) ... ok
+test_valid_binding_writes_new_address (tests.test_program_bind.TestProgramBind.test_valid_binding_writes_new_address) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK

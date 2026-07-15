@@ -1,0 +1,72 @@
+# Tinygrad raw UOp dump
+# {"artifact": "60_kernel_01_python_lowered_sink", "description": "Late Python-renderer-specific lowering; negative comparison, not a proposed TT input.", "node_count": 44, "op_counts": {"CONST": 9, "GROUP": 1, "INDEX": 9, "LOAD": 3, "MUL": 8, "MULACC": 1, "PARAM": 4, "SHL": 1, "SHRINK": 3, "SINK": 1, "SPECIAL": 2, "STACK": 1, "STORE": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='E\x1b[90m_\x1b[0m\x1b[34m16\x1b[0m\x1b[90m_\x1b[0m\x1b[36m32\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b[0m\x1b[90m\x1b[0m', axis_types=(), dont_use_locals=False, applied_opts=(Opt(op=OptOps.UPCAST, axis=0, arg=4), Opt(op=OptOps.LOCAL, axis=0, arg=32)), opts_to_apply=None, estimates=None, beam=0), tag=1, src=(
+  UOp(Ops.GROUP, dtypes.void, arg=None, src=(
+    x1:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+          x4:=UOp(Ops.CONST, dtypes.int, arg=2048, src=()),)),
+        x5:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+          UOp(Ops.SPECIAL, dtypes.int, arg='gidx0', src=(
+            UOp(Ops.CONST, dtypes.int, arg=16, src=()),)),
+          UOp(Ops.CONST, dtypes.int, arg=128, src=()),
+          UOp(Ops.SHL, dtypes.int, arg=None, src=(
+            UOp(Ops.SPECIAL, dtypes.int, arg='lidx0', src=(
+              UOp(Ops.CONST, dtypes.int, arg=32, src=()),)),
+            x12:=UOp(Ops.CONST, dtypes.int, arg=2, src=()),)),)),
+        x13:=UOp(Ops.CONST, dtypes.int, arg=4, src=()),)),
+      UOp(Ops.STACK, dtypes.float, arg=None, src=(
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              x18:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+                UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                  UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+                    x4,)),
+                  x5,
+                  x13,)),)),
+              x21:=UOp(Ops.CONST, dtypes.int, arg=0, src=()),)),
+            x22:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+              UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+                  x25:=UOp(Ops.CONST, dtypes.int, arg=1, src=()),)),
+                x21,)),)),)),
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            x27:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+              UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                UOp(Ops.PARAM, dtypes.float, arg=ParamArg(3, device='PYTHON'), src=(
+                  x4,)),
+                x5,
+                x13,)),)),
+            x21,)),)),
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              x18,
+              x25,)),
+            x22,)),
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            x27,
+            x25,)),)),
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              x18,
+              x12,)),
+            x22,)),
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            x27,
+            x12,)),)),
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              x18,
+              x41:=UOp(Ops.CONST, dtypes.int, arg=3, src=()),)),
+            x22,)),
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            x27,
+            x41,)),)),)),)),
+    x1,
+    x1,
+    x1,)),))

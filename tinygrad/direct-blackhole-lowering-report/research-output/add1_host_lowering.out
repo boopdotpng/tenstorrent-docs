@@ -1,0 +1,8 @@
+cores: ((1, 2),)
+CBs:   (CBConfig(index=0, dtype=<DType.BF16: 5>, pages=1, addr=225280), CBConfig(index=1, dtype=<DType.BF16: 5>, pages=1, addr=227328))
+params: [('src', '0x4240', '0x40'), ('dst', '0x4244', '0x840')]
+(1, 2) brisc  :  572 bytes
+(1, 2) ncrisc :  572 bytes
+(1, 2) trisc0 : 1040 bytes
+(1, 2) trisc1 :  604 bytes
+(1, 2) trisc2 :  988 bytes

@@ -1,0 +1,22 @@
+# Tinygrad raw UOp dump
+# {"artifact": "50_kernel_01_base_ast", "description": "One final scheduled call's base AST. SINKs are ordinary Tinygrad compute kernels.", "node_count": 16, "op_counts": {"CONST": 2, "END": 1, "INDEX": 4, "MUL": 2, "PARAM": 4, "RANGE": 1, "SINK": 1, "STORE": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+  UOp(Ops.END, dtypes.void, arg=None, src=(
+    UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float.ptr(2048), arg=ParamArg(0, device='PYTHON'), src=()),
+        x4:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.LOOP), src=(
+          UOp(Ops.CONST, dtypes.weakint, arg=2048, src=()),)),)),
+      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float.ptr(2048), arg=ParamArg(1, device='PYTHON'), src=()),
+            x4,)),
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float.ptr(1), arg=ParamArg(2, device='PYTHON'), src=()),
+            UOp(Ops.CONST, dtypes.weakint, arg=0, src=()),)),)),
+        UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+          UOp(Ops.PARAM, dtypes.float.ptr(2048), arg=ParamArg(3, device='PYTHON'), src=()),
+          x4,)),)),)),
+    x4,)),))

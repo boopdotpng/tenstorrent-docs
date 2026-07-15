@@ -1,0 +1,145 @@
+# Tinygrad raw UOp dump
+# {"artifact": "50_kernel_03_base_ast", "description": "One final scheduled call's base AST. SINKs are ordinary Tinygrad compute kernels.", "node_count": 87, "op_counts": {"ADD": 13, "CMPLT": 2, "CMPNE": 1, "CONST": 14, "END": 1, "INDEX": 13, "MUL": 13, "PARAM": 8, "RANGE": 4, "REDUCE": 1, "RESHAPE": 1, "SINK": 1, "STACK": 2, "STORE": 1, "WHERE": 12}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+  UOp(Ops.END, dtypes.void, arg=None, src=(
+    UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float.ptr(131072), arg=ParamArg(0, device='PYTHON'), src=()),
+        UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+          UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+            x6:=UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+              UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                UOp(Ops.PARAM, dtypes.weakint, arg=ParamArg(-1, vmin_vmax=(0, 127), name='start_pos', addrspace=AddrSpace.ALU), src=(
+                  UOp(Ops.STACK, dtypes.void, arg=None, src=()),)),
+                x10:=UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),)),
+              x11:=UOp(Ops.RANGE, dtypes.weakint, arg=(3, AxisType.LOOP), src=(
+                x10,)),)),
+            UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+              x13:=UOp(Ops.RANGE, dtypes.weakint, arg=(2, AxisType.LOOP), src=(
+                UOp(Ops.CONST, dtypes.weakint, arg=8, src=()),)),
+              UOp(Ops.CONST, dtypes.weakint, arg=8192, src=()),)),)),
+          UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+            x17:=UOp(Ops.RANGE, dtypes.weakint, arg=(1, AxisType.LOOP), src=(
+              UOp(Ops.CONST, dtypes.weakint, arg=2, src=()),)),
+            UOp(Ops.CONST, dtypes.weakint, arg=65536, src=()),)),)),)),
+      UOp(Ops.ADD, dtypes.float, arg=None, src=(
+        UOp(Ops.WHERE, dtypes.float, arg=None, src=(
+          x22:=UOp(Ops.CMPLT, dtypes.bool, arg=None, src=(
+            x17,
+            x23:=UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),)),
+          UOp(Ops.ADD, dtypes.float, arg=None, src=(
+            UOp(Ops.WHERE, dtypes.float, arg=None, src=(
+              x26:=UOp(Ops.CMPLT, dtypes.bool, arg=None, src=(
+                x11,
+                x27:=UOp(Ops.CONST, dtypes.weakint, arg=32, src=()),)),
+              UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x31:=UOp(Ops.PARAM, dtypes.float.ptr(512), arg=ParamArg(1, device='PYTHON'), src=()),
+                    UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                      x26,
+                      x33:=UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                        UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                          x13,
+                          x10,)),
+                        x11,)),
+                      x35:=UOp(Ops.CONST, dtypes.weakint, arg=Invalid, src=()),)),)),
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x37:=UOp(Ops.PARAM, dtypes.float.ptr(8192), arg=ParamArg(2, device='PYTHON'), src=()),
+                    UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                      x26,
+                      x6,
+                      x35,)),)),)),
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                    UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                      x31,
+                      UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                        x26,
+                        UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                          x33,
+                          x27,)),
+                        x35,)),)),
+                    UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                      x37,
+                      UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                        x26,
+                        UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                          x6,
+                          x27,)),
+                        x35,)),)),)),
+                  UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.0), src=()),)),)),
+              x48:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(0.0), src=()),)),
+            UOp(Ops.WHERE, dtypes.float, arg=None, src=(
+              x26,
+              x48,
+              UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x31,
+                    UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                      x54:=UOp(Ops.CMPNE, dtypes.bool, arg=None, src=(
+                        x26,
+                        UOp(Ops.CONST, dtypes.bool, arg=True, src=()),)),
+                      x33,
+                      x35,)),)),
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x37,
+                    UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                      x54,
+                      UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                        x6,
+                        x59:=UOp(Ops.CONST, dtypes.weakint, arg=-32, src=()),)),
+                      x35,)),)),)),
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x31,
+                    UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                      x54,
+                      UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                        x33,
+                        x59,)),
+                      x35,)),)),
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x37,
+                    UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                      x54,
+                      x6,
+                      x35,)),)),)),)),)),)),
+          x48,)),
+        UOp(Ops.WHERE, dtypes.float, arg=None, src=(
+          x22,
+          x48,
+          UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, ()), src=(
+            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    UOp(Ops.RESHAPE, dtypes.float.ptr(2048), arg=None, src=(
+                      UOp(Ops.PARAM, dtypes.float.ptr(2048), arg=ParamArg(3, device='PYTHON'), src=()),
+                      UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                        x23,
+                        x23,
+                        x75:=UOp(Ops.CONST, dtypes.weakint, arg=2048, src=()),)),)),
+                    x76:=UOp(Ops.CONST, dtypes.weakint, arg=0, src=()),
+                    x76,
+                    x77:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.REDUCE), src=(
+                      x75,)),)),
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    UOp(Ops.PARAM, dtypes.float.ptr(1), arg=ParamArg(4, device='PYTHON'), src=()),
+                    x76,)),)),
+                UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                  UOp(Ops.PARAM, dtypes.float.ptr(2048), arg=ParamArg(5, device='PYTHON'), src=()),
+                  x77,)),)),
+              UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                UOp(Ops.PARAM, dtypes.float.ptr(1048576), arg=ParamArg(6, device='PYTHON'), src=()),
+                UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                  UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                    x33,
+                    x75,)),
+                  x77,)),)),)),
+            x77,)),)),)),)),
+    x17,
+    x13,
+    x11,)),))

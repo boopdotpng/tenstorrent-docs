@@ -1,0 +1,11 @@
+{"arg": "256", "dtype": "dtypes.weakint", "id": 0, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(6, device='PYTHON')", "dtype": "dtypes.float", "id": 1, "op": "BUFFER", "shape": ["256"], "src": [0], "tag": "None"}
+{"arg": "4", "dtype": "dtypes.weakint", "id": 2, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "64", "dtype": "dtypes.weakint", "id": 3, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 4, "op": "STACK", "shape": ["2"], "src": [2, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 5, "op": "RESHAPE", "shape": ["4", "64"], "src": [1, 4], "tag": "None"}
+{"arg": "(Ops.ADD, (1,))", "dtype": "dtypes.float", "id": 6, "op": "REDUCE", "shape": ["4", "1"], "src": [5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 7, "op": "RESHAPE", "shape": ["4"], "src": [6, 2], "tag": "None"}
+{"arg": "(Ops.MAX, (1,))", "dtype": "dtypes.float", "id": 8, "op": "REDUCE", "shape": ["4", "1"], "src": [5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 9, "op": "RESHAPE", "shape": ["4"], "src": [8, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 10, "op": "SINK", "shape": null, "src": [7, 9], "tag": "None"}

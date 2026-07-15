@@ -1,0 +1,9 @@
+test_backend_cache_tag_separates_schedules (test.unit.test_backend_graph_lowerer.TestBackendGraphLowerer.test_backend_cache_tag_separates_schedules) ... ok
+test_default_path_is_unchanged (test.unit.test_backend_graph_lowerer.TestBackendGraphLowerer.test_default_path_is_unchanged) ... ok
+test_lowerer_receives_full_function_and_materialization_roots (test.unit.test_backend_graph_lowerer.TestBackendGraphLowerer.test_lowerer_receives_full_function_and_materialization_roots) ... ok
+test_multiple_claimants_fail_deterministically (test.unit.test_backend_graph_lowerer.TestBackendGraphLowerer.test_multiple_claimants_fail_deterministically) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.033s
+
+OK

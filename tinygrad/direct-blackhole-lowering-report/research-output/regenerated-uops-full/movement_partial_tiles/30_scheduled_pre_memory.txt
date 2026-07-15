@@ -1,0 +1,54 @@
+# Tinygrad raw UOp dump
+# {"artifact": "30_scheduled_pre_memory", "description": "Generic calls after dependency scheduling, before memory planning.", "node_count": 42, "op_counts": {"ADD": 6, "CALL": 1, "CMPLT": 1, "CMPNE": 1, "CONST": 14, "END": 1, "INDEX": 2, "LINEAR": 1, "MUL": 4, "PARAM": 4, "RANGE": 3, "SINK": 1, "STORE": 1, "WHERE": 2}, "root_op": "LINEAR", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.LINEAR, dtypes.void, arg=None, src=(
+  UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), None, False, False), src=(
+    UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+      UOp(Ops.END, dtypes.void, arg=None, src=(
+        UOp(Ops.STORE, dtypes.void, arg=None, src=(
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float.ptr(4356), arg=ParamArg(0, device='PYTHON'), src=()),
+            UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+              UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                  x9:=UOp(Ops.RANGE, dtypes.weakint, arg=(1, AxisType.LOOP), src=(
+                    UOp(Ops.CONST, dtypes.weakint, arg=66, src=()),)),
+                  x11:=UOp(Ops.CONST, dtypes.weakint, arg=33, src=()),)),
+                x12:=UOp(Ops.RANGE, dtypes.weakint, arg=(2, AxisType.LOOP), src=(
+                  x11,)),)),
+              UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                x14:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.LOOP), src=(
+                  UOp(Ops.CONST, dtypes.weakint, arg=2, src=()),)),
+                UOp(Ops.CONST, dtypes.weakint, arg=2178, src=()),)),)),)),
+          UOp(Ops.ADD, dtypes.float, arg=None, src=(
+            UOp(Ops.WHERE, dtypes.float, arg=None, src=(
+              x19:=UOp(Ops.CMPLT, dtypes.bool, arg=None, src=(
+                x9,
+                UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),)),
+              UOp(Ops.CONST, dtypes.float, arg=ConstFloat(0.0), src=()),
+              UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                UOp(Ops.PARAM, dtypes.float.ptr(4290), arg=ParamArg(1, device='PYTHON'), src=()),
+                UOp(Ops.WHERE, dtypes.weakint, arg=None, src=(
+                  UOp(Ops.CMPNE, dtypes.bool, arg=None, src=(
+                    x19,
+                    UOp(Ops.CONST, dtypes.bool, arg=True, src=()),)),
+                  UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                    UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                      UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                        UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                          x12,
+                          UOp(Ops.CONST, dtypes.weakint, arg=65, src=()),)),
+                        x9,)),
+                      UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                        x14,
+                        UOp(Ops.CONST, dtypes.weakint, arg=2145, src=()),)),)),
+                    UOp(Ops.CONST, dtypes.weakint, arg=-1, src=()),)),
+                  UOp(Ops.CONST, dtypes.weakint, arg=Invalid, src=()),)),)),)),
+            UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.0), src=()),)),)),
+        x14,
+        x9,
+        x12,)),)),
+    UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+      UOp(Ops.CONST, dtypes.weakint, arg=4356, src=()),)),
+    UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+      UOp(Ops.CONST, dtypes.weakint, arg=4290, src=()),)),)),))

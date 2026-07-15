@@ -1,0 +1,25 @@
+report: research-output/technical-report.md
+bytes: 140596
+lines: 1622
+words: 16519
+numbered sections: 13 ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+  01 line 16: Executive recommendation
+  02 line 35: Evidence/status table: implemented, planned, historical, unverified
+  03 line 61: Current architecture and the exact Tinygrad seam
+  04 line 146: Proposed end-to-end architecture and call graph
+  05 line 319: Concrete APIs and UOp-level pseudocode
+  06 line 606: Fusion legality, resource accounting, and deterministic partitioning
+  07 line 793: TTK design, ownership, and synchronization rules
+  08 line 1020: Layout, memory, and runtime strategy
+  09 line 1153: Worked lowering example: one-program RMSNorm
+  10 line 1327: Llama coverage and gap matrix
+  11 line 1361: Phased implementation and test plan
+  12 line 1475: Risks, rejected alternatives, and unresolved questions
+  13 line 1530: Smallest useful first implementation patch
+source references: 353
+unique cited files: 69
+missing cited files: 0
+invalid citation ranges: 0
+absolute path leaks: 0
+Markdown fences: 82 (balanced)
+status: PASS

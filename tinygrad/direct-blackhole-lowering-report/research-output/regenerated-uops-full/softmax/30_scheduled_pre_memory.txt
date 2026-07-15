@@ -1,0 +1,86 @@
+# Tinygrad raw UOp dump
+# {"artifact": "30_scheduled_pre_memory", "description": "Generic calls after dependency scheduling, before memory planning.", "node_count": 54, "op_counts": {"ADD": 4, "BUFFER": 2, "CALL": 3, "CONST": 5, "END": 3, "EXP2": 2, "INDEX": 7, "LINEAR": 1, "MUL": 7, "PARAM": 7, "RANGE": 4, "RECIPROCAL": 1, "REDUCE": 2, "SINK": 3, "STORE": 3}, "root_op": "LINEAR", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.LINEAR, dtypes.void, arg=None, src=(
+  UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), None, False, False), src=(
+    UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+      UOp(Ops.END, dtypes.void, arg=None, src=(
+        UOp(Ops.STORE, dtypes.void, arg=None, src=(
+          x4:=UOp(Ops.INDEX, dtypes.float.ptr(2), arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float.ptr(2), arg=ParamArg(0, device='PYTHON'), src=()),
+            x6:=UOp(Ops.RANGE, dtypes.weakint, arg=(1, AxisType.LOOP), src=(
+              x7:=UOp(Ops.CONST, dtypes.weakint, arg=2, src=()),)),)),
+          UOp(Ops.REDUCE, dtypes.float, arg=(Ops.MAX, ()), src=(
+            x9:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              x10:=UOp(Ops.PARAM, dtypes.float.ptr(256), arg=ParamArg(1, device='PYTHON'), src=()),
+              UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                  x6,
+                  x13:=UOp(Ops.CONST, dtypes.weakint, arg=128, src=()),)),
+                x14:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.REDUCE), src=(
+                  x13,)),)),)),
+            x14,)),)),
+        x6,)),)),
+    x15:=UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+      x7,)),
+    x16:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+      x17:=UOp(Ops.CONST, dtypes.weakint, arg=256, src=()),)),)),
+  UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), None, False, False), src=(
+    UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+      UOp(Ops.END, dtypes.void, arg=None, src=(
+        UOp(Ops.STORE, dtypes.void, arg=None, src=(
+          x4,
+          UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+            UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, ()), src=(
+              UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                  UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                    x9,
+                    UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                      UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                        x29:=UOp(Ops.PARAM, dtypes.float.ptr(2), arg=ParamArg(2, device='PYTHON'), src=()),
+                        x6,)),
+                      x30:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.0), src=()),)),)),
+                  x31:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.4426950408889634), src=()),)),)),
+              x14,)),)),)),
+        x6,)),)),
+    x32:=UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+      x7,)),
+    x16,
+    x15,)),
+  UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), None, False, False), src=(
+    UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+      UOp(Ops.END, dtypes.void, arg=None, src=(
+        UOp(Ops.STORE, dtypes.void, arg=None, src=(
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float.ptr(256), arg=ParamArg(0, device='PYTHON'), src=()),
+            x39:=UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+              UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                x41:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.LOOP), src=(
+                  x7,)),
+                x13,)),
+              x42:=UOp(Ops.RANGE, dtypes.weakint, arg=(1, AxisType.LOOP), src=(
+                x13,)),)),)),
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    x10,
+                    x39,)),
+                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                    UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                      x29,
+                      x41,)),
+                    x30,)),)),
+                x31,)),)),
+            UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              UOp(Ops.PARAM, dtypes.float.ptr(2), arg=ParamArg(3, device='PYTHON'), src=()),
+              x41,)),)),)),
+        x41,
+        x42,)),)),
+    UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+      x17,)),
+    x16,
+    x15,
+    x32,)),))

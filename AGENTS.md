@@ -106,6 +106,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"What does every PatternMatcher do?"** -> `tinygrad/pattern-matchers-reference.md`
 - **"How was ShapeTracker removed / what replaced it?"** -> `tinygrad/internals-guide.md`
 - **"Where should a Blackhole backend hook in?"** -> `tinygrad/blackhole-backend-map.md`
+- **"Need the direct Blackhole lowering investigation and artifacts?"** -> `tinygrad/direct-blackhole-lowering-report/README.md`
 - **"What tinygrad project or patch should I try?"** -> `tinygrad/patch-projects.md`
 - **"Need concrete old UOp stage dumps?"** -> `tinygrad/uop-probes/README.md` (historical, pre-July 2026)
 

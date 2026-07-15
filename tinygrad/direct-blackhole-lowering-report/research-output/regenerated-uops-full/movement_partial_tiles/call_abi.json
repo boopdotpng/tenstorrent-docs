@@ -1,0 +1,50 @@
+[
+  {
+    "ast_arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)",
+    "ast_node_count": 36,
+    "ast_op": "SINK",
+    "ast_params": [
+      {
+        "arg": "ParamArg(0, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(4356)",
+        "shape": [
+          "4356"
+        ]
+      },
+      {
+        "arg": "ParamArg(1, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(4290)",
+        "shape": [
+          "4290"
+        ]
+      }
+    ],
+    "bound_args": [
+      {
+        "arg": "ParamArg(15, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 0,
+        "shape": [
+          "4356"
+        ]
+      },
+      {
+        "arg": "ParamArg(14, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 1,
+        "shape": [
+          "4290"
+        ]
+      }
+    ],
+    "call_arg": "CallInfo(None, (), None, False, False)",
+    "call_index": 0,
+    "call_op": "CALL"
+  }
+]

@@ -1,0 +1,68 @@
+# Tinygrad raw UOp dump
+# {"artifact": "50_kernel_03_base_ast", "description": "One final scheduled call's base AST. SINKs are ordinary Tinygrad compute kernels.", "node_count": 46, "op_counts": {"ADD": 8, "CONST": 7, "END": 1, "EXP2": 1, "FLOORDIV": 1, "INDEX": 5, "MUL": 11, "PARAM": 5, "RANGE": 4, "REDUCE": 1, "SINK": 1, "STORE": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+  UOp(Ops.END, dtypes.void, arg=None, src=(
+    UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float.ptr(65536), arg=ParamArg(0, device='PYTHON'), src=()),
+        UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+          UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+            UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+              x7:=UOp(Ops.RANGE, dtypes.weakint, arg=(2, AxisType.LOOP), src=(
+                x8:=UOp(Ops.CONST, dtypes.weakint, arg=32, src=()),)),
+              x9:=UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),)),
+            x10:=UOp(Ops.RANGE, dtypes.weakint, arg=(3, AxisType.LOOP), src=(
+              x9,)),)),
+          UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+            x12:=UOp(Ops.RANGE, dtypes.weakint, arg=(1, AxisType.LOOP), src=(
+              x8,)),
+            x13:=UOp(Ops.CONST, dtypes.weakint, arg=2048, src=()),)),)),)),
+      UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, ()), src=(
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                  UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                    UOp(Ops.PARAM, dtypes.float.ptr(32768), arg=ParamArg(1, device='PYTHON'), src=()),
+                    UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                      UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                        UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                          x7,
+                          x8,)),
+                        x25:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.REDUCE), src=(
+                          x8,)),)),
+                      UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                        x12,
+                        UOp(Ops.CONST, dtypes.weakint, arg=1024, src=()),)),)),)),
+                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                    UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                      UOp(Ops.PARAM, dtypes.float.ptr(1024), arg=ParamArg(2, device='PYTHON'), src=()),
+                      x31:=UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                        UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                          x12,
+                          x8,)),
+                        x7,)),)),
+                    UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.0), src=()),)),)),
+                UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.4426950408889634), src=()),)),)),
+            UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+              UOp(Ops.PARAM, dtypes.float.ptr(1024), arg=ParamArg(3, device='PYTHON'), src=()),
+              x31,)),)),
+          UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+            UOp(Ops.PARAM, dtypes.float.ptr(16384), arg=ParamArg(4, device='PYTHON'), src=()),
+            UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+              UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                  x25,
+                  x9,)),
+                x10,)),
+              UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+                UOp(Ops.FLOORDIV, dtypes.weakint, arg=None, src=(
+                  x12,
+                  UOp(Ops.CONST, dtypes.weakint, arg=4, src=()),)),
+                x13,)),)),)),)),
+        x25,)),)),
+    x12,
+    x7,
+    x10,)),))

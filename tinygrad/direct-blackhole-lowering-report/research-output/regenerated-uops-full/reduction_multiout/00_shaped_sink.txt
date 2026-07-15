@@ -1,0 +1,17 @@
+# Tinygrad raw UOp dump
+# {"artifact": "00_shaped_sink", "description": "Finished Tensor graph before callify; renderer neutral.", "node_count": 11, "op_counts": {"BUFFER": 1, "CONST": 3, "REDUCE": 2, "RESHAPE": 3, "SINK": 1, "STACK": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=None, src=(
+  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+    UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (1,)), src=(
+      x2:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+        UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(6, device='PYTHON'), src=(
+          UOp(Ops.CONST, dtypes.weakint, arg=256, src=()),)),
+        UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+          x6:=UOp(Ops.CONST, dtypes.weakint, arg=4, src=()),
+          UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),)),)),)),
+    x6,)),
+  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+    UOp(Ops.REDUCE, dtypes.float, arg=(Ops.MAX, (1,)), src=(
+      x2,)),
+    x6,)),))

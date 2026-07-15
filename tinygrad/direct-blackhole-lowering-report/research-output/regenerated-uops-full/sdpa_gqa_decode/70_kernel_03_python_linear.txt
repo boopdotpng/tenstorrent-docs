@@ -1,0 +1,1068 @@
+# Tinygrad raw UOp dump
+# {"artifact": "70_kernel_03_python_linear", "description": "Python-renderer linear UOps; deliberately too late for tile/core/CB planning.", "node_count": 363, "op_counts": {"ADD": 25, "CONST": 36, "EXP2": 18, "GROUP": 1, "INDEX": 92, "LINEAR": 1, "LOAD": 29, "MUL": 28, "MULACC": 74, "PARAM": 5, "SHL": 1, "SHR": 1, "SHRINK": 28, "SINK": 1, "SPECIAL": 3, "STACK": 1, "STORE": 1, "SUB": 18}, "root_op": "LINEAR", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.LINEAR, dtypes.void, arg=None, src=(
+  x0:=UOp(Ops.CONST, dtypes.int, arg=2048, src=()),
+  x1:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+    x0,)),
+  x2:=UOp(Ops.CONST, dtypes.int, arg=576, src=()),
+  x3:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+    x2,)),
+  x4:=UOp(Ops.CONST, dtypes.int, arg=32, src=()),
+  x5:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+    x4,)),
+  x6:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(3, device='PYTHON'), src=(
+    x4,)),
+  x7:=UOp(Ops.CONST, dtypes.int, arg=9216, src=()),
+  x8:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(4, device='PYTHON'), src=(
+    x7,)),
+  x9:=UOp(Ops.CONST, dtypes.int, arg=4, src=()),
+  x10:=UOp(Ops.SPECIAL, dtypes.int, arg='gidx0', src=(
+    x9,)),
+  x11:=UOp(Ops.CONST, dtypes.int, arg=8, src=()),
+  x12:=UOp(Ops.SPECIAL, dtypes.int, arg='lidx0', src=(
+    x11,)),
+  x13:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x10,
+    x11,
+    x12,)),
+  x14:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x5,
+    x13,)),
+  x15:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x14,)),
+  x16:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x6,
+    x13,)),
+  x17:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x16,)),
+  x18:=UOp(Ops.CONST, dtypes.int, arg=18, src=()),
+  x19:=UOp(Ops.MUL, dtypes.int, arg=None, src=(
+    x12,
+    x18,)),
+  x20:=UOp(Ops.CONST, dtypes.int, arg=144, src=()),
+  x21:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x10,
+    x20,
+    x19,)),
+  x22:=UOp(Ops.CONST, dtypes.int, arg=2, src=()),
+  x23:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x22,)),
+  x24:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x23,
+    x22,)),
+  x25:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x24,)),
+  x26:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x9,)),
+  x27:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x26,
+    x22,)),
+  x28:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x27,)),
+  x29:=UOp(Ops.CONST, dtypes.int, arg=6, src=()),
+  x30:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x29,)),
+  x31:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x30,
+    x22,)),
+  x32:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x31,)),
+  x33:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x11,)),
+  x34:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x33,
+    x22,)),
+  x35:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x34,)),
+  x36:=UOp(Ops.CONST, dtypes.int, arg=10, src=()),
+  x37:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x36,)),
+  x38:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x37,
+    x22,)),
+  x39:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x38,)),
+  x40:=UOp(Ops.CONST, dtypes.int, arg=12, src=()),
+  x41:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x40,)),
+  x42:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x41,
+    x22,)),
+  x43:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x42,)),
+  x44:=UOp(Ops.CONST, dtypes.int, arg=14, src=()),
+  x45:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x44,)),
+  x46:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x45,
+    x22,)),
+  x47:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x46,)),
+  x48:=UOp(Ops.CONST, dtypes.int, arg=16, src=()),
+  x49:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x21,
+    x48,)),
+  x50:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x49,
+    x22,)),
+  x51:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x50,)),
+  x52:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x3,
+    x21,
+    x22,)),
+  x53:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x52,)),
+  x54:=UOp(Ops.SPECIAL, dtypes.int, arg='lidx1', src=(
+    x48,)),
+  x55:=UOp(Ops.SHR, dtypes.int, arg=None, src=(
+    x12,
+    x22,)),
+  x56:=UOp(Ops.CONST, dtypes.int, arg=1152, src=()),
+  x57:=UOp(Ops.MUL, dtypes.int, arg=None, src=(
+    x55,
+    x56,)),
+  x58:=UOp(Ops.CONST, dtypes.int, arg=2304, src=()),
+  x59:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x10,
+    x58,
+    x57,)),
+  x60:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x54,
+    x9,
+    x59,)),
+  x61:=UOp(Ops.CONST, dtypes.int, arg=64, src=()),
+  x62:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x61,)),
+  x63:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x62,
+    x9,)),
+  x64:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x63,)),
+  x65:=UOp(Ops.CONST, dtypes.int, arg=128, src=()),
+  x66:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x65,)),
+  x67:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x66,
+    x9,)),
+  x68:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x67,)),
+  x69:=UOp(Ops.CONST, dtypes.int, arg=192, src=()),
+  x70:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x69,)),
+  x71:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x70,
+    x9,)),
+  x72:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x71,)),
+  x73:=UOp(Ops.CONST, dtypes.int, arg=256, src=()),
+  x74:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x73,)),
+  x75:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x74,
+    x9,)),
+  x76:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x75,)),
+  x77:=UOp(Ops.CONST, dtypes.int, arg=320, src=()),
+  x78:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x77,)),
+  x79:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x78,
+    x9,)),
+  x80:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x79,)),
+  x81:=UOp(Ops.CONST, dtypes.int, arg=384, src=()),
+  x82:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x81,)),
+  x83:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x82,
+    x9,)),
+  x84:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x83,)),
+  x85:=UOp(Ops.CONST, dtypes.int, arg=448, src=()),
+  x86:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x85,)),
+  x87:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x86,
+    x9,)),
+  x88:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x87,)),
+  x89:=UOp(Ops.CONST, dtypes.int, arg=512, src=()),
+  x90:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x89,)),
+  x91:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x90,
+    x9,)),
+  x92:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x91,)),
+  x93:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x2,)),
+  x94:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x93,
+    x9,)),
+  x95:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x94,)),
+  x96:=UOp(Ops.CONST, dtypes.int, arg=640, src=()),
+  x97:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x96,)),
+  x98:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x97,
+    x9,)),
+  x99:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x98,)),
+  x100:=UOp(Ops.CONST, dtypes.int, arg=704, src=()),
+  x101:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x100,)),
+  x102:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x101,
+    x9,)),
+  x103:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x102,)),
+  x104:=UOp(Ops.CONST, dtypes.int, arg=768, src=()),
+  x105:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x104,)),
+  x106:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x105,
+    x9,)),
+  x107:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x106,)),
+  x108:=UOp(Ops.CONST, dtypes.int, arg=832, src=()),
+  x109:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x108,)),
+  x110:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x109,
+    x9,)),
+  x111:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x110,)),
+  x112:=UOp(Ops.CONST, dtypes.int, arg=896, src=()),
+  x113:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x112,)),
+  x114:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x113,
+    x9,)),
+  x115:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x114,)),
+  x116:=UOp(Ops.CONST, dtypes.int, arg=960, src=()),
+  x117:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x116,)),
+  x118:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x117,
+    x9,)),
+  x119:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x118,)),
+  x120:=UOp(Ops.CONST, dtypes.int, arg=1024, src=()),
+  x121:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x120,)),
+  x122:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x121,
+    x9,)),
+  x123:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x122,)),
+  x124:=UOp(Ops.CONST, dtypes.int, arg=1088, src=()),
+  x125:=UOp(Ops.ADD, dtypes.int, arg=None, src=(
+    x60,
+    x124,)),
+  x126:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x125,
+    x9,)),
+  x127:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x126,)),
+  x128:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x8,
+    x60,
+    x9,)),
+  x129:=UOp(Ops.LOAD, dtypes.float, arg=None, src=(
+    x128,)),
+  x130:=UOp(Ops.CONST, dtypes.int, arg=0, src=()),
+  x131:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x25,
+    x130,)),
+  x132:=UOp(Ops.CONST, dtypes.int, arg=1, src=()),
+  x133:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x25,
+    x132,)),
+  x134:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x28,
+    x130,)),
+  x135:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x28,
+    x132,)),
+  x136:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x32,
+    x130,)),
+  x137:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x32,
+    x132,)),
+  x138:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x35,
+    x130,)),
+  x139:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x35,
+    x132,)),
+  x140:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x39,
+    x130,)),
+  x141:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x39,
+    x132,)),
+  x142:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x43,
+    x130,)),
+  x143:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x43,
+    x132,)),
+  x144:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x47,
+    x130,)),
+  x145:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x47,
+    x132,)),
+  x146:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x51,
+    x130,)),
+  x147:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x51,
+    x132,)),
+  x148:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x53,
+    x130,)),
+  x149:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x53,
+    x132,)),
+  x150:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x64,
+    x130,)),
+  x151:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x64,
+    x132,)),
+  x152:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x64,
+    x22,)),
+  x153:=UOp(Ops.CONST, dtypes.int, arg=3, src=()),
+  x154:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x64,
+    x153,)),
+  x155:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x68,
+    x130,)),
+  x156:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x68,
+    x132,)),
+  x157:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x68,
+    x22,)),
+  x158:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x68,
+    x153,)),
+  x159:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x72,
+    x130,)),
+  x160:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x72,
+    x132,)),
+  x161:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x72,
+    x22,)),
+  x162:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x72,
+    x153,)),
+  x163:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x76,
+    x130,)),
+  x164:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x76,
+    x132,)),
+  x165:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x76,
+    x22,)),
+  x166:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x76,
+    x153,)),
+  x167:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x80,
+    x130,)),
+  x168:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x80,
+    x132,)),
+  x169:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x80,
+    x22,)),
+  x170:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x80,
+    x153,)),
+  x171:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x84,
+    x130,)),
+  x172:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x84,
+    x132,)),
+  x173:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x84,
+    x22,)),
+  x174:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x84,
+    x153,)),
+  x175:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x88,
+    x130,)),
+  x176:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x88,
+    x132,)),
+  x177:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x88,
+    x22,)),
+  x178:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x88,
+    x153,)),
+  x179:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x92,
+    x130,)),
+  x180:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x92,
+    x132,)),
+  x181:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x92,
+    x22,)),
+  x182:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x92,
+    x153,)),
+  x183:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x95,
+    x130,)),
+  x184:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x95,
+    x132,)),
+  x185:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x95,
+    x22,)),
+  x186:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x95,
+    x153,)),
+  x187:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x99,
+    x130,)),
+  x188:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x99,
+    x132,)),
+  x189:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x99,
+    x22,)),
+  x190:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x99,
+    x153,)),
+  x191:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x103,
+    x130,)),
+  x192:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x103,
+    x132,)),
+  x193:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x103,
+    x22,)),
+  x194:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x103,
+    x153,)),
+  x195:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x107,
+    x130,)),
+  x196:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x107,
+    x132,)),
+  x197:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x107,
+    x22,)),
+  x198:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x107,
+    x153,)),
+  x199:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x111,
+    x130,)),
+  x200:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x111,
+    x132,)),
+  x201:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x111,
+    x22,)),
+  x202:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x111,
+    x153,)),
+  x203:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x115,
+    x130,)),
+  x204:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x115,
+    x132,)),
+  x205:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x115,
+    x22,)),
+  x206:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x115,
+    x153,)),
+  x207:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x119,
+    x130,)),
+  x208:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x119,
+    x132,)),
+  x209:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x119,
+    x22,)),
+  x210:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x119,
+    x153,)),
+  x211:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x123,
+    x130,)),
+  x212:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x123,
+    x132,)),
+  x213:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x123,
+    x22,)),
+  x214:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x123,
+    x153,)),
+  x215:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x127,
+    x130,)),
+  x216:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x127,
+    x132,)),
+  x217:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x127,
+    x22,)),
+  x218:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x127,
+    x153,)),
+  x219:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x129,
+    x130,)),
+  x220:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x129,
+    x132,)),
+  x221:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x129,
+    x22,)),
+  x222:=UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+    x129,
+    x153,)),
+  x223:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x131,
+    x15,)),
+  x224:=UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.4426950408889634), src=()),
+  x225:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x223,
+    x224,)),
+  x226:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x225,)),
+  x227:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x133,
+    x15,)),
+  x228:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x227,
+    x224,)),
+  x229:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x228,)),
+  x230:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x134,
+    x15,)),
+  x231:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x230,
+    x224,)),
+  x232:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x231,)),
+  x233:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x135,
+    x15,)),
+  x234:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x233,
+    x224,)),
+  x235:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x234,)),
+  x236:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x136,
+    x15,)),
+  x237:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x236,
+    x224,)),
+  x238:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x237,)),
+  x239:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x137,
+    x15,)),
+  x240:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x239,
+    x224,)),
+  x241:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x240,)),
+  x242:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x138,
+    x15,)),
+  x243:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x242,
+    x224,)),
+  x244:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x243,)),
+  x245:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x139,
+    x15,)),
+  x246:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x245,
+    x224,)),
+  x247:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x246,)),
+  x248:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x140,
+    x15,)),
+  x249:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x248,
+    x224,)),
+  x250:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x249,)),
+  x251:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x141,
+    x15,)),
+  x252:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x251,
+    x224,)),
+  x253:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x252,)),
+  x254:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x142,
+    x15,)),
+  x255:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x254,
+    x224,)),
+  x256:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x255,)),
+  x257:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x143,
+    x15,)),
+  x258:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x257,
+    x224,)),
+  x259:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x258,)),
+  x260:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x144,
+    x15,)),
+  x261:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x260,
+    x224,)),
+  x262:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x261,)),
+  x263:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x145,
+    x15,)),
+  x264:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x263,
+    x224,)),
+  x265:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x264,)),
+  x266:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x146,
+    x15,)),
+  x267:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x266,
+    x224,)),
+  x268:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x267,)),
+  x269:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x147,
+    x15,)),
+  x270:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x269,
+    x224,)),
+  x271:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x270,)),
+  x272:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x148,
+    x15,)),
+  x273:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x272,
+    x224,)),
+  x274:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x273,)),
+  x275:=UOp(Ops.SUB, dtypes.float, arg=None, src=(
+    x149,
+    x15,)),
+  x276:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x275,
+    x224,)),
+  x277:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+    x276,)),
+  x278:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x277,
+    x150,)),
+  x279:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x277,
+    x151,)),
+  x280:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x277,
+    x152,)),
+  x281:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x277,
+    x154,)),
+  x282:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x274,
+    x219,
+    x278,)),
+  x283:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x226,
+    x155,
+    x282,)),
+  x284:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x229,
+    x159,
+    x283,)),
+  x285:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x232,
+    x163,
+    x284,)),
+  x286:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x235,
+    x167,
+    x285,)),
+  x287:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x238,
+    x171,
+    x286,)),
+  x288:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x241,
+    x175,
+    x287,)),
+  x289:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x244,
+    x179,
+    x288,)),
+  x290:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x247,
+    x183,
+    x289,)),
+  x291:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x250,
+    x187,
+    x290,)),
+  x292:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x253,
+    x191,
+    x291,)),
+  x293:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x256,
+    x195,
+    x292,)),
+  x294:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x259,
+    x199,
+    x293,)),
+  x295:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x262,
+    x203,
+    x294,)),
+  x296:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x265,
+    x207,
+    x295,)),
+  x297:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x268,
+    x211,
+    x296,)),
+  x298:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x271,
+    x215,
+    x297,)),
+  x299:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x298,
+    x17,)),
+  x300:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x274,
+    x220,
+    x279,)),
+  x301:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x226,
+    x156,
+    x300,)),
+  x302:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x229,
+    x160,
+    x301,)),
+  x303:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x232,
+    x164,
+    x302,)),
+  x304:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x235,
+    x168,
+    x303,)),
+  x305:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x238,
+    x172,
+    x304,)),
+  x306:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x241,
+    x176,
+    x305,)),
+  x307:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x244,
+    x180,
+    x306,)),
+  x308:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x247,
+    x184,
+    x307,)),
+  x309:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x250,
+    x188,
+    x308,)),
+  x310:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x253,
+    x192,
+    x309,)),
+  x311:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x256,
+    x196,
+    x310,)),
+  x312:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x259,
+    x200,
+    x311,)),
+  x313:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x262,
+    x204,
+    x312,)),
+  x314:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x265,
+    x208,
+    x313,)),
+  x315:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x268,
+    x212,
+    x314,)),
+  x316:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x271,
+    x216,
+    x315,)),
+  x317:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x316,
+    x17,)),
+  x318:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x274,
+    x221,
+    x280,)),
+  x319:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x226,
+    x157,
+    x318,)),
+  x320:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x229,
+    x161,
+    x319,)),
+  x321:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x232,
+    x165,
+    x320,)),
+  x322:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x235,
+    x169,
+    x321,)),
+  x323:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x238,
+    x173,
+    x322,)),
+  x324:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x241,
+    x177,
+    x323,)),
+  x325:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x244,
+    x181,
+    x324,)),
+  x326:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x247,
+    x185,
+    x325,)),
+  x327:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x250,
+    x189,
+    x326,)),
+  x328:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x253,
+    x193,
+    x327,)),
+  x329:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x256,
+    x197,
+    x328,)),
+  x330:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x259,
+    x201,
+    x329,)),
+  x331:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x262,
+    x205,
+    x330,)),
+  x332:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x265,
+    x209,
+    x331,)),
+  x333:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x268,
+    x213,
+    x332,)),
+  x334:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x271,
+    x217,
+    x333,)),
+  x335:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x334,
+    x17,)),
+  x336:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x274,
+    x222,
+    x281,)),
+  x337:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x226,
+    x158,
+    x336,)),
+  x338:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x229,
+    x162,
+    x337,)),
+  x339:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x232,
+    x166,
+    x338,)),
+  x340:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x235,
+    x170,
+    x339,)),
+  x341:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x238,
+    x174,
+    x340,)),
+  x342:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x241,
+    x178,
+    x341,)),
+  x343:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x244,
+    x182,
+    x342,)),
+  x344:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x247,
+    x186,
+    x343,)),
+  x345:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x250,
+    x190,
+    x344,)),
+  x346:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x253,
+    x194,
+    x345,)),
+  x347:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x256,
+    x198,
+    x346,)),
+  x348:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x259,
+    x202,
+    x347,)),
+  x349:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x262,
+    x206,
+    x348,)),
+  x350:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x265,
+    x210,
+    x349,)),
+  x351:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x268,
+    x214,
+    x350,)),
+  x352:=UOp(Ops.MULACC, dtypes.float, arg=None, src=(
+    x271,
+    x218,
+    x351,)),
+  x353:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+    x352,
+    x17,)),
+  x354:=UOp(Ops.STACK, dtypes.float, arg=None, src=(
+    x299,
+    x317,
+    x335,
+    x353,)),
+  x355:=UOp(Ops.SHL, dtypes.int, arg=None, src=(
+    x12,
+    x29,)),
+  x356:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x10,
+    x89,
+    x355,)),
+  x357:=UOp(Ops.MULACC, dtypes.int, arg=None, src=(
+    x54,
+    x9,
+    x356,)),
+  x358:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+    x1,
+    x357,
+    x9,)),
+  x359:=UOp(Ops.STORE, dtypes.void, arg=None, src=(
+    x358,
+    x354,)),
+  x360:=UOp(Ops.GROUP, dtypes.void, arg=None, src=(
+    x359,
+    x359,
+    x359,
+    x359,)),
+  UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='r\x1b[90m_\x1b[0m\x1b[34m4\x1b[0m\x1b[90m_\x1b[0m\x1b[36m8\x1b[0m\x1b[90m_\x1b[0m\x1b[36m16\x1b[0m\x1b[90m_\x1b[0m\x1b[33m4\x1b[0m\x1b[90m_\x1b[0m\x1b[35m18\x1b[0m\x1b[90m\x1b[0m', axis_types=(), dont_use_locals=False, applied_opts=(Opt(op=OptOps.UPCAST, axis=1, arg=4), Opt(op=OptOps.UNROLL, axis=0, arg=0), Opt(op=OptOps.LOCAL, axis=0, arg=8), Opt(op=OptOps.LOCAL, axis=1, arg=16)), opts_to_apply=None, estimates=None, beam=0), tag=1, src=(
+    x360,)),))

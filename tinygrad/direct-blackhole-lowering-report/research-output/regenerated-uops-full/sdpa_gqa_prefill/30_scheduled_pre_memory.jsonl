@@ -1,0 +1,103 @@
+{"arg": "ParamArg(0, device='PYTHON')", "dtype": "dtypes.float.ptr(32768)", "id": 0, "op": "PARAM", "shape": ["32768"], "src": [], "tag": "None"}
+{"arg": "32", "dtype": "dtypes.weakint", "id": 1, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "(2, AxisType.LOOP)", "dtype": "dtypes.weakint", "id": 2, "op": "RANGE", "shape": [], "src": [1], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 3, "op": "MUL", "shape": [], "src": [2, 1], "tag": "None"}
+{"arg": "(3, AxisType.LOOP)", "dtype": "dtypes.weakint", "id": 4, "op": "RANGE", "shape": [], "src": [1], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 5, "op": "ADD", "shape": [], "src": [3, 4], "tag": "None"}
+{"arg": "(1, AxisType.LOOP)", "dtype": "dtypes.weakint", "id": 6, "op": "RANGE", "shape": [], "src": [1], "tag": "None"}
+{"arg": "1024", "dtype": "dtypes.weakint", "id": 7, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 8, "op": "MUL", "shape": [], "src": [6, 7], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 9, "op": "ADD", "shape": [], "src": [5, 8], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float.ptr(32768)", "id": 10, "op": "INDEX", "shape": [], "src": [0, 9], "tag": "None"}
+{"arg": "ParamArg(1, device='PYTHON')", "dtype": "dtypes.float.ptr(65536)", "id": 11, "op": "PARAM", "shape": ["65536"], "src": [], "tag": "None"}
+{"arg": "64", "dtype": "dtypes.weakint", "id": 12, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 13, "op": "MUL", "shape": [], "src": [2, 12], "tag": "None"}
+{"arg": "(0, AxisType.REDUCE)", "dtype": "dtypes.weakint", "id": 14, "op": "RANGE", "shape": [], "src": [12], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 15, "op": "ADD", "shape": [], "src": [13, 14], "tag": "None"}
+{"arg": "2048", "dtype": "dtypes.weakint", "id": 16, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 17, "op": "MUL", "shape": [], "src": [6, 16], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 18, "op": "ADD", "shape": [], "src": [15, 17], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 19, "op": "INDEX", "shape": [], "src": [11, 18], "tag": "None"}
+{"arg": "ParamArg(2, device='PYTHON')", "dtype": "dtypes.float.ptr(16384)", "id": 20, "op": "PARAM", "shape": ["16384"], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 21, "op": "MUL", "shape": [], "src": [4, 12], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 22, "op": "ADD", "shape": [], "src": [21, 14], "tag": "None"}
+{"arg": "4", "dtype": "dtypes.weakint", "id": 23, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 24, "op": "FLOORDIV", "shape": [], "src": [6, 23], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 25, "op": "MUL", "shape": [], "src": [24, 16], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 26, "op": "ADD", "shape": [], "src": [22, 25], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 27, "op": "INDEX", "shape": [], "src": [20, 26], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 28, "op": "MUL", "shape": [], "src": [19, 27], "tag": "None"}
+{"arg": "(Ops.ADD, ())", "dtype": "dtypes.float", "id": 29, "op": "REDUCE", "shape": [], "src": [28, 14], "tag": "None"}
+{"arg": "ConstFloat(0.125)", "dtype": "dtypes.float", "id": 30, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 31, "op": "MUL", "shape": [], "src": [29, 30], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 32, "op": "CAST", "shape": [], "src": [4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 33, "op": "CAST", "shape": [], "src": [2], "tag": "None"}
+{"arg": "1", "dtype": "dtypes.int", "id": 34, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 35, "op": "ADD", "shape": [], "src": [33, 34], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 36, "op": "CMPLT", "shape": [], "src": [32, 35], "tag": "None"}
+{"arg": "ConstFloat(0.0)", "dtype": "dtypes.float", "id": 37, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ConstFloat(-inf)", "dtype": "dtypes.float", "id": 38, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 39, "op": "WHERE", "shape": [], "src": [36, 37, 38], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 40, "op": "ADD", "shape": [], "src": [31, 39], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 41, "op": "STORE", "shape": [], "src": [10, 40], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 42, "op": "END", "shape": [], "src": [41, 6, 2, 4], "tag": "None"}
+{"arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)", "dtype": "dtypes.void", "id": 43, "op": "SINK", "shape": null, "src": [42], "tag": "None"}
+{"arg": "32768", "dtype": "dtypes.weakint", "id": 44, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(0, device='PYTHON')", "dtype": "dtypes.float", "id": 45, "op": "BUFFER", "shape": ["32768"], "src": [44], "tag": "None"}
+{"arg": "65536", "dtype": "dtypes.weakint", "id": 46, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(1, device='PYTHON')", "dtype": "dtypes.float", "id": 47, "op": "PARAM", "shape": ["65536"], "src": [46], "tag": "None"}
+{"arg": "16384", "dtype": "dtypes.weakint", "id": 48, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(2, device='PYTHON')", "dtype": "dtypes.float", "id": 49, "op": "PARAM", "shape": ["16384"], "src": [48], "tag": "None"}
+{"arg": "CallInfo(None, (), None, False, False)", "dtype": "dtypes.void", "id": 50, "op": "CALL", "shape": null, "src": [43, 45, 47, 49], "tag": "None"}
+{"arg": "ParamArg(0, device='PYTHON')", "dtype": "dtypes.float.ptr(1024)", "id": 51, "op": "PARAM", "shape": ["1024"], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 52, "op": "MUL", "shape": [], "src": [6, 1], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 53, "op": "ADD", "shape": [], "src": [52, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float.ptr(1024)", "id": 54, "op": "INDEX", "shape": [], "src": [51, 53], "tag": "None"}
+{"arg": "ParamArg(1, device='PYTHON')", "dtype": "dtypes.float.ptr(32768)", "id": 55, "op": "PARAM", "shape": ["32768"], "src": [], "tag": "None"}
+{"arg": "(0, AxisType.REDUCE)", "dtype": "dtypes.weakint", "id": 56, "op": "RANGE", "shape": [], "src": [1], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 57, "op": "ADD", "shape": [], "src": [3, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 58, "op": "ADD", "shape": [], "src": [57, 8], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 59, "op": "INDEX", "shape": [], "src": [55, 58], "tag": "None"}
+{"arg": "(Ops.MAX, ())", "dtype": "dtypes.float", "id": 60, "op": "REDUCE", "shape": [], "src": [59, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 61, "op": "STORE", "shape": [], "src": [54, 60], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 62, "op": "END", "shape": [], "src": [61, 6, 2], "tag": "None"}
+{"arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)", "dtype": "dtypes.void", "id": 63, "op": "SINK", "shape": null, "src": [62], "tag": "None"}
+{"arg": "ParamArg(1, device='PYTHON')", "dtype": "dtypes.float", "id": 64, "op": "BUFFER", "shape": ["1024"], "src": [7], "tag": "None"}
+{"arg": "CallInfo(None, (), None, False, False)", "dtype": "dtypes.void", "id": 65, "op": "CALL", "shape": null, "src": [63, 64, 45], "tag": "None"}
+{"arg": "ParamArg(2, device='PYTHON')", "dtype": "dtypes.float.ptr(1024)", "id": 66, "op": "PARAM", "shape": ["1024"], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 67, "op": "INDEX", "shape": [], "src": [66, 53], "tag": "None"}
+{"arg": "ConstFloat(-1.0)", "dtype": "dtypes.float", "id": 68, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 69, "op": "MUL", "shape": [], "src": [67, 68], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 70, "op": "ADD", "shape": [], "src": [59, 69], "tag": "None"}
+{"arg": "ConstFloat(1.4426950408889634)", "dtype": "dtypes.float", "id": 71, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 72, "op": "MUL", "shape": [], "src": [70, 71], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 73, "op": "EXP2", "shape": [], "src": [72], "tag": "None"}
+{"arg": "(Ops.ADD, ())", "dtype": "dtypes.float", "id": 74, "op": "REDUCE", "shape": [], "src": [73, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 75, "op": "RECIPROCAL", "shape": [], "src": [74], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 76, "op": "STORE", "shape": [], "src": [54, 75], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 77, "op": "END", "shape": [], "src": [76, 6, 2], "tag": "None"}
+{"arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)", "dtype": "dtypes.void", "id": 78, "op": "SINK", "shape": null, "src": [77], "tag": "None"}
+{"arg": "ParamArg(2, device='PYTHON')", "dtype": "dtypes.float", "id": 79, "op": "BUFFER", "shape": ["1024"], "src": [7], "tag": "None"}
+{"arg": "CallInfo(None, (), None, False, False)", "dtype": "dtypes.void", "id": 80, "op": "CALL", "shape": null, "src": [78, 79, 45, 64], "tag": "None"}
+{"arg": "ParamArg(0, device='PYTHON')", "dtype": "dtypes.float.ptr(65536)", "id": 81, "op": "PARAM", "shape": ["65536"], "src": [], "tag": "None"}
+{"arg": "(3, AxisType.LOOP)", "dtype": "dtypes.weakint", "id": 82, "op": "RANGE", "shape": [], "src": [12], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 83, "op": "ADD", "shape": [], "src": [13, 82], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 84, "op": "ADD", "shape": [], "src": [83, 17], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 85, "op": "INDEX", "shape": [], "src": [81, 84], "tag": "None"}
+{"arg": "ParamArg(3, device='PYTHON')", "dtype": "dtypes.float.ptr(1024)", "id": 86, "op": "PARAM", "shape": ["1024"], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 87, "op": "INDEX", "shape": [], "src": [86, 53], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 88, "op": "MUL", "shape": [], "src": [73, 87], "tag": "None"}
+{"arg": "ParamArg(4, device='PYTHON')", "dtype": "dtypes.float.ptr(16384)", "id": 89, "op": "PARAM", "shape": ["16384"], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 90, "op": "MUL", "shape": [], "src": [56, 12], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 91, "op": "ADD", "shape": [], "src": [90, 82], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 92, "op": "ADD", "shape": [], "src": [91, 25], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 93, "op": "INDEX", "shape": [], "src": [89, 92], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 94, "op": "MUL", "shape": [], "src": [88, 93], "tag": "None"}
+{"arg": "(Ops.ADD, ())", "dtype": "dtypes.float", "id": 95, "op": "REDUCE", "shape": [], "src": [94, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 96, "op": "STORE", "shape": [], "src": [85, 95], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 97, "op": "END", "shape": [], "src": [96, 6, 2, 82], "tag": "None"}
+{"arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)", "dtype": "dtypes.void", "id": 98, "op": "SINK", "shape": null, "src": [97], "tag": "None"}
+{"arg": "ParamArg(0, device='PYTHON')", "dtype": "dtypes.float", "id": 99, "op": "PARAM", "shape": ["65536"], "src": [46], "tag": "None"}
+{"arg": "ParamArg(3, device='PYTHON')", "dtype": "dtypes.float", "id": 100, "op": "PARAM", "shape": ["16384"], "src": [48], "tag": "None"}
+{"arg": "CallInfo(None, (), None, False, False)", "dtype": "dtypes.void", "id": 101, "op": "CALL", "shape": null, "src": [98, 99, 45, 64, 79, 100], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 102, "op": "LINEAR", "shape": null, "src": [50, 65, 80, 101], "tag": "None"}

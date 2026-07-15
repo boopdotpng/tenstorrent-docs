@@ -1,0 +1,142 @@
+# Tinygrad raw UOp dump
+# {"artifact": "11_callified_inner_sink", "description": "The shaped inner SINK proposed as the direct TT lowerer input.", "node_count": 72, "op_counts": {"ADD": 1, "AFTER": 1, "CONST": 11, "EXP2": 1, "EXPAND": 9, "MUL": 6, "PARAM": 4, "PERMUTE": 3, "RECIPROCAL": 2, "REDUCE": 4, "RESHAPE": 16, "SINK": 1, "STACK": 12, "STORE": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=None, src=(
+  UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+    x1:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+      UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+        x3:=UOp(Ops.CONST, dtypes.weakint, arg=2048, src=()),)),
+      UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+        x5:=UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),
+        x6:=UOp(Ops.CONST, dtypes.weakint, arg=32, src=()),
+        x5,
+        x7:=UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),
+        x5,)),)),
+    UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      x1,
+      UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (4,)), src=(
+        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+          UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                x14:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                    UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                      x17:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                          UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (4,)), src=(
+                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                              UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                    UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+                                      x3,)),
+                                    UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                      x5,
+                                      x6,
+                                      x5,
+                                      x7,)),)),
+                                  UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                    x5,
+                                    x6,
+                                    x5,
+                                    x5,
+                                    x7,)),)),
+                                x27:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                  x5,
+                                  x6,
+                                  x5,
+                                  x28:=UOp(Ops.CONST, dtypes.weakint, arg=18, src=()),
+                                  x7,)),)),
+                              UOp(Ops.PERMUTE, dtypes.float, arg=(0, 1, 2, 4, 3), src=(
+                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                  UOp(Ops.PERMUTE, dtypes.float, arg=(0, 1, 3, 2), src=(
+                                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                      UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                            UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+                                              x37:=UOp(Ops.CONST, dtypes.weakint, arg=9216, src=()),)),
+                                            x38:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                              x5,
+                                              x39:=UOp(Ops.CONST, dtypes.weakint, arg=8, src=()),
+                                              x28,
+                                              x7,)),)),
+                                          x40:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                            x5,
+                                            x39,
+                                            x5,
+                                            x28,
+                                            x7,)),)),
+                                        x41:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                          x5,
+                                          x39,
+                                          UOp(Ops.CONST, dtypes.weakint, arg=4, src=()),
+                                          x28,
+                                          x7,)),)),
+                                      x43:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                        x5,
+                                        x6,
+                                        x28,
+                                        x7,)),)),)),
+                                  x44:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                    x5,
+                                    x6,
+                                    x5,
+                                    x7,
+                                    x28,)),)),)),)),)),
+                          x45:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                            x5,
+                            x6,
+                            x5,
+                            x28,)),)),
+                        UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                          UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                              UOp(Ops.CONST, dtypes.float, arg=ConstFloat(8.0), src=()),
+                              x50:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                x5,
+                                x5,
+                                x5,
+                                x5,)),)),
+                            x45,)),)),)),
+                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                        UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                          UOp(Ops.REDUCE, dtypes.float, arg=(Ops.MAX, (3,)), src=(
+                            x17,)),
+                          x45,)),
+                        UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                            UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.0), src=()),
+                            x50,)),
+                          x45,)),)),)),
+                    UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                        UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.4426950408889634), src=()),
+                        x50,)),
+                      x45,)),)),)),
+                UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                  UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                    UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                      x14,)),)),
+                  x45,)),)),
+              UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                x5,
+                x6,
+                x5,
+                x5,
+                x28,)),)),
+            x44,)),
+          UOp(Ops.PERMUTE, dtypes.float, arg=(0, 1, 2, 4, 3), src=(
+            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                      UOp(Ops.PARAM, dtypes.float, arg=ParamArg(3, device='PYTHON'), src=(
+                        x37,)),
+                      x38,)),
+                    x40,)),
+                  x41,)),
+                x43,)),
+              x27,)),)),)),)),)),)),))

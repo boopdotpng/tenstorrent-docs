@@ -1,0 +1,6 @@
+matmul_epilogue: 15 renderer-neutral/call-ABI files byte-identical
+rmsnorm: 17 renderer-neutral/call-ABI files byte-identical
+sdpa_gqa_decode: 21 renderer-neutral/call-ABI files byte-identical
+kv_cache_update_symbolic: 15 renderer-neutral/call-ABI files byte-identical
+llama32_1b_block_decode: 41 renderer-neutral/call-ABI files byte-identical
+Note: stage 60/70 are deliberately late Python-renderer comparisons and were excluded from this structural check.

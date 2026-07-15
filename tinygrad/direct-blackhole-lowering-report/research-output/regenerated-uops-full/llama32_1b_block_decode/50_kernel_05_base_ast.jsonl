@@ -1,0 +1,18 @@
+{"arg": "ParamArg(0, device='PYTHON')", "dtype": "dtypes.float.ptr(32)", "id": 0, "op": "PARAM", "shape": ["32"], "src": [], "tag": "None"}
+{"arg": "32", "dtype": "dtypes.weakint", "id": 1, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "(1, AxisType.LOOP)", "dtype": "dtypes.weakint", "id": 2, "op": "RANGE", "shape": [], "src": [1], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float.ptr(32)", "id": 3, "op": "INDEX", "shape": [], "src": [0, 2], "tag": "None"}
+{"arg": "ParamArg(1, device='PYTHON')", "dtype": "dtypes.float.ptr(4096)", "id": 4, "op": "PARAM", "shape": ["4096"], "src": [], "tag": "None"}
+{"arg": "128", "dtype": "dtypes.weakint", "id": 5, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 6, "op": "MUL", "shape": [], "src": [2, 5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 7, "op": "STACK", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(-1, vmin_vmax=(0, 127), name='start_pos', addrspace=AddrSpace.ALU)", "dtype": "dtypes.weakint", "id": 8, "op": "PARAM", "shape": [], "src": [7], "tag": "None"}
+{"arg": "1", "dtype": "dtypes.weakint", "id": 9, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 10, "op": "ADD", "shape": [], "src": [8, 9], "tag": "None"}
+{"arg": "(0, AxisType.REDUCE)", "dtype": "dtypes.weakint", "id": 11, "op": "RANGE", "shape": [], "src": [10], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint", "id": 12, "op": "ADD", "shape": [], "src": [6, 11], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 13, "op": "INDEX", "shape": [], "src": [4, 12], "tag": "None"}
+{"arg": "(Ops.MAX, ())", "dtype": "dtypes.float", "id": 14, "op": "REDUCE", "shape": [], "src": [13, 11], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 15, "op": "STORE", "shape": [], "src": [3, 14], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 16, "op": "END", "shape": [], "src": [15, 2], "tag": "None"}
+{"arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)", "dtype": "dtypes.void", "id": 17, "op": "SINK", "shape": null, "src": [16], "tag": "None"}

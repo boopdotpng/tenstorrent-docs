@@ -1,0 +1,288 @@
+=== matmul_epilogue ===
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/00_shaped_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/00_shaped_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/00_shaped_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/00_shaped_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/10_callified_call.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/10_callified_call.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/10_callified_call.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/10_callified_call.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/40_scheduled_final.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/40_scheduled_final.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/40_scheduled_final.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/40_scheduled_final.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/60_kernel_00_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/60_kernel_00_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/60_kernel_00_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/60_kernel_00_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/70_kernel_00_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/70_kernel_00_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/70_kernel_00_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/70_kernel_00_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/matmul_epilogue/call_abi.json and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/matmul_epilogue/call_abi.json differ
+file-list old=f25aceee1bc380b32213111c4b510b8d959eabe7e011cec24b76e051795cb0c3 new=f25aceee1bc380b32213111c4b510b8d959eabe7e011cec24b76e051795cb0c3
+content hashes: DIFFER
+--- /tmp/oldhash	2026-07-14 02:42:13.187810770 +0000
++++ /tmp/newhash	2026-07-14 02:42:13.206498295 +0000
+@@ -1,19 +1,19 @@
+-61ef35a52eacee48a5029db62fa7441535c792b4c5f35af8ce1225e6e28398b3  00_shaped_sink.jsonl
+-862cf5a1755ed8b08c31e9746b57d90bbe16016984aba7a6f98673c948cf124e  00_shaped_sink.txt
+-9c1a13f4d153ad96c2ae62e05337960ea5f463d1a29c0d5399ff85ef49b2f0ac  10_callified_call.jsonl
+-5a6fcd55fd07bf2c3a2bc92edd193826c69d68590b8b218eda6669f8666aeb5b  10_callified_call.txt
++a5461b0094a880a075beac1a3fb6d048ed361bb4d94273ccae0ab4ffd8e80a96  00_shaped_sink.jsonl
++4cd608c90a229be30a47f80913767bf20a03ffad04a1134ec470b33dfb74d043  00_shaped_sink.txt
++84185410ac8e9bcae637b2c04e3ced028d993275a1afccb851bab1736fcc9125  10_callified_call.jsonl
++a7442b7ea2e9508598294ed6b3ae6d13e3c4b4027b6a780b0cc147a12a9077b0  10_callified_call.txt
+ f2c8c2bf8fa4737d2b34c4d127b7909786fbe28af85a1ec288b5c99560b762f5  11_callified_inner_sink.jsonl
+ 0a8ed67248d84bfec9213e42a0e80b30cd4c7cba5a884b98a6d6b676e30f62a9  11_callified_inner_sink.txt
+ 72c5b20a6a2b3b3705be7c923ffb65d6a2e4920d276456b2f865dce897282045  20_kernel_graph.jsonl
+ 821ff5d033be5f7f9ed304925fa2a8cf95303d51516132e654f5f9cbfea130be  20_kernel_graph.txt
+ 4e0e8d039b1988c28fcc84d245bd0ed63cf4457e19d63094e7f3c593032793c7  30_scheduled_pre_memory.jsonl
+ ca17f947969256bfd946f064891f20f3eba4b96b1ac563720c37ebeb9f773345  30_scheduled_pre_memory.txt
+-0c9aa0d7fa601dd268b6d045788b8df0843288b51fcb251e281b4057c1a0fb6f  40_scheduled_final.jsonl
+-d0d4bbedd54fea93daf6773fd46d57c49c4e632a98a767d3c504c9e8cee11c9d  40_scheduled_final.txt
++d15b30b1f7b00d9950d7e3aff3c0948f202742ea324e1704351694a6112b1769  40_scheduled_final.jsonl
++a80c4042cf449abc66d67ef219f094f8ba705491719639e06c789d101e44ad10  40_scheduled_final.txt
+ 675de05f6ddd74a0f5e64b4afc3b2daf8d676f0f2e93979e9da525b59921cacf  50_kernel_00_base_ast.jsonl
+ c6f9f5d72ca660356eb37724a36d912c273442e6986d808dacf87b3b8bb87b9d  50_kernel_00_base_ast.txt
+-687e95253f12b10c262b3909be5f03927123854b5951ec3dd6e32ab6517cf5d7  60_kernel_00_python_lowered_sink.jsonl
+-746a4eae731dea3bf2f41eb0858bfa53aea8f1e79edbe9d8a9cff94db8c925fa  60_kernel_00_python_lowered_sink.txt
+-bd1ee03f451210148ee737480be02da278b618ea87d4a983c7139bbda68c676a  70_kernel_00_python_linear.jsonl
+-1f35a0dd31d6fcb8340db89b82980ac647dde88e6e5f401dcc37b635a55956ac  70_kernel_00_python_linear.txt
+-c26fff4b7701b8d416de060b1940d2a01ab4849efe6c0d69116a71420c27c2a0  call_abi.json
++b0565eadd5daeda10648401fbea2f6a17be96f1476e90ae209d2aee3a8f81455  60_kernel_00_python_lowered_sink.jsonl
++58418eee55a9e82d6478f22aee169ba6c5f2cf59369e317f458be1547fde6d7b  60_kernel_00_python_lowered_sink.txt
++00770d75cf109ab1d03ca1422f4459f730fde122940f93a3f69ff2a4d854b8c0  70_kernel_00_python_linear.jsonl
++cfae59a1ed651beb519b0b36c9f73239e7222afdfd63abb7a56a3c828078de93  70_kernel_00_python_linear.txt
++8501579187510747de6b2c53998dd606037b19e483f39f18170acaaad304b4b6  call_abi.json
+
+=== rmsnorm ===
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/00_shaped_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/00_shaped_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/00_shaped_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/00_shaped_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/10_callified_call.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/10_callified_call.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/10_callified_call.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/10_callified_call.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/40_scheduled_final.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/40_scheduled_final.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/40_scheduled_final.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/40_scheduled_final.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/60_kernel_00_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/60_kernel_00_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/60_kernel_00_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/60_kernel_00_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/60_kernel_01_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/60_kernel_01_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/60_kernel_01_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/60_kernel_01_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/70_kernel_00_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/70_kernel_00_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/70_kernel_00_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/70_kernel_00_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/70_kernel_01_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/70_kernel_01_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/70_kernel_01_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/70_kernel_01_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/rmsnorm/call_abi.json and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/rmsnorm/call_abi.json differ
+file-list old=194acf7d1988848e7b75889671d545812b33ea8ddc953e7cecf8fad12af09df4 new=194acf7d1988848e7b75889671d545812b33ea8ddc953e7cecf8fad12af09df4
+content hashes: DIFFER
+--- /tmp/oldhash	2026-07-14 02:42:13.338027984 +0000
++++ /tmp/newhash	2026-07-14 02:42:13.358066594 +0000
+@@ -1,25 +1,25 @@
+-7e8045dd2ce39a53d0d8dc9e7dfb91bc002c6cc02afddddcb18ee4e243bd1a44  00_shaped_sink.jsonl
+-45dec881c72cfe534fa56a03419d07d0a2c78960bca05b30c6bb84185d76c896  00_shaped_sink.txt
+-a378bf952487ecf1873b98bb38e0238918f28f0438b6477fe02ef7af52bff205  10_callified_call.jsonl
+-48180c424c101be594c6af39ec7c0b0e413cedf429712e7c21130a8703ed3cba  10_callified_call.txt
++4d678a24e2d94cfc196be066e73f48d2ed7dc745986fa15f718603b6831fdafd  00_shaped_sink.jsonl
++1857ed2715ba684dc0201eca94eb68f90c3fe8ddf483060394e210990cf0fe56  00_shaped_sink.txt
++122589bc88eaeb8761c102430e0a09e276ad5f77c0c05f68d8f09c302295cfd6  10_callified_call.jsonl
++5569603d8a0aa19fc3f5da08c7ca2364f2b681006af0c212429b04c71ed9bba9  10_callified_call.txt
+ 0e8a88ffab44ade7aa045d7193fd57797ede10c0f31c59192d2575b7e966ebd6  11_callified_inner_sink.jsonl
+ 2ea5632a3c788c5ee7bbd57432a38070d2935a2d0e3cd72d3a152fa27cd70f3c  11_callified_inner_sink.txt
+ 829af7448c223ddd45dd96261c43a9fbb86c53818786e27f96e30db70198d5ad  20_kernel_graph.jsonl
+ de9735457533d44444d46ed68147a263ed7639b3b1463abc16739a892f62a650  20_kernel_graph.txt
+ df69470e040436da16c0e299c6a7b9fbbe13d3e5dcb8dcdbfdb6d5c64a337112  30_scheduled_pre_memory.jsonl
+ 29680fa31c3115d301c3fc80197f7fb9c2a40d3f210f5e143df9bf64b9b43e3b  30_scheduled_pre_memory.txt
+-96de4e2b7897691e790d3efcef9a3815f8b576eb200b7d0b0bef9e3b3d97fc62  40_scheduled_final.jsonl
+-4c2ff40357b4e8ba4c093c75b82821d67eaefce111a0e104d01d41b3b23d0263  40_scheduled_final.txt
++3a6b99468474d782533df568188af41e899a69ed4293b26b6df4d1ede41e6055  40_scheduled_final.jsonl
++1812a151531481b56566beef55478a711b05b034a75fa4357eb8917127367468  40_scheduled_final.txt
+ 339591887a05cfcbe0b502decbe616b910f635345503cacd1f54282c94e7a5fd  50_kernel_00_base_ast.jsonl
+ 521bfd7da1842394a7878a4fa046c294986cdba16c41cb3f94369c10515ee27a  50_kernel_00_base_ast.txt
+ 5c6ebb136eb1eb00e718029a6952b89229585594c9a6f3dce6cbd6a079496d36  50_kernel_01_base_ast.jsonl
+ cbf705d092e78718aa85591cb5ec0f6d46b22bb9b57622df0eca80de69e21332  50_kernel_01_base_ast.txt
+-73664236d065ae1592a66f84f17bb2512affc28289fa51275f06bf3be52cdc58  60_kernel_00_python_lowered_sink.jsonl
+-f79eb9b973905e412568bbf5a72fc88c6f0e81747d34c27dc39d28d793596113  60_kernel_00_python_lowered_sink.txt
+-4d348fd170d1127682cd82cdcac0069ac7018753b2b1cb3dea1cc2a01680a36a  60_kernel_01_python_lowered_sink.jsonl
+-a21acedc10e2b0984309073c273fdff8cc53075457fd32306bc613728b092cfb  60_kernel_01_python_lowered_sink.txt
+-996a47a46295a6650d4312dd065f4e9bebc4558c1c8fff28db56d057a984bab1  70_kernel_00_python_linear.jsonl
+-47c658a3e4a46391950cae97b773f1b44a5826d493e8a63478957848a4a3c28d  70_kernel_00_python_linear.txt
+-6136bd367e9385ca54cee61ed550ad765802308a7c25b3685141806048733436  70_kernel_01_python_linear.jsonl
+-ce40c6fff141d467cd22bfaebd7c8c4f2ed52be67bba5c2437bb9ce0be810cbe  70_kernel_01_python_linear.txt
+-824dec56a2da8c146497aa99b17f182a2462f9787026330ae2f3eb75329a5f2e  call_abi.json
++1f82231db713da29511788f8e24947a0103a89d9a160644ef2fe48c34ea26034  60_kernel_00_python_lowered_sink.jsonl
++730ec6d5076407f84e3391b8b3a2b968d7a2617b10479e153ef7af1b9e95a4ca  60_kernel_00_python_lowered_sink.txt
++b498c141d581a2abac97de9a8aac86d805e58a2f3ee0cd2070623586521826c6  60_kernel_01_python_lowered_sink.jsonl
++191b7570ca214b67036ffdfd272820425db2abd07c859c9084e1e7c4296640f8  60_kernel_01_python_lowered_sink.txt
++42746d4c62b8edacb458ea3fa951947a75940603f77dadf213a2c1ffc0e1749d  70_kernel_00_python_linear.jsonl
++ace90d1f19cfbbf92dbe08125683a1cf61320639e42718f0b1311af96c94c4e5  70_kernel_00_python_linear.txt
++0997f56babd06021f1becb7f9a80bff20b96a0f5fb70d05b4947f6827befcb6a  70_kernel_01_python_linear.jsonl
++b16828e713c1a6ccedc5dce5eff436c12c37ffedd0575b735d5f05a413bc0236  70_kernel_01_python_linear.txt
++e8c8a5d0a99e29cd4d5cf31e403f39846241f763ec91a943bf23605f93c6fdc0  call_abi.json
+
+=== sdpa_gqa_decode ===
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/00_shaped_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/00_shaped_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/00_shaped_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/00_shaped_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/10_callified_call.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/10_callified_call.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/10_callified_call.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/10_callified_call.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/40_scheduled_final.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/40_scheduled_final.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/40_scheduled_final.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/40_scheduled_final.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_00_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_00_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_00_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_00_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_01_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_01_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_01_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_01_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_02_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_02_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_02_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_02_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_03_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_03_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/60_kernel_03_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/60_kernel_03_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_00_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_00_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_00_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_00_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_01_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_01_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_01_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_01_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_02_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_02_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_02_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_02_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_03_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_03_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/70_kernel_03_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/70_kernel_03_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/sdpa_gqa_decode/call_abi.json and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/sdpa_gqa_decode/call_abi.json differ
+file-list old=77c17a9fd6b0840c46be7df062b622742785b9296d65853895f395fba7614396 new=77c17a9fd6b0840c46be7df062b622742785b9296d65853895f395fba7614396
+content hashes: DIFFER
+--- /tmp/oldhash	2026-07-14 02:42:13.494562110 +0000
++++ /tmp/newhash	2026-07-14 02:42:13.513397843 +0000
+@@ -1,15 +1,15 @@
+-792c3e0b6d9e129b0dfb6b4586ce489afc479377799f1cf2ef3a0c93c0fc818a  00_shaped_sink.jsonl
+-7a53380b8c10ed56b85659ee92938b67fe374678ad896025f9459471a9e40ae6  00_shaped_sink.txt
+-a801135d6e03c6ae6bc60c8a12a5ab5e307ce7b0f60198428b0384e058110252  10_callified_call.jsonl
+-2453182d032b3a381ed17198d921394a799906a56bee2f4c1df59cf55f57380b  10_callified_call.txt
++4269a19cd6c23db2bde3e0e835443713952524b646666637163012b971ad4734  00_shaped_sink.jsonl
++450d617165d0366cb74470387f2af46bc99808dc93d06539f7a3fd2ec6be191c  00_shaped_sink.txt
++46b255ff5ae70e526c2a47e14b98767d979aff041d2e8a5affe6bc0ea14caa68  10_callified_call.jsonl
++87903c66cd19906b421d9f4bd555c657db9a65527e0d6c76a707330204530755  10_callified_call.txt
+ 8ab9fe0578f8d123eb846667f63bd460fd1e71ae6d5714635bba150b94ea6d22  11_callified_inner_sink.jsonl
+ 1a61589c2a46cfd4ecdba96d9cc1cb2306c9519a1f7446dbae70ab91180cf09c  11_callified_inner_sink.txt
+ a44aa6e4b176b36694495334372bf4450224381515197bbec3dac088e7b247f0  20_kernel_graph.jsonl
+ 62e1440b78a0613ae811ea518ca908ce79ab3d5de116da48bc27e951d02deb69  20_kernel_graph.txt
+ 564fe4def71daf13ebb275a1c3125b689b2b21fea54665a190f5a26f8734c61c  30_scheduled_pre_memory.jsonl
+ 6f2d3b6ee10e431d142b2fb2dfab159c37bb0167b9fda631d8d2514f23a9a898  30_scheduled_pre_memory.txt
+-e33e9c6e83d39f396678a062a3689f21f36b085af6f7ffe0329e97ed15bf7633  40_scheduled_final.jsonl
+-4252a69c58023915f7cbf5f5d988d52b70a22037095b3f5b6c4d8052673090fc  40_scheduled_final.txt
++0bd1f457c97f8c680ab07c2e2f9aa2e6240972b457a5ad26634bab447cb52d3b  40_scheduled_final.jsonl
++f7ff91ffdf829c31cf52e5987a4619fbc710bd2a43db8f6b1f70fc21ccdffed3  40_scheduled_final.txt
+ daa85445e6254f9d0b55c54e569a4fedba6ccdad8019721baf0481d7eff8ee79  50_kernel_00_base_ast.jsonl
+ 3d3a989f690fde655a60551d2374d7b4c28d312f1a80da63845ac8f83114782b  50_kernel_00_base_ast.txt
+ 6e849c3cdc5fa4ae26882b19452555ffc10a5d5436f33f8a87a5e1f3d2535a1a  50_kernel_01_base_ast.jsonl
+@@ -18,20 +18,20 @@
+ 57ca137031e93a3731710f4a06c0d7d670d618ee4acb578636ae0bc96b7f7689  50_kernel_02_base_ast.txt
+ 89415fee83fa5848143a4f639c4f230478e4cc9cddc2946fcf3528cbc8c794d9  50_kernel_03_base_ast.jsonl
+ f08d2d2718f0091a51f186158b1a1ee3a76d2e18c1008e158fd4ad686fa769ac  50_kernel_03_base_ast.txt
+-d497727e811275bf0cd62cabbfc12ce81058a23f735fa0dd4de70e914735ba44  60_kernel_00_python_lowered_sink.jsonl
+-10a28a1dfd34126314fa9af2fbb9916a9f19be3b8ac91271ee9a1c6d1010806e  60_kernel_00_python_lowered_sink.txt
+-2b78517c38831f1c5a8f99d5ba6e4ab71238b410b0a75bbdcd5c5d33283c570e  60_kernel_01_python_lowered_sink.jsonl
+-e0359a656a91c4da56bdcf80e9675ddd6b29a7156f4568981f8a554827df486d  60_kernel_01_python_lowered_sink.txt
+-bb70107b686e0f5aa1ff7064fdb3ba6803a4769440f4c146dd4962ae59ae00b0  60_kernel_02_python_lowered_sink.jsonl
+-0c9a21a637ab5e28a592054dd901bf64347a3f852476dc3ff55530d3bb0b3e9f  60_kernel_02_python_lowered_sink.txt
+-24225b23ffdbf358a849c4e5898dd524849da7a6cd4c9c5b95094d07249ecbb9  60_kernel_03_python_lowered_sink.jsonl
+-550b4fe3df507fa8d7673257eb2b9bb05f4d4513b237d556536beb1483571967  60_kernel_03_python_lowered_sink.txt
+-92fdead288a1fad84ed65afa437b568138fc2538873555c8aa4428eb165621c3  70_kernel_00_python_linear.jsonl
+-a8b0a94f3d6a4fbf8aabb64041946e30d8f1c3912ded629c14dc5679f5639049  70_kernel_00_python_linear.txt
+-846f30c73c3b6ed3a2c6632a2b4ebc5e8d4a393d400bd6d484e3db9f46ac3249  70_kernel_01_python_linear.jsonl
+-1759077070b084706590d69c88a0889bdaeb50f4d2cf53549af978b820a14816  70_kernel_01_python_linear.txt
+-ca992924feb2b840efafd3e46e03e819d084eeade05613b29710f7d82cd176ec  70_kernel_02_python_linear.jsonl
+-e1e47c99453bf821ddd287e6c5b6a137c210bd1d17817f2f6adc32cf7808919c  70_kernel_02_python_linear.txt
+-cec8c8bbd81b2036a9b161fdbd2b21bbba787218b31271817e7effa6bdfa9052  70_kernel_03_python_linear.jsonl
+-746f1ac35f0e14bffc9bb4d1f14fcf5f040f03941d21d953ff88c5cd89919ff9  70_kernel_03_python_linear.txt
+-9dfd5d3588d898b91090362c317300c847a1147f60d6f280a36d9100a89ee433  call_abi.json
++83b7a87e321d823fcd8cfb5cf8d101cce7997e282a9cd75c59d395195f37b2d2  60_kernel_00_python_lowered_sink.jsonl
++13bbc6b868ac54361a363c4b8b86f3e072e15ac12488c9c5797bb51028695f2d  60_kernel_00_python_lowered_sink.txt
++3eddecf3c6f6c8b2720310b55cfde459503adc615dce3562a67ba90bea87f3b5  60_kernel_01_python_lowered_sink.jsonl
++7d667ae542c65e84e79965dc86cfe6747c2671eae8c42b51d2d25adb963a815c  60_kernel_01_python_lowered_sink.txt
++7b1e0303da278e3daa5306f38353fc23b4e1f44c1b54e87287ddf7b7cc7afd18  60_kernel_02_python_lowered_sink.jsonl
++55a017a811679250a0f3b29bbf422793a954b19482968aaab604ceab1541b52e  60_kernel_02_python_lowered_sink.txt
++adddda2e217a6537c4bc6be0607d136368257e730adf0fc5c0063978392c906d  60_kernel_03_python_lowered_sink.jsonl
++b4078cfc5c2caf7446068ba11a057d87698c90519db741fa9d07eee6d4da5b9b  60_kernel_03_python_lowered_sink.txt
++2c75f95c0baf9a1e2d8f34e323c7f9dd9f3480dc7f08dcc4b806c2fcdce3b41d  70_kernel_00_python_linear.jsonl
++dbc866ef1dc65372bce89585036d072a9d0b497f7318e7f76eb11ff82ffd008a  70_kernel_00_python_linear.txt
++63cb82ca26ab7af79153a56c33ab5084786220e51505dbfd058ed43b89fa1572  70_kernel_01_python_linear.jsonl
++f719d33f751184cd2f8e2b8063e5902a0aea967ec5488493e52357b1bc114360  70_kernel_01_python_linear.txt
++9c454fca330a38710b46ca9e8d610bc5811ed119ac5dac81b53810d483d0307b  70_kernel_02_python_linear.jsonl
++edfbb336df8538740011c52cf76ffd85b9eaf81b55b2673f33e12e36cb224a69  70_kernel_02_python_linear.txt
++bb1df840ea055ef50f31624da0b78c9867278596cb125ba402619d57b0339e9a  70_kernel_03_python_linear.jsonl
++67d13d62479c8901482bf4838945854bf92ba17951162fe56621412821541dea  70_kernel_03_python_linear.txt
++96faf924d0bb9aedec30724c7825d35598a67623f01c46d66f91f0c1e0534f5e  call_abi.json
+
+=== kv_cache_update_symbolic ===
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/00_shaped_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/00_shaped_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/00_shaped_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/00_shaped_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/10_callified_call.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/10_callified_call.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/10_callified_call.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/10_callified_call.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/40_scheduled_final.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/40_scheduled_final.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/40_scheduled_final.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/40_scheduled_final.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/60_kernel_00_python_lowered_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/60_kernel_00_python_lowered_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/60_kernel_00_python_lowered_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/60_kernel_00_python_lowered_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/70_kernel_00_python_linear.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/70_kernel_00_python_linear.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/70_kernel_00_python_linear.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/70_kernel_00_python_linear.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/kv_cache_update_symbolic/call_abi.json and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/kv_cache_update_symbolic/call_abi.json differ
+file-list old=f25aceee1bc380b32213111c4b510b8d959eabe7e011cec24b76e051795cb0c3 new=f25aceee1bc380b32213111c4b510b8d959eabe7e011cec24b76e051795cb0c3
+content hashes: DIFFER
+--- /tmp/oldhash	2026-07-14 02:42:13.647359812 +0000
++++ /tmp/newhash	2026-07-14 02:42:13.663563126 +0000
+@@ -1,19 +1,19 @@
+-77845cc0bb3a21f8289b5b37a6f5847f5f9ea82853996cc533310938bacc7799  00_shaped_sink.jsonl
+-64813fae110486df6c6a103a6a3a10452aa35519317b22271e0a37a51c74bcfe  00_shaped_sink.txt
+-0913be6bb38216c4fdb8ac255494cae177ac1595277f3718cb3973599db0ce02  10_callified_call.jsonl
+-7c5e87f33253a97f14997dcc073cc81fad9bbbc60d9476bd1e609c40e1212a50  10_callified_call.txt
++e8fab234a6f266f5ccf389c0017d952c2f61d6aa383ce45ef0f15feb7027dcc3  00_shaped_sink.jsonl
++5b3baa2fc283d4ead4e300f4b20229977e73890f26d5b0c875b27af5f5ada547  00_shaped_sink.txt
++d26da179410c94da2e44f4bb502e13dbae43d7ba7c29b69fc4f6d4fc9d5e65e1  10_callified_call.jsonl
++ac9ba61b0ed132edcbca84b394e036d399a9541727c8cbd0b741d57f1ef2c661  10_callified_call.txt
+ 4065996bf18bab8edff245aeefc934a63c5217c15f5f9d451749c7521a5a2989  11_callified_inner_sink.jsonl
+ 16c7baddbb0002f8e9bc32591a3e029635bb7e899ce4c3e4d2c4c91dff8a9dba  11_callified_inner_sink.txt
+ b3ec1d7196d573292fea223b81063d5dc292f723796f70ef123f8d5cd39fb8dc  20_kernel_graph.jsonl
+ ec55a971335f9c6c7f811d38f72ac68e54db78c409918e5b5b58d0f57df23dfa  20_kernel_graph.txt
+ f0eba77589e66290459f015256776e49421ae9e81c208d96be6cdf5e00a7f139  30_scheduled_pre_memory.jsonl
+ a27c52017e4d63c455a5a69f78e01f2c552acacb3d2306de3cac26b637156e05  30_scheduled_pre_memory.txt
+-214de1351e6b99119211dcc474b766b1919482e128303717c08e32727603bc4e  40_scheduled_final.jsonl
+-6877d3e3d43587bec2418abb0994eb7983170fa0b1856e2c5f712026840fb1a9  40_scheduled_final.txt
++6e9366234343f8cb8ae0432e8a6c7b49ddfe4c601b3f440d8ee97cedd3f93fa5  40_scheduled_final.jsonl
++b725577657aecb8a892c406230e5a00f1513b63ed6ebbe1573be9fcf7760e1e2  40_scheduled_final.txt
+ 062907b32228a2f5b9fcb3c36012dacb485cdad960ae0dce51dbe221263458a5  50_kernel_00_base_ast.jsonl
+ 33062875f45c9ca9612ec583b001f792d53a5389e51972d8302e907cc1d98d60  50_kernel_00_base_ast.txt
+-69d8ce8388b723a4a13a9799d8e83b056bb35ab4c403c4a6a5f23cf9f8551f48  60_kernel_00_python_lowered_sink.jsonl
+-b6d965ffb7619cf5a05d9e5dd6c30f4cfa14fd8593a2d2d124cb900e0c404d5a  60_kernel_00_python_lowered_sink.txt
+-0085ceb383f047b853c956b203af0f76ad2baa5d01fefdbce4c72cc3b80d90ac  70_kernel_00_python_linear.jsonl
+-94623fd12721056e9c2a27c626701a303ac74648e1e7bd9e312de585de1e484d  70_kernel_00_python_linear.txt
+-b83bf2e5185b64a85769933a6c3de2441378f9f869f39314dfc3132b9c237eb4  call_abi.json
++31eab0e4aee5229ed6e643d757cf62a82231fe23ff78a990839d0e6780b4092a  60_kernel_00_python_lowered_sink.jsonl
++5730744f2afc2f3ad21ea4fd5fbdbcbec8c8c290fa039e641a46a235d6f83ca7  60_kernel_00_python_lowered_sink.txt
++0014e3ec0a32a3aaf9497b19ae092bdd5fd310d496bb608763f3b8d28f2eaf09  70_kernel_00_python_linear.jsonl
++20783e4a0dc7a039e6930c56704a54d2176422f42737d98eb3db96683410ff5a  70_kernel_00_python_linear.txt
++39bd3177988576f721ae6305fddefe5fbd5363fdaca2a7dd8b399fd593db8cc9  call_abi.json
+
+=== llama32_1b_block_decode ===
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/00_shaped_sink.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/00_shaped_sink.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/00_shaped_sink.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/00_shaped_sink.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/10_callified_call.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/10_callified_call.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/10_callified_call.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/10_callified_call.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/40_scheduled_final.jsonl and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/40_scheduled_final.jsonl differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/40_scheduled_final.txt and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/40_scheduled_final.txt differ
+Files /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/uop-dumps/current/llama32_1b_block_decode/call_abi.json and /mnt/data/tinygrad-blackhole-offline-research-2026-07-13/research-output/regenerated-uops/llama32_1b_block_decode/call_abi.json differ
+file-list old=421debbe4e81c1a11fc4f4a8757a7dd66bfdf3aac3a5ddf2f0f2ff89256a63c8 new=421debbe4e81c1a11fc4f4a8757a7dd66bfdf3aac3a5ddf2f0f2ff89256a63c8
+content hashes: DIFFER
+--- /tmp/oldhash	2026-07-14 02:42:13.791729140 +0000
++++ /tmp/newhash	2026-07-14 02:42:13.811118108 +0000
+@@ -1,15 +1,15 @@
+-b43277754707ab0bab969c47cd6f59c677516f639aff74c7b8df53060b2c6b3d  00_shaped_sink.jsonl
+-2170632c74295ad743f5343b5ce55dd54c3118e160ab41e449f84c763fb7ddc9  00_shaped_sink.txt
+-21220f90c08beed3518e66c408b027729b3ad6f57e2adbffc5a5b7731e50ac98  10_callified_call.jsonl
+-c27e4a0faa1c493c330a04a348ee6fdf0025320ee040c8d9fd1341da6363d158  10_callified_call.txt
++2839e0caebe9e63884a6d17c2f2cd14506b85de065f8ebae25bf47ea4ae66335  00_shaped_sink.jsonl
++ca532c06c4009c02dd0cfbe0c2abbc2c93b1f62f2f2bb75f379de49679c2a23b  00_shaped_sink.txt
++fdbb31f9724a2d373e7dbc9bb105cad88e73c2d77ef8dfbe4b529a1a5698b547  10_callified_call.jsonl
++5055378e3fe49a563fed7f7d8edcdd143dfc9abe7a7d078f139b6175398c396a  10_callified_call.txt
+ a712a681a9ce79c65976738eb2958fa3df0ea5d8e4775a9cbbad8eff7de40bd4  11_callified_inner_sink.jsonl
+ 560bf5cc916b12a7410b3bf5954c630ac8595ba5cc936f461276d5f9eeb363da  11_callified_inner_sink.txt
+ 8f2eeda9ad16fe7747fd3caadd324eaad0a7882917ba3e9cf33e19167f003817  20_kernel_graph.jsonl
+ 2785bd323b32d7eef0c877fb9b50a485e2e82f4eb11afe2750dd80db0a07c7d1  20_kernel_graph.txt
+ 2281156d5563e38d45a66a83ec40cbef394dbec0f86f76aab43bf0383cd7796c  30_scheduled_pre_memory.jsonl
+ 076dd61bde950b295d799a7557549f3a34d0ea2e91d673f5cbe14a9e1baa8193  30_scheduled_pre_memory.txt
+-ff4c283fb47652be0ebf3e7481082f8c992c05120793a5a6177f6077f7d8a0d2  40_scheduled_final.jsonl
+-1db745ab67ee3ca5150722c43066574c4accc0f45d2286eecd155153612f85e5  40_scheduled_final.txt
++5729549bfd40f2b341103214c153d50dff7c9b9c1feb723b8bf457994a21c9ee  40_scheduled_final.jsonl
++cf4250e905c2e0323fda671fdc51577eefc6ea4d05fb3bd52de5f880444c62e3  40_scheduled_final.txt
+ 68f28640e0cae238a628172c06ecd7ba92f35c0f6544996673d7d39940dd5fc6  50_kernel_00_base_ast.jsonl
+ 36451e69e2fb55335e3e648a552ccd0ae7c02e8a3fa4d3c871aa1150024bddc1  50_kernel_00_base_ast.txt
+ 71603fd9d6cf911b6d06399056da7c512de93865f264d0d03f50c79ad4792852  50_kernel_01_base_ast.jsonl
+@@ -38,4 +38,4 @@
+ a4257b7cadb26bc20f347d31e46e641c6dfae9a6d6361fc95f6d0887a34a883d  50_kernel_12_base_ast.txt
+ b4cab759b2565d88b4430843a3462804f1caab9a35ae9fd61bbcf23b7434fbc7  50_kernel_13_base_ast.jsonl
+ ebd41077af398a3f63465bc0463ae178cfaacc674c29c451b2caec48b7908192  50_kernel_13_base_ast.txt
+-dafe5c9a68a3188761a009583bf4713139b4ad23009f0d823a5a8f5ebaa29e62  call_abi.json
++af6c55302e1a01cd9aaddcefbd97826c73d6c6b484e9de3dd74790aecdd53e50  call_abi.json
+

@@ -1,0 +1,65 @@
+--- a/program.py
++++ b/program.py
+@@ -96,7 +96,18 @@
+     return PARAM_BASE + slot * 4
+ 
+   def bind(self, param: Param, buffer: Buffer | None = None):
++    if self.params.get(param.name) is not param:
++      raise KeyError(f"parameter {param.name!r} does not belong to this program")
+     buffer = param.initial if buffer is None else buffer
++    expected = param.initial
++    mismatches = [name for name in ("loc", "dtype", "shape", "padded_shape")
++                  if getattr(buffer, name) != getattr(expected, name)]
++    if mismatches:
++      details = ", ".join(f"{name}={getattr(buffer, name)!r} (expected {getattr(expected, name)!r})"
++                          for name in mismatches)
++      raise ValueError(f"buffer binding for {param.name!r} has an incompatible ABI: {details}")
++    if not 0 <= int(buffer.addr) < 1 << 32:
++      raise ValueError("buffer address must fit in the 32-bit program parameter table")
+     addr = int(buffer.addr).to_bytes(4, "little")
+     return UnicastWrite(self.cores, self.param_addr(param), (addr,) * len(self.cores))
+ 
+--- /dev/null
++++ b/tests/test_program_bind.py
+@@ -0,0 +1,41 @@
++import unittest
++
++from program import Buffer, DType, Param, Program
++
++
++class TestProgramBind(unittest.TestCase):
++  def setUp(self):
++    self.initial = Buffer("src", 0x40, "device", DType.BF16, (31, 33), (32, 64))
++    self.param = Param("src", self.initial)
++    self.program = Program({(1, 2): {}}, {"src": self.param}, ())
++
++  def test_valid_binding_writes_new_address(self):
++    replacement = Buffer("replacement", 0x123456C0, "device", DType.BF16, (31, 33), (32, 64))
++    command = self.program.bind(self.param, replacement)
++    self.assertEqual(command.cores, ((1, 2),))
++    self.assertEqual(command.addr, self.program.param_addr(self.param))
++    self.assertEqual(command.data, ((0x123456C0).to_bytes(4, "little"),))
++
++  def test_rejects_foreign_param_with_same_name(self):
++    with self.assertRaisesRegex(KeyError, "does not belong"):
++      self.program.bind(Param("src", self.initial))
++
++  def test_rejects_incompatible_buffer_abi(self):
++    cases = {
++      "loc": Buffer("bad", 0x80, "host", DType.BF16, (31, 33), (32, 64)),
++      "dtype": Buffer("bad", 0x80, "device", DType.F32, (31, 33), (32, 64)),
++      "shape": Buffer("bad", 0x80, "device", DType.BF16, (32, 33), (32, 64)),
++      "padded_shape": Buffer("bad", 0x80, "device", DType.BF16, (31, 33), (64, 64)),
++    }
++    for field, replacement in cases.items():
++      with self.subTest(field=field), self.assertRaisesRegex(ValueError, field):
++        self.program.bind(self.param, replacement)
++
++  def test_rejects_out_of_range_address(self):
++    for address in (-1, 1 << 32):
++      with self.subTest(address=address), self.assertRaisesRegex(ValueError, "32-bit"):
++        replacement = Buffer("bad", address, "device", DType.BF16, (31, 33), (32, 64))
++        self.program.bind(self.param, replacement)
++
++
++if __name__ == "__main__": unittest.main()

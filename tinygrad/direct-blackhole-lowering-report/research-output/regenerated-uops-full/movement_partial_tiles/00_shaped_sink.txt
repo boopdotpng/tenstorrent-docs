@@ -1,0 +1,40 @@
+# Tinygrad raw UOp dump
+# {"artifact": "00_shaped_sink", "description": "Finished Tensor graph before callify; renderer neutral.", "node_count": 27, "op_counts": {"ADD": 1, "BUFFER": 1, "CONST": 11, "CONTIGUOUS": 1, "EXPAND": 1, "PAD": 1, "PERMUTE": 1, "RESHAPE": 2, "SHRINK": 1, "SINK": 1, "STACK": 6}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=None, src=(
+  UOp(Ops.CONTIGUOUS, dtypes.float, arg=None, src=(
+    UOp(Ops.ADD, dtypes.float, arg=None, src=(
+      UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+        UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+          UOp(Ops.PAD, dtypes.float, arg=None, src=(
+            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+              UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(12, device='PYTHON'), src=(
+                UOp(Ops.CONST, dtypes.weakint, arg=4290, src=()),)),
+              UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                x9:=UOp(Ops.CONST, dtypes.weakint, arg=2, src=()),
+                x10:=UOp(Ops.CONST, dtypes.weakint, arg=33, src=()),
+                UOp(Ops.CONST, dtypes.weakint, arg=65, src=()),)),)),
+            UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+              x13:=UOp(Ops.CONST, dtypes.weakint, arg=0, src=()),
+              x14:=UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),
+              UOp(Ops.CONST, dtypes.weakint, arg=3, src=()),)),
+            UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+              x9,
+              UOp(Ops.CONST, dtypes.weakint, arg=36, src=()),
+              UOp(Ops.CONST, dtypes.weakint, arg=72, src=()),)),)),)),
+        UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+          x13,
+          x9,
+          x14,)),
+        x20:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+          x9,
+          UOp(Ops.CONST, dtypes.weakint, arg=66, src=()),
+          x10,)),)),
+      UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+          UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.0), src=()),
+          UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+            x14,
+            x14,
+            x14,)),)),
+        x20,)),)),)),))

@@ -1,0 +1,137 @@
+{"arg": "65536", "dtype": "dtypes.weakint", "id": 0, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(54, device='PYTHON')", "dtype": "dtypes.float", "id": 1, "op": "BUFFER", "shape": ["65536"], "src": [0], "tag": "None"}
+{"arg": "1", "dtype": "dtypes.weakint", "id": 2, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "32", "dtype": "dtypes.weakint", "id": 3, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "64", "dtype": "dtypes.weakint", "id": 4, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(4)", "id": 5, "op": "STACK", "shape": ["4"], "src": [2, 3, 3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 6, "op": "RESHAPE", "shape": ["1", "32", "32", "64"], "src": [1, 5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 7, "op": "STACK", "shape": ["5"], "src": [2, 3, 3, 2, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 8, "op": "RESHAPE", "shape": ["1", "32", "32", "1", "64"], "src": [6, 7], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 9, "op": "STACK", "shape": ["5"], "src": [2, 3, 3, 3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 10, "op": "EXPAND", "shape": ["1", "32", "32", "32", "64"], "src": [8, 9], "tag": "None"}
+{"arg": "16384", "dtype": "dtypes.weakint", "id": 11, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "ParamArg(55, device='PYTHON')", "dtype": "dtypes.float", "id": 12, "op": "BUFFER", "shape": ["16384"], "src": [11], "tag": "None"}
+{"arg": "8", "dtype": "dtypes.weakint", "id": 13, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(4)", "id": 14, "op": "STACK", "shape": ["4"], "src": [2, 13, 3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 15, "op": "RESHAPE", "shape": ["1", "8", "32", "64"], "src": [12, 14], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 16, "op": "STACK", "shape": ["5"], "src": [2, 13, 2, 3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 17, "op": "RESHAPE", "shape": ["1", "8", "1", "32", "64"], "src": [15, 16], "tag": "None"}
+{"arg": "4", "dtype": "dtypes.weakint", "id": 18, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 19, "op": "STACK", "shape": ["5"], "src": [2, 13, 18, 3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 20, "op": "EXPAND", "shape": ["1", "8", "4", "32", "64"], "src": [17, 19], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 21, "op": "RESHAPE", "shape": ["1", "32", "32", "64"], "src": [20, 5], "tag": "None"}
+{"arg": "(0, 1, 3, 2)", "dtype": "dtypes.float", "id": 22, "op": "PERMUTE", "shape": ["1", "32", "64", "32"], "src": [21], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 23, "op": "STACK", "shape": ["5"], "src": [2, 3, 2, 4, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 24, "op": "RESHAPE", "shape": ["1", "32", "1", "64", "32"], "src": [22, 23], "tag": "None"}
+{"arg": "(0, 1, 2, 4, 3)", "dtype": "dtypes.float", "id": 25, "op": "PERMUTE", "shape": ["1", "32", "1", "32", "64"], "src": [24], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 26, "op": "EXPAND", "shape": ["1", "32", "32", "32", "64"], "src": [25, 9], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 27, "op": "MUL", "shape": ["1", "32", "32", "32", "64"], "src": [10, 26], "tag": "None"}
+{"arg": "(Ops.ADD, (4,))", "dtype": "dtypes.float", "id": 28, "op": "REDUCE", "shape": ["1", "32", "32", "32", "1"], "src": [27], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(4)", "id": 29, "op": "STACK", "shape": ["4"], "src": [2, 3, 3, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 30, "op": "RESHAPE", "shape": ["1", "32", "32", "32"], "src": [28, 29], "tag": "None"}
+{"arg": "ConstFloat(8.0)", "dtype": "dtypes.float", "id": 31, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(4)", "id": 32, "op": "STACK", "shape": ["4"], "src": [2, 2, 2, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 33, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [31, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 34, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [33, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 35, "op": "RECIPROCAL", "shape": ["1", "32", "32", "32"], "src": [34], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 36, "op": "MUL", "shape": ["1", "32", "32", "32"], "src": [30, 35], "tag": "None"}
+{"arg": "1", "dtype": "dtypes.int", "id": 37, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 38, "op": "RESHAPE", "shape": ["1"], "src": [37, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 39, "op": "EXPAND", "shape": ["32"], "src": [38, 3], "tag": "None"}
+{"arg": "31", "dtype": "dtypes.weakint", "id": 40, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "63", "dtype": "dtypes.weakint", "id": 41, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 42, "op": "PAD", "shape": ["63"], "src": [39, 40, 41], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 43, "op": "STACK", "shape": ["2"], "src": [2, 41], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 44, "op": "RESHAPE", "shape": ["1", "63"], "src": [42, 43], "tag": "None"}
+{"arg": "33", "dtype": "dtypes.weakint", "id": 45, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 46, "op": "STACK", "shape": ["2"], "src": [45, 41], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 47, "op": "EXPAND", "shape": ["33", "63"], "src": [44, 46], "tag": "None"}
+{"arg": "2079", "dtype": "dtypes.weakint", "id": 48, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 49, "op": "RESHAPE", "shape": ["2079"], "src": [47, 48], "tag": "None"}
+{"arg": "0", "dtype": "dtypes.weakint", "id": 50, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "2048", "dtype": "dtypes.weakint", "id": 51, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 52, "op": "SHRINK", "shape": ["2048"], "src": [49, 50, 51], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 53, "op": "STACK", "shape": ["2"], "src": [3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 54, "op": "RESHAPE", "shape": ["32", "64"], "src": [52, 53], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 55, "op": "STACK", "shape": ["2"], "src": [50, 50], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 56, "op": "STACK", "shape": ["2"], "src": [3, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 57, "op": "SHRINK", "shape": ["32", "32"], "src": [54, 55, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(3)", "id": 58, "op": "STACK", "shape": ["3"], "src": [3, 3, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 59, "op": "RESHAPE", "shape": ["32", "32", "1"], "src": [57, 58], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 60, "op": "RESHAPE", "shape": ["32", "32"], "src": [59, 56], "tag": "None"}
+{"arg": "(1, 0)", "dtype": "dtypes.int", "id": 61, "op": "PERMUTE", "shape": ["32", "32"], "src": [60], "tag": "None"}
+{"arg": "(Ops.ADD, (1,))", "dtype": "dtypes.int", "id": 62, "op": "REDUCE", "shape": ["32", "1"], "src": [61], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 63, "op": "RESHAPE", "shape": ["32"], "src": [62, 3], "tag": "None"}
+{"arg": "-1", "dtype": "dtypes.int", "id": 64, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 65, "op": "RESHAPE", "shape": ["1"], "src": [64, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 66, "op": "EXPAND", "shape": ["32"], "src": [65, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 67, "op": "ADD", "shape": ["32"], "src": [63, 66], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 68, "op": "STACK", "shape": ["2"], "src": [2, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 69, "op": "RESHAPE", "shape": ["1", "32"], "src": [67, 68], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 70, "op": "EXPAND", "shape": ["32", "32"], "src": [69, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 71, "op": "STACK", "shape": ["2"], "src": [3, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 72, "op": "RESHAPE", "shape": ["32", "1"], "src": [67, 71], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(2)", "id": 73, "op": "STACK", "shape": ["2"], "src": [2, 2], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 74, "op": "RESHAPE", "shape": ["1", "1"], "src": [37, 73], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 75, "op": "EXPAND", "shape": ["32", "1"], "src": [74, 71], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 76, "op": "ADD", "shape": ["32", "1"], "src": [72, 75], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 77, "op": "EXPAND", "shape": ["32", "32"], "src": [76, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 78, "op": "CMPLT", "shape": ["32", "32"], "src": [70, 77], "tag": "None"}
+{"arg": "True", "dtype": "dtypes.bool", "id": 79, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 80, "op": "RESHAPE", "shape": ["1", "1"], "src": [79, 73], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 81, "op": "EXPAND", "shape": ["32", "32"], "src": [80, 56], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 82, "op": "CMPNE", "shape": ["32", "32"], "src": [78, 81], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(4)", "id": 83, "op": "STACK", "shape": ["4"], "src": [2, 2, 3, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 84, "op": "RESHAPE", "shape": ["1", "1", "32", "32"], "src": [82, 83], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 85, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [84, 29], "tag": "None"}
+{"arg": "False", "dtype": "dtypes.bool", "id": 86, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 87, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [86, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 88, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [87, 29], "tag": "None"}
+{"arg": "ConstFloat(1.0)", "dtype": "dtypes.float", "id": 89, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 90, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [89, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 91, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [90, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 92, "op": "CAST", "shape": ["1", "32", "32", "32"], "src": [91], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.bool", "id": 93, "op": "WHERE", "shape": ["1", "32", "32", "32"], "src": [85, 88, 92], "tag": "None"}
+{"arg": "0", "dtype": "dtypes.int", "id": 94, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 95, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [94, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.int", "id": 96, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [95, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 97, "op": "CAST", "shape": ["1", "32", "32", "32"], "src": [96], "tag": "None"}
+{"arg": "ConstFloat(-inf)", "dtype": "dtypes.float", "id": 98, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 99, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [98, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 100, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [99, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 101, "op": "WHERE", "shape": ["1", "32", "32", "32"], "src": [93, 97, 100], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 102, "op": "ADD", "shape": ["1", "32", "32", "32"], "src": [36, 101], "tag": "None"}
+{"arg": "(Ops.MAX, (3,))", "dtype": "dtypes.float", "id": 103, "op": "REDUCE", "shape": ["1", "32", "32", "1"], "src": [102], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 104, "op": "DETACH", "shape": ["1", "32", "32", "1"], "src": [103], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 105, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [104, 29], "tag": "None"}
+{"arg": "ConstFloat(-1.0)", "dtype": "dtypes.float", "id": 106, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 107, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [106, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 108, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [107, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 109, "op": "MUL", "shape": ["1", "32", "32", "32"], "src": [105, 108], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 110, "op": "ADD", "shape": ["1", "32", "32", "32"], "src": [102, 109], "tag": "None"}
+{"arg": "ConstFloat(1.4426950408889634)", "dtype": "dtypes.float", "id": 111, "op": "CONST", "shape": [], "src": [], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 112, "op": "RESHAPE", "shape": ["1", "1", "1", "1"], "src": [111, 32], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 113, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [112, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 114, "op": "MUL", "shape": ["1", "32", "32", "32"], "src": [110, 113], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 115, "op": "EXP2", "shape": ["1", "32", "32", "32"], "src": [114], "tag": "None"}
+{"arg": "(Ops.ADD, (3,))", "dtype": "dtypes.float", "id": 116, "op": "REDUCE", "shape": ["1", "32", "32", "1"], "src": [115], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 117, "op": "RECIPROCAL", "shape": ["1", "32", "32", "1"], "src": [116], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 118, "op": "EXPAND", "shape": ["1", "32", "32", "32"], "src": [117, 29], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 119, "op": "MUL", "shape": ["1", "32", "32", "32"], "src": [115, 118], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 120, "op": "STACK", "shape": ["5"], "src": [2, 3, 3, 2, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 121, "op": "RESHAPE", "shape": ["1", "32", "32", "1", "32"], "src": [119, 120], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 122, "op": "STACK", "shape": ["5"], "src": [2, 3, 3, 4, 3], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 123, "op": "EXPAND", "shape": ["1", "32", "32", "64", "32"], "src": [121, 122], "tag": "None"}
+{"arg": "ParamArg(56, device='PYTHON')", "dtype": "dtypes.float", "id": 124, "op": "BUFFER", "shape": ["16384"], "src": [11], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 125, "op": "RESHAPE", "shape": ["1", "8", "32", "64"], "src": [124, 14], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 126, "op": "RESHAPE", "shape": ["1", "8", "1", "32", "64"], "src": [125, 16], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 127, "op": "EXPAND", "shape": ["1", "8", "4", "32", "64"], "src": [126, 19], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 128, "op": "RESHAPE", "shape": ["1", "32", "32", "64"], "src": [127, 5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.weakint.vec(5)", "id": 129, "op": "STACK", "shape": ["5"], "src": [2, 3, 2, 3, 4], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 130, "op": "RESHAPE", "shape": ["1", "32", "1", "32", "64"], "src": [128, 129], "tag": "None"}
+{"arg": "(0, 1, 2, 4, 3)", "dtype": "dtypes.float", "id": 131, "op": "PERMUTE", "shape": ["1", "32", "1", "64", "32"], "src": [130], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 132, "op": "EXPAND", "shape": ["1", "32", "32", "64", "32"], "src": [131, 122], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 133, "op": "MUL", "shape": ["1", "32", "32", "64", "32"], "src": [123, 132], "tag": "None"}
+{"arg": "(Ops.ADD, (4,))", "dtype": "dtypes.float", "id": 134, "op": "REDUCE", "shape": ["1", "32", "32", "64", "1"], "src": [133], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.float", "id": 135, "op": "RESHAPE", "shape": ["1", "32", "32", "64"], "src": [134, 5], "tag": "None"}
+{"arg": "None", "dtype": "dtypes.void", "id": 136, "op": "SINK", "shape": null, "src": [135], "tag": "None"}

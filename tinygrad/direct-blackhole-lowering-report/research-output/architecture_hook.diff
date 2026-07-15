@@ -1,0 +1,152 @@
+--- a/tinygrad/tinygrad/schedule/__init__.py
++++ b/tinygrad/tinygrad/schedule/__init__.py
+@@ -1,8 +1,9 @@
+-import time, inspect
++import time, inspect, hashlib
+ from collections import deque
+ from tinygrad.uop.ops import UOp, Ops, UOpMetaClass, track_rewrites, graph_rewrite, gate_kernel_sink, KernelInfo
+ from tinygrad.uop.spec import type_verify, spec_tensor
+ from tinygrad.helpers import DEBUG, cpu_profile, TracingKey, SPEC, pluralize, SCACHE, BASEDIR, partition
++from tinygrad.schedule.backend import try_lower_graph
+ 
+ # **** schedule linearizer
+ 
+@@ -113,11 +114,17 @@
+ def lower_sink_to_linear(function:UOp) -> UOp|None:
+   st = time.perf_counter()
+   if isinstance(function.arg, KernelInfo): return None
+-  cache_key = function.key
++  lowered = try_lower_graph(function)
++  if lowered is None:
++    cache_key, graph = function.key, None
++  else:
++    lowerer_name, backend_graph = lowered
++    cache_key = hashlib.sha256(function.key + b"\0backend-graph\0" + lowerer_name.encode() + b"\0" + backend_graph.cache_tag).digest()
++    graph = backend_graph.graph
+   if not SCACHE or (sc_ret:=schedule_cache.get(cache_key, None)) is None:
+     if SPEC: type_verify(function, spec_tensor)
+-    # support recursive CALLs
+-    linear = create_schedule(get_kernel_graph(function))
++    # support recursive CALLs; an optional backend lowerer may replace generic rangeify with an ordinary call graph
++    linear = create_schedule(get_kernel_graph(function) if graph is None else graph)
+     if SCACHE: schedule_cache[cache_key] = linear
+   else:
+     # schedule cache hit
+--- /dev/null
++++ b/tinygrad/tinygrad/schedule/backend.py
+@@ -0,0 +1,44 @@
++from dataclasses import dataclass
++from typing import Callable
++
++from tinygrad.uop.ops import UOp
++
++
++@dataclass(frozen=True)
++class GraphLoweringRequest:
++  """Renderer-neutral input to an optional backend graph lowerer."""
++  function: UOp
++  roots: tuple[UOp, ...]
++
++
++@dataclass(frozen=True)
++class BackendGraph:
++  """An ordinary Tinygrad call graph plus a backend-defined cache discriminator."""
++  graph: UOp
++  cache_tag: bytes
++
++
++GraphLowerer = Callable[[GraphLoweringRequest], BackendGraph | None]
++_graph_lowerers: dict[str, GraphLowerer] = {}
++
++
++def register_graph_lowerer(name: str, lowerer: GraphLowerer) -> None:
++  if not name or name in _graph_lowerers: raise ValueError(f"graph lowerer {name!r} is already registered or invalid")
++  _graph_lowerers[name] = lowerer
++
++
++def unregister_graph_lowerer(name: str) -> None:
++  del _graph_lowerers[name]
++
++
++def try_lower_graph(function: UOp) -> tuple[str, BackendGraph] | None:
++  request = GraphLoweringRequest(function, function.src)
++  matches: list[tuple[str, BackendGraph]] = []
++  for name in sorted(_graph_lowerers):
++    if (result := _graph_lowerers[name](request)) is not None:
++      if not isinstance(result.cache_tag, bytes) or not result.cache_tag:
++        raise ValueError(f"graph lowerer {name!r} must return a non-empty bytes cache_tag")
++      matches.append((name, result))
++  if len(matches) > 1:
++    raise RuntimeError(f"multiple backend graph lowerers claimed one function: {', '.join(name for name, _ in matches)}")
++  return matches[0] if matches else None
+--- /dev/null
++++ b/tinygrad/test/unit/test_backend_graph_lowerer.py
+@@ -0,0 +1,68 @@
++import unittest
++
++from tinygrad.tensor import Tensor
++from tinygrad.uop.ops import UOp
++from tinygrad.callify import transform_to_call
++from tinygrad.schedule import create_schedule, lower_sink_to_linear, schedule_cache
++from tinygrad.schedule.rangeify import get_kernel_graph
++from tinygrad.schedule.backend import BackendGraph, register_graph_lowerer, unregister_graph_lowerer
++
++
++class TestBackendGraphLowerer(unittest.TestCase):
++  def setUp(self):
++    self.registered: list[str] = []
++    schedule_cache.clear()
++
++  def tearDown(self):
++    for name in reversed(self.registered): unregister_graph_lowerer(name)
++    schedule_cache.clear()
++
++  def register(self, name, lowerer):
++    register_graph_lowerer(name, lowerer)
++    self.registered.append(name)
++
++  @staticmethod
++  def function():
++    x = Tensor.empty(8, device="PYTHON")
++    call, _ = transform_to_call(UOp.sink(((x + 1) * 2).uop))
++    return call.src[0]
++
++  def test_default_path_is_unchanged(self):
++    function = self.function()
++    expected = create_schedule(get_kernel_graph(function))
++    self.assertEqual(lower_sink_to_linear(function).key, expected.key)
++    self.assertIn(function.key, schedule_cache)
++
++  def test_lowerer_receives_full_function_and_materialization_roots(self):
++    function = self.function()
++    seen = []
++    def lower(request):
++      seen.append(request)
++      return BackendGraph(get_kernel_graph(request.function), b"mock-v1")
++    self.register("mock", lower)
++    expected = create_schedule(get_kernel_graph(function))
++    self.assertEqual(lower_sink_to_linear(function).key, expected.key)
++    self.assertEqual(seen[0].function, function)
++    self.assertEqual(seen[0].roots, function.src)
++    self.assertNotIn(function.key, schedule_cache)
++
++  def test_backend_cache_tag_separates_schedules(self):
++    function = self.function()
++    self.register("mock", lambda request: BackendGraph(get_kernel_graph(request.function), b"v1"))
++    lower_sink_to_linear(function)
++    first_keys = set(schedule_cache)
++    unregister_graph_lowerer(self.registered.pop())
++    self.register("mock", lambda request: BackendGraph(get_kernel_graph(request.function), b"v2"))
++    lower_sink_to_linear(function)
++    self.assertEqual(len(set(schedule_cache) - first_keys), 1)
++
++  def test_multiple_claimants_fail_deterministically(self):
++    function = self.function()
++    claim = lambda request: BackendGraph(get_kernel_graph(request.function), b"v1")
++    self.register("zeta", claim)
++    self.register("alpha", claim)
++    with self.assertRaisesRegex(RuntimeError, "alpha, zeta"):
++      lower_sink_to_linear(function)
++
++
++if __name__ == "__main__": unittest.main()

@@ -1,0 +1,14 @@
+test_single_after_store (test.unit.test_function.TestFunction.test_single_after_store)
+AFTER(buf, STORE(view, data)) should write data through the view into buf, same as the double-after pattern. ... ok
+test_nested_calls (test.unit.test_function.TestFunction.test_nested_calls) ... ok
+test_tuple_precompile (test.unit.test_function.TestFunctionTuple.test_tuple_precompile) ... ok
+test_custom_kernel_inplace_output_is_implicit (test.unit.test_function.TestFunctionTuple.test_custom_kernel_inplace_output_is_implicit) ... ok
+test_multi_after_schedule_order (test.backend.test_custom_kernel.TestCustomKernel.test_multi_after_schedule_order)
+Test correct scheduling order when custom_kernel has multiple outputs. ... ok
+test_simple_qkv (test.backend.test_custom_kernel.TestCustomKernel.test_simple_qkv) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.554s
+
+OK
+[2.0, 2.0, 2.0] [3.0, 3.0, 3.0]

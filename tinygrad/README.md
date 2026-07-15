@@ -16,6 +16,9 @@ Start here:
   and UOps map to P100A/P150 programs, tiles, cores, CBs, NoC, and runtime.
 - [`patch-projects.md`](patch-projects.md): a learning and contribution ladder
   from compiler probes through bounded tinygrad patches and backend milestones.
+- [`direct-blackhole-lowering-report/`](direct-blackhole-lowering-report/README.md):
+  source-snapshot investigation of the post-callify backend seam, with proposed
+  architecture, experimental patches, validation logs, and regenerated UOps.
 
 Historical material:
 

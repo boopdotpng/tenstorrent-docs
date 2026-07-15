@@ -1,0 +1,284 @@
+[
+  {
+    "ast_arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)",
+    "ast_node_count": 44,
+    "ast_op": "SINK",
+    "ast_params": [
+      {
+        "arg": "ParamArg(0, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(32768)",
+        "shape": [
+          "32768"
+        ]
+      },
+      {
+        "arg": "ParamArg(1, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(65536)",
+        "shape": [
+          "65536"
+        ]
+      },
+      {
+        "arg": "ParamArg(2, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(16384)",
+        "shape": [
+          "16384"
+        ]
+      }
+    ],
+    "bound_args": [
+      {
+        "arg": "ParamArg(62, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 0,
+        "shape": [
+          "32768"
+        ]
+      },
+      {
+        "arg": "ParamArg(58, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 1,
+        "shape": [
+          "65536"
+        ]
+      },
+      {
+        "arg": "ParamArg(59, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 2,
+        "shape": [
+          "16384"
+        ]
+      }
+    ],
+    "call_arg": "CallInfo(None, (), None, False, False)",
+    "call_index": 0,
+    "call_op": "CALL"
+  },
+  {
+    "ast_arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)",
+    "ast_node_count": 19,
+    "ast_op": "SINK",
+    "ast_params": [
+      {
+        "arg": "ParamArg(0, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(1024)",
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(1, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(32768)",
+        "shape": [
+          "32768"
+        ]
+      }
+    ],
+    "bound_args": [
+      {
+        "arg": "ParamArg(63, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 0,
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(62, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 1,
+        "shape": [
+          "32768"
+        ]
+      }
+    ],
+    "call_arg": "CallInfo(None, (), None, False, False)",
+    "call_index": 1,
+    "call_op": "CALL"
+  },
+  {
+    "ast_arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)",
+    "ast_node_count": 28,
+    "ast_op": "SINK",
+    "ast_params": [
+      {
+        "arg": "ParamArg(0, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(1024)",
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(1, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(32768)",
+        "shape": [
+          "32768"
+        ]
+      },
+      {
+        "arg": "ParamArg(2, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(1024)",
+        "shape": [
+          "1024"
+        ]
+      }
+    ],
+    "bound_args": [
+      {
+        "arg": "ParamArg(64, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 0,
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(62, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 1,
+        "shape": [
+          "32768"
+        ]
+      },
+      {
+        "arg": "ParamArg(63, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 2,
+        "shape": [
+          "1024"
+        ]
+      }
+    ],
+    "call_arg": "CallInfo(None, (), None, False, False)",
+    "call_index": 2,
+    "call_op": "CALL"
+  },
+  {
+    "ast_arg": "KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0)",
+    "ast_node_count": 46,
+    "ast_op": "SINK",
+    "ast_params": [
+      {
+        "arg": "ParamArg(0, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(65536)",
+        "shape": [
+          "65536"
+        ]
+      },
+      {
+        "arg": "ParamArg(1, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(32768)",
+        "shape": [
+          "32768"
+        ]
+      },
+      {
+        "arg": "ParamArg(2, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(1024)",
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(3, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(1024)",
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(4, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float.ptr(16384)",
+        "shape": [
+          "16384"
+        ]
+      }
+    ],
+    "bound_args": [
+      {
+        "arg": "ParamArg(61, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 0,
+        "shape": [
+          "65536"
+        ]
+      },
+      {
+        "arg": "ParamArg(62, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 1,
+        "shape": [
+          "32768"
+        ]
+      },
+      {
+        "arg": "ParamArg(63, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 2,
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(64, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 3,
+        "shape": [
+          "1024"
+        ]
+      },
+      {
+        "arg": "ParamArg(60, device='PYTHON')",
+        "device": "'PYTHON'",
+        "dtype": "dtypes.float",
+        "op": "BUFFER",
+        "position": 4,
+        "shape": [
+          "16384"
+        ]
+      }
+    ],
+    "call_arg": "CallInfo(None, (), None, False, False)",
+    "call_index": 3,
+    "call_op": "CALL"
+  }
+]

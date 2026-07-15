@@ -1,0 +1,33 @@
+# Tinygrad raw UOp dump
+# {"artifact": "50_kernel_02_base_ast", "description": "One final scheduled call's base AST. SINKs are ordinary Tinygrad compute kernels.", "node_count": 24, "op_counts": {"ADD": 2, "CONST": 4, "END": 1, "EXP2": 1, "INDEX": 4, "MUL": 4, "PARAM": 4, "RANGE": 2, "SINK": 1, "STORE": 1}, "root_op": "SINK", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.SINK, dtypes.void, arg=KernelInfo(name='test', axis_types=(), dont_use_locals=False, applied_opts=(), opts_to_apply=None, estimates=None, beam=0), src=(
+  UOp(Ops.END, dtypes.void, arg=None, src=(
+    UOp(Ops.STORE, dtypes.void, arg=None, src=(
+      UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float.ptr(256), arg=ParamArg(0, device='PYTHON'), src=()),
+        x4:=UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+          UOp(Ops.MUL, dtypes.weakint, arg=None, src=(
+            x6:=UOp(Ops.RANGE, dtypes.weakint, arg=(0, AxisType.LOOP), src=(
+              UOp(Ops.CONST, dtypes.weakint, arg=2, src=()),)),
+            x8:=UOp(Ops.CONST, dtypes.weakint, arg=128, src=()),)),
+          x9:=UOp(Ops.RANGE, dtypes.weakint, arg=(1, AxisType.LOOP), src=(
+            x8,)),)),)),
+      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+        UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+            UOp(Ops.ADD, dtypes.float, arg=None, src=(
+              UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                UOp(Ops.PARAM, dtypes.float.ptr(256), arg=ParamArg(1, device='PYTHON'), src=()),
+                x4,)),
+              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+                  UOp(Ops.PARAM, dtypes.float.ptr(2), arg=ParamArg(2, device='PYTHON'), src=()),
+                  x6,)),
+                UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.0), src=()),)),)),
+            UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.4426950408889634), src=()),)),)),
+        UOp(Ops.INDEX, dtypes.float, arg=None, src=(
+          UOp(Ops.PARAM, dtypes.float.ptr(2), arg=ParamArg(3, device='PYTHON'), src=()),
+          x6,)),)),)),
+    x6,
+    x9,)),))

@@ -1,0 +1,661 @@
+# Tinygrad raw UOp dump
+# {"artifact": "10_callified_call", "description": "CALL wrapper, inner shaped SINK, and normalized ABI parameters; renderer neutral.", "node_count": 326, "op_counts": {"ADD": 16, "AFTER": 3, "BIND": 1, "BUFFER": 13, "CALL": 2, "CONST": 23, "CONTIGUOUS": 1, "DETACH": 1, "EXP2": 2, "EXPAND": 24, "MUL": 34, "PAD": 8, "PARAM": 25, "PERMUTE": 21, "RECIPROCAL": 6, "REDUCE": 13, "RESHAPE": 63, "SHRINK": 12, "SINK": 2, "SQRT": 2, "STACK": 52, "STORE": 2}, "root_op": "CALL", "tinygrad_commit": "149fd91e221d4b2f4a23d6544627d8f4ffa0a2a6"}
+
+UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), None, False, False), src=(
+  UOp(Ops.SINK, dtypes.void, arg=None, src=(
+    UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+      x2:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+          x4:=UOp(Ops.CONST, dtypes.weakint, arg=2048, src=()),)),
+        x5:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+          x6:=UOp(Ops.CONST, dtypes.weakint, arg=1, src=()),
+          x6,
+          x4,)),)),
+      UOp(Ops.CALL, dtypes.void, arg=CallInfo(None, (), 'FFNBlock.__call__.<locals>._run', True, False), src=(
+        UOp(Ops.SINK, dtypes.void, arg=None, src=(
+          UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+            x10:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(13, device='PYTHON'), src=(
+              x5,)),
+            UOp(Ops.STORE, dtypes.void, arg=None, src=(
+              x10,
+              UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                x13:=UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                  x14:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(0, device='PYTHON'), src=(
+                    x5,)),
+                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                    UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                        UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                              UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1, 3), src=(
+                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                  UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (4,)), src=(
+                                    UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                      UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                            x28:=UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+                                              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                  x31:=UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                      UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (4,)), src=(
+                                                        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                          UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                              UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                  UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                    UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                        x42:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                          x43:=UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1, 3), src=(
+                                                                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                                                                                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                    UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                                      x49:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                            x14,
+                                                                                            UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                                              UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                                                                                                UOp(Ops.SQRT, dtypes.float, arg=None, src=(
+                                                                                                  UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                                                    UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                                      UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (2,)), src=(
+                                                                                                        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                                          x14,
+                                                                                                          x14,)),)),
+                                                                                                      x59:=UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                                                                                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                          UOp(Ops.CONST, dtypes.float, arg=ConstFloat(2048.0), src=()),
+                                                                                                          x62:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                                                                                                            x6,
+                                                                                                            x6,
+                                                                                                            x6,)),)),)),)),
+                                                                                                    x63:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                      UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1e-05), src=()),
+                                                                                                      x62,)),)),)),)),
+                                                                                              x5,)),)),
+                                                                                          x65:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                            UOp(Ops.PARAM, dtypes.float, arg=ParamArg(1, device='PYTHON'), src=(
+                                                                                              x4,)),
+                                                                                            x5,)),)),
+                                                                                        x67:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                          x6,
+                                                                                          x6,
+                                                                                          x6,
+                                                                                          x4,)),)),
+                                                                                      x68:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                        x6,
+                                                                                        x6,
+                                                                                        x4,
+                                                                                        x4,)),)),
+                                                                                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                      UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                                                                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                          UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                                                                                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                              UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+                                                                                                x75:=UOp(Ops.CONST, dtypes.weakint, arg=4194304, src=()),)),
+                                                                                              x76:=UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                                                                                x4,
+                                                                                                x4,)),)),)),
+                                                                                          x77:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                                                                                            x6,
+                                                                                            x4,
+                                                                                            x4,)),)),)),
+                                                                                      x68,)),)),)),
+                                                                                x5,)),
+                                                                              UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                x6,
+                                                                                x6,
+                                                                                x79:=UOp(Ops.CONST, dtypes.weakint, arg=32, src=()),
+                                                                                x80:=UOp(Ops.CONST, dtypes.weakint, arg=64, src=()),)),)),)),
+                                                                          x81:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                            x82:=UOp(Ops.CONST, dtypes.weakint, arg=0, src=()),
+                                                                            x82,
+                                                                            x82,
+                                                                            x82,)),
+                                                                          x83:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                            x6,
+                                                                            x79,
+                                                                            x6,
+                                                                            x79,)),)),
+                                                                        x84:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                          x85:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                            x86:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                              UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                  UOp(Ops.PARAM, dtypes.float, arg=ParamArg(3, device='PYTHON'), src=(
+                                                                                    x90:=UOp(Ops.CONST, dtypes.weakint, arg=8192, src=()),)),
+                                                                                  UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                                                                    x92:=UOp(Ops.CONST, dtypes.weakint, arg=128, src=()),
+                                                                                    x80,)),)),
+                                                                                UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                                                                  x94:=UOp(Ops.PARAM, dtypes.weakint, arg=ParamArg(4, vmin_vmax=(0, 127), name='start_pos'), src=(
+                                                                                    x95:=UOp(Ops.STACK, dtypes.void, arg=None, src=()),)),
+                                                                                  x82,)),
+                                                                                UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                                                                  x6,
+                                                                                  x80,)),)),
+                                                                              UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                x6,
+                                                                                x6,
+                                                                                x6,
+                                                                                x80,)),)),
+                                                                            x81,
+                                                                            x98:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                              x6,
+                                                                              x6,
+                                                                              x6,
+                                                                              x79,)),)),
+                                                                          x83,)),)),
+                                                                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                          x101:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                            x43,
+                                                                            x102:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                              x82,
+                                                                              x82,
+                                                                              x82,
+                                                                              x79,)),
+                                                                            x83,)),
+                                                                          x103:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                            x104:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                              x86,
+                                                                              x102,
+                                                                              x98,)),
+                                                                            x83,)),)),
+                                                                        UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                          x106:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                            UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.0), src=()),
+                                                                            x108:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                              x6,
+                                                                              x6,
+                                                                              x6,
+                                                                              x6,)),)),
+                                                                          x83,)),)),)),
+                                                                    x81,
+                                                                    x109:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                      x6,
+                                                                      x79,
+                                                                      x6,
+                                                                      x80,)),)),
+                                                                  UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                    UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                        x101,
+                                                                        x84,)),
+                                                                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                        x42,
+                                                                        x103,)),)),
+                                                                    x102,
+                                                                    x109,)),)),
+                                                                UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                  UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                    x43,
+                                                                    x116:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                      x82,
+                                                                      x82,
+                                                                      x82,
+                                                                      x80,)),
+                                                                    UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                      x6,
+                                                                      x79,
+                                                                      x6,
+                                                                      x82,)),)),
+                                                                  x116,
+                                                                  x109,)),)),
+                                                              UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                x6,
+                                                                x79,
+                                                                x6,
+                                                                x6,
+                                                                x80,)),)),
+                                                            x119:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                              x6,
+                                                              x79,
+                                                              x6,
+                                                              x120:=UOp(Ops.ADD, dtypes.weakint, arg=None, src=(
+                                                                x94,
+                                                                x6,)),
+                                                              x80,)),)),
+                                                          UOp(Ops.PERMUTE, dtypes.float, arg=(0, 1, 2, 4, 3), src=(
+                                                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                              UOp(Ops.PERMUTE, dtypes.float, arg=(0, 1, 3, 2), src=(
+                                                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                  UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                        UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                          x129:=UOp(Ops.AFTER, dtypes.float, arg=None, src=(
+                                                                            x130:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                              UOp(Ops.PARAM, dtypes.float, arg=ParamArg(5, device='PYTHON'), src=(
+                                                                                x132:=UOp(Ops.CONST, dtypes.weakint, arg=131072, src=()),)),
+                                                                              UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                                x134:=UOp(Ops.CONST, dtypes.weakint, arg=2, src=()),
+                                                                                x6,
+                                                                                x135:=UOp(Ops.CONST, dtypes.weakint, arg=8, src=()),
+                                                                                x92,
+                                                                                x80,)),)),
+                                                                            UOp(Ops.STORE, dtypes.void, arg=None, src=(
+                                                                              UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                                x130,
+                                                                                UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                                  x82,
+                                                                                  x82,
+                                                                                  x82,
+                                                                                  x94,
+                                                                                  x82,)),
+                                                                                x139:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                                  x134,
+                                                                                  x6,
+                                                                                  x135,
+                                                                                  x6,
+                                                                                  x80,)),)),
+                                                                              UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                                UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                    UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                                      UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                                        UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                                          UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                              x148:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                                                x149:=UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1, 3), src=(
+                                                                                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                    UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                      UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                                                                                                        UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                                          x154:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                                                            x49,
+                                                                                                            x155:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                                              x6,
+                                                                                                              x6,
+                                                                                                              x156:=UOp(Ops.CONST, dtypes.weakint, arg=512, src=()),
+                                                                                                              x4,)),)),
+                                                                                                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                            UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                                                                                                              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                                UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                                                                                                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                                    UOp(Ops.PARAM, dtypes.float, arg=ParamArg(6, device='PYTHON'), src=(
+                                                                                                                      x163:=UOp(Ops.CONST, dtypes.weakint, arg=1048576, src=()),)),
+                                                                                                                    x164:=UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                                                                                                      x156,
+                                                                                                                      x4,)),)),)),
+                                                                                                                x165:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                                                                                                                  x6,
+                                                                                                                  x4,
+                                                                                                                  x156,)),)),)),
+                                                                                                            x155,)),)),)),
+                                                                                                      x166:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                                                                                                        x6,
+                                                                                                        x6,
+                                                                                                        x156,)),)),
+                                                                                                    x167:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                                      x6,
+                                                                                                      x6,
+                                                                                                      x135,
+                                                                                                      x80,)),)),)),
+                                                                                                x81,
+                                                                                                x168:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                                  x6,
+                                                                                                  x135,
+                                                                                                  x6,
+                                                                                                  x79,)),)),
+                                                                                              x169:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                                                x85,
+                                                                                                x168,)),)),
+                                                                                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                                x172:=UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                                                  x149,
+                                                                                                  x102,
+                                                                                                  x168,)),
+                                                                                                x173:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                                                  x104,
+                                                                                                  x168,)),)),
+                                                                                              UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                                                                x106,
+                                                                                                x168,)),)),)),
+                                                                                          x81,
+                                                                                          x175:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                            x6,
+                                                                                            x135,
+                                                                                            x6,
+                                                                                            x80,)),)),
+                                                                                        UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                                          UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                                                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                              x172,
+                                                                                              x169,)),
+                                                                                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                              x148,
+                                                                                              x173,)),)),
+                                                                                          x102,
+                                                                                          x175,)),)),
+                                                                                      UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                                        UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                                                          x149,
+                                                                                          x116,
+                                                                                          UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                                            x6,
+                                                                                            x135,
+                                                                                            x6,
+                                                                                            x82,)),)),
+                                                                                        x116,
+                                                                                        x175,)),)),
+                                                                                    x183:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                                      x6,
+                                                                                      x6,
+                                                                                      x135,
+                                                                                      x6,
+                                                                                      x80,)),)),
+                                                                                  x184:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                                    x82,
+                                                                                    x82,
+                                                                                    x82,
+                                                                                    x82,
+                                                                                    x82,)),
+                                                                                  x139,)),
+                                                                                UOp(Ops.PAD, dtypes.float, arg=None, src=(
+                                                                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                    UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1, 3), src=(
+                                                                                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                          UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                                                                                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                                                              x154,
+                                                                                              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                                                                                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                    UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                                                                                                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                                                                        x197:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(7, device='PYTHON'), src=(
+                                                                                                          x163,)),
+                                                                                                        x164,)),)),
+                                                                                                    x165,)),)),
+                                                                                                x155,)),)),)),
+                                                                                          x166,)),
+                                                                                        x167,)),)),
+                                                                                    x183,)),
+                                                                                  x198:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                                    x6,
+                                                                                    x82,
+                                                                                    x82,
+                                                                                    x82,
+                                                                                    x82,)),
+                                                                                  x139,)),)),)),)),
+                                                                          x184,
+                                                                          x199:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                            x6,
+                                                                            x6,
+                                                                            x135,
+                                                                            x120,
+                                                                            x80,)),)),
+                                                                        x200:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                          x6,
+                                                                          x135,
+                                                                          x120,
+                                                                          x80,)),)),
+                                                                      x201:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                        x6,
+                                                                        x135,
+                                                                        x6,
+                                                                        x120,
+                                                                        x80,)),)),
+                                                                    x202:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                      x6,
+                                                                      x135,
+                                                                      UOp(Ops.CONST, dtypes.weakint, arg=4, src=()),
+                                                                      x120,
+                                                                      x80,)),)),
+                                                                  x204:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                                    x6,
+                                                                    x79,
+                                                                    x120,
+                                                                    x80,)),)),)),
+                                                              x205:=UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                                                x6,
+                                                                x79,
+                                                                x6,
+                                                                x80,
+                                                                x120,)),)),)),)),)),
+                                                      x206:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                                        x6,
+                                                        x79,
+                                                        x6,
+                                                        x120,)),)),
+                                                    UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                                                      UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                          UOp(Ops.CONST, dtypes.float, arg=ConstFloat(8.0), src=()),
+                                                          x108,)),
+                                                        x206,)),)),)),
+                                                  UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                    UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                      UOp(Ops.DETACH, dtypes.float, arg=None, src=(
+                                                        UOp(Ops.REDUCE, dtypes.float, arg=(Ops.MAX, (3,)), src=(
+                                                          x31,)),)),
+                                                      x206,)),
+                                                    UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                      x106,
+                                                      x206,)),)),)),
+                                                UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                    UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.4426950408889634), src=()),
+                                                    x108,)),
+                                                  x206,)),)),)),
+                                            UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                              UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                                                UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                                                  x28,)),)),
+                                              x206,)),)),
+                                          UOp(Ops.STACK, dtypes.weakint.vec(5), arg=None, src=(
+                                            x6,
+                                            x79,
+                                            x6,
+                                            x6,
+                                            x120,)),)),
+                                        x205,)),
+                                      UOp(Ops.PERMUTE, dtypes.float, arg=(0, 1, 2, 4, 3), src=(
+                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                            UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                  UOp(Ops.SHRINK, dtypes.float, arg=None, src=(
+                                                    x129,
+                                                    x198,
+                                                    x199,)),
+                                                  x200,)),
+                                                x201,)),
+                                              x202,)),
+                                            x204,)),
+                                          x119,)),)),)),)),
+                                  x109,)),)),
+                              x5,)),
+                            x67,)),
+                          x68,)),
+                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                          UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                              UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                  UOp(Ops.PARAM, dtypes.float, arg=ParamArg(8, device='PYTHON'), src=(
+                                    x75,)),
+                                  x76,)),)),
+                              x77,)),)),
+                          x68,)),)),)),
+                    x5,)),)),
+                UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                  UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                    UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                      UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                            UOp(Ops.CONTIGUOUS, dtypes.float, arg=None, src=(
+                              UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                x244:=UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                  UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                                    UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                      x247:=UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                        UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                            UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                              x13,
+                                              UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                                UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                                                  UOp(Ops.SQRT, dtypes.float, arg=None, src=(
+                                                    UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                        UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (2,)), src=(
+                                                          UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                                            x13,
+                                                            x13,)),)),
+                                                        x59,)),
+                                                      x63,)),)),)),
+                                                x5,)),)),
+                                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                              UOp(Ops.PARAM, dtypes.float, arg=ParamArg(9, device='PYTHON'), src=(
+                                                x4,)),
+                                              x5,)),)),
+                                          x67,)),
+                                        x260:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                                          x6,
+                                          x6,
+                                          x90,
+                                          x4,)),)),
+                                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                        UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                            UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                                              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                                UOp(Ops.PARAM, dtypes.float, arg=ParamArg(10, device='PYTHON'), src=(
+                                                  x267:=UOp(Ops.CONST, dtypes.weakint, arg=16777216, src=()),)),
+                                                x268:=UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                                  x90,
+                                                  x4,)),)),)),
+                                            x269:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                                              x6,
+                                              x4,
+                                              x90,)),)),)),
+                                        x260,)),)),)),
+                                  x270:=UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                                    x6,
+                                    x6,
+                                    x90,)),)),
+                                UOp(Ops.RECIPROCAL, dtypes.float, arg=None, src=(
+                                  UOp(Ops.ADD, dtypes.float, arg=None, src=(
+                                    UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                        UOp(Ops.CONST, dtypes.float, arg=ConstFloat(1.0), src=()),
+                                        x62,)),
+                                      x270,)),
+                                    UOp(Ops.EXP2, dtypes.float, arg=None, src=(
+                                      UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                        x244,
+                                        UOp(Ops.EXPAND, dtypes.float, arg=None, src=(
+                                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                            UOp(Ops.CONST, dtypes.float, arg=ConstFloat(-1.4426950408889634), src=()),
+                                            x62,)),
+                                          x270,)),)),)),)),)),)),)),
+                            UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                              UOp(Ops.REDUCE, dtypes.float, arg=(Ops.ADD, (3,)), src=(
+                                UOp(Ops.MUL, dtypes.float, arg=None, src=(
+                                  x247,
+                                  UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                    UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                        UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                            x289:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(11, device='PYTHON'), src=(
+                                              x267,)),
+                                            x268,)),)),
+                                        x269,)),)),
+                                    x260,)),)),)),
+                              x270,)),)),
+                          UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                            x6,
+                            x6,
+                            x6,
+                            x90,)),)),
+                        x291:=UOp(Ops.STACK, dtypes.weakint.vec(4), arg=None, src=(
+                          x6,
+                          x6,
+                          x4,
+                          x90,)),)),
+                      UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                        UOp(Ops.PERMUTE, dtypes.float, arg=(0, 2, 1), src=(
+                          UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                            UOp(Ops.PERMUTE, dtypes.float, arg=(1, 0), src=(
+                              UOp(Ops.RESHAPE, dtypes.float, arg=None, src=(
+                                x297:=UOp(Ops.PARAM, dtypes.float, arg=ParamArg(12, device='PYTHON'), src=(
+                                  x267,)),
+                                UOp(Ops.STACK, dtypes.weakint.vec(2), arg=None, src=(
+                                  x4,
+                                  x90,)),)),)),
+                            UOp(Ops.STACK, dtypes.weakint.vec(3), arg=None, src=(
+                              x6,
+                              x90,
+                              x4,)),)),)),
+                        x291,)),)),)),
+                  x5,)),)),)),)),)),
+        x65,
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(2, device='PYTHON'), src=(
+          x4,)),
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(3, device='PYTHON'), src=(
+          x75,)),
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(4, device='PYTHON'), src=(
+          x90,)),
+        UOp(Ops.PARAM, dtypes.weakint, arg=ParamArg(5, vmin_vmax=(0, 127), name='start_pos'), src=(
+          x95,)),
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(6, device='PYTHON'), src=(
+          x132,)),
+        x197,
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(8, device='PYTHON'), src=(
+          x163,)),
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(9, device='PYTHON'), src=(
+          x75,)),
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(10, device='PYTHON'), src=(
+          x4,)),
+        x289,
+        x297,
+        UOp(Ops.PARAM, dtypes.float, arg=ParamArg(13, device='PYTHON'), src=(
+          x267,)),
+        x2,)),)),)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(87, device='PYTHON'), src=(
+    x4,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(86, device='PYTHON'), src=(
+    x4,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(75, device='PYTHON'), src=(
+    x4,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(80, device='PYTHON'), src=(
+    x75,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(85, device='PYTHON'), src=(
+    x90,)),
+  UOp(Ops.BIND, dtypes.weakint, arg=None, src=(
+    UOp(Ops.PARAM, dtypes.weakint, arg=ParamArg(-1, vmin_vmax=(0, 127), name='start_pos', addrspace=AddrSpace.ALU), src=(
+      x95,)),
+    UOp(Ops.CONST, dtypes.weakint, arg=17, src=()),)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(84, device='PYTHON'), src=(
+    x132,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(81, device='PYTHON'), src=(
+    x163,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(82, device='PYTHON'), src=(
+    x163,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(83, device='PYTHON'), src=(
+    x75,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(76, device='PYTHON'), src=(
+    x4,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(77, device='PYTHON'), src=(
+    x267,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(78, device='PYTHON'), src=(
+    x267,)),
+  UOp(Ops.BUFFER, dtypes.float, arg=ParamArg(79, device='PYTHON'), src=(
+    x267,)),))
