@@ -58,7 +58,7 @@ accumulation. See the [test evidence guide](../hardware/behavior-from-tests.md).
 
 Record input dtype, fidelity, Dst dtype, spill dtype, output dtype, layout,
 shape, worker count, clock, and the timed completion boundary. The older
-[P100A sweep](matmul-peak-sweep.md) remains a historical measurement, not a
+[P100A sweep](../archive/matmul/matmul-peak-sweep.md) remains a historical measurement, not a
 prediction for the current runtime. The
 [row-major comparison](../kernel-dev/row-major-matmul.md) separates BF16/HiFi2
 from BF16/HiFi4/FP32 results.

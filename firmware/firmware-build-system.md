@@ -1,5 +1,8 @@
 # Building firmware and creating custom fwbundles
 
+> Scope: Board-management firmware build snapshot. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 ## Overview
 
 `tt-zephyr-platforms` uses Zephyr's **sysbuild** system. One `west build` command builds all components (MCUBoot, SMC, DMC, recovery) and assembles the final `.fwbundle`.

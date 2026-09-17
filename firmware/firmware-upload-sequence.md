@@ -1,5 +1,8 @@
 # Firmware Upload Sequence
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 How blackhole-py loads firmware onto every Tensix worker core at device initialization, before any kernel can run.
 
 ## The five firmware binaries

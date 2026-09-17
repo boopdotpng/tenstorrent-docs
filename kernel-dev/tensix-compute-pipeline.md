@@ -1,5 +1,8 @@
 # Tensix compute pipeline: TRISC, FPU, SFPU, MOP
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 How the three TRISC processors coordinate to move tiles through the math pipeline, and how matmul works at the instruction level.
 
 ## The three TRISC processors

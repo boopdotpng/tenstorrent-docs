@@ -1,5 +1,8 @@
 # SFPI / SFPU programming notes
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 This document summarizes the SFPI repo layout, how to write SFPU code with SFPI, how it plugs into TT-Metal kernels, how to build the toolchain, and what ops are available. It is based on the docs and headers in this repo.
 
 ## Repo structure

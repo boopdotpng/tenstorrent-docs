@@ -1,5 +1,7 @@
 # tinygrad UOp memory effects: `AFTER`, `STORE`, `CALL`, and `END`
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 Date: 2026-05-21
 
 This probe uses local `TT_DUMP_STAGE` instrumentation in the checked-out tinygrad tree. All examples were run with explicit `device="CPU"` tensors and no Tenstorrent device queue.

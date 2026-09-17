@@ -1,5 +1,7 @@
 # Fast Dispatch: Architecture, Implementation, and Bring-Up Notes
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 Research report comparing tt-metal's fast dispatch implementation with blackhole-py's. Includes bug analysis and practical bring-up checklist.
 
 ---

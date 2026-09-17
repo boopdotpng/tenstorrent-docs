@@ -1,5 +1,7 @@
 # tinygrad UOp probes for conv/pool lowering
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 Date: 2026-05-21
 
 Scope: host-only tinygrad probes using local `TT_DUMP_STAGE` instrumentation. I used

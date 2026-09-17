@@ -70,7 +70,7 @@ cloned, and these documents do not claim a working IREE or TT-MLIR build.
 Tinygrad was switched from `blackhole` to `master`, then fast-forwarded to official upstream master on request.
 Uncommitted Blackhole work, including untracked files, was preserved in the stash
 named `boop compiler map: preserve Blackhole changes before switching to master`.
-The new map excludes that work. The older [tinygrad notes](../tinygrad/README.md)
+The new map excludes that work. The older [tinygrad notes](../archive/tinygrad/README.md)
 remain useful historical investigations, but their July UOp schema and compiler
 phase descriptions should not be treated as this September snapshot.
 

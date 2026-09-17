@@ -1,5 +1,7 @@
 # Llama 3.2 1B as a Blackhole/tinygrad backend target
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 Date: 2026-05-31
 
 > **Historical design note.** The model target and Blackhole strategy remain
@@ -446,10 +448,10 @@ The existing UOp probe docs show that by renderer time:
 
 Useful existing notes:
 
-- `tinygrad/uop-probes/matmul-dot.md`
-- `tinygrad/uop-probes/reductions.md`
-- `tinygrad/uop-probes/attention-llm.md`
-- `tinygrad/tinygrad-uop-arange-slice-sum-stages.md`
+- `archive/tinygrad/uop-probes/matmul-dot.md`
+- `archive/tinygrad/uop-probes/reductions.md`
+- `archive/tinygrad/uop-probes/attention-llm.md`
+- `archive/tinygrad/tinygrad-uop-arange-slice-sum-stages.md`
 
 The likely TT integration is a **two-level hook**, not one universal hook:
 

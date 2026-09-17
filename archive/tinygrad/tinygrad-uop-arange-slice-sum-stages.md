@@ -1,5 +1,7 @@
 # tinygrad UOp stages for `Tensor.arange(100)[45:55].sum()`
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 Date: 2026-05-20
 
 > **Historical compiler trace.** This capture predates tinygrad's July 2026

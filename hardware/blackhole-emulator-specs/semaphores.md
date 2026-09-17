@@ -21,12 +21,19 @@ There are two completely separate semaphore systems. They share the name but hav
 
 These are Tensix instructions pushed through the instruction FIFO (see `instruction-push.md`):
 
-| Instruction     | Encoding example | Behavior |
-|-----------------|------------------|----------|
-| `ttseminit`     | `0x8c800022`     | Set Value=0 and Max for a semaphore |
-| `ttsempost`     | `0x90000022`     | Increment Value (cap at Max) |
-| `ttsemget`      | `0x94000022`     | Decrement Value (floor at 0) |
-| `ttsemwait`     | `0x98020026`     | Stall coprocessor thread until Value meets condition |
+| Instruction | Behavior |
+|---|---|
+| `SEMINIT` | Set Value and Max for every selected semaphore |
+| `SEMPOST` | Increment selected Values, saturating at **15**, not Max |
+| `SEMGET` | Decrement selected Values, flooring at zero |
+| `SEMWAIT` | Latch a condition and block the selected resource classes until it clears |
+
+The named roles above are LLK conventions. The September 17
+[hardware tests](../../../blackhole-py/tests/isa/test_sync.py) exercise all 256
+masks and deliberately choose initial/max pairs that distinguish saturation
+at 15 from saturation at Max. Max participates in the wait condition.
+Use the encoder or manual for raw words: a RISC custom-instruction encoding
+and a FIFO-pushed Tensix word are not interchangeable.
 
 These go through the coprocessor pipeline like any other Tensix instruction. They are ordered with respect to other Tensix instructions in the same thread.
 

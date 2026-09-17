@@ -1,5 +1,8 @@
 # TT-Metal debugging and profiling env vars
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 This is a quick reference for common runtime debugging/profiling controls.
 
 ## Logging (host + UMD)

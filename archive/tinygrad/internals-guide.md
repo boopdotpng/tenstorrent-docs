@@ -1,5 +1,7 @@
 # tinygrad internals: from `Tensor` expressions to a linear program
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 This is a source-guided map of tinygrad's compiler as of tinygrad commit
 `4234a9d727e52a6bb033c387d2c869cea4caf641` (2026-07-10). tinygrad changes
 quickly: names in an older article or trace may describe a genuinely different

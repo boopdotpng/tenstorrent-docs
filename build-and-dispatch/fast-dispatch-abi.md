@@ -1,5 +1,8 @@
 # Fast dispatch ABI: memory layout and compile-time defines (Blackhole)
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 CQ control area layouts, compile-time defines for prefetch/dispatch kernels, and IOMMU/hugepage details. This is the low-level ABI reference.
 
 For the dispatch pipeline architecture, kernel catalog, and command protocol, see `dispatch-kernel-pipeline-internals.md`. For blackhole-py implementation notes and bugs, see `fast-dispatch-implementation-notes.md`.

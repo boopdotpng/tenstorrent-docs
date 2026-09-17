@@ -1,5 +1,7 @@
 # tinygrad UOp probes: elementwise, broadcast, where, casts
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 Worker: 2
 
 Scope: scalar/elementwise/broadcast/cast probes using local `TT_DUMP_STAGE`

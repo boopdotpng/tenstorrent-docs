@@ -1,5 +1,8 @@
 # Dispatch microbenchmark (fast vs slow)
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 This note captures how to run the tt-metal dispatch microbenchmark and how it computes the reported timings.
 
 ## What this benchmark is

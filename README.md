@@ -1,72 +1,73 @@
-# Tenstorrent Blackhole Documentation
+# Tenstorrent Blackhole documentation
 
-Unofficial documentation for the Tenstorrent Blackhole P100A / P150 AI accelerator, built from reverse-engineering, disassembly, and hands-on experimentation. Covers hardware architecture, kernel programming, the build/dispatch pipeline, firmware, and multi-chip operation.
+Unofficial notes on Blackhole hardware, kernel programming, runtime design,
+and compiler lowering. The goal is to make a direct compiler backend possible
+by explaining the hardware and the software contracts separately. Most prose
+was written with coding assistants; `human/` is human-authored and read-only.
 
-Most of this was written by Codex or Claude. The `human/` folder is explicitly human-authored.
+## Open the reference
 
-Quick bash script to clone all relevant repos: [here](https://gist.github.com/boopdotpng/4577ad1106d903d1566416823dee6140).
+```sh
+./serve.sh
+```
 
-## New here?
+Listens on **0.0.0.0:8000**. Open **http://127.0.0.1:8000** in your browser.
+Other machines can use `http://<this-machine-ip>:8000`. Python 3
+is the only runtime dependency. The site works offline, with categorized
+Markdown documents, full-text search, and a separate **Tensix instruction
+reference** for all 137 encoders: behavior, cycle counts, caveats, and test scope.
+It never opens a browser. Use `./serve.sh --port 8001` to change ports.
+See [viewer maintenance](viewer/README.md) to refresh the ISA snapshot.
 
-Start with **[intro.md](intro.md)** — a self-contained introduction to the Blackhole chip, how it computes, and how to run your first program with [blackhole-py](https://github.com/boopdotpng/blackhole-py).
+Start with [the introduction](intro.md), then
+[behavior demonstrated by blackhole-py tests](hardware/behavior-from-tests.md).
+The latter identifies the September 17 local source snapshot and distinguishes
+test assertions, recorded measurements, and remaining coverage gaps.
 
-## Reading order
+## Choose a path
 
-For source-guided compiler study, start with the [compiler maps](compiler-maps/README.md):
-tinygrad modules/UOps/rewrite passes, an MLIR introduction and dialect map, IREE,
-TT-MLIR, PyTorch eager/torch.compile, design comparisons, tinycorp meeting
-direction, and exercise banks with worked solutions.
+| Task | Start here |
+|---|---|
+| Understand the chip | [Hardware](hardware/README.md) → [architecture](hardware/architecture.md) |
+| Write or fuse a kernel | [Kernel development](kernel-dev/README.md) |
+| Understand current blackhole-py | [Runtime map](build-and-dispatch/blackhole-py-runtime.md) |
+| Study TT-Metal build/dispatch | [Build and dispatch](build-and-dispatch/README.md) |
+| Distinguish board firmware from worker firmware | [Firmware](firmware/README.md) |
+| Optimize matrix multiplication | [Matmul](matmul/README.md) |
+| Find measurements and timing limits | [Microbenchmarks](microbenching/README.md) |
+| Learn compilers or plan a backend | [Compiler maps](compiler-maps/README.md) and [tinygrad](tinygrad/README.md) |
+| Study TT-Fabric and multi-host execution | [Multi-chip](multi-chip/README.md) |
+| Inspect old instruction usage or assembly | [ISA workload samples](llk-sfpi/README.md), [disassemblies](disasms/README.md) |
+| Find a retired document or historical result | [Archive](archive/README.md) and [document catalogue](maintenance/catalog.md) |
 
-After the intro, go deeper:
+## How to read the evidence
 
-1. `hardware/architecture.md` — chip architecture (NoC, Tensix tiles, RISC-V cores, L1, memory map)
-2. `matmul/fast-matmul-eli5.md` — how computation works (3-kernel model, matrix engine, multicast)
-3. `kernel-dev/sfpi-and-kernel-dev.md` — how to write a kernel (SFPI ops, dst_reg, working examples)
-4. `kernel-dev/dataflow-and-cbs.md` — how data moves on-chip (CB semantics, reader/writer patterns)
-5. `build-and-dispatch/kernel-build-and-cache.md` — how kernels get built (JIT pipeline, cache, toolchain)
-6. `build-and-dispatch/dispatch-modes.md` — how they get to the chip (fast vs slow dispatch)
-7. `firmware/firmware-upload-sequence.md` — how the chip boots (reset, firmware segments, GO messages)
-8. `multi-chip/multi-host-and-remote-card-architecture.md` — scaling beyond one card
-9. `tinygrad/internals-guide.md` — tinygrad's UOp compiler and the Blackhole backend seam
+- **Hardware behavior:** a manual description or an explicitly scoped hardware
+  assertion. A passing encoder test only checks instruction bits.
+- **Runtime convention:** CB IDs, reserved tiles, L1 partitions, launch records,
+  and controller assignments chosen by software. These vary by implementation.
+- **Source snapshot:** compiler, TT-Metal, LLK, and firmware maps describe the
+  recorded checkout. They are not promises about future upstream versions.
+- **Measurement:** keep the shape, format, fidelity, placement, and timing
+  boundary with the result. Old reports remain useful under their original scope.
 
-## Folder layout
+The current blackhole-py path uses tt-kmd, Python instruction emitters, and C
+worker/service firmware. Older SFPI/LLK-based blackhole-py APIs live in the
+archive. TT-Metal and SFPI remain useful separate programming interfaces.
 
-| Folder | Contents |
-|--------|----------|
-| `hardware/` | Chip architecture, coordinate systems, PCIe, ERISC, grid utilization, performance counters, known hardware bugs |
-| `kernel-dev/` | SFPI/LLK programming, compute pipeline, CBs/dataflow, tile layout, kernel fusion |
-| `build-and-dispatch/` | Kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging |
-| `firmware/` | Firmware architecture, upload sequence, build system |
-| `matmul/` | Matrix multiply deep dives (ELI5 through peak performance) |
-| `microbenching/` | Hardware microbenchmark scripts, reports, status, and host-side models |
-| `multi-chip/` | Multi-host architecture, TT-Fabric, topology, data-parallel training |
-| `llk-sfpi/` | ISA analysis, instruction usage statistics |
-| `disasms/` | Raw RISC-V objdump artifacts |
-| `tinygrad/` | Current tinygrad lowering/UOp/matcher references, Blackhole mapping, patch projects, and historical probes |
-| `human/` | Human-authored notes (read-only) |
+## Sources and maintenance
 
-## Related repos
+Source links beginning with `../blackhole-py`, `../tinygrad`, or other sibling
+repository names require those checkouts beside this one. Source fingerprints
+and uncommitted-file status for the hardware review are in
+[the evidence manifest](maintenance/blackhole-py-sources.json).
 
-| Repo | What it is |
-|------|-----------|
-| [blackhole-py](https://github.com/boopdotpng/blackhole-py) | Minimal Python driver — compiles and dispatches kernels directly, no TT-Metal. Library docs live there. |
-| [tt-metal](https://github.com/tenstorrent/tt-metal) | Official Tenstorrent software stack (TT-Metalium + TT-NN) |
-| [tt-llk](https://github.com/tenstorrent/tt-llk) | Low-Level Kernel library (header-only C++ compute primitives) |
-| [sfpi](https://github.com/tenstorrent/sfpi) | SFPU compiler toolchain (modified GCC/binutils for Tensix RISC-V) |
-| [tt-isa-documentation](https://github.com/tenstorrent/tt-isa-documentation) | Official Blackhole A0 ISA reference |
-| [luwen](https://github.com/tenstorrent/luwen) | Rust user-mode hardware access library |
-| [tt-kmd](https://github.com/tenstorrent/tt-kmd) | Linux kernel-mode driver |
-| [tt-smi](https://github.com/tenstorrent/tt-smi) | System management interface (telemetry, resets) |
+Primary upstream projects: [Blackhole ISA manual](https://github.com/tenstorrent/tt-isa-documentation/tree/main/BlackholeA0),
+[blackhole-py](https://github.com/boopdotpng/blackhole-py),
+[TT-Metal](https://github.com/tenstorrent/tt-metal),
+[TT-LLK](https://github.com/tenstorrent/tt-llk),
+[SFPI](https://github.com/tenstorrent/sfpi), and
+[tt-kmd](https://github.com/tenstorrent/tt-kmd).
 
-## Motivation
-
-The goal is to write a [tinygrad](https://github.com/tinygrad/tinygrad) backend for Tenstorrent cards (Blackhole first). These docs exist to remove as many layers of abstraction as possible from the Tenstorrent stack.
-
-## Current software assessment
-
-- `ttnn` seems largely unfinished (it doesn't support f16 even though tt-metal does)
-- the build process hardcodes clang-17 everywhere -- in tt-metal this is particularly annoying to change
-- even `tt-metal` is an abstraction layer over a dozen other components. you can see why all the layers above tt-metal barely work, it's because of the number of abstractions and APIs stacked on top of each other.
-- `tt-llk` is not the right approach. it makes kernels really inflexible; to write a relu kernel that sets the output value to 3 instead of 1, you have to write SFPI. when the kernel becomes even slightly weird or uncommon, tt-llk is unusable. so why even bother? just write all your compute kernels in SFPU C++ (lowered by the compiler into risc-v instructions the tensix coprocessor can run). importantly, you cannot really generate kernels that use tt-llk using a compiler. take a tinygrad Op graph, for example. i think it's way easier to lower those into SFPU ops than trying to pattern match them with tt-llk kernels *and* SFPU ops (since inevitably your kernel will be too unique for tt-llk).
-- the three kernel model is extremely inconvenient. it could be the case that you can combine them, or that you can run multiple kernels on the same data without having to run dataflow kernels, but i'm not sure yet.
-- there is also the pending question of what `binop_with_scalar_tile_init()` and friends do. if it truly limits the SFPU ops you can run in your kernel, then the possibility of kernel fusion goes down drastically.
+The [maintenance record](maintenance/README.md) explains what was rewritten,
+relocated, removed, and checked. It also records what has not been revalidated.

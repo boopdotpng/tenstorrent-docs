@@ -1,5 +1,8 @@
 # Kernel loading, XIP packing, and ABI
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 This consolidates the kernel-config packing rules, XIP behavior, runtime arg ABI, and the add1_sfpu trace.
 
 ## Kernel-config buffer layout (slow dispatch)

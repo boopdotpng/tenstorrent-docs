@@ -1,5 +1,8 @@
 # Dispatch Kernel Pipeline Internals
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 Complete catalog of every dispatch kernel in tt-metal, how they connect, the CQ command protocol, and the multi-chip dispatch flow. This covers the firmware that turns host command queue entries into kernel launches on Tensix workers.
 
 See also: `dispatch-modes.md` for fast vs slow dispatch overview, `fabric-and-topology-internals.md` for the ethernet fabric layer underneath.

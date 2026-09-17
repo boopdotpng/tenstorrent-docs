@@ -1,5 +1,7 @@
 # UOps reference
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 This is the complete `Ops` enum at tinygrad commit
 `4234a9d727e52a6bb033c387d2c869cea4caf641` (2026-07-10): **82 ops** in enum
 order. The ordinals are useful when reading this revision, but are not a stable

@@ -1,5 +1,7 @@
 # tinygrad UOp movement/indexing probes
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 Date: 2026-05-21
 
 Host-only probe run:

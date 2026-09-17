@@ -1,5 +1,7 @@
 # Direct Blackhole lowering report
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 This snapshot investigates a direct tinygrad-to-Blackhole compiler boundary and
 includes the report's rendered forms, experimental patches, logs, and regenerated
 UOp evidence.

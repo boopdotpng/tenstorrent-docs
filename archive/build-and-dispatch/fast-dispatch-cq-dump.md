@@ -1,5 +1,7 @@
 # Fast Dispatch CQ Command Stream
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 What actually gets sent over PCIe when you run a single kernel on Blackhole P100A with fast dispatch enabled.
 
 The example is `add1.py` — a reader/compute/writer pipeline across all 118 dispatchable worker cores. The kernel reads BF16 tiles from DRAM, adds 1.0 via SFPI, and writes them back. One program, one `device.run()`.

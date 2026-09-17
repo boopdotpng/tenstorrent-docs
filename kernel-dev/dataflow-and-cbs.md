@@ -1,5 +1,8 @@
 # Dataflow, buffers, and CBs
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 Single source of truth for CB semantics, dataflow kernel patterns, buffer copy behavior, and dtype/address-generation details.
 
 CB API (compute): `tt-metal/tt_metal/include/compute_kernel_api/cb_api.h`.

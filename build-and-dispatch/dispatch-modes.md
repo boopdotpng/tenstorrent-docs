@@ -1,5 +1,8 @@
 # Dispatch modes (fast vs slow) and architecture mapping
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 TT-Metal has two mutually exclusive dispatch modes:
 - **Fast dispatch**: host enqueues commands to a device command queue; firmware dispatches on-device.
 - **Slow dispatch**: host writes runtime args and launch messages directly to cores and waits for completion.

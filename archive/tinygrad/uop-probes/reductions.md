@@ -1,5 +1,7 @@
 # tinygrad UOp reduction probes
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 Date: 2026-05-21
 
 These probes used local tinygrad `TT_DUMP_STAGE` instrumentation on the host only:

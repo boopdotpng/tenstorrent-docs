@@ -1,5 +1,7 @@
 # tinygrad UOp Probe Corpus
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 > **Historical compiler traces.** These probes were captured before tinygrad's
 > July 2026 shape-based codegen rewrite. They preserve useful evidence about the
 > earlier compiler, including `GEP`, vector dtypes, and old reduction/expansion

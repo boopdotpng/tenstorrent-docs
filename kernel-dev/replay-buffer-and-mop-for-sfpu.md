@@ -1,5 +1,8 @@
 # Replay buffer and MOP expander for SFPU operations
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 How to use the Tensix front-end replay buffer and MOP expander to avoid RISC-V loop overhead when executing repetitive SFPU instruction sequences. Covers the two-expander pipeline, the 32-slot replay buffer, `ckernel_template` (MOP Template 1), and practical usage patterns.
 
 See also: `sfpi-execution-model-and-masking.md` for SFPU vector width, face iteration, and per-lane masking.

@@ -1,5 +1,8 @@
 # Reduction padding strategies in tt-metal
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 How tt-metal handles tensors that don't evenly fill 32x32 tiles when running reduction operations (sum, max, min, mean). Two strategies exist: identity-element padding and binary masking.
 
 ## The problem

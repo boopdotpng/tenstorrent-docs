@@ -1,5 +1,7 @@
 # PatternMatcher reference
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 This is a static, source-level inventory for tinygrad commit
 `4234a9d727e52a6bb033c387d2c869cea4caf641` (2026-07-10). It answers two
 different questions:

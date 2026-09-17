@@ -1,5 +1,8 @@
 # Blackhole Instruction Frequency Report
 
+> Historical workload census, not an ISA support map. Old deletion recommendations
+> are withdrawn; see [scope and current evidence](README.md).
+
 **Date:** 2026-04-14
 **Source:** 747 kernel ELFs from `~/.cache/tt-metal-cache/` (785,936 lines of disassembly)
 **Workloads:** 20 C++ programming examples, 60+ ttnn Python ops (including niche: gcd, lcm,
@@ -8,14 +11,14 @@ softmax, attention, FFN+GELU, RMSNorm, embedding, concat)
 **Method:** Disassembled with `riscv-tt-elf-objdump -d`, counted inline TTINSN mnemonics +
 traced `sw` stores to `INSTRN_BUF_BASE (0xFFE40000)` for dynamically-pushed Tensix instructions.
 
-## Key Findings
+## Observations in the April 2026 corpus
 
 - **141 of 243 instructions in dsl.py are used** in real Blackhole workloads
 - **102 instructions are NOT seen** in any disassembly
 - **9 instructions marked `# rare` are actually used** (mislabeled) -- fix these
-- **10 instructions are dead on BH** (neutered, no-op, or non-functional) -- safe to delete
-- **All Zaamo atomics (9 instructions) are unused** -- Tensix uses semaphores instead
-- **All legacy conv/pool instructions (7) are dead on BH** -- neutered to Dst+=0
+- Historical annotations identify ten potentially restricted/no-op instructions; verify each mode in the ISA manual before relying on that classification.
+- No Zaamo atomic instruction was observed in this corpus; this does not establish hardware support or usage outside the sample.
+- Legacy conv/pool annotations below describe the original survey, not a functional conformance result.
 
 ## Instructions Marked Rare But Actually Used (FIX THESE)
 
@@ -31,7 +34,7 @@ traced `sw` stores to `INSTRN_BUF_BASE (0xFFE40000)` for dynamically-pushed Tens
 | `TT_SFPMUL24` | 4 | inline TTINSN (gcd/lcm) | 578 |
 | `TT_SFPGT` | 16 | inline TTINSN (gcd/lcm) | 575 |
 
-These should be uncommented and marked active in dsl.py.
+These were mismatches in the old `dsl.py` annotations. The current encoder lives in a different implementation.
 
 ## RISC-V Instructions
 
@@ -105,7 +108,7 @@ These should be uncommented and marked active in dsl.py.
 | `SLT` | 4 | ALU |
 | `CTZ` | 3 | Zbb |
 
-### Not Used -- Candidates to Delete
+### Not Used -- Not Observed in This Corpus
 
 | Instruction | Status in dsl.py | Line | Notes |
 |---|---|---|---|
@@ -142,7 +145,7 @@ These should be uncommented and marked active in dsl.py.
 | `PACK` | rare | 128 | |
 | `BREV8` | rare | 129 | |
 | `GREVI` | rare | 130 | |
-| All 9 `AMO*_W` | rare | 97-105 | Tensix uses semaphores, never emits atomics |
+| All 9 `AMO*_W` | rare | 97-105 | Not observed in this sample |
 
 ## Tensix Coprocessor Instructions
 
@@ -228,9 +231,9 @@ These should be uncommented and marked active in dsl.py.
 | `TT_SFPNOT` | 3 | - | 3 |
 | `TT_SFPXOR` | 2 | - | 2 |
 
-### Not Used Tensix/SFPU -- Candidates to Delete
+### Not Used Tensix/SFPU -- Not Observed in This Corpus
 
-**Dead on BH (safe to delete -- neutered hardware, computes nothing useful):**
+**Historical restricted/no-op annotations (not established by frequency counts):**
 
 | Instruction | dsl.py Line | Notes |
 |---|---|---|
@@ -245,7 +248,7 @@ These should be uncommented and marked active in dsl.py.
 | `TT_APOOL3S2` | 332 | Neutered, computes Dst+=0 |
 | `TT_TBUFCMD` | 417 | Tile buffer command, not used on BH |
 
-**Rare/commented-out and never seen (safe to delete):**
+**Not observed; no deletion recommendation:**
 
 | Instruction | dsl.py Line | Category |
 |---|---|---|
@@ -306,10 +309,6 @@ These should be uncommented and marked active in dsl.py.
 Total instructions in dsl.py:     243
 Used (seen in disassembly):        141  (58%)
 Not seen in any disassembly:       102  (42%)
-  - Dead on BH (safe to delete):    10
-  - Rare, never seen (delete):      83
-  - Active but dead on BH (fix):     7  (TT_CONV3S1, etc.)
-  - Active, not dead (keep):         2  (NOP, SEXT_B -- pseudo/objdump artifacts)
 Mislabeled as rare (actually used):  9  (TT_RMWCIB0/1, TT_SETADC, TT_MOVD2A,
                                          TT_SFPXOR, TT_SFPOR, TT_SFPLZ,
                                          TT_SFPMUL24, TT_SFPGT)

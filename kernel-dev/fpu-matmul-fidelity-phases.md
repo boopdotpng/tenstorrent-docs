@@ -1,5 +1,8 @@
 # FPU Matmul Fidelity Phases
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 ## Overview
 
 The Tensix FPU matrix engine has **5-bit x 7-bit hardware multipliers** — each multiply consumes at most 5 significand bits from SrcA and 7 significand bits from SrcB. ("Significand" = the implicit leading 1 from IEEE 754 normalized representation, plus some number of explicit mantissa bits.) To achieve higher precision than a single pass allows, the engine runs the same matmul **multiple times**, each time processing a different slice of the significand bits. The partial products accumulate into Dst via `+=`.

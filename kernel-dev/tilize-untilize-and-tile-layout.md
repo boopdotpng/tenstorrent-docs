@@ -1,5 +1,8 @@
 # Tilize, Untilize, and Tile Layout
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 How row-major data becomes 32x32 tiles with 4x 16x16 faces, where that conversion happens (host CPU vs device kernel), how data physically moves, and what the hardware expects. Investigated against Blackhole (BH) but largely architecture-neutral except where noted.
 
 ## Tile Format

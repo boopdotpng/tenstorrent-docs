@@ -1,5 +1,8 @@
 # SFPI and kernel development (Blackhole)
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 This consolidates SFPI mental models, add1 SFPI kernel notes, dst/srca staging, and the Blackhole SFPI audit.
 
 ## add1_sfpu: SFPI-based compute kernel

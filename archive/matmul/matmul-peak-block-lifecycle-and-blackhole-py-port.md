@@ -1,5 +1,7 @@
 # TT-Metal Peak Matmul Block Lifecycle and blackhole-py Port Plan (2026-02-09)
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 ## Scope
 
 This note explains the **compute-side block lifecycle** used by TT-Metal peak matmul kernels, why it is faster than a simple spill/reload loop, and what blackhole-py needs to implement to match it.

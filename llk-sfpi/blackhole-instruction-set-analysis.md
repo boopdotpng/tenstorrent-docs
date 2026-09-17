@@ -1,6 +1,10 @@
 # Blackhole Instruction Set Analysis
 
-Empirical analysis of which instructions the Blackhole ISA actually uses in practice, derived by disassembling every kernel and firmware ELF produced by tt-metal across a diverse set of workloads.
+> Historical workload sample. “Unused” below means absent from this corpus or
+> its inspected LLK paths, not unsupported by hardware. Restricted/no-op labels
+> require instruction-specific manual review. See [current evidence](../hardware/behavior-from-tests.md).
+
+Empirical analysis of which instructions appeared in the sampled TT-Metal workloads, derived by disassembling every kernel and firmware ELF produced by tt-metal across a diverse set of workloads.
 
 ## Methodology
 

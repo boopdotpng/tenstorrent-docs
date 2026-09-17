@@ -1,5 +1,8 @@
 # Slow Dispatch: What TLB Writes Actually Happen
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 When `TT_USB=1` (or the CQ firmware isn't available), blackhole-py falls back to **slow dispatch** — the host directly MMIO-writes everything into each worker core's L1 through TLB windows. No prefetch core, no dispatch core, no command queue. Just the host CPU driving the NOC through the PCIe BAR.
 
 ## TLB mechanics

@@ -1,6 +1,8 @@
 # Blackhole Device Grid Topology — Emulator Specification
 
-This document describes the NOC grid layout for the Blackhole P100A and P150 boards as the emulator must model it. All coordinates are in the translated NOC coordinate space that firmware uses. Source of truth is `blackhole-py/hw.py` and `blackhole-py/device.py`.
+This document describes the NOC grid layout for the Blackhole P100A and P150 boards as the emulator must model it. All coordinates are in the translated NOC coordinate space that firmware uses. The `hw.py` references below belong to a retired runtime. For current supported
+board/core counts and service reservations, use [grid placement](../grid-utilization.md)
+and `blackhole-py/pcie.py`; the 140-core P150 model below is not the current runtime contract.
 
 ---
 

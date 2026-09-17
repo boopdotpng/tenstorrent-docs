@@ -1,5 +1,8 @@
 # Register and memory tooling for pure-py
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 ## Most relevant: tt-exalens
 - Low-level hardware debugger with CLI and Python library for register and memory access.
 - CLI highlights: `brxy` (read L1 or DRAM), `wxy` (write L1/DRAM), `riscv rd/wr/rreg/wreg` (RISC-V memory and register access), `tensix-reg`, `noc register`, and GDB server support.

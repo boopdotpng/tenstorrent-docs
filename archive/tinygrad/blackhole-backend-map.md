@@ -1,5 +1,7 @@
 # Mapping tinygrad UOps to Blackhole P100A/P150
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 This document maps tinygrad commit `4234a9d72` to the Blackhole execution model.
 The conclusion is simple: reuse tinygrad's Tensor graph, callification,
 dependency scheduling, and much of rangeify, but do **not** pretend a Tensix
@@ -240,9 +242,9 @@ make all 118 workers an awkward non-rectangle, so the existing tuned matmul uses
 a clean 10×11 (110-core) rectangle. A generic "number of cores" field cannot
 express that; the planner needs coordinates and rectangle constraints.
 
-See [device-grid details](../hardware/blackhole-emulator-specs/device-grid.md),
-[grid utilization](../hardware/grid-utilization.md), and
-[the Tensix dataflow model](../kernel-dev/dataflow-and-cbs.md).
+See [device-grid details](../../hardware/blackhole-emulator-specs/device-grid.md),
+[grid utilization](../../hardware/grid-utilization.md), and
+[the Tensix dataflow model](../../kernel-dev/dataflow-and-cbs.md).
 
 ## A staged implementation boundary
 

@@ -4,6 +4,15 @@ Detailed emulator reference for Blackhole Tensix tiles, NoC, DRAM, firmware boot
 and Tensix coprocessor behavior. This folder is organized as topic-sized files
 instead of one monolithic spec.
 
+## Scope and validation
+
+These are source-derived emulator models. Firmware partitions, controller
+assignments, and driver APIs retain the software version they describe; they
+are not all current blackhole-py interfaces. Start with the
+[current runtime](../../build-and-dispatch/blackhole-py-runtime.md) and
+[test-to-claim map](../behavior-from-tests.md). The latter does not establish
+complete semantic or timing coverage for every model here.
+
 ## Start Here
 
 - [execution-model.md](execution-model.md) - top-level scheduler and host-side run loop.

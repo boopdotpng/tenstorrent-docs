@@ -1,5 +1,7 @@
 # tinygrad UOp probes: dot and matmul
 
+> Historical snapshot. See the [archive index](../../README.md) for scope and current replacements.
+
 Date: 2026-05-21
 
 Scope: local tinygrad host/GPU probes only. No Tenstorrent device work and no TT device queue were used. The probes below used the local `TT_DUMP_STAGE` / `TT_DUMP_LOWERING` instrumentation in the working tree under `/home/boop/tenstorrent/tinygrad`.

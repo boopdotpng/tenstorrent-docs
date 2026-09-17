@@ -1,8 +1,17 @@
-# llk-sfpi/
+# Instruction usage in historical TT-Metal workloads
 
-LLK/SFPI instruction-level compute pipeline docs, ISA analysis, FPU fidelity, kernel fusion.
+These reports count instructions found in particular compiled workloads.
+**Absence from a disassembly sample is not evidence that an instruction is
+unsupported, unnecessary, or safe to delete.** Static occurrences also do not
+count dynamic executions inside loops or replay.
 
-## Files
+- [747-ELF frequency report](instruction-frequency-report.md): April 14, 2026
+  corpus, including inline instructions and recognized stores to the FIFO.
+- [Earlier instruction survey](blackhole-instruction-set-analysis.md): separate
+  workload sample and its historical classifications.
 
-- [blackhole-instruction-set-analysis.md](blackhole-instruction-set-analysis.md) — Empirical analysis of which Blackhole instructions are used vs dead, from disassembling all kernel/firmware ELFs across Qwen2.5-3B, ResNet50, ViT, and other workloads. 135/244 used, 42% effectively dead.
-- [instruction-frequency-report.md](instruction-frequency-report.md) — Comprehensive frequency report from 747 kernel ELFs (20 C++ examples, 60+ ttnn ops including gcd/lcm/bitwise, transformer decoder block). Tracks both inline TTINSN and sw-to-FIFO instruction paths. 141/243 dsl.py instructions used; identifies 9 mislabeled-as-rare and 102 deletable.
+For functional behavior, use [the test evidence map](../hardware/behavior-from-tests.md)
+and the Blackhole ISA manual. Current raw-emitter tests exercise operations
+such as scalar arithmetic and source/Dst moves outside the old LLK sample.
+The reports' old deletion recommendations have been withdrawn; the counts are
+retained as historical observations.

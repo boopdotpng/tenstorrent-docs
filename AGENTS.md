@@ -4,6 +4,12 @@ Compact router for this repo so you can find answers fast without reading everyt
 
 ## Start here
 
+- Run `./serve.sh` for the docs website and searchable 137-instruction ISA reference.
+  It binds to `0.0.0.0:8000` without opening a browser; only `--port` is configurable.
+- Current hardware evidence: `hardware/behavior-from-tests.md`.
+- Current Python runtime: `build-and-dispatch/blackhole-py-runtime.md`.
+- ISA snapshot refresh: `python3 viewer/build_reference.py` (read-only source import).
+
 - New to Blackhole? Read `intro.md` first.
 - Read `README.md` for project goal, reading order, and folder map.
 
@@ -23,8 +29,10 @@ Compact router for this repo so you can find answers fast without reading everyt
 - `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
 - `llk-sfpi/`: LLK/SFPI instruction-level compute pipeline, ISA analysis, FPU fidelity, kernel fusion.
 - `disasms/`: raw RISC-V objdump artifacts.
-- `tinygrad/`: current compiler internals, UOps, matchers, Blackhole mapping,
-  patch projects, and historical lowering probes.
+- `tinygrad/`: gateway to the September compiler maps and archived studies.
+- `archive/`: historical compiler investigations, retired runtime notes, and matmul records.
+- `viewer/`: Python docs server, browser UI, and generated instruction-reference snapshot.
+- `maintenance/`: document catalogue, relocation map, and source provenance.
 - `human/`: human-authored notes (read-only).
 
 ## Guardrail
@@ -51,7 +59,7 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md` or `llk-sfpi/instruction-frequency-report.md`
 - **"Which instructions are dead / unused?"** -> `llk-sfpi/instruction-frequency-report.md` (comprehensive: 747 ELFs, inline + FIFO-pushed instructions)
 - **"Instruction frequency / counts?"** -> `llk-sfpi/instruction-frequency-report.md`
-- **"Which dsl.py instructions to delete?"** -> `llk-sfpi/instruction-frequency-report.md` (used-vs-unused with delete recommendations)
+- **"Which instructions are tested?"** -> `hardware/behavior-from-tests.md`; absence from a frequency sample does not justify deletion.
 
 ### Kernel development
 - **"How to write SFPI kernels?"** -> `kernel-dev/sfpi-and-kernel-dev.md`
@@ -72,8 +80,8 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"Fast vs slow dispatch?"** -> `build-and-dispatch/dispatch-modes.md`
 - **"Dispatch kernel catalog / CQ command protocol?"** -> `build-and-dispatch/dispatch-kernel-pipeline-internals.md`
 - **"Fast dispatch ABI / compile-time defines?"** -> `build-and-dispatch/fast-dispatch-abi.md`
-- **"Concrete CQ command trace?"** -> `build-and-dispatch/fast-dispatch-cq-dump.md`
-- **"Blackhole-py fast dispatch bugs/notes?"** -> `build-and-dispatch/fast-dispatch-implementation-notes.md`
+- **"Concrete CQ command trace?"** -> `archive/build-and-dispatch/fast-dispatch-cq-dump.md`
+- **"Blackhole-py fast dispatch bugs/notes?"** -> `archive/build-and-dispatch/fast-dispatch-implementation-notes.md`
 - **"Slow dispatch TLB write sequence?"** -> `build-and-dispatch/slow-dispatch-tlb-writes.md`
 - **"Debug env vars?"** -> `build-and-dispatch/debug-env-vars.md`
 - **"Dispatch benchmarking?"** -> `build-and-dispatch/dispatch-benchmark-howto.md`
@@ -88,10 +96,10 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"How does matmul work on TT? (ELI5)"** -> `matmul/fast-matmul-eli5.md`
 - **"Why 4 dataflow roles for matmul?"** -> `matmul/matmul-2d-mcast-role-split-eli5.md`
 - **"When to use 4-role multicast?"** -> `matmul/when-to-use-4-role-mcast.md`
-- **"Matmul autogen design?"** -> `matmul/matmul-autogen-design.md`
-- **"Matmul peak performance / porting?"** -> `matmul/matmul-peak-block-lifecycle-and-blackhole-py-port.md`
+- **"Current matmul placement constraints?"** -> `hardware/grid-utilization.md`
+- **"Matmul peak performance / porting?"** -> `archive/matmul/matmul-peak-block-lifecycle-and-blackhole-py-port.md`
 - **"FP32 vs FP16 accumulation?"** -> `matmul/fp32-accumulation.md`
-- **"Matmul benchmark results?"** -> `matmul/matmul-peak-sweep.md`
+- **"Matmul benchmark results?"** -> `archive/matmul/matmul-peak-sweep.md`
 
 ### Microbenching
 - **"What microbenchmarks currently run or fail?"** -> `microbenching/status.md`
@@ -110,15 +118,15 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"New to compiler concepts / where should I start?"** -> `compiler-maps/first-principles.md`, then `compiler-maps/README.md`.
 - **"How do compiler philosophies differ / is coverage sufficient?"** -> `compiler-maps/design-comparison.md`.
 - **"PyTorch eager dispatch/autograd or torch.compile/Dynamo/Inductor?"** -> `compiler-maps/pytorch/README.md`.
-- **"How does a Tensor expression lower to code?"** -> `tinygrad/internals-guide.md`
-- **"What are all current UOps?"** -> `tinygrad/uops-reference.md`
-- **"What does every PatternMatcher rule do, with an example?"** -> `compiler-maps/tinygrad/rules/README.md` (current production rule templates); `tinygrad/pattern-matchers-reference.md` is historical.
+- **"How does a Tensor expression lower to code?"** -> `compiler-maps/tinygrad/module-map.md`
+- **"What are all current UOps?"** -> `compiler-maps/tinygrad/uops-and-rewrites.md`
+- **"What does every PatternMatcher rule do, with an example?"** -> `compiler-maps/tinygrad/rules/README.md` (current production rule templates); `archive/tinygrad/pattern-matchers-reference.md` is historical.
 - **"AMD/chip-specific or IMAGE matcher workarounds?"** -> `compiler-maps/tinygrad/amd-pattern-matchers.md` and `compiler-maps/tinygrad/image-pattern-matchers.md`.
-- **"How was ShapeTracker removed / what replaced it?"** -> `tinygrad/internals-guide.md`
-- **"Where should a Blackhole backend hook in?"** -> `tinygrad/blackhole-backend-map.md`
-- **"Need the direct Blackhole lowering investigation and artifacts?"** -> `tinygrad/direct-blackhole-lowering-report/README.md`
-- **"What tinygrad project or patch should I try?"** -> `tinygrad/patch-projects.md`
-- **"Need concrete old UOp stage dumps?"** -> `tinygrad/uop-probes/README.md` (historical, pre-July 2026)
+- **"How was ShapeTracker removed / what replaced it?"** -> `archive/tinygrad/internals-guide.md`
+- **"Where should a Blackhole backend hook in?"** -> `archive/tinygrad/blackhole-backend-map.md`
+- **"Need the direct Blackhole lowering investigation and artifacts?"** -> `archive/tinygrad/direct-blackhole-lowering-report/README.md`
+- **"What tinygrad project or patch should I try?"** -> `archive/tinygrad/patch-projects.md`
+- **"Need concrete old UOp stage dumps?"** -> `archive/tinygrad/uop-probes/README.md` (historical, pre-July 2026)
 
 ### Raw artifacts
 - **"Need raw instruction dumps?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`

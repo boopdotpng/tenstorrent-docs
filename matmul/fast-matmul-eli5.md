@@ -1,152 +1,61 @@
-# How Tenstorrent's Fast Matmul Works (ELI5)
+# How a Blackhole matmul stays busy
 
-## GPU vs Tenstorrent: Fundamentally Different
+To compute `C = A @ B`, divide C into output blocks and assign them to Tensix
+tiles. Each tile repeatedly obtains an A block and a B block, multiplies them,
+and adds the partial result to its assigned C block. Performance comes from
+reusing those operands and overlapping movement with arithmetic.
 
-On a **GPU**, you write one kernel that runs on thousands of tiny cores simultaneously. The hardware handles scheduling, and you think in terms of threads/warps/blocks sharing memory.
+## One tile's loop
 
-On **Tenstorrent**, each Tensix core is a complete mini-computer with its own:
-- 5 RISC-V processors (2 for data movement, 3 for compute)
-- 1.5MB of local SRAM (L1)
-- A dedicated matrix engine
-- Network-on-chip (NoC) connections to other cores and DRAM
-
-You write **3 separate programs** that run simultaneously and communicate through circular buffers.
-
-## The Three Musketeers: Reader, Compute, Writer
-
-Think of it like a factory assembly line:
-
-```
-DRAM --> [Reader] --> CB --> [Compute] --> CB --> [Writer] --> DRAM
-              ^                                        |
-              |_______ circular buffers (L1) __________|
+```text
+Read the next A/B block into L1
+    → unpack panels into SrcA/SrcB
+    → multiply and accumulate in Dst
+    → repeat over K
+    → apply any epilogue
+    → pack C into L1 and write it to DRAM
 ```
 
-### Reader Kernel (runs on BRISC)
-- Fetches tiles from DRAM into circular buffers
-- Uses NoC (network-on-chip) for async DMA transfers
-- Signals "data ready" by pushing to circular buffer
+The loop is split across controllers and engines. BRISC/NCRISC commonly handle
+transfers and TRISCs handle unpack/math/pack, but assignments are software choices.
+Current blackhole-py emits separate controller images; TT-Metal presents its own
+reader/compute/writer interface. See [the runtime map](../build-and-dispatch/blackhole-py-runtime.md).
 
-### Compute Kernel (runs on TRISC0/1/2)
-- Waits for data in circular buffers
-- Feeds tiles to the matrix engine
-- Accumulates results in DST registers
-- Packs results to output circular buffer
+## Reuse saves traffic
 
-### Writer Kernel (runs on NCRISC)
-- Waits for compute results
-- Writes tiles back to DRAM via NoC
+If an A panel contributes to several output columns, keep or distribute it
+instead of reading it again for every output tile. The same applies to B across
+output rows. A 2D multicast scheme reads A at a row's sender and B at a column's
+sender, then shares them with the participating workers. Every receiver must
+have space and agree on buffer ownership before the sender publishes data.
 
-## The Matrix Engine: Where the Magic Happens
+The [four-role TT-Metal explanation](matmul-2d-mcast-role-split-eli5.md) describes
+one implementation. Four dataflow roles across core subsets do not mean four
+dataflow controllers on each tile. Multicast also is not always the best choice:
+small shapes, irregular placement, and limited reuse can favor simpler schedules.
 
-The matrix engine does an **8x16 @ 16x16 = 8x16** multiply in ONE cycle.
+## Overlap needs storage and completion rules
 
-```
-    A tile         B tile        Output
-   (8 x 16)   @   (16 x 16)  =  (8 x 16)
-   
-   = 2 * 8 * 16 * 16 = 4096 multiply-adds per cycle!
-```
+With two input buffers, readers can fill the next block while compute consumes
+the current one. With Dst partitioning, math and pack can hand off output blocks.
+The buffers must be large enough, and consumers must release them only after
+all dependent work is complete. A missing wait can produce a fast wrong result;
+an impossible CB reservation can hang.
 
-At 1.35 GHz (Blackhole), that's **5.4 TFLOPS per core** at LoFi precision.
-With 130 cores, theoretical peak is **~700 TFLOPS**.
+A matrix instruction is not an entire matmul. An ordinary 8×16 by 16×16
+`MVMUL` operation represents 2,048 multiply-accumulates, conventionally counted
+as 4,096 FLOPs. More fidelity phases recover more product precision and add work.
+Output format alone does not describe that precision. See
+[accumulation and spills](fp32-accumulation.md).
 
-## Why Blocking and Double Buffering Matter
+## Layout belongs in the comparison
 
-### The Problem with Naive Matmul
+The current example can read row-major arrays and gather panels during unpack.
+Its FP8 and BF16 paths have different costs. Avoid comparing a host-tilized
+baseline against a row-major path without naming which preparation work is timed.
+The [row-major guide](../kernel-dev/row-major-matmul.md) gives concrete results.
 
-```
-for each output tile:
-    for k in K_dimension:
-        read A tile     <- wait for DRAM (~100 cycles)
-        read B tile     <- wait for DRAM (~100 cycles)
-        compute         <- matrix engine idle while waiting!
-```
-
-The matrix engine sits idle while waiting for DRAM. Bad!
-
-### The Solution: Block and Pipeline
-
-```
-Reader:                      Compute:
-  read block of 8 tiles        (waiting)
-  barrier                      
-  push to CB                   
-                               wait for block
-  read next block              process 8 tiles (overlapped!)
-  barrier                      
-  push to CB                   
-                               wait for block
-  ...                          ...
-```
-
-By reading multiple tiles before waiting, and using circular buffers with multiple slots, the reader can stay ahead of compute.
-
-## The Fast Path: Multicast Magic
-
-The *really* fast matmul uses **multicast** - one core reads a tile and broadcasts it to many cores simultaneously:
-
-```
-         Core (0,0) reads A row
-              |
-    +---------+---------+
-    v         v         v
- (0,0)     (0,1)     (0,2)    <- all get same A tiles
-    |         |         |
-    v         v         v
- (1,0)     (1,1)     (1,2)    <- different B columns each
-    
-```
-
-### 2D Decomposition
-- **Row of cores** share the same A tiles (multicast horizontally)
-- **Column of cores** share the same B tiles (multicast vertically)
-- Each core computes a unique output block
-
-This reduces DRAM bandwidth by `sqrt(num_cores)`.
-
-## Key Optimizations in tt-metal's Fast Matmul
-
-1. **Subblock Tiling**: Instead of 1 output tile, compute 4x2=8 tiles that fit in DST registers
-2. **Double Buffering**: 2x CB depth so reader can work while compute processes
-3. **L1 Accumulation (packer_l1_acc)**: Keep partial sums in L1 instead of spilling to DRAM
-4. **Multicast**: Share input tiles across cores via NoC broadcast
-5. **Fused Operations**: Bias add and activation merged into compute kernel
-
-## Circular Buffers: The Glue
-
-Circular buffers are the communication mechanism:
-
-```cpp
-// Reader side
-cb_reserve_back(cb_a, num_tiles);  // Wait for space
-noc_async_read_tile(...);          // DMA read
-noc_async_read_barrier();          // Wait for DMA
-cb_push_back(cb_a, num_tiles);     // Signal "data ready"
-
-// Compute side  
-cb_wait_front(cb_a, num_tiles);    // Wait for data
-matmul_tiles(...);                 // Process
-cb_pop_front(cb_a, num_tiles);     // Signal "done with data"
-```
-
-The CB handles synchronization - no explicit locks needed!
-
-## Performance Numbers
-
-From tt-metal benchmarks on Blackhole (P150):
-
-| Data Type | Math Fidelity | Peak TFLOPS |
-|-----------|---------------|-------------|
-| BFLOAT8_B | HiFi2         | ~580        |
-| BFLOAT16  | HiFi4         | ~250        |
-| BFLOAT4_B | LoFi          | ~700+       |
-
-## TL;DR
-
-1. **3 kernels** (reader/compute/writer) run in parallel, not 1 kernel on many threads
-2. **Circular buffers** connect them, handling synchronization
-3. **Matrix engine** does 4096 ops/cycle - keep it fed!
-4. **Block your reads** to overlap memory access with compute
-5. **Multicast** shares data across cores for massive bandwidth savings
-6. Think **dataflow**, not **thread parallelism**
+Measure through final output completion, compare all outputs against an
+appropriate reference, and test tails and repeated launches. To understand a
+slow case, find the engine or transfer that finishes last, then change its
+schedule and repeat that same comparison.

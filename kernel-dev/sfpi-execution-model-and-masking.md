@@ -1,5 +1,8 @@
 # SFPI execution model: vector width, face iteration, and per-lane masking
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 How SFPI instructions map to 32x32 tiles, and the two masking mechanisms available for partial-tile operations.
 
 ## SFPU vector width: 32 elements

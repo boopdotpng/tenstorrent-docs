@@ -1,5 +1,8 @@
 # LLK + SFPI model and kernel inventory
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 This file merges LLK kernel inventory, SFPU vs non-SFPU examples, and the pack/unpack walkthrough.
 
 ## TT-LLK + SFPI programming model

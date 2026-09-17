@@ -1,5 +1,7 @@
 # Matmul Peak Performance Sweep - Blackhole P100A
 
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
 Device: Blackhole P100A
 
 This doc was updated after a planner refactor in `examples/matmul_peak.py` and new benchmark runs.

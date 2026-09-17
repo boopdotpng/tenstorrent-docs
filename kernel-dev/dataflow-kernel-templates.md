@@ -1,5 +1,8 @@
 # Dataflow Kernel Templates for Compiler-Generated Ops
 
+> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
+> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+
 Hardcoded reader/writer templates that, combined with generated SFPI compute kernels, cover the full op space. Derived from tinygrad's `sops.gz` linearizer dump (4,457 kernels) and tt-metal CB conventions.
 
 ## Why hardcode dataflow kernels?

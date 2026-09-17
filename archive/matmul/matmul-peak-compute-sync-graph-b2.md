@@ -1,6 +1,8 @@
 # matmul_peak Compute Sync Graph B2
 
-![matmul_peak compute sync graph B2](./matmul-peak-compute-sync-graph-b2.svg)
+> Historical snapshot. See the [archive index](../README.md) for scope and current replacements.
+
+![matmul_peak compute sync graph B2](matmul-peak-compute-sync-graph-b2.svg)
 
 `matmul-peak-compute-sync-graph-b2.svg` is a compute-only zoom of the original graph B. It keeps B's readable lane style, but expands the TRISC pipeline, CB full/empty states, MOP/replay programming, config writes, and DST/SrcA/SrcB state.
 
