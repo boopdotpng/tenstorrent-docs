@@ -1,0 +1,68 @@
+op0: SchedulerNode(ComputedBuffer)
+op0.writes = [MemoryDep('buf0', c0, {c0: 8})]
+op0.unmet_dependencies = []
+op0.met_dependencies = [MemoryDep('arg0_1', c0, {c0: 1024})]
+op0.outputs = [
+    buf0: ComputedBuffer
+    buf0.layout = FixedLayout('cpu', torch.float32, size=[8, 1], stride=[1, 8])
+    buf0.users = [NodeUser(node=SchedulerNode(name='op1'), can_inplace=False, is_weak=False)]
+]
+op0.group.device = cpu
+op0.group.iteration = ((8,), (128,))
+op0.sizes = ([8], [128])
+arg0_1_layout = FixedLayout('cpu', torch.float32, size=[8, 128], stride=[128, 1])
+buf0_layout = FixedLayout('cpu', torch.float32, size=[8, 1], stride=[1, 8])
+class op0_loop_body:
+    var_ranges = {p0: 8, p1: 128}
+    index0 = 128*p0 + p1
+    index1 = p0
+    def body(self, ops):
+        get_index = self.get_index('index0')
+        load = ops.load('arg0_1', get_index)
+        mul = ops.mul(load, load)
+        reduction = ops.reduction(torch.float32, torch.float32, 'sum', mul)
+        get_index_1 = self.get_index('index1')
+        store_reduction = ops.store_reduction('buf0', get_index_1, reduction)
+        return None
+
+
+op1: SchedulerNode(ComputedBuffer)
+op1.writes = [MemoryDep('buf1', c0, {c0: 1024})]
+op1.unmet_dependencies = [MemoryDep('buf0', c0, {c0: 8})]
+op1.met_dependencies = [MemoryDep('arg0_1', c0, {c0: 1024}), MemoryDep('arg1_1', c1, {c0: 8, c1: 128})]
+op1.outputs = [
+    buf1: ComputedBuffer
+    buf1.layout = FixedLayout('cpu', torch.float32, size=[8, 128], stride=[128, 1])
+    buf1.users = [NodeUser(node=OUTPUT, can_inplace=False, is_weak=False)]
+]
+op1.group.device = cpu
+op1.group.iteration = ((8, 128), ())
+op1.sizes = ([8, 128], [])
+arg0_1_layout = FixedLayout('cpu', torch.float32, size=[8, 128], stride=[128, 1])
+buf0_layout = FixedLayout('cpu', torch.float32, size=[8, 1], stride=[1, 8])
+arg1_1_layout = FixedLayout('cpu', torch.float32, size=[128], stride=[1])
+buf1_layout = FixedLayout('cpu', torch.float32, size=[8, 128], stride=[128, 1])
+class op1_loop_body:
+    var_ranges = {p0: 8, p1: 128}
+    index0 = 128*p0 + p1
+    index1 = p0
+    index2 = p1
+    def body(self, ops):
+        get_index = self.get_index('index0')
+        load = ops.load('arg0_1', get_index)
+        get_index_1 = self.get_index('index1')
+        load_1 = ops.load('buf0', get_index_1)
+        constant = ops.constant(128.0, torch.float32)
+        truediv = ops.truediv(load_1, constant)
+        constant_1 = ops.constant(9.999999747378752e-06, torch.float32)
+        add = ops.add(truediv, constant_1)
+        rsqrt = ops.rsqrt(add)
+        mul = ops.mul(load, rsqrt)
+        get_index_2 = self.get_index('index2')
+        load_2 = ops.load('arg1_1', get_index_2)
+        mul_1 = ops.mul(mul, load_2)
+        get_index_3 = self.get_index('index0')
+        store = ops.store('buf1', get_index_3, mul_1, None)
+        return store
+
+

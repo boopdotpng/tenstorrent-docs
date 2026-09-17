@@ -1,5 +1,16 @@
 # tinygrad internals and Blackhole notes
 
+For the September 2026 master snapshot, use the new
+[compiler source maps](../compiler-maps/README.md), especially the
+[module map](../compiler-maps/tinygrad/module-map.md),
+[UOps and rewrites](../compiler-maps/tinygrad/uops-and-rewrites.md), and
+[meeting direction](../compiler-maps/tinygrad/meeting-direction.md).
+The July references below retain their original revision scope.
+
+The current map also includes [individual matcher rules with examples](../compiler-maps/tinygrad/rules/README.md),
+[AMD chip-specific matchers](../compiler-maps/tinygrad/amd-pattern-matchers.md),
+and [IMAGE lowering and workarounds](../compiler-maps/tinygrad/image-pattern-matchers.md).
+
 These notes explain current tinygrad internals and explore where a
 Tenstorrent Blackhole backend should hook into the compiler.
 

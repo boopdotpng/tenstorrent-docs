@@ -9,6 +9,11 @@ Compact router for this repo so you can find answers fast without reading everyt
 
 ## Folder map
 
+- `compiler-maps/`: September 2026 source maps for tinygrad, MLIR, IREE,
+  TT-MLIR, PyTorch eager/torch.compile, design comparisons, meeting direction,
+  inventories, and exercises with worked solutions.
+  Start at `compiler-maps/README.md`; these supersede July tinygrad details
+  where the compiler changed.
 - `hardware/`: chip architecture, NoC, Tensix tiles, PCIe, coordinates, ERISC, grid utilization.
 - `kernel-dev/`: SFPI/LLK programming, compute pipeline, CBs/dataflow, tile layout, kernel fusion, reduction padding.
 - `build-and-dispatch/`: kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging tools/env vars.
@@ -101,9 +106,14 @@ Compact router for this repo so you can find answers fast without reading everyt
 - **"TT-Fabric / topology / routing?"** -> `multi-chip/fabric-and-topology-internals.md`
 
 ### tinygrad internals and backend work
+
+- **"New to compiler concepts / where should I start?"** -> `compiler-maps/first-principles.md`, then `compiler-maps/README.md`.
+- **"How do compiler philosophies differ / is coverage sufficient?"** -> `compiler-maps/design-comparison.md`.
+- **"PyTorch eager dispatch/autograd or torch.compile/Dynamo/Inductor?"** -> `compiler-maps/pytorch/README.md`.
 - **"How does a Tensor expression lower to code?"** -> `tinygrad/internals-guide.md`
 - **"What are all current UOps?"** -> `tinygrad/uops-reference.md`
-- **"What does every PatternMatcher do?"** -> `tinygrad/pattern-matchers-reference.md`
+- **"What does every PatternMatcher rule do, with an example?"** -> `compiler-maps/tinygrad/rules/README.md` (current production rule templates); `tinygrad/pattern-matchers-reference.md` is historical.
+- **"AMD/chip-specific or IMAGE matcher workarounds?"** -> `compiler-maps/tinygrad/amd-pattern-matchers.md` and `compiler-maps/tinygrad/image-pattern-matchers.md`.
 - **"How was ShapeTracker removed / what replaced it?"** -> `tinygrad/internals-guide.md`
 - **"Where should a Blackhole backend hook in?"** -> `tinygrad/blackhole-backend-map.md`
 - **"Need the direct Blackhole lowering investigation and artifacts?"** -> `tinygrad/direct-blackhole-lowering-report/README.md`

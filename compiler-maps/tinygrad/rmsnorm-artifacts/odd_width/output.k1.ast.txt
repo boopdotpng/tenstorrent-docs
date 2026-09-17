@@ -1,0 +1,20 @@
+0000 PARAM        dtypes.float             src=[] arg=ParamArg(0, dtypes.float, 508, device='CPU')
+0001 CONST        dtypes.weakint           src=[] arg=4
+0002 RANGE        dtypes.weakint           src=[1] arg=(0, AxisType.WEAK)
+0003 CONST        dtypes.weakint           src=[] arg=127
+0004 MUL          dtypes.weakint           src=[2, 3] arg=None
+0005 RANGE        dtypes.weakint           src=[3] arg=(1, AxisType.WEAK)
+0006 ADD          dtypes.weakint           src=[4, 5] arg=None
+0007 INDEX        dtypes.float             src=[0, 6] arg=None
+0008 PARAM        dtypes.float             src=[] arg=ParamArg(1, dtypes.float, 508, device='CPU')
+0009 INDEX        dtypes.float             src=[8, 6] arg=None
+0010 PARAM        dtypes.float             src=[] arg=ParamArg(2, dtypes.float, 4, device='CPU')
+0011 INDEX        dtypes.float             src=[10, 2] arg=None
+0012 RECIPROCAL   dtypes.float             src=[11] arg=None
+0013 MUL          dtypes.float             src=[9, 12] arg=None
+0014 PARAM        dtypes.float             src=[] arg=ParamArg(3, dtypes.float, 127, device='CPU')
+0015 INDEX        dtypes.float             src=[14, 5] arg=None
+0016 MUL          dtypes.float             src=[13, 15] arg=None
+0017 STORE        dtypes.void              src=[7, 16] arg=None
+0018 END          dtypes.void              src=[17, 2, 5] arg=None
+0019 SINK         dtypes.void              src=[18] arg=KernelInfo(name='test', applied_opts=(), opts_to_apply=None, estimates=None, beam=0)

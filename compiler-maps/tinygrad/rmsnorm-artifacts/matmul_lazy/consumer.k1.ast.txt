@@ -1,0 +1,30 @@
+0000 PARAM        dtypes.float             src=[] arg=ParamArg(0, dtypes.float, 128, device='CPU')
+0001 CONST        dtypes.weakint           src=[] arg=4
+0002 RANGE        dtypes.weakint           src=[1] arg=(1, AxisType.WEAK)
+0003 CONST        dtypes.weakint           src=[] arg=32
+0004 MUL          dtypes.weakint           src=[2, 3] arg=None
+0005 RANGE        dtypes.weakint           src=[3] arg=(2, AxisType.WEAK)
+0006 ADD          dtypes.weakint           src=[4, 5] arg=None
+0007 INDEX        dtypes.float             src=[0, 6] arg=None
+0008 PARAM        dtypes.float             src=[] arg=ParamArg(1, dtypes.float, 512, device='CPU')
+0009 CONST        dtypes.weakint           src=[] arg=128
+0010 MUL          dtypes.weakint           src=[2, 9] arg=None
+0011 RANGE        dtypes.weakint           src=[9] arg=(0, AxisType.REDUCE)
+0012 ADD          dtypes.weakint           src=[10, 11] arg=None
+0013 INDEX        dtypes.float             src=[8, 12] arg=None
+0014 PARAM        dtypes.float             src=[] arg=ParamArg(2, dtypes.float, 4, device='CPU')
+0015 INDEX        dtypes.float             src=[14, 2] arg=None
+0016 RECIPROCAL   dtypes.float             src=[15] arg=None
+0017 MUL          dtypes.float             src=[13, 16] arg=None
+0018 PARAM        dtypes.float             src=[] arg=ParamArg(3, dtypes.float, 128, device='CPU')
+0019 INDEX        dtypes.float             src=[18, 11] arg=None
+0020 MUL          dtypes.float             src=[17, 19] arg=None
+0021 PARAM        dtypes.float             src=[] arg=ParamArg(4, dtypes.float, 4096, device='CPU')
+0022 MUL          dtypes.weakint           src=[11, 3] arg=None
+0023 ADD          dtypes.weakint           src=[22, 5] arg=None
+0024 INDEX        dtypes.float             src=[21, 23] arg=None
+0025 MUL          dtypes.float             src=[20, 24] arg=None
+0026 REDUCE       dtypes.float             src=[25, 11] arg=(Ops.ADD, 0)
+0027 STORE        dtypes.void              src=[7, 26] arg=None
+0028 END          dtypes.void              src=[27, 2, 5] arg=None
+0029 SINK         dtypes.void              src=[28] arg=KernelInfo(name='test', applied_opts=(), opts_to_apply=None, estimates=None, beam=0)

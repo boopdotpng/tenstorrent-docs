@@ -1,0 +1,353 @@
+{
+  "torch_version": "2.11.0+cu130",
+  "torch_git": "70d99e998b4955e0049d13a98d77ae1b14db1f45",
+  "torch_file": "/home/boop/tenstorrent/.venv/lib/python3.13/site-packages/torch/__init__.py",
+  "device": "cpu",
+  "dtype": "float32",
+  "shape": [
+    8,
+    128
+  ],
+  "threads": 2,
+  "cases": {
+    "decomposed": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 3,
+      "generated_cpp_vec_kernel_count": 2,
+      "ir_nodes_pre_fusion": 2,
+      "wrapper_invocations": [
+        "cpp_fused_add_mean_mul_pow_rsqrt_0(arg0_1, arg1_1, buf0, buf1)"
+      ],
+      "eager_aten_events": {
+        "aten::square": 1,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::to": 3,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::_to_copy": 2,
+        "aten::empty_strided": 2,
+        "aten::copy_": 2,
+        "aten::add": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 2
+      },
+      "max_abs_error": 9.5367431640625e-07,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    },
+    "native": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 3,
+      "generated_cpp_vec_kernel_count": 2,
+      "ir_nodes_pre_fusion": 2,
+      "wrapper_invocations": [
+        "cpp_fused_add_mean_mul_pow_rsqrt_0(arg0_1, arg1_1, buf0, buf1)"
+      ],
+      "eager_aten_events": {
+        "aten::rms_norm": 1,
+        "aten::_fused_rms_norm": 1,
+        "aten::to": 5,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::_to_copy": 2,
+        "aten::empty_strided": 2,
+        "aten::copy_": 2,
+        "aten::add_": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 2,
+        "aten::type_as": 1
+      },
+      "max_abs_error": 9.5367431640625e-07,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    },
+    "residual": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 3,
+      "generated_cpp_vec_kernel_count": 2,
+      "ir_nodes_pre_fusion": 2,
+      "wrapper_invocations": [
+        "cpp_fused_add_mean_mul_pow_rsqrt_0(arg0_1, arg1_1, arg2_1, buf0, buf1)"
+      ],
+      "eager_aten_events": {
+        "aten::add": 2,
+        "aten::square": 1,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::to": 3,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::_to_copy": 2,
+        "aten::empty_strided": 2,
+        "aten::copy_": 2,
+        "aten::rsqrt": 1,
+        "aten::mul": 2
+      },
+      "max_abs_error": 4.76837158203125e-07,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    },
+    "matmul": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 3,
+      "generated_cpp_vec_kernel_count": 2,
+      "ir_nodes_pre_fusion": 3,
+      "wrapper_invocations": [
+        "cpp_fused_add_mean_mul_pow_rsqrt_0(arg0_1, arg1_1, buf0, buf1)",
+        "extern_kernels.mm(buf1, arg2_1, out=buf2)"
+      ],
+      "eager_aten_events": {
+        "aten::square": 1,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::to": 3,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::_to_copy": 2,
+        "aten::empty_strided": 2,
+        "aten::copy_": 2,
+        "aten::add": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 2,
+        "aten::matmul": 1,
+        "aten::mm": 1,
+        "aten::resolve_conj": 3
+      },
+      "max_abs_error": 1.33514404296875e-05,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    },
+    "backward": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 10,
+      "generated_cpp_vec_kernel_count": 6,
+      "ir_nodes_pre_fusion": 6,
+      "wrapper_invocations": [
+        "cpp_fused_add_mean_mul_pow_rsqrt_0(buf1, primals_1, primals_2, buf2)",
+        "cpp_fused_add_div_expand_mul_pow_sum_0(tangents_1, primals_1, rsqrt, primals_2, buf0, buf1, buf2)"
+      ],
+      "eager_aten_events": {
+        "aten::square": 1,
+        "aten::pow": 3,
+        "aten::result_type": 3,
+        "aten::to": 8,
+        "aten::mean": 1,
+        "aten::sum": 4,
+        "aten::fill_": 5,
+        "aten::div_": 1,
+        "aten::_to_copy": 5,
+        "aten::empty_strided": 6,
+        "aten::copy_": 6,
+        "aten::add": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 10,
+        "aten::as_strided": 3,
+        "aten::ones_like": 1,
+        "aten::empty_like": 1,
+        "aten::expand": 2,
+        "aten::view": 1,
+        "aten::detach": 2,
+        "aten::div": 1,
+        "aten::add_": 1
+      },
+      "max_abs_error": 9.5367431640625e-07,
+      "backward_checked": true,
+      "input_mutations_checked": true
+    },
+    "view_mutation": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 3,
+      "generated_cpp_vec_kernel_count": 2,
+      "ir_nodes_pre_fusion": 4,
+      "wrapper_invocations": [
+        "cpp_fused_add_copy__mean_mul_pow_rsqrt_0(arg0_1, arg1_1, buf0, buf1, arg0_1)"
+      ],
+      "eager_aten_events": {
+        "aten::view": 1,
+        "aten::add_": 1,
+        "aten::to": 4,
+        "aten::_to_copy": 3,
+        "aten::empty_strided": 3,
+        "aten::copy_": 3,
+        "aten::square": 1,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::add": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 2
+      },
+      "max_abs_error": 4.76837158203125e-07,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    },
+    "strided": {
+      "passed": true,
+      "dynamo_graphs": 1,
+      "generated_kernel_count": 2,
+      "generated_cpp_vec_kernel_count": 2,
+      "ir_nodes_pre_fusion": 2,
+      "wrapper_invocations": [
+        "cpp_fused_add_mean_mul_pow_rsqrt_0(arg0_1, arg1_1, buf0, buf1)"
+      ],
+      "eager_aten_events": {
+        "aten::square": 1,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::to": 3,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::_to_copy": 2,
+        "aten::empty_strided": 2,
+        "aten::copy_": 2,
+        "aten::add": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 2
+      },
+      "max_abs_error": 1.430511474609375e-06,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    },
+    "staged": {
+      "passed": true,
+      "dynamo_graphs": 3,
+      "generated_kernel_count": 6,
+      "generated_cpp_vec_kernel_count": 4,
+      "ir_nodes_pre_fusion": 4,
+      "wrapper_invocations": [
+        "cpp_fused_mean_pow_0(buf1, arg0_1)",
+        "cpp_fused_add_rsqrt_0(arg0_1, buf0)",
+        "cpp_fused_mul_0(arg0_1, arg1_1, arg2_1, buf0)"
+      ],
+      "eager_aten_events": {
+        "aten::square": 1,
+        "aten::pow": 1,
+        "aten::result_type": 1,
+        "aten::to": 3,
+        "aten::mean": 1,
+        "aten::sum": 1,
+        "aten::fill_": 1,
+        "aten::div_": 1,
+        "aten::_to_copy": 2,
+        "aten::empty_strided": 2,
+        "aten::copy_": 2,
+        "aten::add": 1,
+        "aten::rsqrt": 1,
+        "aten::mul": 2
+      },
+      "max_abs_error": 9.5367431640625e-07,
+      "backward_checked": false,
+      "input_mutations_checked": true
+    }
+  },
+  "guards_static": [
+    {
+      "shape": [
+        8,
+        16
+      ],
+      "scale": 2,
+      "submissions": 1
+    },
+    {
+      "shape": [
+        8,
+        16
+      ],
+      "scale": 2,
+      "submissions": 1
+    },
+    {
+      "shape": [
+        12,
+        16
+      ],
+      "scale": 2,
+      "submissions": 2
+    },
+    {
+      "shape": [
+        12,
+        16
+      ],
+      "scale": 3,
+      "submissions": 3
+    },
+    {
+      "shape": [
+        8,
+        16
+      ],
+      "scale": 2,
+      "submissions": 3
+    }
+  ],
+  "guards_dynamic": [
+    {
+      "shape": [
+        8,
+        16
+      ],
+      "scale": 2,
+      "submissions": 1
+    },
+    {
+      "shape": [
+        8,
+        16
+      ],
+      "scale": 2,
+      "submissions": 1
+    },
+    {
+      "shape": [
+        12,
+        16
+      ],
+      "scale": 2,
+      "submissions": 1
+    },
+    {
+      "shape": [
+        12,
+        16
+      ],
+      "scale": 3,
+      "submissions": 1
+    },
+    {
+      "shape": [
+        8,
+        16
+      ],
+      "scale": 2,
+      "submissions": 1
+    }
+  ],
+  "graph_break": {
+    "submissions": 2,
+    "fullgraph_exception": "Unsupported"
+  }
+}

@@ -12,6 +12,11 @@ Start with **[intro.md](intro.md)** — a self-contained introduction to the Bla
 
 ## Reading order
 
+For source-guided compiler study, start with the [compiler maps](compiler-maps/README.md):
+tinygrad modules/UOps/rewrite passes, an MLIR introduction and dialect map, IREE,
+TT-MLIR, PyTorch eager/torch.compile, design comparisons, tinycorp meeting
+direction, and exercise banks with worked solutions.
+
 After the intro, go deeper:
 
 1. `hardware/architecture.md` — chip architecture (NoC, Tensix tiles, RISC-V cores, L1, memory map)

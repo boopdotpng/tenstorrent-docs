@@ -1,0 +1,10 @@
+0000 BUFFER       dtypes.float             src=[] arg=ParamArg(13, dtypes.float, 4, device='CPU')
+0001 CONST        dtypes.weakint           src=[] arg=4
+0002 CONST        dtypes.weakint           src=[] arg=1
+0003 STACK        dtypes.weakint           src=[1, 2] arg=None
+0004 RESHAPE      dtypes.float             src=[0, 3] arg=None
+0005 CONST        dtypes.weakfloat         src=[] arg=ConstFloat(1e-05)
+0006 ADD          dtypes.float             src=[4, 5] arg=None
+0007 SQRT         dtypes.float             src=[6] arg=None
+0008 RECIPROCAL   dtypes.float             src=[7] arg=None
+0009 SINK         dtypes.void              src=[8] arg=None

@@ -1,0 +1,8 @@
+0000 BUFFER       dtypes.float             src=[] arg=ParamArg(15, dtypes.float, 512, device='CPU')
+0001 CONST        dtypes.weakint           src=[] arg=4
+0002 CONST        dtypes.weakint           src=[] arg=128
+0003 STACK        dtypes.weakint           src=[1, 2] arg=None
+0004 RESHAPE      dtypes.float             src=[0, 3] arg=None
+0005 BUFFER       dtypes.float             src=[] arg=ParamArg(11, dtypes.float, 128, device='CPU')
+0006 MUL          dtypes.float             src=[4, 5] arg=None
+0007 SINK         dtypes.void              src=[6] arg=None

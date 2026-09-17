@@ -1,0 +1,25 @@
+0000 BUFFER       dtypes.float             src=[] arg=ParamArg(18, dtypes.float, 512, device='CPU')
+0001 CONST        dtypes.weakint           src=[] arg=4
+0002 CONST        dtypes.weakint           src=[] arg=128
+0003 STACK        dtypes.weakint           src=[1, 2] arg=None
+0004 RESHAPE      dtypes.float             src=[0, 3] arg=None
+0005 BUFFER       dtypes.float             src=[] arg=ParamArg(22, dtypes.float, 512, device='CPU')
+0006 RESHAPE      dtypes.float             src=[5, 3] arg=None
+0007 ADD          dtypes.float             src=[4, 6] arg=None
+0008 MUL          dtypes.float             src=[7, 7] arg=None
+0009 PERMUTE      dtypes.float             src=[8] arg=(1, 0)
+0010 REDUCE       dtypes.float             src=[9] arg=(Ops.ADD, 1)
+0011 CONST        dtypes.weakint           src=[] arg=1
+0012 STACK        dtypes.weakint           src=[1, 11] arg=None
+0013 RESHAPE      dtypes.float             src=[10, 12] arg=None
+0014 CONST        dtypes.weakfloat         src=[] arg=ConstFloat(128.0)
+0015 RECIPROCAL   dtypes.weakfloat         src=[14] arg=None
+0016 MUL          dtypes.float             src=[13, 15] arg=None
+0017 CONST        dtypes.weakfloat         src=[] arg=ConstFloat(1e-05)
+0018 ADD          dtypes.float             src=[16, 17] arg=None
+0019 SQRT         dtypes.float             src=[18] arg=None
+0020 RECIPROCAL   dtypes.float             src=[19] arg=None
+0021 MUL          dtypes.float             src=[7, 20] arg=None
+0022 BUFFER       dtypes.float             src=[] arg=ParamArg(20, dtypes.float, 128, device='CPU')
+0023 MUL          dtypes.float             src=[21, 22] arg=None
+0024 SINK         dtypes.void              src=[23] arg=None

@@ -1,0 +1,72 @@
+{
+  "tinygrad": {
+    "checkout": "/home/boop/tenstorrent/tinygrad",
+    "scope": ".",
+    "head": "107adc31701df0247dfa45e175984df906a68b53",
+    "head_date": "2026-09-17T09:03:11-04:00",
+    "origin": "git@github.com:boopdotpng/tinygrad.git",
+    "shallow": true,
+    "status": "",
+    "entries": 1608
+  },
+  "mlir": {
+    "checkout": "/home/boop/builds/llvm-project",
+    "scope": "mlir",
+    "head": "e3c4c16567e3074dcd42da664fcb91298fd8c0fb",
+    "head_date": "2026-09-17T15:35:03Z",
+    "origin": "https://github.com/llvm/llvm-project.git",
+    "shallow": true,
+    "status": "",
+    "entries": 7760
+  },
+  "iree": {
+    "checkout": "/home/boop/tenstorrent/iree",
+    "scope": ".",
+    "head": "2b05c5dbb2f2ecb27c0d3941e80ee8d2f16e890d",
+    "head_date": "2026-09-16T16:11:06+02:00",
+    "origin": "https://github.com/iree-org/iree.git",
+    "shallow": true,
+    "status": "",
+    "entries": 7270
+  },
+  "tt-mlir": {
+    "checkout": "/home/boop/tenstorrent/tt-mlir",
+    "scope": ".",
+    "head": "33e83a87d335d9f6b6cb066384230382f8a3cd38",
+    "head_date": "2026-09-17T16:39:01+02:00",
+    "origin": "https://github.com/tenstorrent/tt-mlir.git",
+    "shallow": false,
+    "status": "",
+    "entries": 4634
+  },
+  "pytorch": {
+    "checkout": "/home/boop/tenstorrent/pytorch",
+    "scope": ".",
+    "head": "e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df",
+    "head_date": "2026-09-17T15:11:10Z",
+    "origin": "https://github.com/pytorch/pytorch.git",
+    "shallow": true,
+    "status": "",
+    "entries": 22345
+  },
+  "tinycorp-meetings": {
+    "checkout": "/home/boop/tenstorrent/tinycorp-meetings",
+    "scope": "last-week-in-tinycorp",
+    "head": "3779da62412b18e14027489990f77c3ce7122834",
+    "head_date": "2026-09-15T10:34:49Z",
+    "origin": "https://github.com/geohotstan/tinycorp-meetings.git",
+    "shallow": false,
+    "status": "",
+    "entries": 97
+  },
+  "tt-lang-llvm": {
+    "checkout": "/home/boop/tenstorrent/tt-lang/third-party/llvm-project",
+    "scope": "mlir",
+    "head": "37aca9d384347f4f965fa137b0f5463156ba590f",
+    "head_date": "2026-08-11T05:14:19+01:00",
+    "origin": "https://github.com/llvm/llvm-project.git",
+    "shallow": true,
+    "status": "",
+    "entries": 7580
+  }
+}

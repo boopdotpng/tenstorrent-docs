@@ -1,0 +1,13 @@
+Call to `torch._dynamo.graph_break()`
+  Explanation: User-inserted graph break. Message: None
+  Hint: Remove the `torch._dynamo.graph_break()` call.
+
+  Developer debug context: Called `torch._dynamo.graph_break()` with args `[]`, kwargs `{}`
+
+ For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0025.html
+
+from user code:
+   File "/home/boop/tenstorrent/boop-docs/compiler-maps/pytorch/probes/rmsnorm_cpu.py", line 139, in broken
+    torch._dynamo.graph_break()
+
+Set TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"

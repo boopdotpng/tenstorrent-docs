@@ -1,0 +1,148 @@
+{
+  "name": "odd_width",
+  "phases": [
+    {
+      "phase": "output",
+      "compute_kernels": 2,
+      "non_compute_calls": [],
+      "kernels": [
+        {
+          "index": 0,
+          "name": "r_4_127",
+          "buffers": [
+            {
+              "id": "temp2",
+              "elements": 256,
+              "dtype": "dtypes.char"
+            },
+            {
+              "id": "x",
+              "elements": 508,
+              "dtype": "dtypes.float"
+            }
+          ],
+          "outputs": [
+            "temp2"
+          ],
+          "inputs": [
+            "x"
+          ],
+          "ast_ops": {
+            "ADD": 2,
+            "CONST": 4,
+            "END": 1,
+            "INDEX": 2,
+            "MUL": 3,
+            "PARAM": 2,
+            "RANGE": 2,
+            "REDUCE": 1,
+            "SINK": 1,
+            "SQRT": 1,
+            "STORE": 1
+          },
+          "linear_ops": {
+            "ADD": 11,
+            "AFTER": 2,
+            "BUFFER": 1,
+            "CAST": 11,
+            "CONST": 11,
+            "END": 1,
+            "GROUP": 1,
+            "INDEX": 16,
+            "LOAD": 12,
+            "MUL": 8,
+            "PARAM": 2,
+            "RANGE": 1,
+            "SHRINK": 1,
+            "SINK": 1,
+            "SQRT": 4,
+            "STACK": 1,
+            "STORE": 9
+          },
+          "opts": "(Opt(op=OptOps.SPLIT, axis=0, arg=(4, AxisType.UPCAST)),)"
+        },
+        {
+          "index": 1,
+          "name": "E_4_127",
+          "buffers": [
+            {
+              "id": "temp3",
+              "elements": 508,
+              "dtype": "dtypes.float"
+            },
+            {
+              "id": "x",
+              "elements": 508,
+              "dtype": "dtypes.float"
+            },
+            {
+              "id": "temp2",
+              "elements": 256,
+              "dtype": "dtypes.char"
+            },
+            {
+              "id": "weight",
+              "elements": 127,
+              "dtype": "dtypes.float"
+            }
+          ],
+          "outputs": [
+            "temp3"
+          ],
+          "inputs": [
+            "x",
+            "temp2",
+            "weight"
+          ],
+          "ast_ops": {
+            "ADD": 1,
+            "CONST": 2,
+            "END": 1,
+            "INDEX": 4,
+            "MUL": 3,
+            "PARAM": 4,
+            "RANGE": 2,
+            "RECIPROCAL": 1,
+            "SINK": 1,
+            "STORE": 1
+          },
+          "linear_ops": {
+            "ADD": 1,
+            "CAST": 2,
+            "CONST": 2,
+            "END": 2,
+            "FDIV": 1,
+            "INDEX": 4,
+            "LOAD": 3,
+            "MUL": 2,
+            "PARAM": 4,
+            "RANGE": 2,
+            "SINK": 1,
+            "STORE": 1
+          },
+          "opts": "()"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "output": "y",
+      "shape": [
+        4,
+        127
+      ],
+      "max_abs_error": 6.119999738096737e-07,
+      "rmse": 9.545314536912204e-08,
+      "rtol": 2e-05,
+      "atol": 2e-05
+    }
+  ],
+  "shape": [
+    4,
+    127
+  ],
+  "dtype": "float32",
+  "eps": 1e-05,
+  "compute_kernels": 2
+}

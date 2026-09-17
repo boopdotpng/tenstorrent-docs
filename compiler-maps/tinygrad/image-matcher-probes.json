@@ -1,0 +1,40 @@
+{
+  "coalesce_then_image": {
+    "scalar_loads_before": 4,
+    "vector_loads_after": 1,
+    "image_hw": [
+      1,
+      256
+    ],
+    "coordinates": "x = pixel; y = 0; lane is pixel component"
+  },
+  "lane_dependent_masks": {
+    "image_promoted": false
+  },
+  "mask_height_10": {
+    "gate_dropped": true,
+    "load_source_count_after_gater": 1,
+    "coordinate_cases_checked": 1024
+  },
+  "mask_height_20": {
+    "gate_dropped": false,
+    "load_source_count_after_gater": 3,
+    "coordinate_cases_checked": 1024
+  },
+  "half_roundtrip_fold": {
+    "active_even_with_IMAGE_0": true,
+    "input": 1.0001,
+    "binary16_rounded_value": 1.0,
+    "note": "struct demonstrates rounding distinction; matcher probe checks structural rewrite only"
+  },
+  "eligibility": {
+    "float16_elements_hw": [
+      [
+        1,
+        4
+      ]
+    ],
+    "without_pitch_alignment": [],
+    "integer_storage": []
+  }
+}
