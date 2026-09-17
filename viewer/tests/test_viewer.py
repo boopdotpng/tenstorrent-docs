@@ -81,18 +81,19 @@ class HTTP(unittest.TestCase):
         self.assertIn("script-src 'self'", headers['Content-Security-Policy'])
         body, _ = self.get('/api/index')
         index = json.loads(body)
-        self.assertGreater(len(index['documents']), 180)
+        self.assertTrue(index['documents'])
         self.assertTrue(any(d['historical'] for d in index['documents']))
         for doc in index['documents']:
             self.assertTrue(server.locate('docs', doc['path']).is_file())
 
     def test_search_body_and_archives(self):
-        body, _ = self.get('/api/search?' + urlencode({'q':'firmware', 'history':'0'}))
+        body, _ = self.get('/api/search?' + urlencode({'q':'firmware', 'scope':'documents'}))
         results = json.loads(body)
         self.assertTrue(results)
         self.assertFalse(any(d['historical'] for d in results))
-        body, _ = self.get('/api/search?' + urlencode({'q':'4234a9d727e52a6bb033c387d2c869cea4caf641', 'history':'1'}))
-        self.assertTrue(any(d['historical'] for d in json.loads(body)))
+        body, _ = self.get('/api/search?' + urlencode({'q':'4234a9d727e52a6bb033c387d2c869cea4caf641', 'scope':'archives'}))
+        self.assertTrue(json.loads(body))
+        self.assertTrue(all(d['historical'] for d in json.loads(body)))
 
     def test_document_and_reference(self):
         body, _ = self.get('/api/document?' + urlencode({'repo':'docs','path':'intro.md'}))

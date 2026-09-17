@@ -6,8 +6,8 @@ const opURL = name => '#/instructions/'+encodeURIComponent(name);
 const assetURL = (repo,path) => '/api/asset?'+new URLSearchParams({repo,path});
 const main = $('#main');
 let reference, index, routeVersion = 0, searchVersion = 0;
-let showHistory = localStorage.getItem('bh-history') !== 'false';
-const categories = {'Start here':'Start here','hardware':'Hardware','kernel-dev':'Kernel development','build-and-dispatch':'Build & dispatch','firmware':'Firmware','matmul':'Matrix multiplication','compiler-maps':'Compiler maps','tinygrad':'tinygrad','microbenching':'Measurements','llk-sfpi':'ISA workload studies','multi-chip':'Multi-chip','archive':'Historical studies','maintenance':'Maintenance','disasms':'Disassemblies','human':'Human notes'};
+
+const categories = {'Start here':'Start here','hardware':'Hardware','emulator':'Emulator models','kernel-dev':'Kernel development','build-and-dispatch':'Build & dispatch','firmware':'Firmware','matmul':'Matrix multiplication','compiler-maps':'Compiler foundations','compiler-tinygrad':'tinygrad compiler','compiler-pytorch':'PyTorch compiler','compiler-mlir':'MLIR','compiler-iree':'IREE','compiler-tt-mlir':'TT-MLIR','tinygrad':'tinygrad','microbenching':'Measurements','llk-sfpi':'ISA workload studies','multi-chip':'Multi-chip','archive':'Historical studies','maintenance':'Maintenance','disasms':'Disassemblies','human':'Human notes'};
 const slug = text => text.toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu,'').replace(/\s/g,'-');
 async function json(url) { const r = await fetch(url); const data = await r.json(); if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`); return data; }
 function md(text) { return DOMPurify.sanitize(marked.parse(text || ''), {FORBID_TAGS:['style','form','input','button'], FORBID_ATTR:['style']}); }
@@ -39,9 +39,15 @@ function hydrate(container, repo, path) {
 function toast(message) { $('#toast').textContent=message;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800); }
 function badge(text, style='') {return `<span class="badge ${style}">${esc(text)}</span>`;}
 function timingStyle(op) {return /unknown|reserved|estimate|inference/.test(op.timing_status)?'warn':'';}
+function archiveRoute() {
+ if(location.hash.startsWith('#/archives'))return true;
+ return index.documents.some(d=>d.historical && location.hash.split('?')[0]===docURL(d.path));
+}
 function nav() {
+ const archives=archiveRoute();
+ $('#library-heading').textContent=archives?'ARCHIVES':'DOCUMENTATION';
  const grouped = new Map();
- for(const doc of index.documents){if(!showHistory && doc.historical)continue;if(!grouped.has(doc.category))grouped.set(doc.category,[]);grouped.get(doc.category).push(doc);}
+ for(const doc of index.documents){if(doc.historical!==archives)continue;if(!grouped.has(doc.category))grouped.set(doc.category,[]);grouped.get(doc.category).push(doc);}
  $('#doc-nav').innerHTML=[...grouped].sort((a,b)=>Object.keys(categories).indexOf(a[0])-Object.keys(categories).indexOf(b[0])).map(([category,docs])=>`<details ${['Start here','hardware'].includes(category)?'open':''}><summary>${esc(categories[category]||category)} <span class="small">${docs.length}</span></summary>${docs.map(d=>`<a href="${docURL(d.path)}" title="${esc(d.path)}">${esc(d.title)}</a>`).join('')}</details>`).join('');
  activeNav();
 }
@@ -70,15 +76,16 @@ function instructionDetail(name) {
  document.querySelectorAll('.manual-caveat').forEach(el=>hydrate(el,'tt-isa-documentation',op.manual||'README.md'));
  $('#copy-link').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);toast('Link copied');}catch(_){toast('Copy the URL from your address bar');}};
 }
-function documentList(params,global=false){
- main.innerHTML=`<h1>${global?'Search':'Documentation'}</h1><div class="toolbar"><div class="search-box"><input id="doc-search" aria-label="Search documentation" placeholder="Search all document text…" value="${esc(params.get('q')||'')}"></div><label class="small"><input id="search-history" type="checkbox" ${showHistory?'checked':''}> Include archives</label></div><div id="doc-results" aria-live="polite"></div>`;
+function documentList(params,global=false,archives=false){
+ main.innerHTML=`<h1>${global?'Search':archives?'Archives':'Documentation'}</h1><div class="toolbar"><div class="search-box"><input id="doc-search" aria-label="Search documentation" placeholder="Search all document text…" value="${esc(params.get('q')||'')}"></div></div><div id="doc-results" aria-live="polite"></div>`;
  let timer;
- const render=async()=>{const version=++searchVersion,query=$('#doc-search').value.trim(),history=$('#search-history').checked;let docs=index.documents.filter(d=>history||!d.historical);
- try{if(query)docs=await json('/api/search?'+new URLSearchParams({q:query,history:history?'1':'0'}));if(version!==searchVersion||!$('#doc-results'))return;
+ const render=async()=>{const version=++searchVersion,query=$('#doc-search').value.trim(),scope=global?'all':archives?'archives':'documents';let docs=index.documents.filter(d=>global||d.historical===archives);
+ try{if(query)docs=await json('/api/search?'+new URLSearchParams({q:query,scope}));if(version!==searchVersion||!$('#doc-results'))return;
+ if(!query)docs.sort((a,b)=>Object.keys(categories).indexOf(a.category)-Object.keys(categories).indexOf(b.category)||a.path.localeCompare(b.path));
  const ops=global&&query?reference.instructions.filter(x=>JSON.stringify([x.name,x.overview,x.contracts]).toLowerCase().includes(query.toLowerCase())).slice(0,12):[];
- $('#doc-results').innerHTML=(ops.length?`<h2>Instructions</h2><div class="inline-links">${ops.map(x=>`<a class="button" href="${opURL(x.name)}">${x.name}</a>`).join('')}</div>`:'')+`<p class="result-count">${docs.length} DOCUMENT${docs.length===1?'':'S'}${query&&docs.length===60?' · FIRST 60 MATCHES':''}</p><div class="doc-list">${docs.map(d=>`<article class="doc-result"><h3><a href="${docURL(d.path)}">${esc(d.title)}</a> ${d.historical?badge('historical','muted'):''}</h3><code>${esc(d.path)}</code>${d.excerpt?`<p>${esc(d.excerpt)}</p>`:''}</article>`).join('')||'<div class="empty">No matching documents. Try fewer words or include archives.</div>'}</div>`;
+ $('#doc-results').innerHTML=(ops.length?`<h2>Instructions</h2><div class="inline-links">${ops.map(x=>`<a class="button" href="${opURL(x.name)}">${x.name}</a>`).join('')}</div>`:'')+`<p class="result-count">${docs.length} DOCUMENT${docs.length===1?'':'S'}${query&&docs.length===60?' · FIRST 60 MATCHES':''}</p><div class="doc-list">${docs.map((d,i)=>`${!query && !global && (!i||docs[i-1].category!==d.category)?`<h2>${esc(categories[d.category]||d.category)}</h2>`:''}<article class="doc-result"><h3><a href="${docURL(d.path)}">${esc(d.title)}</a> ${d.historical?badge('historical','muted'):''}</h3><code>${esc(d.path)}</code>${d.excerpt?`<p>${esc(d.excerpt)}</p>`:''}</article>`).join('')||'<div class="empty">No matching documents. Try fewer words.</div>'}</div>`;
  }catch(error){if(version===searchVersion)$('#doc-results').textContent=error.message;}};
- $('#doc-search').oninput=()=>{clearTimeout(timer);timer=setTimeout(render,150);};$('#search-history').onchange=render;render();if(global)$('#doc-search').focus();
+ $('#doc-search').oninput=()=>{clearTimeout(timer);timer=setTimeout(render,150);};render();if(global)$('#doc-search').focus();
 }
 async function documentPage(repo,path,version){
  const data=await json('/api/document?'+new URLSearchParams({repo,path}));if(version!==routeVersion)return;
@@ -90,12 +97,13 @@ async function documentPage(repo,path,version){
  document.title=(data.format==='markdown'?$('#doc-content h1')?.textContent||path:path.split('/').pop())+' · Blackhole';
 }
 async function route(){
- const version=++routeVersion;searchVersion++;document.body.classList.remove('menu-open');activeNav();
+ const version=++routeVersion;searchVersion++;document.body.classList.remove('menu-open');nav();
  const raw=(location.hash.slice(1)||'/documents'),[pathname,query='']=raw.split('?'),parts=pathname.split('/').filter(Boolean).map(decodeURIComponent),params=new URLSearchParams(query);
  $('#breadcrumb').textContent=parts[0]==='instructions'?`Reference / ${parts[1]||'Tensix instruction set'}`:parts[0]==='docs'?parts[2]:'Blackhole / '+(parts[0]||'Overview');document.title='Blackhole docs';
  try{
   if(parts[0]==='instructions'){if(parts[1])instructionDetail(parts[1]);else instructionList(params);}
   else if(parts[0]==='documents')documentList(params);
+  else if(parts[0]==='archives')documentList(params,false,true);
   else if(parts[0]==='search')documentList(params,true);
   else if(parts[0]==='docs')await documentPage(parts[1],parts[2],version);
   else documentList(params);
@@ -107,8 +115,7 @@ async function route(){
  try{
   document.documentElement.dataset.theme=localStorage.getItem('bh-theme') || 'dark';
   [reference,index]=await Promise.all([json('/api/instructions'),json('/api/index')]);
-  $('#instruction-count').textContent=reference.instructions.length;$('#show-history').checked=showHistory;nav();
-  $('#show-history').onchange=e=>{showHistory=e.target.checked;localStorage.setItem('bh-history',showHistory);nav();};
+  $('#instruction-count').textContent=reference.instructions.length;nav();
   $('#theme-toggle').onclick=()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;localStorage.setItem('bh-theme',theme);};
   $('#menu-toggle').onclick=()=>document.body.classList.toggle('menu-open');
   document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();if(location.hash==='#/search')$('#doc-search')?.focus();else location.hash='/search';}if(e.key==='Escape')document.body.classList.remove('menu-open');});

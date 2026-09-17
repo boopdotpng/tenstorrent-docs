@@ -13,8 +13,8 @@ The server binds to `0.0.0.0` by default, so other machines can connect at
 `http://<this-machine-ip>:8000`. It never opens a browser.
 
 The documentation tab reads Markdown directly from this repository, groups it
-by topic, and searches the full text. Archived material is included by default
-and labeled. The instruction tab searches names, behavior, timing, caveats, and
+by topic, and searches the full text. Archives have a separate section and search. Global search covers both sections
+and labels historical results. The instruction tab searches names, behavior, timing, caveats, and
 reviewed test claims. It offers execution-unit and evidence filters, per-opcode
 links, dark mode, and a layout usable on smaller screens. Press `/` for search.
 

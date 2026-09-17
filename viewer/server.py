@@ -39,6 +39,17 @@ def locate(repo, name, *, assets=False):
     return path
 
 
+def category(path):
+    parts = path.parts
+    if str(path) == 'AGENTS.md':
+        return 'maintenance'
+    if str(path).startswith('hardware/blackhole-emulator-specs/'):
+        return 'emulator'
+    if len(parts) > 2 and parts[0] == 'compiler-maps':
+        return 'compiler-' + parts[1]
+    return parts[0] if len(parts) > 1 else 'Start here'
+
+
 def document_index():
     docs = []
     for p in sorted(ROOT.rglob('*.md')):
@@ -48,7 +59,7 @@ def document_index():
         content = p.read_text(encoding='utf-8')
         title = re.search(r'^# (.+)$', content, re.M)
         docs.append({'path': str(rel), 'title': title[1].replace('`', '') if title else p.stem,
-                     'category': rel.parts[0] if len(rel.parts) > 1 else 'Start here',
+                     'category': category(rel),
                      'historical': rel.parts[0] in {'archive', 'disasms', 'llk-sfpi'} or 'historical' in rel.parts or str(rel).startswith('microbenching/docs/'),
                      'words': len(content.split()), 'content': content})
     return docs
@@ -87,7 +98,8 @@ class Handler(BaseHTTPRequestHandler):
                 terms = query.split()
                 results = []
                 for doc in document_index():
-                    if args.get('history') != '1' and doc['historical']:
+                    scope = args.get('scope', 'documents')
+                    if scope == 'documents' and doc['historical'] or scope == 'archives' and not doc['historical']:
                         continue
                     hay = (doc['title'] + '\n' + doc['path'] + '\n' + doc['content']).lower()
                     if not all(t in hay for t in terms):
