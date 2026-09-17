@@ -2,7 +2,7 @@
 
 This is an **executed CPU experiment using the installed wheel**, not an execution of the new source checkout. The wheel is `torch 2.11.0+cu130`, git `70d99e998b4955e0049d13a98d77ae1b14db1f45`; the mapped checkout is `e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df`. No source build or package installation was performed. The CUDA suffix describes the wheel distribution; all tensors and generated kernels here are CPU. GPU behavior, timings, and cross-version numerical equivalence are not validated.
 
-The question is concrete: when several array operations implement normalization, which intermediate arrays and separate calls survive compilation? **Fusion** combines work that could execute separately. Here we inspect CPU generated functions and stored buffers; the experiment does not measure speedup. For background, see [eager execution](eager-execution.md), [Inductor](inductor-and-fusion.md), or the shared [first-principles guide](../first-principles.md).
+The question is concrete: when several array operations implement normalization, which intermediate arrays and separate calls survive compilation? **Fusion** combines work that could execute separately. Here we inspect CPU generated functions and stored buffers; the experiment does not measure speedup. For background, see [eager execution](eager-execution.md#eager-execution), [Inductor](inductor-and-fusion.md#inductor-and-fusion), or the shared [first-principles guide](../first-principles.md).
 
 Reproduce from `/home/boop/tenstorrent`:
 
@@ -103,7 +103,7 @@ dx[r,j] = g[r,j] * w[j] * s[r]
           - x[r,j] * s[r]^3 * mean_k(g[r,k] * w[k] * x[r,k])
 ```
 
-Read `dx` as two effects added together: changing `x[r,j]` directly changes that output element, and also changes the shared normalization scale for the entire row. The second term accounts for that shared-scale effect. For `dw`, the same feature weight is used in every row, so those row contributions add. See [the stepwise derivative exercise](eager-exercises.md#9-derive-rmsnorm-backward-then-find-its-implementation-boundary) for the chain rule.
+Read `dx` as two effects added together: changing `x[r,j]` directly changes that output element, and also changes the shared normalization scale for the entire row. The second term accounts for that shared-scale effect. For `dw`, the same feature weight is used in every row, so those row contributions add. See [the stepwise derivative exercise](eager-execution.md#eager-exercises--9-derive-rmsnorm-backward-then-find-its-implementation-boundary) for the chain rule.
 
 There is a reduction across features for `dx` and across rows for `dw`. These are different iteration spaces; “backward is a reversed forward graph” is insufficient to derive its scheduling. AOTAutograd chooses a forward/backward boundary and saved-value interface; Inductor optimizes each resulting graph. The probe invokes `.sum().backward()` outside the compiled forward, so the eager loss reduction is not counted among the two generated wrapper calls. Both `x.grad` and `w.grad` are checked.
 

@@ -1,145 +1,49 @@
 # AGENTS.md
 
-Compact router for this repo so you can find answers fast without reading everything.
-
 ## Start here
 
-- Run `./serve.sh` for the docs website and searchable 137-instruction ISA reference.
-  It binds to `0.0.0.0:8000` without opening a browser; only `--port` is configurable.
-- Current hardware evidence: `hardware/behavior-from-tests.md`.
-- Current Python runtime: `build-and-dispatch/blackhole-py-runtime.md`.
-- ISA snapshot refresh: `python3 viewer/build_reference.py` (read-only source import).
+- Run `./serve.sh`; optional `--port`. Bind is `0.0.0.0`; no browser launch.
+- `/` is documentation, `/isa` is the dedicated Tensix reference, `/archives`
+  is historical material. Each has its own navigation. `/` key opens global search.
+- Read `README.md`, then `intro.md` for orientation.
+- `human/` is read-only. Never edit files there.
 
-- New to Blackhole? Read `intro.md` first.
-- Read `README.md` for project goal, reading order, and folder map.
+## Topic router
 
-## Folder map
+| Question | Reference |
+|---|---|
+| Hardware architecture | `hardware/architecture.md` |
+| What blackhole-py tests establish | `hardware/behavior-from-tests.md` |
+| Coordinates, harvesting, worker placement | `hardware/topology.md` |
+| Host transfers, pinned memory, DMA distinctions | `hardware/host-memory.md` |
+| PCIe registers and driver interface | `hardware/pcie-and-tt-kmd.md` |
+| Performance counters | `hardware/performance-counters.md` |
+| Instruction behavior, timing, caveats, tests | `/isa`; `viewer/data/instructions.json` |
+| Detailed state-machine/register models | `hardware/blackhole-emulator-specs/README.md` |
+| Compute scheduling, MOP/replay, ownership | `kernel-dev/tensix-compute-pipeline.md` |
+| CBs, dataflow patterns, reduction padding | `kernel-dev/dataflow.md` |
+| SFPI/LLK programming and masking | `kernel-dev/sfpi.md` |
+| TT-Metal tile layouts | `kernel-dev/tilize-untilize-and-tile-layout.md` |
+| Matmul, row-major input, fidelity, FP32, fusion | `matmul/README.md` |
+| Matmul multicast and scheduling tradeoffs | `matmul/scheduling.md` |
+| Current blackhole-py build/dispatch | `build-and-dispatch/blackhole-py-runtime.md` |
+| TT-Metal build, ELF/XIP, worker boot | `build-and-dispatch/tt-metal-build.md` |
+| TT-Metal CQ commands and launch ABI | `build-and-dispatch/tt-metal-dispatch.md` |
+| Debug tools, environment variables, dispatch benchmark | `build-and-dispatch/debugging.md` |
+| Board firmware, ARC/SMC/DMC, fwbundles | `firmware/README.md` |
+| Multi-chip/host and TT-Fabric | `multi-chip/README.md` |
+| Compiler internals, rules, worked exercises | `compiler-maps/README.md` |
+| Historical experiments, reports, instruction frequencies | `/archives`; `archive/README.md` |
 
-- `compiler-maps/`: September 2026 source maps for tinygrad, MLIR, IREE,
-  TT-MLIR, PyTorch eager/torch.compile, design comparisons, meeting direction,
-  inventories, and exercises with worked solutions.
-  Start at `compiler-maps/README.md`; these supersede July tinygrad details
-  where the compiler changed.
-- `hardware/`: chip architecture, NoC, Tensix tiles, PCIe, coordinates, ERISC, grid utilization.
-- `kernel-dev/`: SFPI/LLK programming, compute pipeline, CBs/dataflow, tile layout, kernel fusion, reduction padding.
-- `build-and-dispatch/`: kernel compilation, loading ABI, dispatch pipeline, CQ protocol, debugging tools/env vars.
-- `firmware/`: firmware architecture, upload sequence, build system.
-- `matmul/`: matrix multiply (ELI5 intros through peak performance analysis and gap analysis).
-- `microbenching/`: hardware microbenchmark scripts, run reports, status, and small host-side models.
-- `multi-chip/`: multi-host architecture, TT-Fabric, topology/routing, data-parallel training walkthrough.
-- `llk-sfpi/`: LLK/SFPI instruction-level compute pipeline, ISA analysis, FPU fidelity, kernel fusion.
-- `disasms/`: raw RISC-V objdump artifacts.
-- `tinygrad/`: gateway to the September compiler maps and archived studies.
-- `archive/`: historical compiler investigations, retired runtime notes, and matmul records.
-- `viewer/`: Python docs server, browser UI, and generated instruction-reference snapshot.
-- `maintenance/`: document catalogue, relocation map, and source provenance.
-- `human/`: human-authored notes (read-only).
 
-## Guardrail
+## Maintenance
 
-- `human/` is read-only: do not edit files there.
-
-## Router: what to read for each question
-
-### Hardware
-- **"How does Blackhole hardware work?"** -> `hardware/architecture.md`
-- **"Tensix compute units / FPU / SFPU ISA?"** -> `hardware/tensix-compute-units.md`
-- **"Why is coord X/Y weird or out of range?"** -> `hardware/coordinates-and-translation.md`
-- **"How do PCIe, BARs, TLB, IOCTLs work?"** -> `hardware/pcie-and-tt-kmd.md`
-- **"PCIe DMA vs sysmem?"** -> `hardware/pcie-dma-and-sysmem.md`
-- **"L1 address map / tile addresses?"** -> `hardware/tile-addresses-and-l1-map.md`
-- **"Grid utilization / column 14?"** -> `hardware/grid-utilization.md`
-- **"ERISC / ethernet cores?"** -> `hardware/erisc-cores-and-ethernet-launch.md`
-- **"Packer L1 acc Float16 bug?"** -> `hardware/packer-l1-acc-float16-hardware-bug.md`
-- **"Hardware performance counters?"** -> `hardware/performance-counters.md`
-- **"Blackhole emulator spec / full HW reference?"** -> `hardware/blackhole-emulator-specs/README.md`
-- **"Small transfer latency / DMA vs kernel launch?"** -> `hardware/small-transfer-optimization.md`
-
-### LLK / SFPI / ISA
-- **"Which instructions are actually used on Blackhole?"** -> `llk-sfpi/blackhole-instruction-set-analysis.md` or `llk-sfpi/instruction-frequency-report.md`
-- **"Which instructions are dead / unused?"** -> `llk-sfpi/instruction-frequency-report.md` (comprehensive: 747 ELFs, inline + FIFO-pushed instructions)
-- **"Instruction frequency / counts?"** -> `llk-sfpi/instruction-frequency-report.md`
-- **"Which instructions are tested?"** -> `hardware/behavior-from-tests.md`; absence from a frequency sample does not justify deletion.
-
-### Kernel development
-- **"How to write SFPI kernels?"** -> `kernel-dev/sfpi-and-kernel-dev.md`
-- **"SFPI API reference?"** -> `kernel-dev/sfpi.md`
-- **"LLK vs SFPI model?"** -> `kernel-dev/llk-and-sfpi-model.md`
-- **"Compute pipeline / matmul programming?"** -> `kernel-dev/tensix-compute-pipeline.md`
-- **"Replay buffer / MOP for SFPU?"** -> `kernel-dev/replay-buffer-and-mop-for-sfpu.md`
-- **"SFPU execution model / masking?"** -> `kernel-dev/sfpi-execution-model-and-masking.md`
-- **"Kernel fusion (matmul + SFPU epilogue)?"** -> `kernel-dev/kernel-fusion.md`
-- **"FPU fidelity phases?"** -> `kernel-dev/fpu-matmul-fidelity-phases.md`
-- **"CB semantics / dataflow patterns?"** -> `kernel-dev/dataflow-and-cbs.md`
-- **"Tile layout / tilize / untilize?"** -> `kernel-dev/tilize-untilize-and-tile-layout.md`
-- **"Reduction padding strategies?"** -> `kernel-dev/reduction-padding-strategies.md`
-
-### Build and dispatch
-- **"How are kernels built/cached?"** -> `build-and-dispatch/kernel-build-and-cache.md`
-- **"How are kernels loaded/XIP/runtime args?"** -> `build-and-dispatch/kernel-loading-and-abi.md`
-- **"Fast vs slow dispatch?"** -> `build-and-dispatch/dispatch-modes.md`
-- **"Dispatch kernel catalog / CQ command protocol?"** -> `build-and-dispatch/dispatch-kernel-pipeline-internals.md`
-- **"Fast dispatch ABI / compile-time defines?"** -> `build-and-dispatch/fast-dispatch-abi.md`
-- **"Concrete CQ command trace?"** -> `archive/build-and-dispatch/fast-dispatch-cq-dump.md`
-- **"Blackhole-py fast dispatch bugs/notes?"** -> `archive/build-and-dispatch/fast-dispatch-implementation-notes.md`
-- **"Slow dispatch TLB write sequence?"** -> `build-and-dispatch/slow-dispatch-tlb-writes.md`
-- **"Debug env vars?"** -> `build-and-dispatch/debug-env-vars.md`
-- **"Dispatch benchmarking?"** -> `build-and-dispatch/dispatch-benchmark-howto.md`
-- **"Register/memory debugging tools?"** -> `build-and-dispatch/register-memory-tooling.md`
-
-### Firmware
-- **"Firmware source architecture?"** -> `firmware/firmware-source-architecture.md`
-- **"Firmware upload sequence?"** -> `firmware/firmware-upload-sequence.md`
-- **"Building firmware / fwbundles?"** -> `firmware/firmware-build-system.md`
-
-### Matmul
-- **"How does matmul work on TT? (ELI5)"** -> `matmul/fast-matmul-eli5.md`
-- **"Why 4 dataflow roles for matmul?"** -> `matmul/matmul-2d-mcast-role-split-eli5.md`
-- **"When to use 4-role multicast?"** -> `matmul/when-to-use-4-role-mcast.md`
-- **"Current matmul placement constraints?"** -> `hardware/grid-utilization.md`
-- **"Matmul peak performance / porting?"** -> `archive/matmul/matmul-peak-block-lifecycle-and-blackhole-py-port.md`
-- **"FP32 vs FP16 accumulation?"** -> `matmul/fp32-accumulation.md`
-- **"Matmul benchmark results?"** -> `archive/matmul/matmul-peak-sweep.md`
-
-### Microbenching
-- **"What microbenchmarks currently run or fail?"** -> `microbenching/status.md`
-- **"How do I run or update microbench scripts?"** -> `microbenching/README.md`
-- **"Explain NoC microbenching from zero?"** -> `microbenching/docs/noc/reading-guide.md`
-- **"NoC benchmark reports/results?"** -> `microbenching/docs/README.md`
-- **"Tensix/DRISC/SFPU benchmark reports/results?"** -> `microbenching/docs/README.md`
-- **"Microbench source scripts?"** -> `microbenching/{tensix,noc,riscv,matmul,models}/`
-
-### Multi-chip
-- **"Multi-host / remote cards / training walkthrough?"** -> `multi-chip/multi-host-and-remote-card-architecture.md`
-- **"TT-Fabric / topology / routing?"** -> `multi-chip/fabric-and-topology-internals.md`
-
-### tinygrad internals and backend work
-
-- **"New to compiler concepts / where should I start?"** -> `compiler-maps/first-principles.md`, then `compiler-maps/README.md`.
-- **"How do compiler philosophies differ / is coverage sufficient?"** -> `compiler-maps/design-comparison.md`.
-- **"PyTorch eager dispatch/autograd or torch.compile/Dynamo/Inductor?"** -> `compiler-maps/pytorch/README.md`.
-- **"How does a Tensor expression lower to code?"** -> `compiler-maps/tinygrad/module-map.md`
-- **"What are all current UOps?"** -> `compiler-maps/tinygrad/uops-and-rewrites.md`
-- **"What does every PatternMatcher rule do, with an example?"** -> `compiler-maps/tinygrad/rules/README.md` (current production rule templates); `archive/tinygrad/pattern-matchers-reference.md` is historical.
-- **"AMD/chip-specific or IMAGE matcher workarounds?"** -> `compiler-maps/tinygrad/amd-pattern-matchers.md` and `compiler-maps/tinygrad/image-pattern-matchers.md`.
-- **"How was ShapeTracker removed / what replaced it?"** -> `archive/tinygrad/internals-guide.md`
-- **"Where should a Blackhole backend hook in?"** -> `archive/tinygrad/blackhole-backend-map.md`
-- **"Need the direct Blackhole lowering investigation and artifacts?"** -> `archive/tinygrad/direct-blackhole-lowering-report/README.md`
-- **"What tinygrad project or patch should I try?"** -> `archive/tinygrad/patch-projects.md`
-- **"Need concrete old UOp stage dumps?"** -> `archive/tinygrad/uop-probes/README.md` (historical, pre-July 2026)
-
-### Raw artifacts
-- **"Need raw instruction dumps?"** -> `disasms/add1_sfpu_single_file/*.objdump.txt`
-
-## Very long files (read with intent)
-
-- `kernel-dev/sfpi-and-kernel-dev.md` (~780 lines): broad SFPI + kernel dev audit.
-- `hardware/tensix-compute-units.md` (~770 lines): complete ISA reference.
-- `build-and-dispatch/kernel-build-and-cache.md` (~700 lines): full build/cache pipeline.
-If you only need orientation, prefer the README reading order and this router.
-
-## Fast search strategy (default)
-
-1. Read `README.md` for orientation.
-2. Use the router above to find the one target doc.
-3. Only expand to long/raw files if the target doc lacks the needed detail.
+- Refresh ISA evidence with `python3 viewer/build_reference.py`. It reads local
+  sibling checkouts without executing their code or touching hardware.
+- Validate with `python3 -m unittest discover -s viewer/tests -v`.
+- Old-to-new document paths are in `maintenance/relocations.json`.
+- Read `maintenance/README.md` for provenance, consolidation scope, and limits.
+- Keep hardware behavior separate from runtime conventions. Encoding checks,
+  behavioral claims, and measured timing are different evidence.
+- Compiler maps retain pinned source revisions. Historical corpus frequency
+  does not establish that an instruction is unsupported or safe to delete.

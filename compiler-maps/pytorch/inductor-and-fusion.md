@@ -1,8 +1,15 @@
-# Inductor: why its representations exist, and where kernel fusion stops
+# Inductor and fusion and exercises
 
-Source snapshot: PyTorch `e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df`. This is a **source-reviewed map**, not a measurement of that checkout. Examples below are schematic unless explicitly linked to an executed probe. Coverage is module/pass-family level plus individually explained representative rules; it is **not every Inductor pattern, lowering registration, backend, or generated rule**. See [exercises and worked solutions](inductor-exercises.md).
+The source explanation and its worked exercises share one reference. They describe the recorded PyTorch checkout; runnable validation is identified explicitly below.
 
-## Start with the work that must actually happen
+<a id="inductor-and-fusion"></a>
+## Inductor: why its representations exist, and where kernel fusion stops
+<a id="inductor-and-fusion--inductor-why-its-representations-exist-and-where-kernel-fusion-stops"></a>
+
+Source snapshot: PyTorch `e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df`. This is a **source-reviewed map**, not a measurement of that checkout. Examples below are schematic unless explicitly linked to an executed probe. Coverage is module/pass-family level plus individually explained representative rules; it is **not every Inductor pattern, lowering registration, backend, or generated rule**. See [exercises and worked solutions](inductor-and-fusion.md#inductor-exercises).
+
+<a id="inductor-and-fusion--start-with-the-work-that-must-actually-happen"></a>
+### Start with the work that must actually happen
 
 Suppose Python says `y = (x + 1).sin()`. For every array index `i`, a possible
 implementation computes `sin(x[i] + 1)` and writes `y[i]`. It need not allocate
@@ -13,7 +20,8 @@ boundaries while preserving the result.
 A **kernel** is a unit of generated device computation; launching it asks the
 device to run that work. CPU generated functions have a different execution
 model, so the guide distinguishes function calls from GPU launches.
-### Fusion
+<a id="inductor-and-fusion--fusion"></a>
+#### Fusion
 
 combines work that could otherwise execute separately. It can save
 launches and memory traffic, but a larger kernel can also use more resources
@@ -25,10 +33,11 @@ Python. It must decide what each array element requires, where results live,
 and which computations execute together. A compiler's internal representation
 of a program is an **IR**. Inductor uses more than one because “apply sine to a
 tensor” and “read element at offset i, compute sine, write offset i” answer
-different planning questions. See [capture](torch-compile.md) for how the graph
+different planning questions. See [capture](torch-compile.md#torch-compile) for how the graph
 arrives and [first principles](../first-principles.md) for shared terminology.
 
-## The philosophical difference from tinygrad
+<a id="inductor-and-fusion--the-philosophical-difference-from-tinygrad"></a>
+### The philosophical difference from tinygrad
 
 Tinygrad tries to carry tensor computation, indexed computation, and kernel computation through a small shared UOp vocabulary and ordered rewrite systems. Inductor accepts an already captured PyTorch program, preserves PyTorch's observable dtype/layout/aliasing behavior, and mixes generated code with established operators and specialized kernel implementations. Its complexity is partly the cost of serving that existing semantic surface and partly a deliberate choice to retain multiple execution strategies.
 
@@ -45,7 +54,8 @@ Compare tinygrad's [rangeify/get_kernel_graph](https://github.com/tinygrad/tinyg
 
 These are architectural observations, not a claim that one compiler is universally smaller, faster, or more correct.
 
-## From array expressions to a schedule
+<a id="inductor-and-fusion--from-array-expressions-to-a-schedule"></a>
+### From array expressions to a schedule
 
 For `y = (x + 1).sin()`, an elementwise or **pointwise** expression describes
 one output element: `sin(load(x, i) + 1)`. Its **iteration domain** is the set
@@ -69,143 +79,167 @@ possible prologue, and adding bias plus an activation is a possible epilogue.
 An external implementation cannot be opened up by the ordinary scheduler and
 arbitrarily edited; only its exposed capabilities are available.
 
-## Module-by-module reading map
+<a id="inductor-and-fusion--module-by-module-reading-map"></a>
+### Module-by-module reading map
 
 All links below pin the snapshot; line anchors identify entry points, not complete implementations.
 
-### [compile_fx.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/compile_fx.py#L3100)
+<a id="inductor-and-fusion--compile_fxpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcompile_fxpyl3100"></a>
+#### [compile_fx.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/compile_fx.py#L3100)
 
 **Role in the program.** Orchestrates backend compilation around AOTAutograd, inference/training, decompositions, graph lowering and caches
 
 **What can go wrong.** One `torch.compile` call can produce several graphs; this file is downstream of Dynamo capture
 
-### [pre_grad.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/pre_grad.py#L336)
+<a id="inductor-and-fusion--pre_gradpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorfx_passespre_gradpyl336"></a>
+#### [pre_grad.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/pre_grad.py#L336)
 
 **Role in the program.** Optimizes an FX graph before differentiation, retaining useful high-level patterns
 
 **What can go wrong.** A transformation can change the backward graph and saved intermediates; training eligibility matters
 
-### [joint_graph.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/joint_graph.py#L799)
+<a id="inductor-and-fusion--joint_graphpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorfx_passesjoint_graphpyl799"></a>
+#### [joint_graph.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/joint_graph.py#L799)
 
 **Role in the program.** Cleans and rewrites joint forward/backward work before partitioning
 
 **What can go wrong.** Removing a cast is a numerical decision; joint optimization is not a promise of one joint kernel
 
-### [post_grad.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L178)
+<a id="inductor-and-fusion--post_gradpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorfx_passespost_gradpyl178"></a>
+#### [post_grad.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L178)
 
 **Role in the program.** Optimizes normalized functional graphs separately for forward/backward
 
 **What can go wrong.** Pass order, fake metadata and inference flag matter; mutation must eventually be restored
 
-### [pattern_matcher.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/pattern_matcher.py#L2586)
+<a id="inductor-and-fusion--pattern_matcherpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorpattern_matcherpyl2586"></a>
+#### [pattern_matcher.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/pattern_matcher.py#L2586)
 
 **Role in the program.** Indexes FX patterns by node op/target; checks structure, users, metadata and extra predicates
 
 **What can go wrong.** Mutating FX is not UOp hash-consing. The pass rejects matches crossing mutation/stream boundaries
 
-### [decomposition.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/decomposition.py#L1)
+<a id="inductor-and-fusion--decompositionpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductordecompositionpyl1"></a>
+#### [decomposition.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/decomposition.py#L1)
 
 **Role in the program.** Expands operators into a smaller supported/operator-optimization surface
 
 **What can go wrong.** Decomposition can erase a useful fused semantic operation, which a later pattern may reconstruct
 
-### [graph.py / GraphLowering](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/graph.py#L388)
+<a id="inductor-and-fusion--graphpy--graphloweringhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorgraphpyl388"></a>
+#### [graph.py / GraphLowering](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/graph.py#L388)
 
 **Role in the program.** Interprets FX into Inductor objects; owns buffers, symbolic sizes, layouts, constants and outputs
 
 **What can go wrong.** The same operator may select generated IR or an external fallback; inspect the selected lowering
 
-### [lowering.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/lowering.py#L537)
+<a id="inductor-and-fusion--loweringpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorloweringpyl537"></a>
+#### [lowering.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/lowering.py#L537)
 
 **Role in the program.** Registry from operator overloads to loop expressions, views, reductions or external nodes
 
 **What can go wrong.** Broadcasting/promotion and layout constraints are semantics, not incidental bookkeeping
 
-### [ir.py / Loops](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L1060)
+<a id="inductor-and-fusion--irpy--loopshttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorirpyl1060"></a>
+#### [ir.py / Loops](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L1060)
 
 **Role in the program.** `Pointwise` and `Reduction` carry iteration domains plus Python expression bodies
 
 **What can go wrong.** The body is interpreted through virtual operations; it is not simply a textual loop AST
 
-### [TensorBox / StorageBox](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L10943)
+<a id="inductor-and-fusion--tensorbox--storageboxhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorirpyl10943"></a>
+#### [TensorBox / StorageBox](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L10943)
 
 **Role in the program.** Separates tensor identity from mutable storage and lazily represented computation
 
 **What can go wrong.** `realize()` creates/registers a `ComputedBuffer`; that alone does **not** prove a separate eventual kernel
 
-### [ComputedBuffer](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L5535)
+<a id="inductor-and-fusion--computedbufferhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorirpyl5535"></a>
+#### [ComputedBuffer](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L5535)
 
 **Role in the program.** Attaches layout/storage identity to computed loop data so dependencies can be scheduled
 
 **What can go wrong.** A registered buffer can later become internal to a fused kernel; graph outputs cannot just disappear
 
-### [dependencies.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/dependencies.py#L78)
+<a id="inductor-and-fusion--dependenciespyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductordependenciespyl78"></a>
+#### [dependencies.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/dependencies.py#L78)
 
 **Role in the program.** Records indexed reads/writes (`MemoryDep`), whole-buffer dependencies and ordering
 
 **What can go wrong.** Reading `buf[i+1]` differs from reading `buf[i]`; sharing a buffer name does not establish fusion legality
 
-### [scheduler.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L5740)
+<a id="inductor-and-fusion--schedulerpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorschedulerpyl5740"></a>
+#### [scheduler.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L5740)
 
 **Role in the program.** Orders buffers/operations, fuses compatible schedule nodes, plans lifetimes and calls backends
 
 **What can go wrong.** Legality, profitability and code-generation support are different decisions
 
-### [choices.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/choices.py#L770)
+<a id="inductor-and-fusion--choicespyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorchoicespyl770"></a>
+#### [choices.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/choices.py#L770)
 
 **Role in the program.** Centralizes policy choices such as scoring candidate fusion
 
 **What can go wrong.** Defaults are policies, not mathematical facts; inspect active configuration
 
-### [kernel/mm.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/kernel/mm.py#L527)
+<a id="inductor-and-fusion--kernelmmpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorkernelmmpyl527"></a>
+#### [kernel/mm.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/kernel/mm.py#L527)
 
 **Role in the program.** Lowers matmul and collects eligible external/template/native strategies
 
 **What can go wrong.** Shape, dtype, device, precision policy and autotuning select different paths
 
-### [select_algorithm.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/select_algorithm.py#L4070)
+<a id="inductor-and-fusion--select_algorithmpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorselect_algorithmpyl4070"></a>
+#### [select_algorithm.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/select_algorithm.py#L4070)
 
 **Role in the program.** Builds, benchmarks and caches choices; keeps external and generated candidates behind a common interface
 
 **What can go wrong.** A pattern selecting this layer does not guarantee a particular winning kernel
 
-### [codegen/common.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/common.py#L2152)
+<a id="inductor-and-fusion--codegencommonpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodegencommonpyl2152"></a>
+#### [codegen/common.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/common.py#L2152)
 
 **Role in the program.** Shared CSE, argument and template infrastructure
 
 **What can go wrong.** Eliminating redundant expressions inside a kernel differs from eliminating a kernel boundary
 
-### [codegen/simd.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/simd.py#L2816)
+<a id="inductor-and-fusion--codegensimdpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodegensimdpyl2816"></a>
+#### [codegen/simd.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/simd.py#L2816)
 
 **Role in the program.** Shared GPU-style loop grouping, reduction planning and scheduling support
 
 **What can go wrong.** A reduction plan must fit backend iteration and synchronization contracts
 
-### [codegen/triton.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/triton.py#L8622)
+<a id="inductor-and-fusion--codegentritonpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodegentritonpyl8622"></a>
+#### [codegen/triton.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/triton.py#L8622)
 
 **Role in the program.** Emits Triton kernels and implements their scheduling capability
 
 **What can go wrong.** Triton is another compiler stage; emitted Triton is not final GPU machine code
 
-### [codegen/cpp.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/cpp.py#L5110)
+<a id="inductor-and-fusion--codegencpppyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodegencpppyl5110"></a>
+#### [codegen/cpp.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/cpp.py#L5110)
 
 **Role in the program.** CPU loop generation, vectorization and CPU fusion policy
 
 **What can go wrong.** GPU heuristics and kernel counts cannot be transferred unchanged to this backend
 
-### [codegen/wrapper.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/wrapper.py#L1653)
+<a id="inductor-and-fusion--codegenwrapperpyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodegenwrapperpyl1653"></a>
+#### [codegen/wrapper.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/wrapper.py#L1653)
 
 **Role in the program.** Allocates/reuses storage, marshals arguments and emits kernel/external calls
 
 **What can go wrong.** A single compiled Python callable may contain many launches and library calls
 
-### [cpp_wrapper_cpu.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/cpp_wrapper_cpu.py#L292)
+<a id="inductor-and-fusion--cpp_wrapper_cpupyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodegencpp_wrapper_cpupyl292"></a>
+#### [cpp_wrapper_cpu.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codegen/cpp_wrapper_cpu.py#L292)
 
 **Role in the program.** Native wrapper generation, including AOT runtime interactions
 
 **What can go wrong.** The wrapper ABI and tensor ownership matter independently of arithmetic codegen
 
-### [codecache.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codecache.py#L2051)
+<a id="inductor-and-fusion--codecachepyhttpsgithubcompytorchpytorchblobe52fd8ff9759e1c4bea7adcf63ca22717fe5e8dftorch_inductorcodecachepyl2051"></a>
+#### [codecache.py](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codecache.py#L2051)
 
 **Role in the program.** Caches compiled FX artifacts; [AotCodeCompiler](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/codecache.py#L2684) builds AOT products
 
@@ -213,7 +247,8 @@ All links below pin the snapshot; line anchors identify entry points, not comple
 
 GPU is not synonymous with NVIDIA here: PyTorch uses the `cuda` device spelling for ROCm too. Inductor may generate Triton for AMD, use eligible AMD-specific template/backend choices, or call ATen that reaches a ROCm library. Check the selected candidate and generated source before assigning a kernel to a vendor library. `mm.py` now also has an explicit native matmul IR path (`ops.dot` plus dot reduction); “all matmul is opaque external code” is outdated.
 
-## FX pass families: what problem each collection addresses
+<a id="inductor-and-fusion--fx-pass-families-what-problem-each-collection-addresses"></a>
+### FX pass families: what problem each collection addresses
 
 A **pass** is one traversal or transformation of the program. A **pattern
 matcher** looks for a particular arrangement of operations and checks whether
@@ -225,67 +260,83 @@ forward computation before differentiation can affect the generated backward.
 
 This directory-level map covers the families one should read before hunting individual registrations. It is not a verified list of every rule within those files. [The source README](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/README.md#L1) and [directory](https://github.com/pytorch/pytorch/tree/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes) give the exact snapshot inventory. Activation is conditional: presence on disk does not imply a pass runs for your graph.
 
-### `pre_grad`, `joint_graph`, `post_grad`
+<a id="inductor-and-fusion--pre_grad-joint_graph-post_grad"></a>
+#### `pre_grad`, `joint_graph`, `post_grad`
 
 **Problem addressed.** Stage-specific orchestrators. Is the optimization allowed before differentiation, on joint work, or only after functionalization?
 
-### `split_cat`, `misc_patterns`, `dedupe_symint_uses`
+<a id="inductor-and-fusion--split_cat-misc_patterns-dedupe_symint_uses"></a>
+#### `split_cat`, `misc_patterns`, `dedupe_symint_uses`
 
 **Problem addressed.** Remove graph construction artifacts and repeated shape plumbing. Is data movement real or an inverse pair?
 
-### `fuse_attention`, `serialized_patterns`
+<a id="inductor-and-fusion--fuse_attention-serialized_patterns"></a>
+#### `fuse_attention`, `serialized_patterns`
 
 **Problem addressed.** Recognize large decomposed attention patterns and store generated matcher descriptions. Can a library/specialized attention primitive replace the decomposition?
 
-### `pad_mm`, `decompose_mem_bound_mm`, `b2b_gemm`
+<a id="inductor-and-fusion--pad_mm-decompose_mem_bound_mm-b2b_gemm"></a>
+#### `pad_mm`, `decompose_mem_bound_mm`, `b2b_gemm`
 
 **Problem addressed.** Change GEMM strategy for alignment, small/memory-bound cases, or coupled GEMMs. Is a nominal matmul kernel the right implementation?
 
-### `group_batch_fusion`, `mkldnn_fusion`
+<a id="inductor-and-fusion--group_batch_fusion-mkldnn_fusion"></a>
+#### `group_batch_fusion`, `mkldnn_fusion`
 
 **Problem addressed.** Aggregate related operations and exploit CPU library/template compound operations. Does batching or a supported epilogue remove launches/traffic?
 
-### `binary_folding`, `freezing_patterns`, `efficient_conv_bn_eval`
+<a id="inductor-and-fusion--binary_folding-freezing_patterns-efficient_conv_bn_eval"></a>
+#### `binary_folding`, `freezing_patterns`, `efficient_conv_bn_eval`
 
 **Problem addressed.** Exploit constants/frozen inference state, including weight/bias transforms. Are weights truly fixed and is training excluded?
 
-### `quantization`
+<a id="inductor-and-fusion--quantization"></a>
+#### `quantization`
 
 **Problem addressed.** Recover/optimize quantized patterns while preserving scale, zero-point, dtype and layout contracts. Which quantization scheme and target are supported?
 
-### `replace_random`, `apply_gumbel_max_trick`
+<a id="inductor-and-fusion--replace_random-apply_gumbel_max_trick"></a>
+#### `replace_random`, `apply_gumbel_max_trick`
 
 **Problem addressed.** Handle RNG lowering and selected stochastic algorithm substitutions. Are distribution and RNG-state semantics the required equivalence?
 
-### `reinplace`
+<a id="inductor-and-fusion--reinplace"></a>
+#### `reinplace`
 
 **Problem addressed.** Recover safe mutation/storage reuse after functionalization. Could an alias or later user observe the overwritten value?
 
-### `reduced_atomic_contention`
+<a id="inductor-and-fusion--reduced_atomic_contention"></a>
+#### `reduced_atomic_contention`
 
 **Problem addressed.** Restructure contention-heavy updates. Are reduction order and scatter semantics preserved?
 
-### `ddp_fusion`, `fsdp`, `decomp_comms`, `low_contention_collectives`, `micro_pipeline_tp`
+<a id="inductor-and-fusion--ddp_fusion-fsdp-decomp_comms-low_contention_collectives-micro_pipeline_tp"></a>
+#### `ddp_fusion`, `fsdp`, `decomp_comms`, `low_contention_collectives`, `micro_pipeline_tp`
 
 **Problem addressed.** Handle distributed collectives and compute/communication overlap. A local kernel-only cost model misses network and synchronization costs
 
-### `bucketing`, `overlap_preserving_bucketer`, `overlap_scheduling`, `overlap_manual_scheduling`
+<a id="inductor-and-fusion--bucketing-overlap_preserving_bucketer-overlap_scheduling-overlap_manual_scheduling"></a>
+#### `bucketing`, `overlap_preserving_bucketer`, `overlap_scheduling`, `overlap_manual_scheduling`
 
 **Problem addressed.** Group or reorder distributed work without destroying intended overlap. Fewer calls can increase end-to-end latency
 
-### `node_runtime_estimation`, `profile_guided_estimation`, `memory_estimator`
+<a id="inductor-and-fusion--node_runtime_estimation-profile_guided_estimation-memory_estimator"></a>
+#### `node_runtime_estimation`, `profile_guided_estimation`, `memory_estimator`
 
 **Problem addressed.** Supply cost information rather than directly rewriting arithmetic. Is this estimate static or measured?
 
-### `auto_chunker`, `fusion_regions`, `control_dependencies`
+<a id="inductor-and-fusion--auto_chunker-fusion_regions-control_dependencies"></a>
+#### `auto_chunker`, `fusion_regions`, `control_dependencies`
 
 **Problem addressed.** Represent/work on explicit regions, chunking and order constraints. Which graph boundaries are user or pass imposed?
 
-### `graph_view`, `spmd_check`, `numeric_utils`, `utils`
+<a id="inductor-and-fusion--graph_view-spmd_check-numeric_utils-utils"></a>
+#### `graph_view`, `spmd_check`, `numeric_utils`, `utils`
 
 **Problem addressed.** Analysis, graph checks, numerical comparison and shared utilities. Supporting code is not itself an optimization rule
 
-## How a pattern actually becomes a kernel change
+<a id="inductor-and-fusion--how-a-pattern-actually-becomes-a-kernel-change"></a>
+### How a pattern actually becomes a kernel change
 
 For `t=x+1; y=sin(t)`, combining the two element expressions already avoids a
 standalone `t` array. No special rule spelling out exactly that pair is needed.
@@ -301,7 +352,8 @@ permanent memory allocation. Later fusion can still make a buffer internal.
 
 The scheduler then works on realized operations. Its [fusion driver](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L6852) considers pairs, tests support/dependencies, ranks candidates, and may benchmark. [Vertical fusion](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L10310) checks that producer writes satisfy consumer indexed reads and that no intermediate dependency forces an intervening node. [Profitability](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L7154) is separate: benchmark fusion is conditional, and several paths bypass generic benchmarking. It is incorrect to say every fusion is empirically autotuned.
 
-### Representative rules, individually explained
+<a id="inductor-and-fusion--representative-rules-individually-explained"></a>
+#### Representative rules, individually explained
 
 Terminology used in the rules: **GEMM** is matrix multiplication; **AMP** is
 automatic mixed precision, which introduces conversions between numerical
@@ -313,99 +365,116 @@ eligibility check; it is not necessarily a Dynamo runtime cache guard.
 
 Each entry gives a concrete transformation, the relevant guard, the reason, and a non-example. Rationales are inferred from behavior unless a source comment explicitly explains them. These examples describe candidate transformations, not exact launch counts.
 
-#### Rule 1. Reciprocal of square root → reciprocal square root.
+<a id="inductor-and-fusion--rule-1-reciprocal-of-square-root--reciprocal-square-root"></a>
+##### Rule 1. Reciprocal of square root → reciprocal square root.
 
 `reciprocal(sqrt(v)) → rsqrt(v)`. [Rule](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1899). Structural match has no additional rule-specific predicate. For RMSNorm's nonnegative second moment plus positive epsilon, this exposes the direct reciprocal-square-root operation. The source comment says it saves one generated operation. It does not prove bitwise equivalence of every floating-point implementation, nor match `1/(sqrt(v)+eps)`.
 
-#### Rule 2. Remove a redundant conversion chain.
+<a id="inductor-and-fusion--rule-2-remove-a-redundant-conversion-chain"></a>
+##### Rule 2. Remove a redundant conversion chain.
 
 `fp16 x → fp32 → fp16` can become `x → fp16`; `fp32 x → fp16 → fp32` is retained because the intermediate dtype is narrower than the final dtype. [Rule](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/joint_graph.py#L929). Only listed floating dtypes participate; `emulate_precision_casts` additionally requires the first conversion to be lossless.
 
 Why: AMP generates conversion chains, but narrowing then widening can encode real rounding. Equal byte widths do not imply equal numerical formats: bf16 and fp16 require attention to the precision policy.
 
-#### Rule 3. Two GEMMs plus add → a specialized algorithm choice.
+<a id="inductor-and-fusion--rule-3-two-gemms-plus-add--a-specialized-algorithm-choice"></a>
+##### Rule 3. Two GEMMs plus add → a specialized algorithm choice.
 
 `[M,K]@[K,N] + [M,L]@[L,N]` routes to `tuned_mm_plus_mm`. [Guard/replacement](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L990). Requires max-autotune or max-autotune-GEMM, metadata, matching output extents and valid reduction extents; BF16x9 paths are excluded.
 
 Why: a combined implementation may avoid intermediate outputs and an add launch. Unlike factoring `A@B+A@D`, it does not require shared inputs. The selected lowering still chooses an implementation; this pattern alone is no one-kernel guarantee.
 
-#### Rule 4. Matmul plus bias → `addmm`.
+<a id="inductor-and-fusion--rule-4-matmul-plus-bias--addmm"></a>
+##### Rule 4. Matmul plus bias → `addmm`.
 
 `A@B + bias` or `bias + A@B` becomes `addmm(bias,A,B)`. [Guard/rule](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L2090). Bias must be tensor-valued, broadcastable to the output and dtype-compatible; preserved GEMM forms and the preference for unfusing block it.
 
 Why: `addmm` exposes a compound operation to library/template choices. An integer scalar bias or mismatched float dtype fails the guard, even if Python accepts the original add through promotion.
 
-#### Rule 5. Deliberately unfuse `addmm` to improve later fusion.
+<a id="inductor-and-fusion--rule-5-deliberately-unfuse-addmm-to-improve-later-fusion"></a>
+##### Rule 5. Deliberately unfuse `addmm` to improve later fusion.
 
 `relu(addmm(bias,A,B))` may become `relu(bias + A@B)`. [Guard and replacement](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1934). GPU, matching dtype/device, bias-like input and all-pointwise users are required, with extra precision exceptions.
 
 Why (architectural inference): the pointwise tail can become one generated epilogue even when the GEMM strategy changes. This is operator unfusing in service of kernel planning, not evidence that the final program necessarily has more kernels.
 
-#### Rule 6. The half-precision `addmm` exception is chip-relevant.
+<a id="inductor-and-fusion--rule-6-the-half-precision-addmm-exception-is-chip-relevant"></a>
+##### Rule 6. The half-precision `addmm` exception is chip-relevant.
 
 In rule 5, `keep_addmm_fused_for_half_dtypes` keeps fp16/bf16 fused outside the XPU-specific narrowing-cast case. [Comment](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L2012) explicitly cites ROCm `gfx950` training+AMP accuracy regression. Example: bf16 bias on AMD plus bf16 GEMM and pointwise consumers can structurally match yet return without rewriting. Do not attribute this only to speed: preserving where rounding occurs is the stated motivation. The comment references PR #183680; the shallow checkout alone does not establish the complete historical rationale.
 
-#### Rule 7. Reconstruct `addcdiv` after decomposition.
+<a id="inductor-and-fusion--rule-7-reconstruct-addcdiv-after-decomposition"></a>
+##### Rule 7. Reconstruct `addcdiv` after decomposition.
 
 `inp + (t1/t2)*value → aten.addcdiv(inp,t1,t2,value=value)`. [Guard and source rationale](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L2147). All three tensors must be floating, output on `cuda`/`xpu`, and `value` scalar rather than FX tensor node.
 
 Why: CompositeImplicitAutograd decomposed the original operation, hiding its FMA-aware lowering; reconstructing it makes `tl.fma` plus rounded division reachable. Integer `inp` must not pass merely because division promoted the result to float.
 
-#### Rule 8. Constant-filled cumulative sum → arithmetic progression.
+<a id="inductor-and-fusion--rule-8-constant-filled-cumulative-sum--arithmetic-progression"></a>
+##### Rule 8. Constant-filled cumulative sum → arithmetic progression.
 
 `cumsum(full([2,4],3,int64), dim=1)` produces rows `[3,6,9,12]` without a general scan. [Rule](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1035). Scalar shape is excluded; symbolic fill restrictions and boolean handling matter.
 
 Why: the source identifies an OPTForCausalLM pattern. For integer/bool output the replacement first reproduces `full`'s fill cast. `full(...,2.9,int64)` therefore starts from 2, not a late cast of `[2.9,5.8,...]`. The source documents an unresolved symbolic boolean-fill workaround: this is a sharp edge, not an unrestricted algebraic theorem.
 
-#### Rule 9. Fold cat → prefix slice → cat.
+<a id="inductor-and-fusion--rule-9-fold-cat--prefix-slice--cat"></a>
+##### Rule 9. Fold cat → prefix slice → cat.
 
 Let `a:[B,5]`, `b:[B,7]`, `t=cat([a,b],1)`. `cat([t,t[:,:3]],1)` becomes `cat([a,b,a[:,:3]],1)`. [Rule](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1104). The size must be nonnegative and statically known to fit the first cat input.
 
 Why: eliminate the intermediate concatenation/copy. With prefix length 8, the prefix extends into `b`; this replacement is invalid, and the lowering keeps the two-cat form.
 
-#### Rule 10. Split then cat → original input.
+<a id="inductor-and-fusion--rule-10-split-then-cat--original-input"></a>
+##### Rule 10. Split then cat → original input.
 
 `cat(split_with_sizes(x,[2,3],dim=1),dim=1) → x`. [Guard](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1162), [replacement](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1816). All pieces, original order, matching dimensions are required. Reordering the pieces or omitting one is not an identity.
 
 Why: remove a materialization caused only by graph syntax. Metadata/alias behavior is handled in the compiler context; this is not permission to replace an eager allocating `cat` with a mutable alias in arbitrary Python.
 
-#### Rule 11. Cat then exact split → original list.
+<a id="inductor-and-fusion--rule-11-cat-then-exact-split--original-list"></a>
+##### Rule 11. Cat then exact split → original list.
 
 `split_with_sizes(cat([a,b],1),[a.shape[1],b.shape[1]],1) → [a,b]`. [Guard/rule](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/fx_passes/post_grad.py#L1842). The cat must have no other users, split sizes must match each input and dimensions/counts must agree.
 
 Why: avoid packing values only to unpack the exact same regions. A second consumer of the concatenated tensor prevents this particular elimination; unequal cut points need views spanning inputs rather than this replacement.
 
-#### Rule 12. Mean lowering explicitly accounts for accumulation dtype.
+<a id="inductor-and-fusion--rule-12-mean-lowering-explicitly-accounts-for-accumulation-dtype"></a>
+##### Rule 12. Mean lowering explicitly accounts for accumulation dtype.
 
 A half/bfloat16 `mean(x,axis)` is lowered through float32 accumulation, division by the symbolic reduction size and conversion to output dtype. [Lowering](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/lowering.py#L7466). For `[B,H]` reduce axis 1, each row sum divides by `H`, not total `B*H`.
 
 Why: low-precision accumulation loses accuracy. This does not automatically upgrade the multiply in `mean(x*x)`: multiplication occurred before the mean unless the graph cast earlier.
 
-#### Rule 13. Empty sum reduction → correctly typed identity.
+<a id="inductor-and-fusion--rule-13-empty-sum-reduction--correctly-typed-identity"></a>
+##### Rule 13. Empty sum reduction → correctly typed identity.
 
 A reduction with reduction extent zero produces a pointwise identity instead of a reduction loop. [Reduction.create](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L1767). `sum(empty([B,0]),1)` becomes B zeros; product uses ones; only supported identity-bearing reduction types use this path.
 
 Why: no reduction work exists, but shape and dtype still exist. Max over an empty domain is not covered by this sum identity.
 
-#### Rule 14. Long reduction → staged partial reductions.
+<a id="inductor-and-fusion--rule-14-long-reduction--staged-partial-reductions"></a>
+##### Rule 14. Long reduction → staged partial reductions.
 
 `sum(x[B,H],1)` may become partial sums `[B,S]` then final reduction over S. [Selection](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L1503), [creation](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/ir.py#L1767). Device, reduction kind, hints, configuration and size policy determine splitting.
 
 Why: one reduction instance may otherwise expose insufficient parallelism or use too many resources. The introduced intermediate may require an additional kernel; no claim that every size above a fixed H threshold splits on every GPU.
 
-#### Rule 15. Vertical fusion requires matching indexed dependencies.
+<a id="inductor-and-fusion--rule-15-vertical-fusion-requires-matching-indexed-dependencies"></a>
+##### Rule 15. Vertical fusion requires matching indexed dependencies.
 
 A producer writing `tmp[i]` and consumer reading `tmp[i]` is a straightforward candidate; consumer reading `tmp[i+1]` does not satisfy that same indexed dependency. [Check](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L10310).
 
 Why: a thread/block cannot assume another producer's value exists at the required moment. A separate layout/index transformation might make another plan legal; “same buffer” alone is insufficient.
 
-#### Rule 16. Template input fusion accepts only supported pointwise producers.
+<a id="inductor-and-fusion--rule-16-template-input-fusion-accepts-only-supported-pointwise-producers"></a>
+##### Rule 16. Template input fusion accepts only supported pointwise producers.
 
 `tmp = x*scale; y=tmp@W` may admit template prologue fusion, whereas `tmp=RMSNorm(x); y=tmp@W` cannot pass this generic path as a reduction producer. [Checks](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L10050). Must enable prologues, select a template with allowed input slots, avoid aliasing/mutation and satisfy use restrictions and heuristics.
 
 Why: a matmul tile loader can often evaluate an elementwise expression; a row-wide reduction has a different synchronization contract. Even `x*scale` is rejected if an external BLAS call wins.
 
-## Worked kernel-boundary analysis: residual RMSNorm → matmul
+<a id="inductor-and-fusion--worked-kernel-boundary-analysis-residual-rmsnorm--matmul"></a>
+### Worked kernel-boundary analysis: residual RMSNorm → matmul
 
 Use explicit arithmetic so that the example specifies intermediate precision and avoids assuming how a native fused RMSNorm operator is dispatched:
 
@@ -438,11 +507,13 @@ scalar at every feature position. Matrix multiplication consumes the whole
 normalized row to produce `N` outputs. That change in how values are shared
 explains why the boundary before matrix multiplication is interesting.
 
-### FX and loop lowering.
+<a id="inductor-and-fusion--fx-and-loop-lowering"></a>
+#### FX and loop lowering.
 
 Pointwise producers can be composed into the reduction body, so no standalone `z*z` buffer need exist. `mean` produces a reduction and division; rsqrt is a pointwise expression on the row scalar. The normalized output broadcasts this scalar over H. Views/broadcasts are indexing, not automatically copies. Realization names the intermediate computations needed for scheduling, but the final scheduler can still remove some storage boundaries.
 
-### Candidate plan A: row reduction plus normalization kernel, then external GEMM, then epilogue.
+<a id="inductor-and-fusion--candidate-plan-a-row-reduction-plus-normalization-kernel-then-external-gemm-then-epilogue"></a>
+#### Candidate plan A: row reduction plus normalization kernel, then external GEMM, then epilogue.
 
 A compatible GPU backend can generate a row-oriented reduction kernel with residual addition and normalization around it. With returned `z`/`inv`, it must also store them.
 
@@ -450,13 +521,15 @@ An external GEMM needs normalized input in addressable storage; its internal acc
 
 Bias/GELU may remain a separate generated tail unless the chosen external operation already offers that exact fused capability. This is a candidate three-stage plan, not an observed universal count; reduction splitting or resource constraints can add stages.
 
-### Candidate plan B: generated matmul template with epilogue.
+<a id="inductor-and-fusion--candidate-plan-b-generated-matmul-template-with-epilogue"></a>
+#### Candidate plan B: generated matmul template with epilogue.
 
 Keep RMSNorm computation separate and produce normalized storage. Select a matmul template supporting the bias/GELU epilogue, allowing GEMM and tail to become one generated kernel.
 
 The winning choice can differ from the fastest standalone GEMM because saving intermediate traffic/launches changes the end-to-end cost. Calling the outer function “one compiled graph” does not merge the normalization launch into this matmul launch.
 
-### Candidate plan C: keep row statistics separate, fuse only the remaining pointwise normalization into matmul loads.
+<a id="inductor-and-fusion--candidate-plan-c-keep-row-statistics-separate-fuse-only-the-remaining-pointwise-normalization-into-matmul-loads"></a>
+#### Candidate plan C: keep row statistics separate, fuse only the remaining pointwise normalization into matmul loads.
 
 Compute/store the needed row statistic, then consider `(z * inv * weight).to(dtype)` as a pointwise producer of a template input. This can pass the *kind* restriction that a full reduction producer fails, but only with suitable allowed input slots, use counts, precision/layout support and profitability.
 
@@ -464,7 +537,8 @@ Extra consumers of normalized data can block it.
 
 This may trade away normalized storage for repeated normalization across matmul tiles. It is a conditional architecture possibility, not a claim that this checkout selects it for these dimensions.
 
-### Why cannot the generic path simply inline the entire RMSNorm into every matmul tile?
+<a id="inductor-and-fusion--why-cannot-the-generic-path-simply-inline-the-entire-rmsnorm-into-every-matmul-tile"></a>
+#### Why cannot the generic path simply inline the entire RMSNorm into every matmul tile?
 
 Each normalized element depends on the whole H row.
 
@@ -472,7 +546,8 @@ Matmul tiles independently process K slices and N columns; inserting a row reduc
 
 Fusion must specify synchronization, register/shared-memory usage and recomputation. The generic template-prologue code explicitly rejects a reduction producer; a specialized fused algorithm, native matmul path or future backend capability is a different route, not an exception you can infer from adjacency in FX.
 
-### Multiple outputs.
+<a id="inductor-and-fusion--multiple-outputs"></a>
+#### Multiple outputs.
 
 Returning `z` forces z storage even if its computation shares a kernel with statistics. Returning `inv` costs only `[B,1]` storage but still extends its lifetime.
 
@@ -480,11 +555,13 @@ Returning `normalized` too creates a use beyond the matmul template, defeating t
 
 Multiple outputs do not inherently mean multiple kernels: a generated kernel can write several output arrays. Conversely, storage writes do not disappear merely because arithmetic has fused.
 
-### Two kinds of reduction.
+<a id="inductor-and-fusion--two-kinds-of-reduction"></a>
+#### Two kinds of reduction.
 
 RMSNorm reduces H independently per B row. GEMM reduces H independently per `(B,N)` output and wants a matrix tiling/data reuse strategy. The equal symbol H is not evidence that these are interchangeable loop domains. A strict-reduction ordering contract further restricts fusion; [scheduler checks](https://github.com/pytorch/pytorch/blob/e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df/torch/_inductor/scheduler.py#L9930) reject several such combinations.
 
-### Training.
+<a id="inductor-and-fusion--training"></a>
+#### Training.
 
 For `n=z*q*w`, with `q=(mean(z²)+eps)^(-1/2)` and upstream derivative `g`, ignoring casts for the analytic formula:
 
@@ -496,7 +573,8 @@ Matmul backward adds GEMMs for the normalized-input and matrix gradients. AOTAut
 
 Saving z or q introduces materialized outputs from the compiled forward even if the Python function did not return them. Gradient casts and reduction accumulation can differ from this idealized real-number derivative. Do not take an inference launch count and append “one backward kernel.”
 
-## Executed CPU comparison: what the schematic plans do not establish
+<a id="inductor-and-fusion--executed-cpu-comparison-what-the-schematic-plans-do-not-establish"></a>
+### Executed CPU comparison: what the schematic plans do not establish
 
 The separate [RMSNorm eager versus compile study](rmsnorm-eager-vs-compile.md) executed an installed **PyTorch 2.11.0+cu130 wheel**, not this source checkout.
 
@@ -506,7 +584,8 @@ The fused CPU callable retained row scratch and two inner loops under a shared o
 
 RMSNorm → matmul retained an `extern_kernels.mm` call after the normalization callable. The compiler's generated-kernel metrics differed from wrapper invocation counts. These observations concretely support the distinctions above without predicting AMD GPU launches or newer-main behavior.
 
-## AOTI, caching, and what to inspect when a result surprises you
+<a id="inductor-and-fusion--aoti-caching-and-what-to-inspect-when-a-result-surprises-you"></a>
+### AOTI, caching, and what to inspect when a result surprises you
 
 The arithmetic kernel is only part of an executable program. Something must
 allocate arrays, pass their addresses and sizes, and call each kernel in order.
@@ -517,3 +596,170 @@ compiled work for later use must preserve that agreement too.
 AOTInductor packages compiled kernels and a native wrapper/runtime contract. It does not make external operations disappear; inspect the wrapper's external call sites. Likewise, a warm cache changes compile latency, not necessarily the set of arithmetic kernels. FX graph cache entries, algorithm timing records and compiled-device binaries have different keys and invalidation concerns.
 
 For a specific workload collect its exact input shapes/strides/dtypes, forward and backward FX graphs, pre/post-fusion IR, generated wrapper and kernel code, and selected matmul choice. A useful kernel inventory has separate columns for generated kernels, external calls, and runtime launches observed by a profiler. A scheduler node count or an Inductor “generated kernel” metric alone cannot count launches hidden inside a library operation. Tests against an older installed wheel are valuable behavior examples, but cannot validate this source snapshot's newer rules.
+
+<a id="inductor-exercises"></a>
+## Inductor exercises with worked solutions
+<a id="inductor-exercises--inductor-exercises-with-worked-solutions"></a>
+
+Companion to [Inductor and kernel fusion](inductor-and-fusion.md#inductor-and-fusion), using PyTorch source `e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df`. These are source-reasoning exercises, not executed GPU benchmarks. Each asks for a falsifiable prediction and distinguishes arithmetic equivalence from a compiler's supported transformation.
+
+The central question is where one array computation becomes separately
+executed work. A **materialized** value has its own addressable storage; a
+**template** is a generated kernel skeleton with supported insertion points;
+an **external call** invokes an existing implementation. A matrix-multiply
+**epilogue** performs extra work on its output before storing it, and a
+**prologue** performs extra work while reading its inputs. Read the
+[worked lowering sequence](inductor-and-fusion.md#inductor-and-fusion--from-array-expressions-to-a-schedule)
+if those distinctions are new. The steps below let you reason through each
+case before reading its solution.
+
+<a id="inductor-exercises--1-read-a-kernel-count-without-fooling-yourself"></a>
+### 1. Read a kernel count without fooling yourself
+
+**Task.** An RMSNorm compile reports `generated_kernel_count=3`; its generated CPU wrapper invokes a single C++ function containing several loops. How many CPU wrapper invocations did the compiled region issue? What can you conclude about GPU launch count?
+
+**Work through it.** Locate the wrapper call site first. Then open the called function and count its loops separately. Finally ask what the compiler metric counts. These are three different observations even if a tool labels all of them “kernels”.
+
+**Solution.** One generated C++ invocation in that wrapper. The metric counts compiler-generated kernel components and is not a universal runtime-launch count. CPU code may group reduction and pointwise loops under one compiled function.
+
+It says nothing about GPU launch count.
+
+Inspect the wrapper and use a profiler for runtime events, including work inside external library calls. This distinction is demonstrated by the installed-wheel [RMSNorm artifacts](artifacts/rmsnorm), whose version differs from the reviewed checkout.
+
+<a id="inductor-exercises--2-design-an-rmsnorm-boundary-experiment"></a>
+### 2. Design an RMSNorm boundary experiment
+
+**Task.** For `z=x.float()+r.float(); q=rsqrt(mean(z*z,-1,keepdim=True)+eps); n=cast(z*q*w); y=gelu(n@W+b)`, predict plausible boundary changes when (a) GEMM uses an external implementation, (b) a template supports GELU epilogue, (c) H becomes very large. Do not give a universal kernel count.
+
+**Work through it.** Mark the row statistic q, the normalized array n, and the matrix output. For each candidate implementation, ask which of those must already be stored before the next computation can begin. Then ask whether bias/GELU can run before the matrix output is stored.
+
+**Solution.** (a) n must be materialized for the external GEMM; ordinary generated pointwise code cannot be inserted into its opaque implementation, so GELU may remain separate.
+
+(b) A compatible generated template may absorb bias/GELU, eliminating that output materialization/launch.
+
+(c) the normalization reduction can split into partial reductions plus combination, increasing intermediate storage or stages. Inspect `kernel/mm.py:tuned_mm`, `scheduler.py:_can_fuse`, and `ir.py:Reduction.create` to test these predictions. Changes in shape can also change the selected GEMM and normalization resource costs.
+
+<a id="inductor-exercises--3-why-a-normalization-producer-is-not-a-normal-matmul-prologue"></a>
+### 3. Why a normalization producer is not a normal matmul prologue
+
+**Task.** Compare `n=x*scale; y=n@W` with `n=RMSNorm(x); y=n@W`. What explicit guard distinguishes them? Can a clever programmer still implement a fused algorithm for the second?
+
+**Work through it.** To compute one element of x*scale, list the values needed: one x element and its scale. To compute one normalized element, add every element needed for the row statistic. The extra row-wide dependency is the reason to inspect the reduction guard.
+
+**Solution.** The generic template prologue path rejects a producer if `node1.is_reduction()` or `node1.is_template()`. Elementwise multiplication may pass, provided the template allows that input and use/alias/heuristic conditions hold.
+
+RMSNorm requires a whole-row reduction, incompatible with merely inserting elementwise instructions at a tile load.
+
+A specialized fused kernel can recompute statistics, communicate them, or choose a different tile algorithm; that is additional algorithm/backend support rather than something the generic prologue guard proves legal.
+
+<a id="inductor-exercises--4-add-observable-outputs"></a>
+### 4. Add observable outputs
+
+**Task.** Change exercise 2 to return `(y,z,q,n)`. Which buffers become observable? Does this require four kernels? What fusion opportunity is directly threatened?
+
+**Work through it.** Imagine the caller prints each returned array after the function finishes. The compiler must provide those values even if another kernel also uses them internally. Then count consumers of n: the matrix multiply and the caller.
+
+**Solution.** z, q and n must exist as returned tensors with appropriate layout/alias semantics; y already was observable.
+
+One kernel can store several outputs, so four outputs do not imply four kernels.
+
+Returning n adds an external use beyond the matmul, violating the generic template-prologue single-user condition. Even if residual/normalization arithmetic remains fused, output writes cannot be eliminated. Saved training intermediates can create similar obligations without explicit Python returns.
+
+<a id="inductor-exercises--5-differentiate-the-entire-block"></a>
+### 5. Differentiate the entire block
+
+**Task.** Derive the RMSNorm input and weight gradients and identify the additional matmul work for `y=n@W`, given upstream matrix gradient G. Which reductions have different domains?
+
+**Work through it.** First pass the output gradient backward through matrix multiplication to obtain the gradient of n. Next split normalization into z, q, and w. Follow both routes from z to n: directly through the multiplication and indirectly through q.
+
+**Solution.** The matrix multiplication produces `y[b,j]=sum_h(n[b,h]*W[h,j])`.
+Each `n[b,h]` affects all output columns j, so its gradient sums over j:
+`gn=G@W.T`. Each `W[h,j]` affects all rows b, so its gradient sums over b:
+`dW=n.T@G`.
+
+Let `a=gn*w` and `q=(mean(z²)+eps)^(-1/2)`. Then `dz=q*a-z*q³*mean(a*z,last_dim)`, and `dw=sum_batch(gn*z*q)`.
+
+Residual addition routes dz to both inputs, subject to casts.
+
+RMSNorm's statistic reduces features per row; dw reduces batch dimensions; GEMMs use their own reduction axes.
+
+AOTAutograd may save n/z/q or recompute selected values. The final schedules depend on that partition and on dtype semantics; these equations alone do not determine kernel fusion.
+
+<a id="inductor-exercises--6-diagnose-the-two-opposing-addmm-rules"></a>
+### 6. Diagnose the two opposing addmm rules
+
+**Task.** Why would a compiler both replace `A@B+b` with `addmm(b,A,B)` and replace `addmm(b,A,B)` with `A@B+b`? Give a chip-specific reason that can prevent the latter.
+
+**Work through it.** Compare two implementation opportunities: a library operation that already handles matrix multiply plus bias, and a generated pointwise tail that handles bias plus activation. Then ask whether changing the boundary also changes where low-precision rounding occurs.
+
+**Solution.** The first exposes a compound operation to a library/template implementation. The second exposes a pointwise bias operation that may combine with downstream pointwise work.
+
+The guards coordinate these policies: `is_valid_addmm_fusion` returns false when `should_prefer_unfused_addmm` holds.
+
+Half/bfloat16 preservation adds another restriction. The source explicitly records an accuracy regression in ROCm gfx950 training+AMP, so the narrowing-cast exception is XPU-only under the relevant option.
+
+This is numerical compatibility as well as fusion cost. A source comment's PR reference is evidence of the stated cause, not a complete historical investigation.
+
+<a id="inductor-exercises--7-find-the-invalid-cast-cancellation"></a>
+### 7. Find the invalid cast cancellation
+
+**Task.** Is `float32 → float16 → float32` redundant? What about `float16 → float32 → float16`? What else does the actual rule inspect?
+
+**Work through it.** Choose a float32 value that is not exactly representable in float16. After the first narrowing cast its missing bits cannot be recovered by widening. In the reverse chain, ask whether the initial value already lies in the smaller representable set.
+
+**Solution.** The first records rounding to half, so replacing it with float32 identity changes values; `pointless_convert` retains it because the intermediate dtype is narrower than the final dtype.
+
+The second can drop the widening stage since every finite fp16 value is representable in fp32, with ordinary caveats about exact floating-point behavior.
+
+The rule restricts dtypes to a listed floating set; with `emulate_precision_casts`, it checks lossless first-stage widening. “Both are casts” and “same itemsize” are not adequate legality proofs.
+
+<a id="inductor-exercises--8-eliminate-cats-including-a-counterexample"></a>
+### 8. Eliminate cats, including a counterexample
+
+**Task.** a has width 5 and b width 7. Simplify `t=cat([a,b],1); u=cat([t,t[:,:3]],1)`. Repeat with slice width 8. Then consider `split_with_sizes(cat([a,b],1),[5,7],1)` when the cat also feeds another consumer.
+
+**Work through it.** Write the concatenation as positions 0–4 from a and 5–11 from b. A prefix of length 3 stops in a; a prefix of length 8 crosses into b. For the split example, list all users of the concatenated array before deleting it.
+
+**Solution.** Width 3 fits wholly in a, so replace u with `cat([a,b,a[:,:3]],1)`.
+
+Width 8 includes part of b, so the specific first-input-prefix rewrite declines; replacing it with `a[:,:8]` silently loses elements.
+
+Exact cat/split inversion would return `[a,b]`, but this registered elimination requires the cat have no other users.
+
+The additional consumer blocks that specific rule. This does not prove that no later independent optimization is possible.
+
+<a id="inductor-exercises--9-separate-legality-from-profitability"></a>
+### 9. Separate legality from profitability
+
+**Task.** Producer P writes `tmp[i]`; Q reads `tmp[i+1]`. Another consumer R reads `tmp[i]`. Which candidate has the simple matching dependency? If the scheduler accepts P+R, must it benchmark them? Must accepted fusion be faster?
+
+**Work through it.** For output index i, identify which producer index each consumer needs. After checking that ordering can be preserved, consider whether combining the work increases live values or duplicates loads. Correctness and speed are separate questions.
+
+**Solution.** P+R has matching indexed dependencies; P+Q does not pass the analogous direct match.
+
+Other rewrites could change indexing, but identical buffer names alone do not suffice.
+
+`speedup_by_fusion` may accept without benchmarking when the configuration disables it; CPU C++ and several special cases also bypass generic benchmarking.
+
+Ranking by estimated saved memory is a policy, not proof of speedup.
+
+More live values, register pressure, reduced parallelism or duplicated loads can outweigh launch/traffic savings.
+
+<a id="inductor-exercises--10-locate-and-explain-a-reconstruction-rule"></a>
+### 10. Locate and explain a reconstruction rule
+
+**Task.** A user wrote `torch.addcdiv(inp,t1,t2,value=0.5)`, but post-AOT FX contains `inp+(t1/t2)*0.5`. Why deliberately reconstruct `aten.addcdiv`? Test the guard mentally for integer inp with floating result, floating tensors on CPU, floating tensors on ROCm, and a tensor-valued scale.
+
+**Work through it.** Separate the arithmetic formula from its implementation. FMA means a multiply and add performed with fused rounding behavior. Then check each eligibility condition independently: input dtype, output device, and whether value is a scalar or tensor graph node.
+
+**Solution.** CompositeImplicitAutograd decomposed the operator before Inductor saw it. Reconstruction makes the FMA-aware lowering reachable again.
+
+Integer inp fails even if division promoted the result.
+
+CPU fails the GPU output-device requirement.
+
+ROCm uses the `cuda` device spelling and can pass that device gate, with all other guards still required.
+
+Tensor-valued scale fails the scalar-value requirement.
+
+The rewrite is about restoring an implementation opportunity and numerical behavior; it is not an unconditional algebraic reordering valid for every dtype/backend.

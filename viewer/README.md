@@ -12,11 +12,12 @@ Only Python 3.10+ is needed. No npm install, CDN, build step, or device access.
 The server binds to `0.0.0.0` by default, so other machines can connect at
 `http://<this-machine-ip>:8000`. It never opens a browser.
 
-The documentation tab reads Markdown directly from this repository, groups it
-by topic, and searches the full text. Archives have a separate section and search. Global search covers both sections
-and labels historical results. The instruction tab searches names, behavior, timing, caveats, and
+The documentation page (`/`) reads Markdown directly from this repository, groups it
+by topic, and searches the full text. Archives (`/archives`) have a separate page and search. Global search covers both sections
+and labels historical results. The dedicated ISA page (`/isa`) has an instruction sidebar and searches names, behavior, timing, caveats, and
 reviewed test claims. It offers execution-unit and evidence filters, per-opcode
-links, dark mode, and a layout usable on smaller screens. Press `/` for search.
+links, dark mode, and a layout usable on smaller screens. Press `/` for global search. Removed document routes resolve through
+`maintenance/relocations.json`; consolidated section anchors preserve deep links.
 
 ## Data provenance
 

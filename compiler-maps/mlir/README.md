@@ -1,4 +1,10 @@
-# MLIR: an annotated source map
+# MLIR source guide and exercises
+
+Source map and worked exercises for the pinned September 2026 checkout. Validation scope and source revisions are retained in the chapters below.
+
+<a id="mlir"></a>
+## MLIR: an annotated source map
+<a id="mlir--mlir-an-annotated-source-map"></a>
 
 For how this design differs from tinygrad, read the [cross-project comparison and coverage assessment](../design-comparison.md).
 
@@ -8,9 +14,10 @@ MLIR is a compiler construction framework: one extensible representation, multip
 
 This map targets the updated standalone checkout `/home/boop/builds/llvm-project`, revision **`e3c4c16567e3074dcd42da664fcb91298fd8c0fb`**, commit dated **2026-09-17**. Source links below are pinned to that revision. The separate checkout `tt-lang/third-party/llvm-project` is at **`37aca9d384347f4f965fa137b0f5463156ba590f`**; do not mix generated headers or pass APIs between these snapshots. The standalone checkout was chosen because it is the user's existing general LLVM source tree. The standalone checkout was updated to official upstream `main` fetched on 2026-09-17; this map describes that pinned snapshot.
 
-**Coverage:** every top-level `mlir/lib` subsystem is routed below; selected dialects and the main transformation contracts receive deeper treatment. This is not an audit of every operation, backend, or rewrite. Rationale is an interpretation of the linked implementation/contracts; no performance measurements or executable pipeline validation were performed. [Exercises and worked solutions](exercises.md) separate reading-only work from optional compiled tools.
+**Coverage:** every top-level `mlir/lib` subsystem is routed below; selected dialects and the main transformation contracts receive deeper treatment. This is not an audit of every operation, backend, or rewrite. Rationale is an interpretation of the linked implementation/contracts; no performance measurements or executable pipeline validation were performed. [Exercises and worked solutions](README.md#exercises) separate reading-only work from optional compiled tools.
 
-## Start with the problem MLIR solves
+<a id="mlir--start-with-the-problem-mlir-solves"></a>
+### Start with the problem MLIR solves
 
 Suppose your Python program computes `C = A @ B`. A compiler could immediately expand that into loops, loads and additions. But a later optimization would then have to rediscover that those loops form a matrix multiply. Keeping an explicit `linalg.matmul` operation lets later stages ask directly: which dimensions are outputs, which dimension is summed, and which input elements are needed for one output tile?
 
@@ -18,7 +25,8 @@ MLIR lets a compiler keep these high-level facts and replace them with implement
 
 A **dialect** is a named vocabulary of operations and types in this common representation. `linalg.matmul` belongs to Linalg; `arith.addf` belongs to Arith. They can coexist in one program, just as array operations and scalar arithmetic coexist in Python. A dialect is neither a device nor necessarily a compilation stage. MLIR supplies transformation tools; the compiler built with MLIR chooses the route through them. Unlike tinygrad, MLIR itself has no single Tensor-to-kernel pipeline.
 
-## A reading order that avoids starting with C++ machinery
+<a id="mlir--a-reading-order-that-avoids-starting-with-c-machinery"></a>
+### A reading order that avoids starting with C++ machinery
 
 1. Read the short IR example below and [LangRef][lang].
 2. Read `tensor`, `linalg`, and `memref` in the dialect table; distinguish values from storage.
@@ -28,7 +36,8 @@ A **dialect** is a named vocabulary of operations and types in this common repre
 6. Study [RMSNorm and fusion across kernel boundaries](rmsnorm-kernel-fusion.md): reduction synchronization, producer/consumer fusion, lifetime, and launch elimination.
 7. Only then inspect generated op definitions, interfaces, and custom dialect scaffolding.
 
-## The IR foundation: why these objects exist
+<a id="mlir--the-ir-foundation-why-these-objects-exist"></a>
+### The IR foundation: why these objects exist
 
 ```mlir
 module {
@@ -62,7 +71,8 @@ The table below is a reference to return to after that example. **Uniqued** obje
 
 A useful tinygrad comparison: UOps and MLIR operations both let compiler stages preserve semantics while changing representation. MLIR adds explicit region/block structure, SSA ownership, dialect registration, and interface contracts. A tinygrad matcher rule is closest to a rewrite pattern, not to an entire MLIR dialect or pass manager.
 
-## Module-by-module navigation
+<a id="mlir--module-by-module-navigation"></a>
+### Module-by-module navigation
 
 Use this inventory by question: “what is a program made of?” leads to `IR`; “what can I prove?” leads to `Analysis`; “how do I change it?” leads to `Rewrite`, `Transforms`, and `Conversion`; “how do I run it?” leads to `Target` and `ExecutionEngine`.
 
@@ -95,7 +105,8 @@ The upstream tests use **lit** to run command recipes and **FileCheck** to match
 
 Other top-level areas: [`tools`][tools] contains binaries including `mlir-opt`, `mlir-translate`, and generators; [`test`][tests] contains executable specifications using lit/FileCheck; [`unittests`][unittests] tests APIs; [`examples`][examples] contains end-to-end teaching projects such as Toy; [`python`][python] exposes Python packages; [`docs`][docs] explains contracts; `cmake`, `utils`, and `benchmark` support building, development, and measurement. Read a transform's regression tests alongside its implementation: tests often expose a precondition much faster than a class hierarchy.
 
-## TableGen: where an operation's contract lives
+<a id="mlir--tablegen-where-an-operations-contract-lives"></a>
+### TableGen: where an operation's contract lives
 
 Defining an operation requires several consistent pieces: a name, legal input/result types, printed form, and checks. Writing each independently repeats facts and invites disagreement. **TableGen** is LLVM's code generator for declarations in `.td` files. MLIR's **ODS** (Operation Definition Specification) is its vocabulary for declaring operations. A declaration can request a hook such as a constant folder, while handwritten C++ implements that hook.
 
@@ -103,7 +114,8 @@ Defining an operation requires several consistent pieces: a name, legal input/re
 
 This exists to keep an operation's many surfaces consistent. It does not make all generated operations correct automatically: a reduction's algebraic assumptions, aliasing contract, or verifier can still be wrong. Search `.td` before searching a generated `*.inc`. For Linalg named operations inspect both [LinalgStructuredOps.td][linalg] (including matmul) and [LinalgNamedStructuredOps.yaml][linalg-yaml], whose specification feeds generation for other named operations. Declarative rewrites ([DRR][drr], [PDLL][pdll]) describe patterns, while ODS describes operations; these are related but distinct jobs.
 
-## Pattern rewriting: what is the driver promising?
+<a id="mlir--pattern-rewriting-what-is-the-driver-promising"></a>
+### Pattern rewriting: what is the driver promising?
 
 Consider simplifying integer `x + 0` to `x`. A **pattern** recognizes the shape and proposes a replacement. A **driver** chooses where and in what order to try patterns, including whether to revisit changed operations. The **rewriter** performs edits while informing the driver. This separation lets a rule participate in different transformation strategies.
 
@@ -123,7 +135,8 @@ Sharp edges:
 
 **Canonicalization** means choosing simpler or preferred equivalent forms, such as removing an integer addition of zero. A **fold** is a restricted local simplification. Canonicalization ([contract][canonical], [implementation][canonical-cpp]) greedily applies operation canonicalization patterns and folds. It is best effort, bounded, and intended to simplify subsequent work. Pipelines must not depend on canonicalization for correctness. `fold` is intentionally narrower than arbitrary rewriting: it can return existing values/constant attributes or perform supported root folding, rather than arbitrarily constructing a replacement subgraph.
 
-## Dialect conversion: a proof obligation about the result
+<a id="mlir--dialect-conversion-a-proof-obligation-about-the-result"></a>
+### Dialect conversion: a proof obligation about the result
 
 Simplification can stop while additions remain. Required lowering has a stronger goal: for example, no `toy.add` may remain because the next stage cannot execute it. **Legality** means “accepted by this stage's target,” rather than “mathematically correct.” A valid input operation may intentionally be illegal for the output stage.
 
@@ -140,7 +153,8 @@ For example, a pattern could replace `toy.add` with `arith.addf` while a type co
 
 This distinction is essential when reviewing a compiler: "the pass succeeded" means only the obligation the author requested. Marking too much legal can conceal an incomplete lowering. Reading original operands instead of converted adaptor operands can reintroduce stale types. `builtin.unrealized_conversion_cast` can connect intermediate representations; it is not executable conversion code. Reconciliation only removes compatible cast scaffolding, not arbitrary missing ABI conversions.
 
-## Pass management: choosing order and scope
+<a id="mlir--pass-management-choosing-order-and-scope"></a>
+### Pass management: choosing order and scope
 
 A **pass** is a unit of compiler work, such as simplifying operations or lowering loops. A **pass manager** runs passes in an order and selected scope. Its **anchor** is the operation it runs on: a function pass handles a selected function, while a module pass can coordinate changes across functions. An **analysis** computes facts about the program; cached facts must be discarded if changes make them stale.
 
@@ -148,7 +162,8 @@ A **pass** is a unit of compiler work, such as simplifying operations or lowerin
 
 Passes can declare dependencies on dialects, obtain cached analyses, preserve valid analyses, and signal failure. Nested execution enables concurrency where the contracts permit it; a function pass should not casually inspect or mutate siblings. Verification and IR printing around passes help locate the first broken invariant. A production compiler's pipeline builder is therefore part of its semantics, not just a list of optional optimizations.
 
-## Dialects: why retain each vocabulary?
+<a id="mlir--dialects-why-retain-each-vocabulary"></a>
+### Dialects: why retain each vocabulary?
 
 Read this table as questions about one array computation. `tensor` describes its value; `linalg` describes indexing and arithmetic; `scf` makes loops explicit; `memref` describes storage; `vector` groups element computations; `gpu` assigns device work and synchronization. A compiler may use only some of these.
 
@@ -180,7 +195,8 @@ The invariant column identifies what to check before trusting a transformation, 
 
 Also recognize [ControlFlow][cf] (`cf` branches after structured control flow is lowered), `math` (math operations requiring target/library decisions), `index` (index arithmetic), `DLTI` (data layout information), `NVVM`/`ROCDL` (vendor LLVM intrinsics), and `PDL`/`PDLInterp` (pattern description/execution). Remaining families in the [dialect directory][dialects] include sparse tensors, quantization, shape, TOSA, architecture-specific vector extensions, distributed/parallel models, and C emission. Their presence does not mean a compiler using MLIR supports them all.
 
-## Bufferization: the abstraction boundary worth studying carefully
+<a id="mlir--bufferization-the-abstraction-boundary-worth-studying-carefully"></a>
+### Bufferization: the abstraction boundary worth studying carefully
 
 A tensor value describes contents, not an allocation. A `memref` describes mutable storage that code loads and stores. **Bufferization** chooses storage for tensor computations while preserving their value semantics. **Aliasing** means two references can reach the same storage; **lifetime** is how long that storage remains valid.
 
@@ -196,7 +212,8 @@ Three common surprises:
 2. Unknown/custom ops need an appropriate bufferization interface or an explicitly supported boundary policy. They do not inherit correct alias information automatically.
 3. One-Shot Bufferize does not free all buffers. Ownership-based deallocation and ABI choices are additional work; see [deallocation guide][deallocation].
 
-## Follow one matmul without inventing a universal pipeline
+<a id="mlir--follow-one-matmul-without-inventing-a-universal-pipeline"></a>
+### Follow one matmul without inventing a universal pipeline
 
 Start with `A: tensor<MxKxf32>`, `B: tensor<KxNxf32>`, and an initialized destination `C: tensor<MxNxf32>`. `linalg.matmul` represents `C + A * B`, with parallel `m,n` dimensions and reduction `k`. [MatmulOp definition][linalg] preserves this structure; [Linalg interfaces][linalg-interfaces] let transformations ask about it generically.
 
@@ -226,7 +243,7 @@ One possible CPU route:
 
 A GPU route instead introduces mapping to workgroups/threads, memory spaces, synchronization, and device-specific operations, then uses a target such as NVVM, ROCDL, or SPIR-V plus a host runtime path. None of these generic paths automatically implements Blackhole's distributed memory, circular-buffer protocol, Tensix compute, or multi-processor dispatch. Those need explicit target semantics and a backend/runtime contract.
 
-For CAIR, the highest-value sequence is SSA/regions -> rewrite contracts -> legality -> bufferization -> structured scheduling -> backend ABI. Each step teaches a different correctness obligation. The [exercise bank](exercises.md) follows this order and includes source-only tasks before optional builds.
+For CAIR, the highest-value sequence is SSA/regions -> rewrite contracts -> legality -> bufferization -> structured scheduling -> backend ABI. Each step teaches a different correctness obligation. The [exercise bank](README.md#exercises) follows this order and includes source-only tasks before optional builds.
 
 <!-- Links are pinned to the inspected standalone checkout. -->
 [lang]: https://github.com/llvm/llvm-project/blob/e3c4c16567e3074dcd42da664fcb91298fd8c0fb/mlir/docs/LangRef.md
@@ -303,3 +320,172 @@ For CAIR, the highest-value sequence is SSA/regions -> rewrite contracts -> lega
 [scf-conv]: https://github.com/llvm/llvm-project/tree/e3c4c16567e3074dcd42da664fcb91298fd8c0fb/mlir/lib/Conversion/SCFToControlFlow
 [conversions]: https://github.com/llvm/llvm-project/tree/e3c4c16567e3074dcd42da664fcb91298fd8c0fb/mlir/lib/Conversion
 [llvm-export]: https://github.com/llvm/llvm-project/blob/e3c4c16567e3074dcd42da664fcb91298fd8c0fb/mlir/lib/Target/LLVMIR/ModuleTranslation.cpp
+
+<a id="exercises"></a>
+## MLIR exercises and worked solutions
+<a id="exercises--mlir-exercises-and-worked-solutions"></a>
+
+These exercises use the snapshot and source links in the [map](README.md#mlir). Tasks 1-8 require only the checkout and a text editor. Tasks 9-11 require `mlir-opt`; task 12 is a source investigation. None requires a GPU or Tenstorrent card.
+
+**Validation status:** source paths and relevant contracts were inspected. `mlir-opt` was not found on PATH or among enumerated files in `/home/boop/builds`; the optional command exercises below were **not executed**. Their outputs are expectations derived from the source, not captured logs. Existing unrelated toolchain installations may provide another version; check the revision before interpreting differing output.
+
+Read the [map's first-principles introduction](README.md#mlir--start-with-the-problem-mlir-solves) before starting. Each exercise asks for a **contract**: a condition the representation or transformation must preserve. Try answering in three steps: what result does the original program promise, what changes, and what observation could expose a mistake? Source filenames below are relative to `/home/boop/builds/llvm-project/mlir` unless explicitly prefixed with `mlir/`.
+
+<a id="exercises--1-count-the-ir-objects-15-minutes-ssa"></a>
+### 1. Count the IR objects (15 minutes; SSA)
+
+Using `@twice` in the map, identify operation results, block arguments, blocks, and regions. Explain why `%x` has no defining operation. Inspect `mlir/include/mlir/IR/Value.h` in the standalone checkout.
+
+**Worked solution:** start at the outermost operation. The module has a body region containing a block; that block contains the function operation. The function has its own body region and entry block, containing the addition and return. `%result` is the sole arithmetic operation result; `%x` is the entry block argument owned by the function's body block. The module and function each have a region and a block in this example. `func.return` is an operation without a result. `Value` represents both `OpResult` and `BlockArgument`, so following a defining-op link is not valid for every SSA value. An argument's meaning comes from its enclosing operation/control-flow contract.
+
+**Assessment:** credit requires explaining ownership and why values are not all expression-tree nodes.
+
+<a id="exercises--2-find-the-generatedhandwritten-boundary-20-minutes-ods"></a>
+### 2. Find the generated/handwritten boundary (20 minutes; ODS)
+
+Find integer addition in `include/mlir/Dialect/Arith/IR/ArithOps.td`. Follow its base class and locate its handwritten folding logic in `lib/Dialect/Arith/IR/ArithOps.cpp`. Which facts come from the declaration, and which require C++?
+
+**Worked solution:** separate “is this operation well formed?” from “can this computation be simplified?” The TableGen declaration/base constraints describe the op name, operands/results, traits and assembly surface. The `hasFolder` hook requests generated declarations for folding; C++ implements cases such as constant evaluation and arithmetic identities. The generated `*.inc` is a build artifact connecting the two. A verifier accepting an operation does not prove a newly added fold is equivalent.
+
+**Extension:** explain why integer `x + 0` and floating-point `x + 0.0` need different semantic care (signed zero and floating-point flags).
+
+<a id="exercises--3-design-a-rewrite-that-terminates-20-minutes-patterns"></a>
+### 3. Design a rewrite that terminates (20 minutes; patterns)
+
+A pass has rules `x + x -> x * 2` and `x * 2 -> x + x`, each with positive benefit. Does greediness guarantee convergence? How should the pass be repaired?
+
+**Worked solution:** apply the rules by hand: `x + x -> x * 2 -> x + x -> ...`. Neither result is permanent, so the driver can revisit the same forms indefinitely. Benefits rank matches and do not prevent a cycle. Select a preferred representation appropriate to the stage and keep one direction there, or require each rewrite to decrease a quantity that cannot decrease forever, such as a suitable nonnegative complexity score. Separating stages can be appropriate if each stage has a clear contract and is not repeatedly cycled. An iteration cap bounds time but does not establish canonicality. See `docs/Canonicalization.md` and `include/mlir/IR/PatternMatch.h`.
+
+**Assessment:** reject solutions that simply raise benefit or increase the iteration cap.
+
+<a id="exercises--4-partial-conversion-is-not-complete-lowering-25-minutes-legality"></a>
+### 4. Partial conversion is not complete lowering (25 minutes; legality)
+
+A target marks `toy.add` illegal and `arith.addf` legal; an unrelated `toy.print` is unknown. A pattern converts every `toy.add`. Explain possible outcomes of partial versus full conversion. Then mark the enclosing module recursively legal: what danger appears?
+
+**Worked solution:** after the pattern runs, the program contains `arith.addf` and `toy.print`. Check each against the chosen policy. `arith.addf` is accepted; `toy.print` has no classification. Partial conversion may succeed while leaving pre-existing unknown `toy.print`; all explicitly illegal operations must be handled. Full conversion cannot simply accept the unknown operation without legalizing it or making it legal through the target policy. A recursively legal module can exempt its nested operations from legalization, defeating the intended check. Read `ConversionTarget` and `applyPartialConversion` contracts in `include/mlir/Transforms/DialectConversion.h`.
+
+**Extension:** distinguish "dynamically legal when operand types meet a predicate" from "recursively legal". The former checks a condition on an instance; the latter changes how nested IR is treated.
+
+<a id="exercises--5-why-a-bufferization-copy-can-be-required-30-minutes-aliasing"></a>
+### 5. Why a bufferization copy can be required (30 minutes; aliasing)
+
+Suppose `%old` is a tensor. `%new = tensor.insert %v into %old[%i]` produces a modified version. A later operation reads `%old[%i]`, and the program also needs `%new`. Is reusing `%old`'s buffer for `%new` always valid?
+
+**Worked solution:** choose `old = [10, 20]`, `i = 0`, and `v = 99`. The required observations are `old[0] == 10` and `new[0] == 99`. In tensor semantics `%old` retains its previous element. A store into the same buffer before the later old-value read would change the result. The implementation needs a proof that the read cannot observe the write, a legal reordering, or distinct storage/copy. The example's same index deliberately prevents relying on disjointness. Inspect read-after-write discussion in `docs/Bufferization.md` and conflict analysis in `lib/Dialect/Bufferization/Transforms/OneShotAnalysis.cpp`.
+
+**Assessment:** same shape, single result, and destination style alone are insufficient proofs. The answer must identify the observation that would change.
+
+<a id="exercises--6-the-uninitialized-matmul-trap-20-minutes-linalg"></a>
+### 6. The uninitialized matmul trap (20 minutes; Linalg)
+
+Consider a tensor `linalg.matmul` with `outs(%empty)` where `%empty = tensor.empty()`. Does this compute `A * B`? Give a correct initialization strategy.
+
+**Worked solution:** test the smallest case: A contains `2`, B contains `3`, and the destination contains `7`. Matmul produces `7 + 2*3 = 13`, not `6`, because it accumulates into its destination. `tensor.empty` provides a shaped value with unspecified contents, not zeros. Fill the destination with a zero constant via `linalg.fill`, then use that initialized tensor as the matmul output operand. Alternatively, pass an existing initialized accumulator when the intended computation is `C + A * B`. Follow `include/mlir/Dialect/Linalg/IR/LinalgStructuredOps.td`, the named-op definitions, and `TensorOps.td`'s `EmptyOp` description.
+
+**Assessment:** explicitly distinguish destination storage selection from destination numerical contents.
+
+<a id="exercises--7-preserve-enough-structure-to-schedule-30-minutes-lowering"></a>
+### 7. Preserve enough structure to schedule (30 minutes; lowering)
+
+Why might a compiler tile a `linalg.matmul` before lowering it into loads/stores and nested loops? Does keeping Linalg guarantee fast code?
+
+**Worked solution:** consider computing only output rows 0–15 and columns 0–15. The matmul indexing maps tell us immediately which A rows and B columns this tile needs, and that their products must still sum over the full reduction dimension. Parallel/reduction iterator roles distinguish the independent output elements from contributions to each element. These facts make legality and slicing structure explicit. Generic loop analysis may recover some information later, but that requires additional proofs. Keeping the structured form makes transformations easier to express; it does not choose profitable tile sizes, data layout, or a hardware instruction. Inspect `lib/Dialect/Linalg/Transforms/Tiling.cpp`, `Vectorization.cpp`, and `Loops.cpp`.
+
+**Extension:** identify what a Blackhole backend must add: placement/memory spaces, inter-core transfers, synchronization/resource ownership, compute instruction selection, and launch/runtime ABI. A generic GPU conversion does not supply these contracts automatically.
+
+<a id="exercises--8-a-valid-rewrite-with-an-invalid-lifetime-20-minutes-transform"></a>
+### 8. A valid rewrite with an invalid lifetime (20 minutes; Transform)
+
+A Transform dialect operation consumes a handle while replacing its payload operation. A later transform reuses that old handle. Why is valid payload IR insufficient to guarantee that this schedule succeeds?
+
+**Worked solution:** imagine a handle selecting one matmul operation. A transform replaces that matmul with tiled operations. The old selected object no longer identifies the new operations, even if those operations correctly compute the answer. Transform IR therefore has its own handle use and invalidation contract. Replacing/consuming payload entities can invalidate mappings represented by old handles, including affected nested handles. Later schedule operations must use valid returned/reacquired handles as specified by the transform. Payload verification alone checks a different set of invariants. Inspect `docs/Dialects/Transform.md` and `include/mlir/Dialect/Transform/Interfaces/TransformInterfaces.td`.
+
+<a id="exercises--optional-tools-what-is-actually-required"></a>
+### Optional tools: what is actually required?
+
+Source reading requires no build. Parsing and running standard passes needs **`mlir-opt`**. Translating LLVM dialect to LLVM IR needs **`mlir-translate`**. Running arbitrary lowered programs additionally requires a compatible execution engine/runtime and correct ABI; none of that is needed for the following inspection exercises.
+
+If no compatible tools already exist, this is an optional CPU-only build from the inspected checkout. It has **not** been run as part of this map; LLVM/MLIR compilation can consume substantial time, disk, and RAM. Use an independent build directory and choose parallelism suitable for the machine.
+
+```bash
+cmake -S /home/boop/builds/llvm-project/llvm \
+  -B /home/boop/builds/mlir-map-build -G Ninja \
+  -DLLVM_ENABLE_PROJECTS=mlir \
+  -DLLVM_TARGETS_TO_BUILD=Native \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_ENABLE_ASSERTIONS=ON \
+  -DLLVM_BUILD_EXAMPLES=OFF
+cmake --build /home/boop/builds/mlir-map-build \
+  --target mlir-opt mlir-translate --parallel 2
+export MLIR_OPT=/home/boop/builds/mlir-map-build/bin/mlir-opt
+"$MLIR_OPT" --version
+```
+
+This requires CMake, Ninja, a supported C/C++ compiler and normal LLVM build prerequisites. `Native` targets the host CPU; no vendor GPU SDK is needed for these passes. `FileCheck` and lit are only required when running the upstream regression harness, not for manually inspecting the examples below.
+
+<a id="exercises--9-see-the-common-operation-representation-15-minutes-tool"></a>
+### 9. See the common operation representation (15 minutes; tool)
+
+Save this as `/tmp/mlir-map-add.mlir`:
+
+```mlir
+module {
+  func.func @add_zero(%x: i32) -> i32 {
+    %zero = arith.constant 0 : i32
+    %result = arith.addi %x, %zero : i32
+    return %result : i32
+  }
+}
+```
+
+```bash
+"$MLIR_OPT" /tmp/mlir-map-add.mlir --mlir-print-op-generic
+"$MLIR_OPT" /tmp/mlir-map-add.mlir --canonicalize
+```
+
+**Worked solution / expected observations:** generic printing exposes quoted operation names such as `"arith.addi"`, operand lists, and function input/output type information. Canonicalization can replace integer addition with `%x` and remove the unused constant; the function returns its argument directly. SSA names and exact formatting are not part of the expected result. A failure to parse should be investigated before blaming the optimization.
+
+<a id="exercises--10-lower-a-small-matmul-to-explicit-loops-25-minutes-tool"></a>
+### 10. Lower a small matmul to explicit loops (25 minutes; tool)
+
+Save this as `/tmp/mlir-map-matmul.mlir`:
+
+```mlir
+module {
+  func.func @matmul(%a: memref<2x3xf32>, %b: memref<3x4xf32>,
+                    %c: memref<2x4xf32>) {
+    linalg.matmul ins(%a, %b : memref<2x3xf32>, memref<3x4xf32>)
+                  outs(%c : memref<2x4xf32>)
+    return
+  }
+}
+```
+
+```bash
+"$MLIR_OPT" /tmp/mlir-map-matmul.mlir --convert-linalg-to-loops
+"$MLIR_OPT" /tmp/mlir-map-matmul.mlir \
+  --convert-linalg-to-loops --convert-scf-to-cf
+```
+
+**Worked solution / expected observations:** use the dimensions to predict the result before reading printed IR. A is 2-by-3 and B is 3-by-4, so C has two rows and four columns; each C element receives three products. The first command exposes loops with bounds 2, 4, and 3, element loads from A/B/C, multiplication/addition, and a store to C. C remains an accumulator: this example intentionally starts with memrefs and does not allocate or initialize them. The second command replaces structured loop control with control-flow blocks/branches. A structured loop packages “initialize, test, run body, advance” in one operation; the lower form expresses those transitions as branches between blocks. This still is not machine code and has not tested numerical execution. Compare the `RUN` lines and checks in `mlir/test/Dialect/Linalg/loops.mlir`.
+
+**Assessment:** explain which semantic information becomes less explicit after each step and which work (LLVM conversions, ABI, codegen/runtime) remains.
+
+<a id="exercises--11-ask-a-verifier-for-a-useful-failure-15-minutes-tool"></a>
+### 11. Ask a verifier for a useful failure (15 minutes; tool)
+
+Change `@add_zero`'s return type to `i64` while leaving its argument/result/return operand at `i32`. Run `mlir-opt` again.
+
+**Worked solution / expected observation:** parsing/verification rejects the mismatch between the return operand and the function's declared result. Restore the correct type; then try returning an out-of-scope SSA name and distinguish name resolution/dominance concerns from a numerical optimization bug. Diagnostic wording may vary; the exercise grades the violated invariant, not the exact string.
+
+<a id="exercises--12-turn-one-upstream-test-into-a-cair-assignment-60-90-minutes-source-or-tool"></a>
+### 12. Turn one upstream test into a CAIR assignment (60-90 minutes; source or tool)
+
+Choose one case in `mlir/test/Dialect/Linalg/loops.mlir` or `mlir/test/Dialect/Arith/canonicalize.mlir`. Record the input contract, transform, expected property, and one near-miss case where the transformation must behave differently. Locate the implementation. If tools exist, execute only the relevant pass command from the test's `RUN` line; do not assume `%s` or FileCheck substitutions work directly in a shell.
+
+**Worked solution outline:** write the specification first: `C[m,n] += sum_k A[m,k] * B[k,n]`. Then connect each loop/index in the expected output to that formula. For matmul lowering, the input contract includes shaped buffer operands and an initialized accumulator at execution time. Expected properties include reduction-carried updates to C and correct indexing of A(m,k)/B(k,n). A near-miss is a different contraction indexing pattern: hard-coding those accesses would be incorrect. The implementation is `Loops.cpp`, supported by Linalg indexing-map interfaces. A useful solution includes an argument about dataflow and dimensions, rather than only counting loops.
+
+**Suggested submission rubric:** source evidence (2), invariant stated correctly (3), counterexample or negative case (3), validation status reported honestly (2). Require source-only and executed work to be labeled separately. This produces reusable exercises without confusing inferred behavior with tested behavior.
+
+For the next level, [RMSNorm and fusion across kernel boundaries](rmsnorm-kernel-fusion.md) adds four worked exercises on launch elimination, reduction synchronization, memory traffic, and experimental evidence.

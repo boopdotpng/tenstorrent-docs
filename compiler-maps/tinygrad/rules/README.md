@@ -4,7 +4,7 @@ This reference explains the production rule templates in tinygrad master
 `107adc31701df0247dfa45e175984df906a68b53`. The upstream master ref was checked
 again when this extension began and still pointed to that revision.
 
-Start with the [matcher mechanics](../uops-and-rewrites.md) if `UPat`, callback
+Start with the [matcher mechanics](../uops-and-rewrites.md#uops-and-rewrites) if `UPat`, callback
 bindings, matcher composition, or traversal order is unfamiliar. For the GPU
 questions, read the [AMD guide](../amd-pattern-matchers.md) and
 [IMAGE guide](../image-pattern-matchers.md), then follow their individual rules

@@ -6,8 +6,8 @@ An **operator** is a named tensor operation such as addition. A **kernel** is de
 
 PyTorch is useful to compare with tinygrad because its eager execution model
 exists independently of its optimizing compiler. Start with
-[eager execution](eager-execution.md), then [torch.compile capture](torch-compile.md)
-and [Inductor lowering and fusion](inductor-and-fusion.md). The
+[eager execution](eager-execution.md#eager-execution), then [torch.compile capture](torch-compile.md#torch-compile)
+and [Inductor lowering and fusion](inductor-and-fusion.md#inductor-and-fusion). The
 [cross-project comparison](../design-comparison.md) explains what each design
 makes easy, and which correctness obligations it creates.
 
@@ -43,9 +43,9 @@ If you know Python arrays, start with eager execution: it explains how a single 
 | Guide | What it explains | Exercises |
 | --- | --- | --- |
 | [Module map](module-map.md) | Public Python layers, native implementation, dispatch, code generation, compiler stacks, distributed/runtime subsystems, and supporting directories. | Source-tracing exercises in the guide. |
-| [Regular eager execution](eager-execution.md) | Tensor calls, generated bindings, dispatch keys, backend kernels, autograd, views, mutation, and streams. | [Eager exercises and solutions](eager-exercises.md). |
-| [torch.compile](torch-compile.md) | Python capture, guards, graph breaks, symbolic shapes, FX, functionalization, AOTAutograd, and runtime wrappers. | [Compile exercises and solutions](compile-exercises.md). |
-| [Inductor](inductor-and-fusion.md) | Graph rewrites, loop/buffer IR, scheduling, kernel fusion, external calls, CPU/GPU codegen, autotuning, and caches. | [Inductor exercises and solutions](inductor-exercises.md). |
+| [Regular eager execution](eager-execution.md#eager-execution) | Tensor calls, generated bindings, dispatch keys, backend kernels, autograd, views, mutation, and streams. | [Eager exercises and solutions](eager-execution.md#eager-exercises). |
+| [torch.compile](torch-compile.md#torch-compile) | Python capture, guards, graph breaks, symbolic shapes, FX, functionalization, AOTAutograd, and runtime wrappers. | [Compile exercises and solutions](torch-compile.md#compile-exercises). |
+| [Inductor](inductor-and-fusion.md#inductor-and-fusion) | Graph rewrites, loop/buffer IR, scheduling, kernel fusion, external calls, CPU/GPU codegen, autotuning, and caches. | [Inductor exercises and solutions](inductor-and-fusion.md#inductor-exercises). |
 | [RMSNorm: eager versus compiled](rmsnorm-eager-vs-compile.md) | Actual CPU behavior, residual and matmul boundaries, backward, and capture/recompilation experiments, with recorded version limitations. | Reproducible probes and worked investigations. |
 
 ## Keep these boundaries distinct

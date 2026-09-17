@@ -2,7 +2,7 @@
 
 Source snapshot: `/home/boop/tenstorrent/pytorch`, commit `e52fd8ff9759e1c4bea7adcf63ca22717fe5e8df`. This is a source-reviewed directory and subsystem map, **not an audit of every file, operator, or rewrite rule**. It covers every non-hidden root directory and every immediate `torch/` subdirectory present in this checkout, grouping related packages below. It does not claim equivalent depth to the tinygrad rule catalogue. Examples in this page are reading exercises with worked answers, not execution results. A shallow checkout contains the superproject source and submodule references; it is not a built PyTorch installation or a recursive copy of every dependency.
 
-Read this alongside [eager execution](eager-execution.md), [torch.compile](torch-compile.md), and [Inductor and kernel fusion](inductor-and-fusion.md). Those pages follow execution paths; this one explains why the surrounding modules exist and where to investigate a broken contract.
+Read this alongside [eager execution](eager-execution.md#eager-execution), [torch.compile](torch-compile.md#torch-compile), and [Inductor and kernel fusion](inductor-and-fusion.md#inductor-and-fusion). Those pages follow execution paths; this one explains why the surrounding modules exist and where to investigate a broken contract.
 
 ## Start with one operation and three responsibilities
 
@@ -20,13 +20,13 @@ x = x + 1         # creates new storage; v still sees the old values
 
 This is **aliasing**: different tensor objects refer to overlapping memory. A compiler must preserve what a caller can observe through either object. That requirement helps explain why PyTorch has more than arithmetic kernels and optimization rules.
 
-Read the [first-principles guide](../first-principles.md) for shared compiler terms and [eager execution](eager-execution.md) for a complete call path. The tables below are a lookup atlas: read the explanation before each group, then follow rows relevant to your program. You do not need to memorize every package before proceeding.
+Read the [first-principles guide](../first-principles.md) for shared compiler terms and [eager execution](eager-execution.md#eager-execution) for a complete call path. The tables below are a lookup atlas: read the explanation before each group, then follow rows relevant to your program. You do not need to memorize every package before proceeding.
 
 ## The architectural difference from tinygrad
 
 A productive comparison is **where each system places its shared contract**.
 
-In tinygrad, Tensor operations construct UOps, and successive graph/schedule/codegen transformations reuse that compact vocabulary. Start with [Tensor](../../../tinygrad/tinygrad/tensor.py), [UOp](../../../tinygrad/tinygrad/uop/ops.py), and its [compiler map](../tinygrad/module-map.md). A rule often has the job of making a common representation appropriate for its next stage. This does not mean every UOp is valid at every stage, or every backend supports every operation.
+In tinygrad, Tensor operations construct UOps, and successive graph/schedule/codegen transformations reuse that compact vocabulary. Start with [Tensor](../../../tinygrad/tinygrad/tensor.py), [UOp](../../../tinygrad/tinygrad/uop/ops.py), and its [compiler map](../tinygrad/module-map.md#module-map). A rule often has the job of making a common representation appropriate for its next stage. This does not mean every UOp is valid at every stage, or every backend supports every operation.
 
 An **operator schema** declares argument/result types and whether storage is shared or mutated. The **dispatcher** selects an implementation for a call using categories called **dispatch keys**. These include device backends and behavior such as gradient bookkeeping. A **registration** connects an operator/category pair to code. An **overload** distinguishes variants, such as adding a Tensor versus a scalar.
 
@@ -112,7 +112,7 @@ A **decomposition** expresses one operator using simpler ones. This can make its
 | [_decomp/](../../../pytorch/torch/_decomp) | Operator decompositions used by particular graph consumers. | Registration in a table is not proof every compiler pass uses that table. Decomposition trades opaque semantic structure for operations a consumer handles. |
 | [_refs/](../../../pytorch/torch/_refs), [_prims/](../../../pytorch/torch/_prims), [_prims_common/](../../../pytorch/torch/_prims_common) | Python reference formulations, primitive operations, and shared shape/promotion/type logic. | These are related layers, not three names for one IR. A reference can expose promotion/broadcasting that a kernel implements implicitly. |
 | [_higher_order_ops/](../../../pytorch/torch/_higher_order_ops) | Operations whose arguments/semantics include subgraphs: control flow, transforms, wrapped calls. | A conditional with subgraphs is not interchangeable with Python branching specialized away during tracing. |
-| [_inductor/](../../../pytorch/torch/_inductor) | Backend graph lowering, loop/buffer IR, fusion scheduling, code generation, autotuning and runtime wrappers. | An FX pattern match, an IR lowering, a scheduler fusion decision and a template selection solve different questions. Follow [the fusion map](inductor-and-fusion.md). |
+| [_inductor/](../../../pytorch/torch/_inductor) | Backend graph lowering, loop/buffer IR, fusion scheduling, code generation, autotuning and runtime wrappers. | An FX pattern match, an IR lowering, a scheduler fusion decision and a template selection solve different questions. Follow [the fusion map](inductor-and-fusion.md#inductor-and-fusion). |
 | [export/](../../../pytorch/torch/export), [_export/](../../../pytorch/torch/_export) | Public ExportedProgram interface and capture/serialization/constraint support. | Export must preserve an explicit graph/input contract. Dynamo's ability to fall back to Python around graph breaks is not an export guarantee. |
 | [onnx/](../../../pytorch/torch/onnx) | Translation/export to the ONNX ecosystem. | ONNX operator semantics and supported versions form another contract; this is not the ordinary Inductor path. |
 | [jit/](../../../pytorch/torch/jit) | TorchScript scripting/tracing, serialization and associated interfaces. | TorchScript and `torch.compile` coexist in the tree; finding a JIT fusion pass does not establish that Dynamo/Inductor invokes it. |
@@ -216,7 +216,7 @@ Now ask a separate performance question. A backend can retain an opaque custom-o
 
 For compiled execution, determine whether Dynamo captures both modules in one region, which operators/decompositions reach Inductor, whether the normalized tensor is materialized, and whether the chosen matmul implementation permits producer integration. A common FX region only makes an optimization visible; it does not guarantee a single launch. An opaque library matmul call and a generated matmul template have different integration opportunities. Reduction synchronization and normalized-value reuse also matter.
 
-**Next source.** [The execution and scheduling walkthrough](inductor-and-fusion.md). The right proof is a generated schedule/code and launch trace for a concrete shape/device/version, not a count of Python modules or FX nodes.
+**Next source.** [The execution and scheduling walkthrough](inductor-and-fusion.md#inductor-and-fusion). The right proof is a generated schedule/code and launch trace for a concrete shape/device/version, not a count of Python modules or FX nodes.
 
 ### 4. Can eager and compile select different `_native` implementations?
 
@@ -242,8 +242,8 @@ Then consider captured regions. An Inductor codegen backend adds compilation of 
 
 1. Pick the exact API and overload, input shapes, dtype, layout and device. Start with `nn/functional.py` or the Tensor method, then `native_functions.yaml`. Write down mutation/aliasing and output metadata before performance expectations.
 2. Follow eager registration to backend implementation and library calls; read TensorIterator or the selected specialized kernel only when it is on that path. Add the autograd formula/engine if training matters.
-3. Run the same conceptual program through the [capture map](torch-compile.md): guards, graph breaks, fake metadata and AOTAutograd/functionalization establish the backend's input contract.
-4. Read [Inductor lowering and scheduling](inductor-and-fusion.md) to locate real materialization and launch boundaries. Keep library calls distinct from generated kernels.
+3. Run the same conceptual program through the [capture map](torch-compile.md#torch-compile): guards, graph breaks, fake metadata and AOTAutograd/functionalization establish the backend's input contract.
+4. Read [Inductor lowering and scheduling](inductor-and-fusion.md#inductor-and-fusion) to locate real materialization and launch boundaries. Keep library calls distinct from generated kernels.
 5. Return to surrounding packages only for an observed contract: Module hooks/state, tensor subclasses, distributed sharding, checkpointing/recomputation, precision policy or serialization.
 
 This ordering makes the large tree useful: every abstraction has an obligation to investigate, and every claim about fusion ends at an implementation artifact rather than a directory name.

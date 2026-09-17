@@ -1,78 +1,32 @@
-# Blackhole Emulator Specs
+# Emulator models
 
-Detailed emulator reference for Blackhole Tensix tiles, NoC, DRAM, firmware boot,
-and Tensix coprocessor behavior. This folder is organized as topic-sized files
-instead of one monolithic spec.
+Source-derived models for Blackhole hardware and the recorded firmware ABI.
+These are not an independently validated emulator. Use the ISA viewer for
+per-instruction test assertions and timing evidence, and the
+[current runtime](../../build-and-dispatch/blackhole-py-runtime.md) for
+blackhole-py software allocations and launch behavior.
 
-## Scope and validation
+Frontend, synchronization, scalar/configuration, boot state, topology, and
+network chapters combine related former pages. Large pack/unpack and arithmetic
+models remain separate so each chapter has a coherent subject.
 
-These are source-derived emulator models. Firmware partitions, controller
-assignments, and driver APIs retain the software version they describe; they
-are not all current blackhole-py interfaces. Start with the
-[current runtime](../../build-and-dispatch/blackhole-py-runtime.md) and
-[test-to-claim map](../behavior-from-tests.md). The latter does not establish
-complete semantic or timing coverage for every model here.
-
-## Start Here
-
-- [execution-model.md](execution-model.md) - top-level scheduler and host-side run loop.
-- [device-grid.md](device-grid.md) - Blackhole grid topology and coordinate layout.
-- [address-space.md](address-space.md) - per-tile memory map and L1 layout.
-- [firmware-upload.md](firmware-upload.md) - firmware upload and core boot sequence.
-
-## Core Tile Model
-
-- [ldm-layouts.md](ldm-layouts.md) - per-core local data memory layout.
-- [registers.md](registers.md) - tile control and debug registers.
-- [instruction-push.md](instruction-push.md) - RISC-V to Tensix instruction push path.
-- [tensix-coprocessor-pipeline.md](tensix-coprocessor-pipeline.md) - Tensix frontend/backend pipeline.
-- [rwc-and-addressing.md](rwc-and-addressing.md) - RWC and addressing model.
-- [mop-and-replay-expanders.md](mop-and-replay-expanders.md) - MOP and replay expansion.
-- [stallwait-conditions.md](stallwait-conditions.md) - wait gates and synchronization conditions.
-
-## Memory, NoC, and Streams
-
-- [dram.md](dram.md) - DRAM and PCIe endpoint model.
-- [niu.md](niu.md) - NoC interface unit model.
-- [noc-atomics.md](noc-atomics.md) - NoC atomic operations.
-- [logical-to-virtual-coordinates.md](logical-to-virtual-coordinates.md) - coordinate translation.
-- [stream-registers.md](stream-registers.md) - stream and NoC overlay registers.
-- [circular-buffers.md](circular-buffers.md) - circular buffer state and tile headers.
-
-## Tensix Compute and Data Paths
-
-- [dest-srca-srcb-registers.md](dest-srca-srcb-registers.md) - matrix register files.
-- [data-types-and-conversions.md](data-types-and-conversions.md) - internal formats and conversions.
-- [fpu-operations.md](fpu-operations.md) - matrix unit operations.
-- [specialty-fpu-operations.md](specialty-fpu-operations.md) - specialty matrix operations.
-- [sfpu-operations.md](sfpu-operations.md) - vector unit operations.
-- [pack-unpack-registers.md](pack-unpack-registers.md) - pack/unpack configuration registers.
-- [unpack-data-path.md](unpack-data-path.md) - unpacker data path.
-- [pack-data-path.md](pack-data-path.md) - packer data path.
-
-## Scalar, Config, and Synchronization
-
-- [gpr-and-dma-instructions.md](gpr-and-dma-instructions.md) - Tensix GPRs, scalar unit, and DMA register instructions.
-- [additional-scalar-unit-instructions.md](additional-scalar-unit-instructions.md) - extra scalar unit instructions.
-- [config-sync-instructions.md](config-sync-instructions.md) - config and sync unit instructions.
-- [sfploadmacro-and-sfptransp.md](sfploadmacro-and-sfptransp.md) - SFPLOADMACRO and SFPTRANSP.
-- [xmov-and-tdma-mover.md](xmov-and-tdma-mover.md) - XMOV and TDMA mover.
-- [semaphores.md](semaphores.md) - semaphore behavior.
-- [mutexes.md](mutexes.md) - mutex behavior.
-- [pcbufs.md](pcbufs.md) - PC buffer behavior.
-
-## Implementation Notes Preserved From The Old Monolith
-
-Implementation order:
-
-1. Core infrastructure: RISC-V decoder/executor, L1 memory, tile glue, device grid, and memory map routing.
-2. Tensix coprocessor: instruction FIFO, MOP/replay, sync unit, register files, FPU, SFPU, config unit, and scalar unit.
-3. Memory subsystem: NoC fabric, NIU registers, sparse DRAM banks, circular buffers, streams, unpacker, and packer.
-4. Integration: host interface, firmware boot sequence, dispatch completion, `add1.py`, and multi-core matmul.
-5. Correctness: hardware bug modeling, fidelity phases, stochastic rounding, ADC, XMOV, and coordinate translation.
-
-Testing strategy:
-
-- Unit-test RISC-V instructions, Tensix opcodes, format conversions, and semaphore sequences.
-- Run real firmware boot and simple kernels end to end.
-- Compare emulator outputs and selected register state against real hardware.
+- [Blackhole Tensix Tile Address Space](address-space.md)
+- [Emulator boot state and firmware memory](boot-state.md)
+- [Circular Buffers and Tile Headers](circular-buffers.md)
+- [Data Types and Format Conversions](data-types-and-conversions.md)
+- [Dest, SrcA, and SrcB Register Files](dest-srca-srcb-registers.md)
+- [DRAM and PCIe Endpoint Emulator Specification (Blackhole)](dram.md)
+- [FPU (Matrix Unit) Operations](fpu-operations.md)
+- [Tensix frontend: issue, expansion, and scheduling](frontend.md)
+- [NoC interfaces, atomics, and streams](network.md)
+- [PACR — Packer Data Path Specification (Blackhole)](pack-data-path.md)
+- [Pack/Unpack Configuration Registers](pack-unpack-registers.md)
+- [RWC and Addressing — Blackhole Tensix Coprocessor](rwc-and-addressing.md)
+- [Scalar and configuration instructions](scalar-and-config.md)
+- [SFPLOADMACRO and SFPTRANSP](sfploadmacro-and-sfptransp.md)
+- [Vector Unit (SFPU) Operations](sfpu-operations.md)
+- [Specialty FPU (Matrix Unit) Operations](specialty-fpu-operations.md)
+- [Tensix synchronization: waits, semaphores, and mutexes](synchronization.md)
+- [Emulator topology and coordinate translation](topology.md)
+- [Unpack Data Path](unpack-data-path.md)
+- [XMOV Instruction and TDMA Mover](xmov-and-tdma-mover.md)

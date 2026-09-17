@@ -18,7 +18,7 @@
     },
     {
       "source": "blackhole-py:tests/timing/tensix_timing.json",
-      "sha256": "a546f37504eebc8032e0c0c704462520015f6587d928f27bee7990d285fa2ed5",
+      "sha256": "a3f929dffded44cadab092ab16ca8ac2e886df5accbfeee72d688e2417e65d91",
       "git_status": "?? tests/timing/tensix_timing.json"
     },
     {
@@ -1185,28 +1185,24 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -1286,12 +1282,12 @@
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -1371,12 +1367,12 @@
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -1440,16 +1436,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -1513,16 +1505,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -1598,12 +1586,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/noc-atomics.md",
-          "title": "NOC Atomic Operations"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/network.md",
+          "title": "NoC interfaces, atomics, and streams"
         }
       ]
     },
@@ -1677,12 +1665,8 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -1752,12 +1736,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/noc-atomics.md",
-          "title": "NOC Atomic Operations"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/network.md",
+          "title": "NoC interfaces, atomics, and streams"
         }
       ]
     },
@@ -1839,12 +1823,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/noc-atomics.md",
-          "title": "NOC Atomic Operations"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/network.md",
+          "title": "NoC interfaces, atomics, and streams"
         }
       ]
     },
@@ -1914,12 +1898,8 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -1983,12 +1963,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/noc-atomics.md",
-          "title": "NOC Atomic Operations"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/network.md",
+          "title": "NoC interfaces, atomics, and streams"
         }
       ]
     },
@@ -2771,12 +2751,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -2856,16 +2836,16 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         },
         {
           "path": "kernel-dev/tilize-untilize-and-tile-layout.md",
@@ -2956,20 +2936,16 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -3012,8 +2988,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -3796,12 +3772,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -3865,16 +3841,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -3938,16 +3910,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -4458,24 +4426,20 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -4545,16 +4509,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -4655,10 +4615,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -4675,12 +4631,12 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -4734,7 +4690,7 @@
           "latency": "5",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/MatrixUnit.md",
-          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately.",
+          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
           "status": "shared manual"
         }
       ],
@@ -4743,7 +4699,7 @@
       "caveats": [
         {
           "title": "Timing scope",
-          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately."
+          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
         }
       ],
       "contracts": [
@@ -4801,10 +4757,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -4817,16 +4769,12 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/fpu-matmul-fidelity-phases.md",
-          "title": "FPU Matmul Fidelity Phases"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -4922,10 +4870,6 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/fpu-operations.md",
           "title": "FPU (Matrix Unit) Operations"
         },
@@ -4934,12 +4878,12 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -4985,12 +4929,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -5122,16 +5066,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5212,8 +5152,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5325,10 +5265,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -5341,8 +5277,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5420,12 +5356,12 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5503,12 +5439,12 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5636,10 +5572,6 @@
           "title": "FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/rwc-and-addressing.md",
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
@@ -5648,16 +5580,12 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5727,12 +5655,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -5784,12 +5712,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -5853,12 +5781,8 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -5944,10 +5868,6 @@
           "title": "Blackhole architecture: engines, memory, and ownership"
         },
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/behavior-from-tests.md",
           "title": "Blackhole behavior demonstrated by tests"
         },
@@ -5960,32 +5880,36 @@
           "title": "Circular Buffers and Tile Headers"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/execution-model.md",
-          "title": "Execution Model and Scheduling"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/fpu-operations.md",
           "title": "FPU (Matrix Unit) Operations"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/instruction-push.md",
-          "title": "Instruction Push Mechanism"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
         },
         {
           "path": "hardware/blackhole-emulator-specs/pack-data-path.md",
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/pcbufs.md",
-          "title": "PCBufs (PC Buffers)"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/rwc-and-addressing.md",
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
+          "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "kernel-dev/tensix-compute-pipeline.md",
+          "title": "Compute pipeline and scheduling"
+        },
+        {
+          "path": "kernel-dev/tilize-untilize-and-tile-layout.md",
+          "title": "Tilize, Untilize, and Tile Layout"
         }
       ]
     },
@@ -6031,24 +5955,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -6274,10 +6186,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -6286,8 +6194,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -6360,10 +6268,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -6376,8 +6280,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -6571,10 +6475,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -6587,8 +6487,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -6701,10 +6601,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/performance-counters.md",
           "title": "Blackhole Hardware Performance Counters"
         },
@@ -6721,8 +6617,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -6839,10 +6735,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -6855,8 +6747,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -6926,12 +6818,8 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -7061,16 +6949,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -7134,16 +7018,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -7920,16 +7800,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -7977,7 +7853,7 @@
           "latency": "5",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/MatrixUnit.md",
-          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately.",
+          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
           "status": "shared manual"
         }
       ],
@@ -7986,7 +7862,7 @@
       "caveats": [
         {
           "title": "Timing scope",
-          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately."
+          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
         }
       ],
       "contracts": [
@@ -8051,20 +7927,12 @@
           "title": "Blackhole architecture: engines, memory, and ownership"
         },
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
           "path": "hardware/blackhole-emulator-specs/fpu-operations.md",
           "title": "FPU (Matrix Unit) Operations"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
         },
         {
           "path": "hardware/blackhole-emulator-specs/rwc-and-addressing.md",
@@ -8075,24 +7943,20 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/llk-and-sfpi-model.md",
-          "title": "LLK + SFPI model and kernel inventory"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
           "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
+          "title": "Compute pipeline and scheduling"
         },
         {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "path": "matmul/README.md",
+          "title": "Matrix multiplication: layout, precision, and fusion"
         }
       ]
     },
@@ -8380,16 +8244,8 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/behavior-from-tests.md",
           "title": "Blackhole behavior demonstrated by tests"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
         },
         {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
@@ -8400,18 +8256,6 @@
           "title": "FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/niu.md",
-          "title": "NIU Emulator Specification (Blackhole)"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-data-path.md",
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
@@ -8420,12 +8264,28 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/xmov-and-tdma-mover.md",
+          "title": "XMOV Instruction and TDMA Mover"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/network.md",
+          "title": "NoC interfaces, atomics, and streams"
         }
       ]
     },
@@ -8767,10 +8627,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -8787,12 +8643,16 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/README.md",
+          "title": "Emulator models"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -8880,8 +8740,8 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -8976,16 +8836,16 @@
           "title": "Blackhole Tensix Tile Address Space"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -9061,16 +8921,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -9234,32 +9090,16 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/fpu-operations.md",
           "title": "FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -9317,12 +9157,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -9385,12 +9225,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-unpack-registers.md",
           "title": "Pack/Unpack Configuration Registers"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -9453,12 +9293,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-unpack-registers.md",
           "title": "Pack/Unpack Configuration Registers"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -9521,12 +9361,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-unpack-registers.md",
           "title": "Pack/Unpack Configuration Registers"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -9589,12 +9429,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-unpack-registers.md",
           "title": "Pack/Unpack Configuration Registers"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -9633,8 +9473,8 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -9741,10 +9581,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -9753,32 +9589,16 @@
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-data-path.md",
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/pcbufs.md",
-          "title": "PCBufs (PC Buffers)"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/semaphores.md",
-          "title": "Semaphores"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -9947,24 +9767,12 @@
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/pcbufs.md",
-          "title": "PCBufs (PC Buffers)"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/semaphores.md",
-          "title": "Semaphores"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -10083,10 +9891,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -10095,28 +9899,12 @@
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/pcbufs.md",
-          "title": "PCBufs (PC Buffers)"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/semaphores.md",
-          "title": "Semaphores"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -10231,40 +10019,20 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/execution-model.md",
-          "title": "Execution Model and Scheduling"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
         },
         {
           "path": "hardware/blackhole-emulator-specs/pack-data-path.md",
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/semaphores.md",
-          "title": "Semaphores"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -10377,12 +10145,12 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -10609,12 +10377,12 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -10711,12 +10479,12 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -10877,12 +10645,12 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -11157,10 +10925,6 @@
           "title": "FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-unpack-registers.md",
           "title": "Pack/Unpack Configuration Registers"
         },
@@ -11169,16 +10933,20 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -11483,10 +11251,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -11495,20 +11259,20 @@
           "title": "Circular Buffers and Tile Headers"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-data-path.md",
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -11554,20 +11318,16 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -12014,10 +11774,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -12030,16 +11786,8 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -12174,10 +11922,6 @@
         ]
       ],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -12794,14 +12538,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -12810,12 +12546,8 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         }
       ]
     },
@@ -12933,10 +12665,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -13046,10 +12774,6 @@
         ]
       ],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -13418,10 +13142,6 @@
         ]
       ],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -13796,10 +13516,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/data-types-and-conversions.md",
           "title": "Data Types and Format Conversions"
         },
@@ -13892,20 +13608,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -14174,24 +13882,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -14278,10 +13974,6 @@
       ],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -14798,20 +14490,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -14907,20 +14591,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -15007,10 +14683,6 @@
       ],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -15134,10 +14806,6 @@
       ],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -15517,28 +15185,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/llk-and-sfpi-model.md",
-          "title": "LLK + SFPI model and kernel inventory"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -15656,10 +15308,6 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -15713,7 +15361,7 @@
           "latency": "1",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
-          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls.",
+          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
           "status": "Blackhole manual"
         }
       ],
@@ -15726,7 +15374,7 @@
         },
         {
           "title": "Timing scope",
-          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls."
+          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
         }
       ],
       "contracts": [
@@ -15996,16 +15644,8 @@
           "title": "Blackhole architecture: engines, memory, and ownership"
         },
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
         },
         {
           "path": "hardware/blackhole-emulator-specs/rwc-and-addressing.md",
@@ -16020,24 +15660,8 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/sfpi-and-kernel-dev.md",
-          "title": "SFPI and kernel development (Blackhole)"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         }
       ]
     },
@@ -16627,10 +16251,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
         }
@@ -16740,10 +16360,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -16753,15 +16369,7 @@
         },
         {
           "path": "hardware/blackhole-emulator-specs/README.md",
-          "title": "Blackhole Emulator Specs"
-        },
-        {
-          "path": "kernel-dev/llk-and-sfpi-model.md",
-          "title": "LLK + SFPI model and kernel inventory"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "title": "Emulator models"
         }
       ]
     },
@@ -16835,10 +16443,6 @@
       "contracts": [],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -16925,10 +16529,6 @@
       "contracts": [],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -17031,20 +16631,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -17707,10 +17299,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -17719,20 +17307,12 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/llk-and-sfpi-model.md",
-          "title": "LLK + SFPI model and kernel inventory"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         },
         {
           "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "title": "Compute pipeline and scheduling"
         }
       ]
     },
@@ -18237,20 +17817,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
         }
       ]
     },
@@ -18942,20 +18514,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
         }
       ]
     },
@@ -19302,10 +18866,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -19402,10 +18962,6 @@
         ]
       ],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -19784,10 +19340,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -19796,12 +19348,8 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "kernel-dev/llk-and-sfpi-model.md",
-          "title": "LLK + SFPI model and kernel inventory"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         }
       ]
     },
@@ -19883,10 +19431,6 @@
       ],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -20002,10 +19546,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -20103,20 +19643,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -20204,20 +19736,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -20599,20 +20123,12 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
-        },
-        {
-          "path": "kernel-dev/sfpi-execution-model-and-masking.md",
-          "title": "SFPI execution model: vector width, face iteration, and per-lane masking"
         }
       ]
     },
@@ -20703,10 +20219,6 @@
       ],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -20801,10 +20313,6 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -20897,10 +20405,6 @@
       ],
       "sightings": [],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -21043,10 +20547,6 @@
         ]
       ],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -21861,10 +21361,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -21946,10 +21442,6 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -22003,7 +21495,7 @@
           "latency": "1",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
-          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls.",
+          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
           "status": "Blackhole manual"
         }
       ],
@@ -22012,7 +21504,7 @@
       "caveats": [
         {
           "title": "Timing scope",
-          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls."
+          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
         }
       ],
       "contracts": [
@@ -22278,16 +21770,8 @@
           "title": "Blackhole architecture: engines, memory, and ownership"
         },
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mop-and-replay-expanders.md",
-          "title": "MOP Expander and Replay Expander"
         },
         {
           "path": "hardware/blackhole-emulator-specs/rwc-and-addressing.md",
@@ -22302,24 +21786,8 @@
           "title": "Vector Unit (SFPU) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
-          "path": "kernel-dev/sfpi-and-kernel-dev.md",
-          "title": "SFPI and kernel development (Blackhole)"
-        },
-        {
-          "path": "kernel-dev/llk-and-sfpi-model.md",
-          "title": "LLK + SFPI model and kernel inventory"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
-        },
-        {
-          "path": "kernel-dev/replay-buffer-and-mop-for-sfpu.md",
-          "title": "Replay buffer and MOP expander for SFPU operations"
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
         }
       ]
     },
@@ -22915,10 +22383,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -23233,10 +22697,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
         },
@@ -23246,7 +22706,7 @@
         },
         {
           "path": "hardware/blackhole-emulator-specs/README.md",
-          "title": "Blackhole Emulator Specs"
+          "title": "Emulator models"
         }
       ]
     },
@@ -23333,10 +22793,6 @@
         ]
       ],
       "documents": [
-        {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
         {
           "path": "hardware/blackhole-emulator-specs/sfploadmacro-and-sfptransp.md",
           "title": "SFPLOADMACRO and SFPTRANSP"
@@ -24126,12 +23582,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -24183,16 +23639,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -24250,16 +23702,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -24354,40 +23802,16 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/performance-counters.md",
           "title": "Blackhole Hardware Performance Counters"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
         },
         {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/execution-model.md",
-          "title": "Execution Model and Scheduling"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/fpu-operations.md",
           "title": "FPU (Matrix Unit) Operations"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/mutexes.md",
-          "title": "Mutexes"
         },
         {
           "path": "hardware/blackhole-emulator-specs/pack-unpack-registers.md",
@@ -24400,6 +23824,30 @@
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
+          "title": "Specialty FPU (Matrix Unit) Operations"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
+          "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/xmov-and-tdma-mover.md",
+          "title": "XMOV Instruction and TDMA Mover"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -24481,12 +23929,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -24538,8 +23986,8 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -24603,12 +24051,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -24670,12 +24118,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -25452,16 +24900,12 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/blackhole-emulator-specs/additional-scalar-unit-instructions.md",
-          "title": "Additional Scalar Unit Instructions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         }
       ]
     },
@@ -25575,10 +25019,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -25587,8 +25027,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -25899,10 +25339,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -25927,24 +25363,24 @@
           "title": "RWC and Addressing — Blackhole Tensix Coprocessor"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         },
         {
           "path": "kernel-dev/tilize-untilize-and-tile-layout.md",
           "title": "Tilize, Untilize, and Tile Layout"
         },
         {
-          "path": "kernel-dev/row-major-matmul.md",
-          "title": "Row-major inputs without a separate tilize pass"
+          "path": "matmul/README.md",
+          "title": "Matrix multiplication: layout, precision, and fusion"
         }
       ]
     },
@@ -26089,12 +25525,12 @@
           "title": "FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -26165,14 +25601,6 @@
           "title": "Blackhole Tensix Tile Address Space"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/config-sync-instructions.md",
-          "title": "Configuration Unit and Sync Unit: Additional Instructions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/gpr-and-dma-instructions.md",
-          "title": "Tensix GPRs, Scalar Unit, and Configuration Unit Instructions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/pack-data-path.md",
           "title": "PACR — Packer Data Path Specification (Blackhole)"
         },
@@ -26181,16 +25609,20 @@
           "title": "Pack/Unpack Configuration Registers"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/tensix-coprocessor-pipeline.md",
-          "title": "Tensix Coprocessor Pipeline"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/frontend.md",
+          "title": "Tensix frontend: issue, expansion, and scheduling"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
+          "title": "Scalar and configuration instructions"
         },
         {
           "path": "kernel-dev/tilize-untilize-and-tile-layout.md",
@@ -26246,12 +25678,8 @@
       "sightings": [],
       "documents": [
         {
-          "path": "hardware/pcie-dma-and-sysmem.md",
-          "title": "Host memory, PCIe transfers, and sysmem"
-        },
-        {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
+          "path": "hardware/host-memory.md",
+          "title": "Host memory and transfers"
         },
         {
           "path": "hardware/blackhole-emulator-specs/xmov-and-tdma-mover.md",
@@ -26259,7 +25687,11 @@
         },
         {
           "path": "hardware/blackhole-emulator-specs/README.md",
-          "title": "Blackhole Emulator Specs"
+          "title": "Emulator models"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -26481,10 +25913,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -26497,12 +25925,8 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
-          "path": "kernel-dev/tensix-compute-pipeline.md",
-          "title": "Tensix compute pipeline: TRISC, FPU, SFPU, MOP"
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     },
@@ -26579,10 +26003,6 @@
       ],
       "documents": [
         {
-          "path": "hardware/tensix-compute-units.md",
-          "title": "Tensix Compute Units: FPU and SFPU Reference"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -26595,12 +26015,12 @@
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
         {
-          "path": "hardware/blackhole-emulator-specs/stallwait-conditions.md",
-          "title": "STALLWAIT and SEMWAIT — Wait Gate Conditions"
-        },
-        {
           "path": "hardware/blackhole-emulator-specs/unpack-data-path.md",
           "title": "Unpack Data Path"
+        },
+        {
+          "path": "hardware/blackhole-emulator-specs/synchronization.md",
+          "title": "Tensix synchronization: waits, semaphores, and mutexes"
         }
       ]
     }

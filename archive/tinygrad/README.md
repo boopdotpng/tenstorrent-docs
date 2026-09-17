@@ -4,8 +4,8 @@
 
 For the September 2026 master snapshot, use the new
 [compiler source maps](../../compiler-maps/README.md), especially the
-[module map](../../compiler-maps/tinygrad/module-map.md),
-[UOps and rewrites](../../compiler-maps/tinygrad/uops-and-rewrites.md), and
+[module map](../../compiler-maps/tinygrad/module-map.md#module-map),
+[UOps and rewrites](../../compiler-maps/tinygrad/uops-and-rewrites.md#uops-and-rewrites), and
 [meeting direction](../../compiler-maps/tinygrad/meeting-direction.md).
 The July references below retain their original revision scope.
 

@@ -1,8 +1,8 @@
 # RMSNorm and fusion across kernel boundaries
 
-This advanced case study uses the same MLIR snapshot as the [source map](README.md). It is a design and source-reading exercise, **not an executed lowering or a performance result**. The goal is to reason about eliminating a materialized intermediate between independently scheduled computations, including its memory and synchronization consequences.
+This advanced case study uses the same MLIR snapshot as the [source map](README.md#mlir). It is a design and source-reading exercise, **not an executed lowering or a performance result**. The goal is to reason about eliminating a materialized intermediate between independently scheduled computations, including its memory and synchronization consequences.
 
-Before this case study, read the [map's IR and bufferization explanations](README.md). Here a **kernel** is one device program launched over a collection of threads; a **launch** starts that program. A **materialized intermediate** is a temporary result written to addressable memory for later use. A **producer** computes that result; a **consumer** reads it. The question is whether we can keep their arithmetic together and avoid writing the intermediate array at all.
+Before this case study, read the [map's IR and bufferization explanations](README.md#mlir). Here a **kernel** is one device program launched over a collection of threads; a **launch** starts that program. A **materialized intermediate** is a temporary result written to addressable memory for later use. A **producer** computes that result; a **consumer** reads it. The question is whether we can keep their arithmetic together and avoid writing the intermediate array at all.
 
 ## The computation and the first actual boundary
 

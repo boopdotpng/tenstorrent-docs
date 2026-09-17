@@ -77,7 +77,7 @@ class HTTP(unittest.TestCase):
 
     def test_home_and_all_indexed_documents(self):
         body, headers = self.get('/')
-        self.assertIn(b'Instruction reference', body)
+        self.assertIn(b'ISA reference', body)
         self.assertIn("script-src 'self'", headers['Content-Security-Policy'])
         body, _ = self.get('/api/index')
         index = json.loads(body)
@@ -94,6 +94,15 @@ class HTTP(unittest.TestCase):
         body, _ = self.get('/api/search?' + urlencode({'q':'4234a9d727e52a6bb033c387d2c869cea4caf641', 'scope':'archives'}))
         self.assertTrue(json.loads(body))
         self.assertTrue(all(d['historical'] for d in json.loads(body)))
+
+    def test_dedicated_pages_and_redirects(self):
+        for route in ('/isa','/archives'):
+            body, _ = self.get(route)
+            self.assertIn(b'id="main"', body)
+        body, _ = self.get('/api/index')
+        index = json.loads(body)
+        self.assertEqual(index['redirects']['kernel-dev/dataflow-and-cbs.md'], 'kernel-dev/dataflow.md')
+        self.assertFalse(any(d['path']=='kernel-dev/dataflow-and-cbs.md' for d in index['documents']))
 
     def test_document_and_reference(self):
         body, _ = self.get('/api/document?' + urlencode({'repo':'docs','path':'intro.md'}))

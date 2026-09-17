@@ -14,8 +14,7 @@ was written with coding assistants; `human/` is human-authored and read-only.
 Listens on **0.0.0.0:8000**. Open **http://127.0.0.1:8000** in your browser.
 Other machines can use `http://<this-machine-ip>:8000`. Python 3
 is the only runtime dependency. The site works offline, with categorized
-Markdown documents, full-text search, and a separate **Tensix instruction
-reference** for all 137 encoders: behavior, cycle counts, caveats, and test scope.
+Markdown documents, full-text search, and a dedicated **[Tensix ISA page](http://127.0.0.1:8000/isa)** for all 137 encoders: behavior, cycle counts, caveats, and test scope.
 It never opens a browser. Use `./serve.sh --port 8001` to change ports.
 See [viewer maintenance](viewer/README.md) to refresh the ISA snapshot.
 
@@ -23,6 +22,10 @@ Start with [the introduction](intro.md), then
 [behavior demonstrated by blackhole-py tests](hardware/behavior-from-tests.md).
 The latter identifies the September 17 local source snapshot and distinguishes
 test assertions, recorded measurements, and remaining coverage gaps.
+
+Documentation opens at `/`; `/isa` has its own instruction navigation;
+`/archives` contains historical studies and measurement reports. Global search
+covers all three, with historical results labeled.
 
 ## Choose a path
 
@@ -35,10 +38,10 @@ test assertions, recorded measurements, and remaining coverage gaps.
 | Distinguish board firmware from worker firmware | [Firmware](firmware/README.md) |
 | Optimize matrix multiplication | [Matmul](matmul/README.md) |
 | Find measurements and timing limits | [Microbenchmarks](microbenching/README.md) |
-| Learn compilers or plan a backend | [Compiler maps](compiler-maps/README.md) and [tinygrad](tinygrad/README.md) |
+| Learn compilers or plan a backend | [Compiler maps](compiler-maps/README.md) |
 | Study TT-Fabric and multi-host execution | [Multi-chip](multi-chip/README.md) |
 | Inspect old instruction usage or assembly | [ISA workload samples](llk-sfpi/README.md), [disassemblies](disasms/README.md) |
-| Find a retired document or historical result | [Archive](archive/README.md) and [document catalogue](maintenance/catalog.md) |
+| Find a retired document or historical result | [Archive](archive/README.md) |
 
 ## How to read the evidence
 

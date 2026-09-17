@@ -8,7 +8,7 @@ The central finding: **this checkout contains an RMSNorm example with three sequ
 
 RMSNorm scales each row by the reciprocal of its root-mean-square magnitude and then multiplies by learned column weights. `M` counts rows; `H` counts columns, often called hidden features. `rsqrt(a)` means `1/sqrt(a)`. Epsilon is a small positive constant protecting the denominator near zero. Gamma has one weight per column and is reused across rows.
 
-For hardware terms such as grid, tile, DMA, CB, and DST, start with the [map's hardware vocabulary](README.md#hardware-vocabulary-needed-for-the-map). The distinction between a tensor operator, a dispatched program, and its cooperating kernel functions is essential to this example.
+For hardware terms such as grid, tile, DMA, CB, and DST, start with the [map's hardware vocabulary](README.md#tt-mlir--hardware-vocabulary-needed-for-the-map). The distinction between a tensor operator, a dispatched program, and its cooperating kernel functions is essential to this example.
 
 For activation `x[M,H]` and learned weight `gamma[H]`:
 

@@ -6,16 +6,16 @@ kernels, and execution. Basic Python and arrays are enough to begin.
 
 Then choose one path:
 
-1. **Understand tinygrad:** read [the module map](tinygrad/module-map.md), then
-   [UOps and rewrite passes](tinygrad/uops-and-rewrites.md). Follow the
+1. **Understand tinygrad:** read [the module map](tinygrad/module-map.md#module-map), then
+   [UOps and rewrite passes](tinygrad/uops-and-rewrites.md#uops-and-rewrites). Follow the
    [RMSNorm case study](tinygrad/rmsnorm-kernel-fusion.md) to see how the graph
    becomes scheduled kernels and generated code.
-2. **Understand MLIR:** read [why the pieces exist](mlir/README.md), then its
+2. **Understand MLIR:** read [why the pieces exist](mlir/README.md#mlir), then its
    [RMSNorm lowering](mlir/rmsnorm-kernel-fusion.md). Continue to IREE or TT-MLIR
    to see how a concrete compiler uses that infrastructure.
-3. **Understand PyTorch:** start with [eager execution](pytorch/eager-execution.md),
-   then [torch.compile](pytorch/torch-compile.md) and
-   [Inductor](pytorch/inductor-and-fusion.md). The
+3. **Understand PyTorch:** start with [eager execution](pytorch/eager-execution.md#eager-execution),
+   then [torch.compile](pytorch/torch-compile.md#torch-compile) and
+   [Inductor](pytorch/inductor-and-fusion.md#inductor-and-fusion). The
    [executed RMSNorm study](pytorch/rmsnorm-eager-vs-compile.md) connects those layers.
 
 After following one path, read [the design comparison](design-comparison.md).
@@ -27,14 +27,14 @@ execution story makes sense. Each exercise bank includes worked solutions.
 
 | Map | Questions it answers | Exercise bank and worked solutions |
 | --- | --- | --- |
-| [tinygrad modules](tinygrad/module-map.md) | How do Tensor, scheduling, codegen, execution, devices, and tooling fit together? What does each package module own? | [Module exercises](tinygrad/module-exercises.md) |
-| [tinygrad UOps and matchers](tinygrad/uops-and-rewrites.md) | What does a UOp mean at each phase? Why are matchers separate? Which rewrite ordering and typing assumptions matter? | [Rewrite exercises](tinygrad/rewrites-exercises.md) |
+| [tinygrad modules](tinygrad/module-map.md#module-map) | How do Tensor, scheduling, codegen, execution, devices, and tooling fit together? What does each package module own? | [Module exercises](tinygrad/module-map.md#module-exercises) |
+| [tinygrad UOps and matchers](tinygrad/uops-and-rewrites.md#uops-and-rewrites) | What does a UOp mean at each phase? Why are matchers separate? Which rewrite ordering and typing assumptions matter? | [Rewrite exercises](tinygrad/uops-and-rewrites.md#rewrites-exercises) |
 | [Every production matcher rule](tinygrad/rules/README.md) | What does each rule match and produce, why is it needed, and what is a concrete example? | Individual examples, guards, and sharp edges for 926 source templates |
 | [AMD](tinygrad/amd-pattern-matchers.md) and [IMAGE](tinygrad/image-pattern-matchers.md) | Which rules are chip-specific, which adapt compiler/storage contracts, and which are workarounds? | Chip-fragment probes, image-mask probes, and worked exercises |
 | [tinycorp direction](tinygrad/meeting-direction.md) | What changed, what is still a proposal, and where do meeting statements disagree with this checkout? | Source-comparison questions in the guide |
-| [MLIR](mlir/README.md) | Why dialects, interfaces, regions, conversion, bufferization, and the Transform dialect? Where should I start reading? | [MLIR exercises](mlir/exercises.md) |
-| [IREE](iree/README.md) | How does an MLIR-based compiler become a deployable runtime? Why Flow, Stream, HAL, and VM? | [IREE exercises](iree/exercises.md) |
-| [TT-MLIR](tt-mlir/README.md) | How do tensor semantics turn into Tenstorrent library calls or lower-level hardware programs? | [TT-MLIR exercises](tt-mlir/exercises.md) |
+| [MLIR](mlir/README.md#mlir) | Why dialects, interfaces, regions, conversion, bufferization, and the Transform dialect? Where should I start reading? | [MLIR exercises](mlir/README.md#exercises) |
+| [IREE](iree/README.md#iree) | How does an MLIR-based compiler become a deployable runtime? Why Flow, Stream, HAL, and VM? | [IREE exercises](iree/README.md#exercises) |
+| [TT-MLIR](tt-mlir/README.md#tt-mlir) | How do tensor semantics turn into Tenstorrent library calls or lower-level hardware programs? | [TT-MLIR exercises](tt-mlir/README.md#exercises) |
 | [PyTorch eager and torch.compile](pytorch/README.md) | How do runtime dispatch, autograd, guarded graph capture, AOTAutograd, and Inductor differ from tinygrad? | Module, eager, capture, and Inductor exercises; executed CPU case studies |
 
 ## Source snapshots, not a claim about today's upstream

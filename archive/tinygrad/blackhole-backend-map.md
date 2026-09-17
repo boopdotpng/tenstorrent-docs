@@ -242,9 +242,9 @@ make all 118 workers an awkward non-rectangle, so the existing tuned matmul uses
 a clean 10×11 (110-core) rectangle. A generic "number of cores" field cannot
 express that; the planner needs coordinates and rectangle constraints.
 
-See [device-grid details](../../hardware/blackhole-emulator-specs/device-grid.md),
-[grid utilization](../../hardware/grid-utilization.md), and
-[the Tensix dataflow model](../../kernel-dev/dataflow-and-cbs.md).
+See [device-grid details](../../hardware/blackhole-emulator-specs/topology.md#device-grid),
+[grid utilization](../../hardware/topology.md), and
+[the Tensix dataflow model](../../kernel-dev/dataflow.md).
 
 ## A staged implementation boundary
 

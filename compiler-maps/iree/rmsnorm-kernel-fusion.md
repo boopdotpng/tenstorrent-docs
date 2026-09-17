@@ -1,6 +1,6 @@
 # Residual RMSNorm: the dispatch boundaries that matter
 
-This case study focuses on **combining work that would otherwise require separate kernel dispatches**, especially a reduction and its producer/consumer kernels. It uses IREE `2b05c5dbb2f2ecb27c0d3941e80ee8d2f16e890d`, confirmed unchanged after fetching upstream `main` on 2026-09-17. It accompanies the [module map](README.md) and [exercise bank](exercises.md).
+This case study focuses on **combining work that would otherwise require separate kernel dispatches**, especially a reduction and its producer/consumer kernels. It uses IREE `2b05c5dbb2f2ecb27c0d3941e80ee8d2f16e890d`, confirmed unchanged after fetching upstream `main` on 2026-09-17. It accompanies the [module map](README.md#iree) and [exercise bank](README.md#exercises).
 
 **Evidence:** the linked IREE tests specify actual dispatch-grouping expectations. They were read, not executed here. The [residual RMSNorm input](examples/residual-rmsnorm.mlir) is an authored, unexecuted probe. A repository-wide search for `rmsnorm`/`rms_norm` found no named example in this snapshot; nearby normalization/reduction tests provide the source evidence. No final kernel count, generated assembly, register footprint, or speedup is claimed for the authored probe.
 
@@ -109,7 +109,7 @@ For a large-hidden-size, few-row RMSNorm, splitting may expose more parallel wor
 
 ## Follow the retained boundary into memory and synchronization
 
-For example, if dispatch A produces row sums and dispatch B uses them, B needs both a storage location containing those sums and a dependency ensuring A has finished. Merely having the buffer address is insufficient. See the [Stream/HAL explanation](README.md#4-stream-turns-tensor-value-semantics-into-asynchronous-resource-semantics) for the distinction between resource lifetime and readiness.
+For example, if dispatch A produces row sums and dispatch B uses them, B needs both a storage location containing those sums and a dependency ensuring A has finished. Merely having the buffer address is insufficient. See the [Stream/HAL explanation](README.md#iree--4-stream-turns-tensor-value-semantics-into-asynchronous-resource-semantics) for the distinction between resource lifetime and readiness.
 
 If `sum` or `z` exits one dispatch and enters another, Flow represents the value crossing the boundary. Stream lowers tensor encodings to resources, refines lifetimes, schedules execution, and tracks completion. The consumer must wait on the producing work's readiness; the resource must survive until all its uses complete. HAL then provides the executable bindings, commands, and synchronization realized by the runtime. Sources: [Stream specification][stream], [Stream pipeline][streampipeline].
 
@@ -117,7 +117,7 @@ If the boundary disappears, those *internal values* need not become separate hos
 
 ## Reproduce the source evidence and compile the RMSNorm probe
 
-Requirements and version caveats are in [exercise setup](exercises.md#setup-and-evidence-limits). No commands below were run here; a matching compiler build is required. The source tests need `iree-opt` and `FileCheck` only, not an accelerator:
+Requirements and version caveats are in [exercise setup](README.md#exercises--setup-and-evidence-limits). No commands below were run here; a matching compiler build is required. The source tests need `iree-opt` and `FileCheck` only, not an accelerator:
 
 ```bash
 set -o pipefail

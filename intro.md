@@ -64,7 +64,7 @@ row-major elements does not put them in this order.
 Inputs do not always need a separate host tilization or device conversion pass.
 The current matmul example reads row-major spans and gathers source panels
 through unpacking. Its FP8 and BF16 paths use different unpack schedules.
-See [row-major matmul](kernel-dev/row-major-matmul.md).
+See [row-major matmul](matmul/README.md#row-major-matmul).
 
 Choose input precision, matrix fidelity, Dst accumulation precision, intermediate
 spill precision, and final output precision separately. An FP32 output cannot
@@ -79,7 +79,7 @@ blackhole-py source, both supported P100A and P150 configurations expose 120
 Tensix tiles. Three are reserved for services, leaving 117 workers. P100A uses
 seven DRAM banks; the supported P150 configurations use eight.
 These are runtime constraints, not a claim about every possible Blackhole SKU.
-See [grid placement](hardware/grid-utilization.md).
+See [grid placement](hardware/topology.md).
 
 ## Start with a test
 
@@ -119,5 +119,5 @@ scripts, SFPI worker compiler, and `TT_USB=1` instructions are historical.
 - [Hardware architecture](hardware/architecture.md): memory, engines, and synchronization.
 - [Behavior demonstrated by tests](hardware/behavior-from-tests.md): assertions and gaps.
 - [Current runtime](build-and-dispatch/blackhole-py-runtime.md): device access through completion.
-- [Matmul](matmul/fast-matmul-eli5.md): blocking, reuse, and multicast.
+- [Matmul](matmul/README.md#fast-matmul-eli5): blocking, reuse, and multicast.
 - [Compiler maps](compiler-maps/README.md): source-guided compiler study.

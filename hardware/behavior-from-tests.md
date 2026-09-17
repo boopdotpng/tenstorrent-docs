@@ -67,7 +67,7 @@ boundaries synchronize the issuing thread; the final drain includes delayed work
 The row-major matmul path removes host tilization, but BF16 needs more gather
 instructions than FP8 in the inspected implementation. Compare schedules with
 the same input format, fidelity, accumulation, layout, and completion boundary.
-The [row-major guide](../kernel-dev/row-major-matmul.md) records the evidence and
+The [row-major guide](../matmul/README.md#row-major-matmul) records the evidence and
 avoids comparing different numerical modes as though only layout changed.
 
 ## Limits and remaining work

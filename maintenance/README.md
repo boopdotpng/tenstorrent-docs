@@ -5,9 +5,36 @@ from dated software studies, and rewrites the main hardware/runtime onboarding
 against the local blackhole-py source and reviewed tests. It is not a claim that
 every instruction model or historical benchmark was independently revalidated.
 
-The [catalogue](catalog.md) lists every documentation page and its category.
-The [relocation manifest](relocations.json) maps old artifact paths to new paths
-or replacements. Git history retains the removed versions.
+The website builds its categorized catalogue from the files on disk. There is
+no second hand-maintained list to go stale. The
+[relocation manifest](relocations.json) maps old paths to replacements;
+[the consolidation manifest](consolidation.json) records this pass. Git history
+retains removed versions.
+
+## Consolidation and corrections
+
+The active collection was 142 pages before consolidation and reclassification.
+The active collection is now 90 pages. This pass deletes 62 former files and
+adds 13 consolidated guides, a net reduction of 49 Markdown files. Other merges
+expand existing guides instead of adding files. Related compiler exercises now accompany
+their explanations. Emulator frontend, synchronization, configuration, networking,
+boot, and topology models are grouped into coherent chapters; large arithmetic
+and pack/unpack references remain separate.
+
+Rewritten guides cover host transfers, worker placement, dataflow, SFPI,
+compute scheduling, TT-Metal build/loading, and multicast tradeoffs. They remove
+unsupported fixed arity limits, universal multicast/compute-bound claims,
+misleading FPU/SFPU serialization claims, and the suggestion that concatenating
+unmodified ELF segments implements XIP relocation. Reduction padding now calls
+out NaN/infinity behavior under a zero mask. The matmul guide collects the
+reviewed precision, row-major, and fusion evidence and corrects fidelity and
+replay-capacity overclaims.
+
+Historical benchmarks, instruction-frequency surveys, and the old Float16
+packer report belong to Archives. They remain evidence of their recorded runs,
+not current runtime instructions. Board firmware is categorized separately from
+worker boot; compiler projects and emulator models have distinct navigation.
+The ISA reference has its own `/isa` page and instruction sidebar.
 
 ## Changes
 
@@ -44,8 +71,8 @@ search and source navigation.
 The compiler maps retain their own pinned revisions and validation statements.
 The emulator documents are detailed source-derived models, not an independently
 validated emulator. Historical measurement tables retain their reported scope.
-The catalogue is a navigation/scope audit; its presence does not certify every
-sentence in the roughly half-million-word collection.
+Consolidation preserves the scope of retained source models; it does not
+independently validate every numerical edge case or historical measurement.
 
 `human/` remains untouched. The pre-existing timing-reference work and unrelated
 working-tree edits were preserved separately from these commits.

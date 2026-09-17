@@ -248,8 +248,8 @@ generation are separate topics in the [PyTorch guide](pytorch/README.md).
 
 ## How to use the rest of the collection
 
-1. Read one system's ordinary path: [tinygrad](tinygrad/uops-and-rewrites.md),
-   [PyTorch eager](pytorch/eager-execution.md), or [MLIR](mlir/README.md).
+1. Read one system's ordinary path: [tinygrad](tinygrad/uops-and-rewrites.md#uops-and-rewrites),
+   [PyTorch eager](pytorch/eager-execution.md#eager-execution), or [MLIR](mlir/README.md#mlir).
 2. Follow a full RMSNorm case, locating the data and execution boundaries.
 3. Read the [design comparison](design-comparison.md) to understand why the
    other systems organize the same obligations differently.

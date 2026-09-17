@@ -34,7 +34,7 @@ This implementation does not require detaching the card from tt-kmd for VFIO.
 `board_config` checks card type and enabled Tensix/DRAM counts. The supported
 layout reserves `(14,2)` for prefetch, `(14,3)` for dispatch, and `(14,4)` for the
 DRAM transfer service. The latter is a Tensix service tile, not the separate
-GDDR DMA engine on a DRAM RISC. See [grid placement](../hardware/grid-utilization.md).
+GDDR DMA engine on a DRAM RISC. See [grid placement](../hardware/topology.md).
 
 ## Worker images and return behavior
 

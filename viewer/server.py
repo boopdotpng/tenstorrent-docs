@@ -41,6 +41,12 @@ def locate(repo, name, *, assets=False):
 
 def category(path):
     parts = path.parts
+    if len(parts) > 2 and parts[0] == 'archive':
+        return 'archive-' + parts[1]
+    if str(path).startswith('microbenching/docs/noc/'):
+        return 'benchmark-noc'
+    if str(path).startswith('microbenching/docs/tensix/'):
+        return 'benchmark-tensix'
     if str(path) == 'AGENTS.md':
         return 'maintenance'
     if str(path).startswith('hardware/blackhole-emulator-specs/'):
@@ -60,7 +66,7 @@ def document_index():
         title = re.search(r'^# (.+)$', content, re.M)
         docs.append({'path': str(rel), 'title': title[1].replace('`', '') if title else p.stem,
                      'category': category(rel),
-                     'historical': rel.parts[0] in {'archive', 'disasms', 'llk-sfpi'} or 'historical' in rel.parts or str(rel).startswith('microbenching/docs/'),
+                     'historical': rel.parts[0] in {'archive', 'disasms', 'llk-sfpi'} or 'historical' in rel.parts or (rel.parts[0] == 'microbenching' and 'timing-reference' not in rel.parts) or rel.name == 'packer-l1-acc-float16-hardware-bug.md',
                      'words': len(content.split()), 'content': content})
     return docs
 
@@ -90,7 +96,8 @@ class Handler(BaseHTTPRequestHandler):
             if url.path == '/api/index':
                 docs = document_index()
                 return self.json({'documents': [{k: v for k, v in d.items() if k != 'content'} for d in docs],
-                                  'repositories': ['docs', *sorted(SIBLINGS)]})
+                                  'repositories': ['docs', *sorted(SIBLINGS)],
+                                  'redirects': {k:v for k,v in json.loads((ROOT/'maintenance/relocations.json').read_text()).items() if not (ROOT/k).exists()}})
             if url.path == '/api/search':
                 query = args.get('q', '').lower().strip()[:200]
                 if not query:
@@ -120,7 +127,7 @@ class Handler(BaseHTTPRequestHandler):
             if url.path == '/api/instructions':
                 return self.send_bytes((VIEWER / 'data/instructions.json').read_bytes(), 'application/json; charset=utf-8')
             # Static assets only; never serve the repository as a directory listing.
-            name = unquote(url.path).lstrip('/') or 'index.html'
+            name = 'index.html' if url.path in {'/', '/isa', '/isa/', '/archives', '/archives/'} else unquote(url.path).lstrip('/')
             path = (VIEWER / name).resolve()
             if not path.is_relative_to(VIEWER) or any(x.startswith('.') for x in Path(name).parts):
                 raise ValueError('Invalid asset path')
@@ -145,7 +152,7 @@ def main():
         server = ThreadingHTTPServer(('0.0.0.0', options.port), Handler)
     except OSError as error:
         parser.exit(1, f'{error}. Try ./serve.sh --port 8001\n')
-    print(f'Blackhole docs → http://0.0.0.0:{server.server_port}\nCtrl+C to stop. Read-only; no hardware access.', flush=True)
+    print(f'http://0.0.0.0:{server.server_port}', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

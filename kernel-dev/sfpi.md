@@ -1,168 +1,109 @@
-# SFPI / SFPU programming notes
+# SFPI and LLK programming
 
-> Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+SFPI is the C++ interface compiled to SFPU instructions by Tenstorrent's GCC
+extensions. LLK supplies architecture-specific unpack/math/pack sequences;
+TT-Metal's `compute_kernel_api` wraps them. These are separate from current
+blackhole-py's Python instruction emitters.
 
-This document summarizes the SFPI repo layout, how to write SFPU code with SFPI, how it plugs into TT-Metal kernels, how to build the toolchain, and what ops are available. It is based on the docs and headers in this repo.
+## What runs where
 
-## Repo structure
+A TT-Metal compute source is compiled for three TRISCs. Its `UNPACK`, `MATH`,
+and `PACK` sections follow the stack's controller assignment. Normal C++ scalar
+control flow runs on the issuing RISC-V core. SFPI vector operations target the
+shared Tensix vector engine.
 
-- `include/`: Public SFPI headers. `include/sfpi.h` is the main C++ API. `include/*/sfpi_lib.h` adds math helpers, and `include/sfpi_fp16.h` provides fp16 helpers.
-- `include/wormhole/`, `include/blackhole/`: Arch-specific constants and implementations.
-- `gcc/`, `binutils/`, `newlib/`, `riscv-dejagnu/`: Toolchain components (submodules) used to build the SFPI compiler.
-- `scripts/`: Build/test/release scripts. `scripts/build.sh` is the normal entry point.
-- `tests/`: SFPI compiler tests and golden assembly. `tests/blackhole/sfpi/*.cc` are good usage examples.
-- `build/`: Default build output directory (created by `scripts/build.sh`).
+The SFPU is not private hardware physically attached only to “the MATH core.”
+That is a software assignment. Likewise, sharing a controller in one software
+schedule does not prove that independent FPU and SFPU work can never overlap.
+The [Dst contention tests](../../blackhole-py/tests/compute/fpu/test_dst_bandwidth.py)
+exercise that distinction.
 
-## Build and test
+## Registers and movement
 
-From `README.md`:
+| Interface | Meaning |
+|---|---|
+| `vFloat`, `vInt`, `vUInt` | 32-lane values held in SFPU local registers |
+| `dst_reg` | Dst load/store interface using the configured address state |
+| `l_reg` | Explicit local-register access |
+| `vConst*` | Fixed or programmable constant registers |
+| `s2vFloat16a/b` | Helpers for encoded 16-bit constants |
 
-- Build toolchain:
-  ```bash
-  git clone git@github.com:tenstorrent/sfpi.git
-  git submodule update --init --recursive
-  scripts/build.sh
-  ```
+SFPU math loads Dst into local registers, computes, and stores back. The matrix
+engine consumes SrcA/SrcB and accumulates into Dst. Unpack/pack connect these
+register files to L1. LLK initialization establishes formats, addressing, and
+synchronization; replacing a math wrapper with SFPI does not replace that setup.
 
-- Build/run SFPI tests:
-  ```bash
-  ln -s ../tests build
-  CC_PATH=$(pwd)/build/sfpi/compiler make -C build/tests all
-  CC_PATH=$(pwd)/build/sfpi/compiler make -C build/tests test
-  ```
+## Tile traversal
 
-- Run toolchain tests:
-  ```bash
-  scripts/build.sh --test
-  scripts/build.sh --test-binutils
-  scripts/build.sh --test-gcc
-  scripts/build.sh --test-tt
-  ```
-
-## SFPI API structure (how to write SFPU code)
-
-SFPI is a C++ wrapper over TT-specific GCC builtins. You write idiomatic C++ that the compiler lowers to SFPU instructions. The API is mostly in `include/sfpi.h`.
-
-### Core types
-
-- `vFloat`, `vInt`, `vUInt`: local-register (LREG) vector types. Operators are overloaded for arithmetic, bitwise, and comparisons.
-- `dst_reg`: destination register file (`__DestReg`). It is an array-like interface: `dst_reg[0]`, `dst_reg++`, `dst_reg += N`.
-- `l_reg`: LREG file access (`__LReg`) indexed by `LRegs` enums.
-- `s2vFloat16`, `s2vFloat16a`, `s2vFloat16b`: immediate fp16 constants (use when loading fp16 constants, or for conversions).
-- Constant registers: `vConst0`, `vConst1`, `vConstNeg1`, `vConstTileId`, `vConstFloatPrgm0..2`, `vConstIntPrgm0..2`, plus a few fixed constants like `vConst0p8373` (see `include/*/sfpi_imp.h`).
-
-### Predication
-
-- `__vCCCtrl` and macros provide predication via condition codes:
-  - `v_if(...)`, `v_elseif(...)`, `v_else`, `v_endif`
-  - `v_block`, `v_and(...)`, `v_endblock` for boolean trees
-- Comparisons (`==`, `!=`, `<`, `<=`, `>`, `>=`) return a `__vCond` used in these predicates.
-- Boolean `&&`/`||` are supported but only to limited depth (3 levels), per `sfpi.h` notes.
-
-### Important constraints (from `sfpi.h`)
-
-- Compile with optimization enabled (`-O`). The wrappers rely on inlining and keeping vectors off the stack.
-- Assignments inside predicates require care; SFPI uses `sfpassign_lv` to preserve liveness.
-- Boolean trees are limited to three levels in a single conditional.
-
-## SFPU ops: what is available
-
-These are the main ops exposed by `sfpi.h` (operators) and `sfpi_lib.h` (functional helpers). The list is the union of Wormhole and Blackhole implementations.
-
-### Arithmetic and comparisons
-
-- `vFloat` arithmetic: `+`, `-`, unary `-`, `*`, `+=`, `-=`, `*=`
-- `vInt`/`vUInt` arithmetic: `+`, `-`, `+=`, `-=`, `add/sub` with immediate
-- Comparisons for `vFloat`, `vInt`, `vUInt`: `==`, `!=`, `<`, `<=`, `>`, `>=`
-
-### Bitwise and shifts
-
-- Bitwise: `&`, `|`, `^`, `~` for `vInt`/`vUInt`
-- Shifts:
-  - Wormhole: `vInt <<`, `vUInt <<`, `vUInt >>` (from `sfpi.h`)
-  - Blackhole: `shft(vUInt, vInt/int)` and `shft(vInt, vInt/int)` (logical vs arithmetic)
-
-### Float exponent/mantissa and sign
-
-- `exexp`, `exexp_nodebias`: extract exponent
-- `exman8`, `exman9`: extract mantissa
-- `setexp`, `setman`: set exponent/mantissa (immediate or vector)
-- `addexp`: add to exponent (divide/multiply by powers of two)
-- `setsgn`: set sign from immediate or vector
-- `lz`, `lz_nosgn`: leading-zero count
-- `abs` for `vFloat` and `vInt`
-
-### LUT-based math
-
-- `lut`, `lut_sign`: 3-entry LUT
-- `lut2`, `lut2_sign`: 3-entry or 6-entry LUT variants
-
-### Conversions
-
-- `int32_to_float`
-- `float_to_fp16a`, `float_to_fp16b`
-- `float_to_uint8`, `float_to_int8`
-- `float_to_uint16`, `float_to_int16`
-- `int32_to_uint8`, `int32_to_int8` (with descale)
-- `reinterpret<T>`: bit reinterpret between vector types
-
-### Vector utility ops
-
-- `subvec_transp`: 4-way subvector transpose
-- `subvec_shflror1`, `subvec_shflshr1`: subvector shifts
-- `vec_swap`, `vec_min_max`: swap or min/max pairing
-
-### Blackhole-only helpers
-
-- `rand()`: pseudo-random value from SFPU config register
-- `approx_recip`, `approx_exp`: approximate reciprocal/exp
-
-## What SFPU code looks like (example)
-
-This is a trimmed, idiomatic SFPI example based on `tests/blackhole/sfpi/ckernel.cc`:
+A conventional 32×32 tile has four 16×16 faces. A 32-element vector operation
+covers one vector, not an entire tile. A common LLK wrapper visits four faces
+and executes eight vector iterations per face. Address modifiers, Dst format,
+and the wrapper's face selection determine the actual mapping.
 
 ```cpp
-#include <sfpi.h>
-
+// Math body only, for a wrapper that already positioned one face.
+// Initialization, ownership, outer face iteration, and packing are omitted.
 using namespace sfpi;
-
-sfpi_inline void relu_and_scale() {
-  #pragma GCC unroll 8
-  for (int d = 0; d < 8; d++) {
-    vFloat v = dst_reg[0];
-
-    v_if (v < 0.0f) {
-      v = vConst0;
-    }
-    v_endif;
-
-    dst_reg[0] = v * s2vFloat16b(0.5f);
+for (int i = 0; i < 8; ++i) {
+    vFloat x = dst_reg[0];
+    dst_reg[0] = x + vConst1;
     dst_reg++;
-  }
 }
 ```
 
-Key patterns:
+Do not copy this body into an arbitrary kernel and assume it visits all 1,024
+elements. Verify address stride, face transitions, and every output. The old
+flat `dst_reg[0..31]` recipe conflated element count with a configured traversal.
 
-- Load from `dst_reg[n]` into a `vFloat` or `vInt`.
-- Use `v_if`/`v_endif` for predicated execution; comparisons create condition codes.
-- Write back to `dst_reg[n]`, then advance with `dst_reg++`.
-- Use `s2vFloat16a/b` to load fp16 immediates and keep code generation efficient.
+## Predication and masking
 
-## Embedding SFPI into TT-Metal kernels
+`v_if`, `v_elseif`, `v_else`, and `v_endif` produce vector condition-code
+operations. They select active lanes; they are not scalar branches that skip an
+entire hardware instruction stream. C++ `if` and `for` are scalar control flow.
+`v_block` / `v_and` can narrow a predicate; consult the local SFPI headers for
+nesting and expression limits.
 
-This repo does not include TT-Metal itself, but the integration pattern is visible in the SFPI headers and kernel tests:
+The lane's enable and condition-code state, condition-code stack, and static
+row masking are different mechanisms. A false predicate does not necessarily
+cancel address-counter updates or other instruction side effects. Re-establish
+predicate state when the next operation requires all lanes. Row masks alone
+are not a general solution to arbitrary two-dimensional tails.
 
-1. Write SFPU code in a TT-Metal compute kernel source file compiled with the SFPI toolchain. Include `sfpi.h`, and in many cases include `ckernel_ops.h` first so `ckernel::instrn_buffer` exists (required by `include/*/sfpi_hw.h`).
-2. Use `dst_reg` and `l_reg` to read/write SFPU registers. These registers represent the active tile row/column in the SFPU pipeline.
-3. Use predicates (`v_if`, `v_elseif`, `v_else`) for per-lane masking; avoid deep boolean trees.
-4. Build via TT-Metal’s kernel build flow, which should already invoke the SFPI compiler for SFPU code.
-5. For more details on the runtime plumbing and kernel API, refer to the upstream TT-Metal SFPU doc linked in `README.md`:
-   https://docs.tenstorrent.com/tt-metalium/latest/tt_metal/apis/kernel_apis/sfpu/llk.html
+For reductions, replace invalid elements with the operation's identity rather
+than relying on zero multiplication for every dtype/value. See
+[dataflow and padding](dataflow.md).
 
-## Other docs in this repo
+## Choosing the implementation layer
 
-- `README.md`: SFPI build/release steps and test invocations.
-- `README-riscv.md`: General RISC-V toolchain build info (upstream, not SFPU-specific).
-- `riscv-dejagnu/*/README`: DejaGnu harness notes used by toolchain testing.
+| Need | Starting point |
+|---|---|
+| Standard tile operation | TT-Metal `compute_kernel_api` wrapper |
+| Architecture-specific operation or scheduling | Blackhole LLK headers |
+| Custom vector arithmetic | SFPI body inside a correctly initialized compute kernel |
+| Raw scheduling or instruction experiments | blackhole-py emitters and the ISA reference |
+
+LLK implements matrix, reduction, data movement, conversion, and SFPU families;
+it is not exclusively a collection of SFPU instructions. SFPI arithmetic helpers
+may expand into multiple instructions. An API name such as approximate exp does
+not establish IEEE-exact behavior or a one-cycle implementation.
+
+## Build and inspect
+
+Use the SFPI-enabled compiler with optimization as required by the wrapper
+headers. Inspect the generated TRISC ELF when instruction choice or scheduling
+matters. The [TT-Metal build guide](../build-and-dispatch/tt-metal-build.md)
+describes generated descriptors and firmware linking. The sibling SFPI
+checkout's README and `scripts/build.sh` define toolchain build/test commands.
+
+Source entry points are `sfpi/include/sfpi.h`,
+`sfpi/include/blackhole/sfpi_hw.h`, Blackhole LLK's `llk_lib` and
+`common/inc/sfpu`, and TT-Metal's `compute_kernel_api`.
+
+## Test evidence and timing
+
+Use the ISA tab to distinguish encoding checks, reviewed behavioral assertions,
+and measurement records. Its timing fields separate issue spacing from result
+availability. A throughput loop is not an isolated dependent latency test.
+For fused epilogues, wait for matrix writes before loading the same Dst block,
+then finish SFPU stores before handing it to the packer. The
+[matmul guide](../matmul/README.md) covers this ownership transition.

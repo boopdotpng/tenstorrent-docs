@@ -245,7 +245,7 @@ NoC geometry, and why P100A's 118 workers do not form the best matmul rectangle.
 DRAM banks, invalid reserved-core selection, and deterministic plan/cache keys.
 
 **Starting points:** current `blackhole-py` board configuration and
-[device-grid docs](../../hardware/blackhole-emulator-specs/device-grid.md).
+[device-grid docs](../../hardware/blackhole-emulator-specs/topology.md#device-grid).
 
 ## 9. One-tile current-master elementwise backend
 
