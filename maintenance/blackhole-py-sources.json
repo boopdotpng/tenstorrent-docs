@@ -1,0 +1,132 @@
+{
+  "review_date": "2026-09-17",
+  "baseline_commit": "0ebd556c6c686b18b7b10bc8ea5bd75ea12259dd",
+  "scope": "Local working tree, including uncommitted and untracked sources. Recorded hardware results are not fresh runs for this edit.",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "8dffbcac2571e918afaebead0b6b371fdeb03370e26fc387b47643e99df43b4e",
+      "git_status": "clean"
+    },
+    {
+      "path": "asm.py",
+      "sha256": "67a953025b35912c406e710c9ecaa90c65b3ac11d3a4ffa102c0d321e2cf689f",
+      "git_status": "clean"
+    },
+    {
+      "path": "cq.py",
+      "sha256": "91c33d9fbb6e15df64ccd988a4463e70ed252c76de557e38024f3c142b3513da",
+      "git_status": "clean"
+    },
+    {
+      "path": "device.py",
+      "sha256": "4c83a414d7a0331119180855f9c8fdc4706bf5a6bbdb94645ea80eac89a2e540",
+      "git_status": "clean"
+    },
+    {
+      "path": "examples/matmul_peak.py",
+      "sha256": "727258be9b620de9388d9d72f14e73b8f3ef963a6caae32a89eb665bc9c10c50",
+      "git_status": "M examples/matmul_peak.py"
+    },
+    {
+      "path": "firmware/__init__.py",
+      "sha256": "c51cf3175133810eb4b0608d050658dc230b14ce8b99b76efacb448325f22fed",
+      "git_status": "clean"
+    },
+    {
+      "path": "firmware/consts.py",
+      "sha256": "991492f5a2c6baf6e25b48afbfccfb26063b7ca08156ead09b6a3b9afcb46557",
+      "git_status": "clean"
+    },
+    {
+      "path": "pcie.py",
+      "sha256": "cb0cbbd4bb7aa11723df034aace758b45ddbf4eeb0f940ff651989dee8d97987",
+      "git_status": "clean"
+    },
+    {
+      "path": "program.py",
+      "sha256": "54a076bbd59d98f6ddfa63811813ea0fb7279d5c5a7c44be5a4401b2b4c48851",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/README.md",
+      "sha256": "7da876bde6e5fbec045c6b61c70de8134c75aa72252c2a233b8c8d7f27f6548d",
+      "git_status": "M tests/README.md"
+    },
+    {
+      "path": "tests/compute/fpu/test_matmul_peak_fp32.py",
+      "sha256": "e7ab94e0cae0d545ed780ce1c487f2e94b7511cc9617dacb15fa0248c2a33642",
+      "git_status": "M tests/compute/fpu/test_matmul_peak_fp32.py"
+    },
+    {
+      "path": "tests/compute/sfpu/hardware_probe_results.md",
+      "sha256": "4a632ffccf6ddd4c7b57f591cadf24f269a5576cb2c37b6091532da94e52d80c",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/compute/sfpu/test_loadmacro_pipeline.py",
+      "sha256": "0c019c4931b4492affee0d9d15feb6e0d0b27d7a9817da026509571ded571af0",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/hardware_coverage_audit.md",
+      "sha256": "71be107add60f77867ead985cc27c40a115fb797083b64bca9a8bbf594dbe1a6",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/harness.py",
+      "sha256": "07b456ac6410dba5004303d75d5787323662342547466d675cade543fecacaa3",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/isa/results.md",
+      "sha256": "ef065f3c6268e3d413c0ba10bd5a66eace9db197196d9ae056856654d5889cb9",
+      "git_status": "?? tests/isa/results.md"
+    },
+    {
+      "path": "tests/isa/review.md",
+      "sha256": "16e5bc35d74ba0a691566794ef9e8a7c541a2340ba2dccf13acc28d163cffcf3",
+      "git_status": "?? tests/isa/review.md"
+    },
+    {
+      "path": "tests/isa/test_scalar.py",
+      "sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53",
+      "git_status": "?? tests/isa/test_scalar.py"
+    },
+    {
+      "path": "tests/isa/test_sfpu_bits.py",
+      "sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989",
+      "git_status": "?? tests/isa/test_sfpu_bits.py"
+    },
+    {
+      "path": "tests/isa/test_sync.py",
+      "sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec",
+      "git_status": "?? tests/isa/test_sync.py"
+    },
+    {
+      "path": "tests/movement/matmul_row_major.md",
+      "sha256": "83529296e0e774b5b96f5e6ec8a4d2846c289134d01a106b59ab8aa69811eee9",
+      "git_status": "M tests/movement/matmul_row_major.md"
+    },
+    {
+      "path": "tests/movement/packer/test_l1_accumulation.py",
+      "sha256": "1f280430c669993037355d09a32e1e0c7aa14101e78b5f793384c789e158ae69",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/movement/sfpu/test_minmax.py",
+      "sha256": "359dd4f2f48d864f6755c29be9660bb0fa100b670a4fa1ca53eb2ec975622822",
+      "git_status": "clean"
+    },
+    {
+      "path": "tests/movement/unpacker/test_unpack_row_major.py",
+      "sha256": "71a7932da79f4cdb40d6767754c55f14fb43ba06f138f3d22ee59d0ce6059793",
+      "git_status": "M tests/movement/unpacker/test_unpack_row_major.py"
+    },
+    {
+      "path": "ttko/argmax.py",
+      "sha256": "7366726a5052c8278de49bcbe2e1f87a739d9cf98ebb3d1309121b4f2e353cfc",
+      "git_status": "clean"
+    }
+  ]
+}
