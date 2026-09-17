@@ -35,6 +35,7 @@
 | Compiler internals, rules, worked exercises | `compiler-maps/README.md` |
 | Historical experiments, reports, instruction frequencies | `/archives`; `archive/README.md` |
 
+- **"Cycle counts / instruction latency / five-RISC predictor?"** -> `microbenching/timing-reference/README.md` (documented vs measured timings, full opcode catalog, raw case exports, fresh hardware probes).
 
 ## Maintenance
 

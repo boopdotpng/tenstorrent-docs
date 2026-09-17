@@ -1,0 +1,2396 @@
+{
+  "architecture": "Blackhole",
+  "date": "2026-09-09",
+  "instructions": [
+    {
+      "instruction": "ATGETM",
+      "canonical": "ATGETM",
+      "opcode": "0xa0",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "up to 3 distinct mutexes",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "ATGETM waits for ownership before admission."
+        }
+      ]
+    },
+    {
+      "instruction": "ATRELM",
+      "canonical": "ATRELM",
+      "opcode": "0xa1",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "up to 3 distinct mutexes",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "ATGETM waits for ownership before admission."
+        }
+      ]
+    },
+    {
+      "instruction": "STALLWAIT",
+      "canonical": "STALLWAIT",
+      "opcode": "0xa2",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1 shared",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "Wait condition can take arbitrary time; wait gate release lag is additional."
+        }
+      ]
+    },
+    {
+      "instruction": "SEMINIT",
+      "canonical": "SEMINIT",
+      "opcode": "0xa3",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1 shared",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "Wait condition can take arbitrary time; wait gate release lag is additional."
+        }
+      ]
+    },
+    {
+      "instruction": "SEMPOST",
+      "canonical": "SEMPOST",
+      "opcode": "0xa4",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1 shared",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "Wait condition can take arbitrary time; wait gate release lag is additional."
+        }
+      ]
+    },
+    {
+      "instruction": "SEMGET",
+      "canonical": "SEMGET",
+      "opcode": "0xa5",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1 shared",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "Wait condition can take arbitrary time; wait gate release lag is additional."
+        }
+      ]
+    },
+    {
+      "instruction": "SEMWAIT",
+      "canonical": "SEMWAIT",
+      "opcode": "0xa6",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1 shared",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "Wait condition can take arbitrary time; wait gate release lag is additional."
+        }
+      ]
+    },
+    {
+      "instruction": "STREAMWAIT",
+      "canonical": "STREAMWAIT",
+      "opcode": "0xa7",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1 shared",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/SyncUnit.md",
+          "note": "Wait condition can take arbitrary time; wait gate release lag is additional."
+        }
+      ]
+    },
+    {
+      "instruction": "NOP",
+      "canonical": "NOP",
+      "opcode": "0x2",
+      "encoder_resource": "NONE",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "MOVD2A",
+      "canonical": "MOVD2A",
+      "opcode": "0x8",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "2",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MOVD2A.md",
+          "note": "Only MOVD2A/MOVB2A can follow on next cycle."
+        }
+      ]
+    },
+    {
+      "instruction": "MOVD2B",
+      "canonical": "MOVD2B",
+      "opcode": "0xA",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "4",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MOVD2B.md",
+          "note": "Next three cycles accept only MOVD2B; 4 derived from scheduling restriction."
+        }
+      ]
+    },
+    {
+      "instruction": "MOVB2A",
+      "canonical": "MOVB2A",
+      "opcode": "0xB",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "4",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Consumer-specific interlocks; see individual scheduling pages."
+        }
+      ]
+    },
+    {
+      "instruction": "ZEROACC",
+      "canonical": "ZEROACC",
+      "opcode": "0x10",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "ZEROSRC",
+      "canonical": "ZEROSRC",
+      "opcode": "0x11",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "MOVA2D",
+      "canonical": "MOVA2D",
+      "opcode": "0x12",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "4",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Consumer-specific interlocks; see individual scheduling pages."
+        }
+      ]
+    },
+    {
+      "instruction": "MOVB2D",
+      "canonical": "MOVB2D",
+      "opcode": "0x13",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "4",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Consumer-specific interlocks; see individual scheduling pages."
+        }
+      ]
+    },
+    {
+      "instruction": "MOVDBGA2D",
+      "canonical": "MOVDBGA2D",
+      "opcode": "0x9",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "4",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Consumer-specific interlocks; see individual scheduling pages."
+        }
+      ]
+    },
+    {
+      "instruction": "MOVDBGB2D",
+      "canonical": "MOVDBGB2D",
+      "opcode": "0xC",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "TRNSPSRCA",
+      "canonical": "TRNSPSRCA",
+      "opcode": "0x14",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "RAREB",
+      "canonical": "RAREB",
+      "opcode": "0x15",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "TRNSPSRCB",
+      "canonical": "TRNSPSRCB",
+      "opcode": "0x16",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SHIFTXA",
+      "canonical": "SHIFTXA",
+      "opcode": "0x17",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SHIFTXB",
+      "canonical": "SHIFTXB",
+      "opcode": "0x18",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "2",
+          "ipc": "0.5",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SETASHRMH0",
+      "canonical": "SETASHRMH0",
+      "opcode": "0x1A",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "SETASHRMH1",
+      "canonical": "SETASHRMH1",
+      "opcode": "0x1B",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "SETASHRMV",
+      "canonical": "SETASHRMV",
+      "opcode": "0x1C",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "SETASHRMH",
+      "canonical": "SETASHRMH",
+      "opcode": "0x1E",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "CLREXPHIST",
+      "canonical": "CLREXPHIST",
+      "opcode": "0x21",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "CONV3S1",
+      "canonical": "CONV3S1",
+      "opcode": "0x22",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "CONV3S2",
+      "canonical": "CONV3S2",
+      "opcode": "0x23",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "MPOOL3S1",
+      "canonical": "MPOOL3S1",
+      "opcode": "0x24",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "APOOL3S1",
+      "canonical": "APOOL3S1",
+      "opcode": "0x25",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "MVMUL",
+      "canonical": "MVMUL",
+      "opcode": "0x26",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "ELWMUL",
+      "canonical": "ELWMUL",
+      "opcode": "0x27",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "ELWADD",
+      "canonical": "ELWADD",
+      "opcode": "0x28",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "DOTPV",
+      "canonical": "DOTPV",
+      "opcode": "0x29",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "ELWSUB",
+      "canonical": "ELWSUB",
+      "opcode": "0x30",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "MPOOL3S2",
+      "canonical": "MPOOL3S2",
+      "opcode": "0x31",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "APOOL3S2",
+      "canonical": "APOOL3S2",
+      "opcode": "0x32",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "GMPOOL",
+      "canonical": "GMPOOL",
+      "opcode": "0x33",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "GAPOOL",
+      "canonical": "GAPOOL",
+      "opcode": "0x34",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": "Per architectural instruction; fidelity phases and destination hazards are additional."
+        }
+      ]
+    },
+    {
+      "instruction": "SETDVALID",
+      "canonical": "SETDVALID",
+      "opcode": "0x57",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "GATESRCRST",
+      "canonical": "GATESRCRST",
+      "opcode": "0x35",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "CLEARDVALID",
+      "canonical": "CLEARDVALID",
+      "opcode": "0x36",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SETRWC",
+      "canonical": "SETRWC",
+      "opcode": "0x37",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "INCRWC",
+      "canonical": "INCRWC",
+      "opcode": "0x38",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MatrixUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SETIBRWC",
+      "canonical": "SETIBRWC",
+      "opcode": "0x39",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "MFCONV3S1",
+      "canonical": "MFCONV3S1",
+      "opcode": "0x3A",
+      "encoder_resource": "MATH",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "XMOV",
+      "canonical": "XMOV",
+      "opcode": "0x40",
+      "encoder_resource": "XMOV",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Variable length and L1 contention; do not use historical failed readback as measurement."
+    },
+    {
+      "instruction": "PACR",
+      "canonical": "PACR",
+      "opcode": "0x41",
+      "encoder_resource": "PACK",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Variable data/format/packer/Dst/L1 service; at most one command starts per cycle, admission is not completion."
+    },
+    {
+      "instruction": "PACR_SETREG",
+      "canonical": "PACR_SETREG",
+      "opcode": "0x4a",
+      "encoder_resource": "PACK",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Sequenced packer-side register write; visibility after earlier pack late conversion; no universal completion constant."
+    },
+    {
+      "instruction": "UNPACR",
+      "canonical": "UNPACR",
+      "opcode": "0x42",
+      "encoder_resource": "UNPACK",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "At least 2 address-generation cycles; data/format/throttle/ownership dependent. UNPACR_NOP is a mode of this opcode; nop occupancy 1."
+    },
+    {
+      "instruction": "SETDMAREG",
+      "canonical": "SETDMAREG",
+      "opcode": "0x45",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Shared nonpipelined unit; thread continuation and result visibility are separate."
+        }
+      ]
+    },
+    {
+      "instruction": "FLUSHDMA",
+      "canonical": "FLUSHDMA",
+      "opcode": "0x46",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=2",
+          "ipc": "<=0.5",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "May block for completion conditions."
+        }
+      ]
+    },
+    {
+      "instruction": "REG2FLOP",
+      "canonical": "REG2FLOP",
+      "opcode": "0x48",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=2",
+          "ipc": "<=0.5",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "May block for completion conditions."
+        }
+      ]
+    },
+    {
+      "instruction": "LOADIND",
+      "canonical": "LOADIND",
+      "opcode": "0x49",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=3",
+          "ipc": "<=1/3",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Memory result/visibility can occur later than unit occupancy."
+        }
+      ]
+    },
+    {
+      "instruction": "TBUFCMD",
+      "canonical": "TBUFCMD",
+      "opcode": "0x4B",
+      "encoder_resource": "PACK",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "unknown/uncharacterized",
+      "timing": [],
+      "note": "Do not assign 1 cycle by default. Decode semantics/architecture support before timing."
+    },
+    {
+      "instruction": "SETADC",
+      "canonical": "SETADC",
+      "opcode": "0x50",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SETADCXY",
+      "canonical": "SETADCXY",
+      "opcode": "0x51",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "INCADCXY",
+      "canonical": "INCADCXY",
+      "opcode": "0x52",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "ADDRCRXY",
+      "canonical": "ADDRCRXY",
+      "opcode": "0x53",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "SETADCZW",
+      "canonical": "SETADCZW",
+      "opcode": "0x54",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "INCADCZW",
+      "canonical": "INCADCZW",
+      "opcode": "0x55",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "ADDRCRZW",
+      "canonical": "ADDRCRZW",
+      "opcode": "0x56",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "ADDDMAREG",
+      "canonical": "ADDDMAREG",
+      "opcode": "0x58",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "3 or 4",
+          "ipc": "1/(3 or 4)",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Operand mode/GPR grouping matters; issuing thread blocked."
+        }
+      ]
+    },
+    {
+      "instruction": "SUBDMAREG",
+      "canonical": "SUBDMAREG",
+      "opcode": "0x59",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "3 or 4",
+          "ipc": "1/(3 or 4)",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Operand mode/GPR grouping matters; issuing thread blocked."
+        }
+      ]
+    },
+    {
+      "instruction": "MULDMAREG",
+      "canonical": "MULDMAREG",
+      "opcode": "0x5a",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "3 or 4",
+          "ipc": "1/(3 or 4)",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Operand mode/GPR grouping matters; issuing thread blocked."
+        }
+      ]
+    },
+    {
+      "instruction": "BITWOPDMAREG",
+      "canonical": "BITWOPDMAREG",
+      "opcode": "0x5b",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "3 or 4",
+          "ipc": "1/(3 or 4)",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Operand mode/GPR grouping matters; issuing thread blocked."
+        }
+      ]
+    },
+    {
+      "instruction": "SHIFTDMAREG",
+      "canonical": "SHIFTDMAREG",
+      "opcode": "0x5c",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "3 or 4",
+          "ipc": "1/(3 or 4)",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Operand mode/GPR grouping matters; issuing thread blocked."
+        }
+      ]
+    },
+    {
+      "instruction": "CMPDMAREG",
+      "canonical": "CMPDMAREG",
+      "opcode": "0x5d",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "3 or 4",
+          "ipc": "1/(3 or 4)",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Operand mode/GPR grouping matters; issuing thread blocked."
+        }
+      ]
+    },
+    {
+      "instruction": "SETADCXX",
+      "canonical": "SETADCXX",
+      "opcode": "0x5E",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1/thread",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/MiscellaneousUnit.md",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "instruction": "DMANOP",
+      "canonical": "DMANOP",
+      "opcode": "0x60",
+      "encoder_resource": "TDMA",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Shared nonpipelined unit; thread continuation and result visibility are separate."
+        }
+      ]
+    },
+    {
+      "instruction": "ATINCGET",
+      "canonical": "ATINCGET",
+      "opcode": "0x61",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=3",
+          "ipc": "<=1/3",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Memory result/visibility can occur later than unit occupancy."
+        }
+      ]
+    },
+    {
+      "instruction": "ATINCGETPTR",
+      "canonical": "ATINCGETPTR",
+      "opcode": "0x62",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=15",
+          "ipc": "<=1/15",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Conditional waits can be unbounded."
+        }
+      ]
+    },
+    {
+      "instruction": "ATSWAP",
+      "canonical": "ATSWAP",
+      "opcode": "0x63",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=3",
+          "ipc": "<=1/3",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Memory result/visibility can occur later than unit occupancy."
+        }
+      ]
+    },
+    {
+      "instruction": "ATCAS",
+      "canonical": "ATCAS",
+      "opcode": "0x64",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=15",
+          "ipc": "<=1/15",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Conditional waits can be unbounded."
+        }
+      ]
+    },
+    {
+      "instruction": "STOREIND",
+      "canonical": "STOREIND",
+      "opcode": "0x66",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=3",
+          "ipc": "<=1/3",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Memory result/visibility can occur later than unit occupancy."
+        }
+      ]
+    },
+    {
+      "instruction": "STOREREG",
+      "canonical": "STOREREG",
+      "opcode": "0x67",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=3",
+          "ipc": "<=1/3",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Memory result/visibility can occur later than unit occupancy."
+        }
+      ]
+    },
+    {
+      "instruction": "LOADREG",
+      "canonical": "LOADREG",
+      "opcode": "0x68",
+      "encoder_resource": "THCON",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=3",
+          "ipc": "<=1/3",
+          "source": "tt-isa-documentation/WormholeB0/TensixTile/TensixCoprocessor/ScalarUnit.md",
+          "note": "Memory result/visibility can occur later than unit occupancy."
+        }
+      ]
+    },
+    {
+      "instruction": "SFPLOAD",
+      "canonical": "SFPLOAD",
+      "opcode": "0x70",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLOAD",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Dst[R:R+4, 0:15:2] or VD = Dst[R:R+4, 1:16:2]",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 80
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPLOADI",
+      "canonical": "SFPLOADI",
+      "opcode": "0x71",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLOADI",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Bf16ToFp32(Imm16) orVD = Fp16ToFp32(Imm16) orVD = Imm16 orVD = \u00b1Imm15 orVD.High16 = Imm16 orVD.Low16 = Imm16",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 77
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSTORE",
+      "canonical": "SFPSTORE",
+      "opcode": "0x72",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSTORE",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Dst[R:R+4, 0:15:2] = VD or Dst[R:R+4, 1:16:2] = VD",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 81
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPLUT",
+      "canonical": "SFPLUT",
+      "opcode": "0x73",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLUT",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = Lut8ToFp32(LReg[i] >> 8) * Abs(LReg[3]) + Lut8ToFp32(LReg[i])Where i is 0 or 1 or 2, depending on the magnitude of LReg[3]",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 18
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPMULI",
+      "canonical": "SFPMULI",
+      "opcode": "0x74",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPMULI",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD *= BF16ToFP32(Imm16)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 17
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPADDI",
+      "canonical": "SFPADDI",
+      "opcode": "0x75",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPADDI",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD += BF16ToFP32(Imm16)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 13
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPDIVP2",
+      "canonical": "SFPDIVP2",
+      "opcode": "0x76",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPDIVP2",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = {VC.Sign, VC.Exp + Imm8, VC.Mant}, or VD = VC when VC is NaN/Inf",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 33
+        },
+        {
+          "instruction": "SFPDIVP2",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = {VC.Sign,          Imm8, VC.Mant}",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 34
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPEXEXP",
+      "canonical": "SFPEXEXP",
+      "opcode": "0x77",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPEXEXP",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VC.Exp or VD = VC.Exp - 127 (\u2021)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 39
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPEXMAN",
+      "canonical": "SFPEXMAN",
+      "opcode": "0x78",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPEXMAN",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = {      0,         !Imm1, VC.Mant}",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 38
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPIADD",
+      "canonical": "SFPIADD",
+      "opcode": "0x79",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPIADD",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VC \u00b1 VD or VD = VC \u00b1 Imm11 (\u2021)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 44
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSHFT",
+      "canonical": "SFPSHFT",
+      "opcode": "0x7A",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSHFT",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VD <<  ( VC % 32) or VD = VC <<   Imm5 orVD = VD >>  (-VC % 32) or VD = VC >>  -Imm5 orVD = VD >>> (-VC % 32) or VD = VC >>> -Imm5",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 67
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSETCC",
+      "canonical": "SFPSETCC",
+      "opcode": "0x7B",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSETCC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Provided that VC is neither negative zero nor any kind of NaN:Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 30
+        },
+        {
+          "instruction": "SFPSETCC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set flags based on VC.Sign",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 40
+        },
+        {
+          "instruction": "SFPSETCC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 47
+        },
+        {
+          "instruction": "SFPSETCC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Provided that VC is not negative zero:Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 58
+        },
+        {
+          "instruction": "SFPSETCC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 94
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPMOV",
+      "canonical": "SFPMOV",
+      "opcode": "0x7C",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPMOV",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = -VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 23
+        },
+        {
+          "instruction": "SFPMOV",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = -VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 53
+        },
+        {
+          "instruction": "SFPMOV",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 83
+        },
+        {
+          "instruction": "SFPMOV",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Configuration",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 101
+        },
+        {
+          "instruction": "SFPMOV",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = AdvancePRNG()",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 102
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPABS",
+      "canonical": "SFPABS",
+      "opcode": "0x7D",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPABS",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Abs(VC), or VD = VC when VC is NaN",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 25
+        },
+        {
+          "instruction": "SFPABS",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Abs(VC), or VD = VC when VC is -231",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 45
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPAND",
+      "canonical": "SFPAND",
+      "opcode": "0x7E",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPAND",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VB & VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 62
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPOR",
+      "canonical": "SFPOR",
+      "opcode": "0x7F",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPOR",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VB | VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 63
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPNOT",
+      "canonical": "SFPNOT",
+      "opcode": "0x80",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPNOT",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = ~VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 65
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPLZ",
+      "canonical": "SFPLZ",
+      "opcode": "0x81",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLZ",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set per-lane flags based on VC != 0 or VC == 0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 29
+        },
+        {
+          "instruction": "SFPLZ",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set per-lane flags based on VC != 0 or VC == 0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 57
+        },
+        {
+          "instruction": "SFPLZ",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = CountLeadingZeros(VC) (\u2021)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 66
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSETEXP",
+      "canonical": "SFPSETEXP",
+      "opcode": "0x82",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSETEXP",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = {VC.Sign, VD.Mant & 255, VC.Mant} orVD = {VC.Sign, VD.Exp       , VC.Mant} orVD = {VC.Sign,          Imm8, VC.Mant}",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 35
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSETMAN",
+      "canonical": "SFPSETMAN",
+      "opcode": "0x83",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSETMAN",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = {VC.Sign, VC.Exp       , VD.Mant} orVD = {VC.Sign, VC.Exp       , Imm12 << 11}",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 36
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPMAD",
+      "canonical": "SFPMAD",
+      "opcode": "0x84",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPMAD",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = VA * \u00b1VB \u00b1 VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 15
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPADD",
+      "canonical": "SFPADD",
+      "opcode": "0x85",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPADD",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD =      \u00b1VB \u00b1 VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 14
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPMUL",
+      "canonical": "SFPMUL",
+      "opcode": "0x86",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPMUL",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = VA * \u00b1VB",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 16
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPPUSHC",
+      "canonical": "SFPPUSHC",
+      "opcode": "0x87",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPPUSHC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Push flags onto flag stack or mutate top of flag stack",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 95
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPPOPC",
+      "canonical": "SFPPOPC",
+      "opcode": "0x88",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPPOPC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Pop or peek flag stack",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 97
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSETSGN",
+      "canonical": "SFPSETSGN",
+      "opcode": "0x89",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSETSGN",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Abs(VC) or VD = -Abs(VC)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 24
+        },
+        {
+          "instruction": "SFPSETSGN",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = {VD.Sign, VC.Exp       , VC.Mant} orVD = {   Imm1, VC.Exp       , VC.Mant}",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 37
+        },
+        {
+          "instruction": "SFPSETSGN",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Abs(VC) or VD = -Abs(VC)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 54
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPENCC",
+      "canonical": "SFPENCC",
+      "opcode": "0x8A",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPENCC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Enable or disable conditional execution",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 93
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPCOMPC",
+      "canonical": "SFPCOMPC",
+      "opcode": "0x8B",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPCOMPC",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "SIMT mapping of else in context of if / else",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 96
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPTRANSP",
+      "canonical": "SFPTRANSP",
+      "opcode": "0x8C",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPTRANSP",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Within each column, transpose rows of LReg[0:4] and of LReg[4:8]",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 86
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPXOR",
+      "canonical": "SFPXOR",
+      "opcode": "0x8D",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPXOR",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD ^= VC",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 64
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFP_STOCH_RND",
+      "canonical": "SFPSTOCHRND",
+      "opcode": "0x8E",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSTOCHRND",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Min(Round(Abs(VC) >> (VB % 32)), 255) orVD = Min(Round(Abs(VC) >> Imm5), 255)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 55
+        },
+        {
+          "instruction": "SFPSTOCHRND",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Clamp(Round(VC >> (VB % 32)), \u00b1127) orVD = Clamp(Round(VC >> Imm5), \u00b1127)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 56
+        },
+        {
+          "instruction": "SFPSTOCHRND",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Fp32ToBf16(VC) << 16 orVD = Fp32ToTf32(VC)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 74
+        },
+        {
+          "instruction": "SFPSTOCHRND",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Fp32ToInt32(Min(Abs(VC), 255)) orVD = Fp32ToInt32(Min(Abs(VC), 65535))",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 75
+        },
+        {
+          "instruction": "SFPSTOCHRND",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Fp32ToSignMag32(Clamp(VC, \u00b1127)) orVD = Fp32ToSignMag32(Clamp(VC, \u00b132767))",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 76
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPNOP",
+      "canonical": "SFPNOP",
+      "opcode": "0x8F",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPNOP",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Causes no effects",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 103
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPCAST",
+      "canonical": "SFPCAST",
+      "opcode": "0x90",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPCAST",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Abs(VC), or VD = VC when VC is -231",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 46
+        },
+        {
+          "instruction": "SFPCAST",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = SignMag32ToFp32(VC)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 71
+        },
+        {
+          "instruction": "SFPCAST",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = SignMag32ToInt32(VC), or VD = -231 when VC is -0",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 72
+        },
+        {
+          "instruction": "SFPCAST",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Int32ToSignMag32(VC), or VD = -0 when VC is -231",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 73
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPCONFIG",
+      "canonical": "SFPCONFIG",
+      "opcode": "0x91",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPCONFIG",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Broadcast(LReg[0][0:8]) (when 11 \u2264 VD \u2264 14)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 84
+        },
+        {
+          "instruction": "SFPCONFIG",
+          "ipc": "1",
+          "latency": "\u2264 2 cycles",
+          "semantics": "Configuration = Broadcast(LReg[0][0:8]) or Configuration = Imm16",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 100
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSWAP",
+      "canonical": "SFPSWAP",
+      "opcode": "0x92",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSWAP",
+          "ipc": "\u2264 1",
+          "latency": "2 cycles",
+          "semantics": "VD = Min(VC, VD) andVC = Max(VC, VD) (simultaneous assignments)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 22
+        },
+        {
+          "instruction": "SFPSWAP",
+          "ipc": "\u2264 1",
+          "latency": "2 cycles",
+          "semantics": "VD = Min(VC, VD) andVC = Max(VC, VD) (simultaneous assignments)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 59
+        },
+        {
+          "instruction": "SFPSWAP",
+          "ipc": "\u2264 1",
+          "latency": "2 cycles",
+          "semantics": "VD = VC andVC = VD (simultaneous assignments)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 85
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPLOADMACRO",
+      "canonical": "SFPLOADMACRO",
+      "opcode": "0x93",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLOADMACRO",
+          "ipc": "1",
+          "latency": "Complex",
+          "semantics": "Like SFPLOAD, then schedule up to four additional vector instructions",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 82
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPSHFT2",
+      "canonical": "SFPSHFT2",
+      "opcode": "0x94",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPSHFT2",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VB << ( VC % 32) orVD = VB >> (-VC % 32)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 68
+        },
+        {
+          "instruction": "SFPSHFT2",
+          "ipc": "\u2264 1",
+          "latency": "2 cycles",
+          "semantics": "VD = RotateLanesRight(VC) orVD = ShiftLanesRight(VC)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 87
+        },
+        {
+          "instruction": "SFPSHFT2",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "LReg[0] = LReg[1] andLReg[1] = LReg[2] andLReg[2] = LReg[3] andLReg[3] = Zeroes (simultaneous assignments)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 88
+        },
+        {
+          "instruction": "SFPSHFT2",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "LReg[0] = LReg[1] andLReg[1] = LReg[2] andLReg[2] = LReg[3] andLReg[3] = {LReg[0][8:32], Zeroes[0:8]} (simultaneous assignments)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 89
+        },
+        {
+          "instruction": "SFPSHFT2",
+          "ipc": "\u2264 1",
+          "latency": "2 cycles",
+          "semantics": "LReg[0] = LReg[1] andLReg[1] = LReg[2] andLReg[2] = LReg[3] andLReg[3] = RotateLanesRight(VC) (simultaneous assignments)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 90
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPLUTFP32",
+      "canonical": "SFPLUTFP32",
+      "opcode": "0x95",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLUTFP32",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = LReg[i] * Abs(LReg[3]) + LReg[4+i]Where i is 0 or 1 or 2, depending on the magnitude of LReg[3]",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 19
+        },
+        {
+          "instruction": "SFPLUTFP32",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = Lut16ToFp32(LReg[i] >> 16) * Abs(LReg[3]) + Lut16ToFp32(LReg[i])Where i is 0 or 1 or 2, depending on the magnitude of LReg[3]",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 20
+        },
+        {
+          "instruction": "SFPLUTFP32",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = Lut16ToFp32(LReg[i] >> j) * Abs(LReg[3]) + Lut16ToFp32(LReg[4+i] >> j)Where, depending on the magnitude of LReg[3], i is 0 or 1 or 2, and j is 0 or 16",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 21
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPLE",
+      "canonical": "SFPLE",
+      "opcode": "0x96",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPLE",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set per-lane flags based on VD <= VC, where -NaN < -Inf < ... < -0 < +0 < ... < +Inf < +NaN",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 28
+        },
+        {
+          "instruction": "SFPLE",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VD <= VC ? -(231-1) : +0, where -0 < +0 (\u2021)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 52
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPGT",
+      "canonical": "SFPGT",
+      "opcode": "0x97",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPGT",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "Set per-lane flags based on VD >  VC, where -NaN < -Inf < ... < -0 < +0 < ... < +Inf < +NaN",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 27
+        },
+        {
+          "instruction": "SFPGT",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = VD >  VC ? -(231-1) : +0, where -0 < +0 (\u2021)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 51
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPMUL24",
+      "canonical": "SFPMUL24",
+      "opcode": "0x98",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPMUL24",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = (VA * VB) & 0x7fffff orVD = ((VA & 0x7fffff) * (VB & 0x7fffff)) >> 23",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 43
+        },
+        {
+          "instruction": "SFPMUL24",
+          "ipc": "1",
+          "latency": "2 cycles",
+          "semantics": "VD = (Abs(VA) * Abs(VB)) & 0x7fffff orVD = ((Abs(VA) & 0x7fffff) * (Abs(VB) & 0x7fffff)) >> 23",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 50
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "SFPARECIP",
+      "canonical": "SFPARECIP",
+      "opcode": "0x99",
+      "encoder_resource": "SFPU",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented modes",
+      "timing": [
+        {
+          "instruction": "SFPARECIP",
+          "ipc": "1",
+          "latency": "1 cycle",
+          "semantics": "VD = Approximate(1.0 / VC) orVD = VB \u2264 -0 ? Approximate(1.0 / Abs(VC)) : VC orVD = Approximate(eAbs(VC)) * (VC \u2264 -0 ? -1 : +1)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+          "line": 26
+        }
+      ],
+      "note": "Read individual instruction scheduling rules; result latency is not general consumer visibility."
+    },
+    {
+      "instruction": "WRCFG",
+      "canonical": "WRCFG",
+      "opcode": "0xb0",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "2",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "Config IPC group shared with MMIO."
+        }
+      ]
+    },
+    {
+      "instruction": "RDCFG",
+      "canonical": "RDCFG",
+      "opcode": "0xb1",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=2",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "GPR contention can extend completion."
+        }
+      ]
+    },
+    {
+      "instruction": "SETC16",
+      "canonical": "SETC16",
+      "opcode": "0xb2",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "3 (one/thread)",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "Separate ThreadConfig IPC group."
+        }
+      ]
+    },
+    {
+      "instruction": "RMWCIB0",
+      "canonical": "RMWCIB0",
+      "opcode": "0xb3",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "RMWCIB opcode aliases; Config IPC group."
+        }
+      ]
+    },
+    {
+      "instruction": "RMWCIB1",
+      "canonical": "RMWCIB1",
+      "opcode": "0xb4",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "RMWCIB opcode aliases; Config IPC group."
+        }
+      ]
+    },
+    {
+      "instruction": "RMWCIB2",
+      "canonical": "RMWCIB2",
+      "opcode": "0xb5",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "RMWCIB opcode aliases; Config IPC group."
+        }
+      ]
+    },
+    {
+      "instruction": "RMWCIB3",
+      "canonical": "RMWCIB3",
+      "opcode": "0xb6",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "1",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "RMWCIB opcode aliases; Config IPC group."
+        }
+      ]
+    },
+    {
+      "instruction": "STREAMWRCFG",
+      "canonical": "STREAMWRCFG",
+      "opcode": "0xb7",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": ">=5",
+          "ipc": "1",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "Config pipeline ordering/starvation matters."
+        }
+      ]
+    },
+    {
+      "instruction": "CFGSHIFTMASK",
+      "canonical": "CFGSHIFTMASK",
+      "opcode": "0xb8",
+      "encoder_resource": "CFG",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "documented unit/scheduling rule",
+      "timing": [
+        {
+          "latency": "2",
+          "ipc": "0.5",
+          "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/ConfigurationUnit.md",
+          "note": "Config IPC group."
+        }
+      ]
+    },
+    {
+      "instruction": "MOP",
+      "canonical": "MOP",
+      "opcode": "0x1",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Expand configured microprogram, one downstream instruction/cycle subject to backpressure; no single opcode latency."
+    },
+    {
+      "instruction": "MOP_CFG",
+      "canonical": "MOP_CFG",
+      "opcode": "0x3",
+      "encoder_resource": "SYNC",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Frontend configuration; timing not separately calibrated."
+    },
+    {
+      "instruction": "REPLAY",
+      "canonical": "REPLAY",
+      "opcode": "0x4",
+      "encoder_resource": "NONE",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Execute N entries at one/cycle before downstream stalls; record-only consumes command plus N entries; no transition penalty."
+    },
+    {
+      "instruction": "RESOURCEDECL",
+      "canonical": "RESOURCEDECL",
+      "opcode": "0x5",
+      "encoder_resource": "NONE",
+      "encoding_source": "tt-llk/tt_llk_blackhole/instructions/assembly.yaml",
+      "status": "variable or not calibrated",
+      "timing": [],
+      "note": "Resource tracking declaration; no isolated cycle calibration."
+    }
+  ]
+}

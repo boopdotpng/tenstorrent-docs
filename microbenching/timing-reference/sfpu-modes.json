@@ -1,0 +1,602 @@
+[
+  {
+    "instruction": "SFPADDI",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD += BF16ToFP32(Imm16)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 13
+  },
+  {
+    "instruction": "SFPADD",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD =      \u00b1VB \u00b1 VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 14
+  },
+  {
+    "instruction": "SFPMAD",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = VA * \u00b1VB \u00b1 VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 15
+  },
+  {
+    "instruction": "SFPMUL",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = VA * \u00b1VB",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 16
+  },
+  {
+    "instruction": "SFPMULI",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD *= BF16ToFP32(Imm16)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 17
+  },
+  {
+    "instruction": "SFPLUT",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = Lut8ToFp32(LReg[i] >> 8) * Abs(LReg[3]) + Lut8ToFp32(LReg[i])Where i is 0 or 1 or 2, depending on the magnitude of LReg[3]",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 18
+  },
+  {
+    "instruction": "SFPLUTFP32",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = LReg[i] * Abs(LReg[3]) + LReg[4+i]Where i is 0 or 1 or 2, depending on the magnitude of LReg[3]",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 19
+  },
+  {
+    "instruction": "SFPLUTFP32",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = Lut16ToFp32(LReg[i] >> 16) * Abs(LReg[3]) + Lut16ToFp32(LReg[i])Where i is 0 or 1 or 2, depending on the magnitude of LReg[3]",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 20
+  },
+  {
+    "instruction": "SFPLUTFP32",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = Lut16ToFp32(LReg[i] >> j) * Abs(LReg[3]) + Lut16ToFp32(LReg[4+i] >> j)Where, depending on the magnitude of LReg[3], i is 0 or 1 or 2, and j is 0 or 16",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 21
+  },
+  {
+    "instruction": "SFPSWAP",
+    "ipc": "\u2264 1",
+    "latency": "2 cycles",
+    "semantics": "VD = Min(VC, VD) andVC = Max(VC, VD) (simultaneous assignments)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 22
+  },
+  {
+    "instruction": "SFPMOV",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = -VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 23
+  },
+  {
+    "instruction": "SFPSETSGN",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Abs(VC) or VD = -Abs(VC)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 24
+  },
+  {
+    "instruction": "SFPABS",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Abs(VC), or VD = VC when VC is NaN",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 25
+  },
+  {
+    "instruction": "SFPARECIP",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Approximate(1.0 / VC) orVD = VB \u2264 -0 ? Approximate(1.0 / Abs(VC)) : VC orVD = Approximate(eAbs(VC)) * (VC \u2264 -0 ? -1 : +1)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 26
+  },
+  {
+    "instruction": "SFPGT",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set per-lane flags based on VD >  VC, where -NaN < -Inf < ... < -0 < +0 < ... < +Inf < +NaN",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 27
+  },
+  {
+    "instruction": "SFPLE",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set per-lane flags based on VD <= VC, where -NaN < -Inf < ... < -0 < +0 < ... < +Inf < +NaN",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 28
+  },
+  {
+    "instruction": "SFPLZ",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set per-lane flags based on VC != 0 or VC == 0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 29
+  },
+  {
+    "instruction": "SFPSETCC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Provided that VC is neither negative zero nor any kind of NaN:Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 30
+  },
+  {
+    "instruction": "SFPDIVP2",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = {VC.Sign, VC.Exp + Imm8, VC.Mant}, or VD = VC when VC is NaN/Inf",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 33
+  },
+  {
+    "instruction": "SFPDIVP2",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = {VC.Sign,          Imm8, VC.Mant}",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 34
+  },
+  {
+    "instruction": "SFPSETEXP",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = {VC.Sign, VD.Mant & 255, VC.Mant} orVD = {VC.Sign, VD.Exp       , VC.Mant} orVD = {VC.Sign,          Imm8, VC.Mant}",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 35
+  },
+  {
+    "instruction": "SFPSETMAN",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = {VC.Sign, VC.Exp       , VD.Mant} orVD = {VC.Sign, VC.Exp       , Imm12 << 11}",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 36
+  },
+  {
+    "instruction": "SFPSETSGN",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = {VD.Sign, VC.Exp       , VC.Mant} orVD = {   Imm1, VC.Exp       , VC.Mant}",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 37
+  },
+  {
+    "instruction": "SFPEXMAN",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = {      0,         !Imm1, VC.Mant}",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 38
+  },
+  {
+    "instruction": "SFPEXEXP",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VC.Exp or VD = VC.Exp - 127 (\u2021)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 39
+  },
+  {
+    "instruction": "SFPSETCC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set flags based on VC.Sign",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 40
+  },
+  {
+    "instruction": "SFPMUL24",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = (VA * VB) & 0x7fffff orVD = ((VA & 0x7fffff) * (VB & 0x7fffff)) >> 23",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 43
+  },
+  {
+    "instruction": "SFPIADD",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VC \u00b1 VD or VD = VC \u00b1 Imm11 (\u2021)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 44
+  },
+  {
+    "instruction": "SFPABS",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Abs(VC), or VD = VC when VC is -231",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 45
+  },
+  {
+    "instruction": "SFPCAST",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Abs(VC), or VD = VC when VC is -231",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 46
+  },
+  {
+    "instruction": "SFPSETCC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 47
+  },
+  {
+    "instruction": "SFPMUL24",
+    "ipc": "1",
+    "latency": "2 cycles",
+    "semantics": "VD = (Abs(VA) * Abs(VB)) & 0x7fffff orVD = ((Abs(VA) & 0x7fffff) * (Abs(VB) & 0x7fffff)) >> 23",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 50
+  },
+  {
+    "instruction": "SFPGT",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VD >  VC ? -(231-1) : +0, where -0 < +0 (\u2021)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 51
+  },
+  {
+    "instruction": "SFPLE",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VD <= VC ? -(231-1) : +0, where -0 < +0 (\u2021)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 52
+  },
+  {
+    "instruction": "SFPMOV",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = -VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 53
+  },
+  {
+    "instruction": "SFPSETSGN",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Abs(VC) or VD = -Abs(VC)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 54
+  },
+  {
+    "instruction": "SFPSTOCHRND",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Min(Round(Abs(VC) >> (VB % 32)), 255) orVD = Min(Round(Abs(VC) >> Imm5), 255)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 55
+  },
+  {
+    "instruction": "SFPSTOCHRND",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Clamp(Round(VC >> (VB % 32)), \u00b1127) orVD = Clamp(Round(VC >> Imm5), \u00b1127)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 56
+  },
+  {
+    "instruction": "SFPLZ",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set per-lane flags based on VC != 0 or VC == 0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 57
+  },
+  {
+    "instruction": "SFPSETCC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Provided that VC is not negative zero:Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 58
+  },
+  {
+    "instruction": "SFPSWAP",
+    "ipc": "\u2264 1",
+    "latency": "2 cycles",
+    "semantics": "VD = Min(VC, VD) andVC = Max(VC, VD) (simultaneous assignments)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 59
+  },
+  {
+    "instruction": "SFPAND",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VB & VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 62
+  },
+  {
+    "instruction": "SFPOR",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VB | VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 63
+  },
+  {
+    "instruction": "SFPXOR",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD ^= VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 64
+  },
+  {
+    "instruction": "SFPNOT",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = ~VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 65
+  },
+  {
+    "instruction": "SFPLZ",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = CountLeadingZeros(VC) (\u2021)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 66
+  },
+  {
+    "instruction": "SFPSHFT",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VD <<  ( VC % 32) or VD = VC <<   Imm5 orVD = VD >>  (-VC % 32) or VD = VC >>  -Imm5 orVD = VD >>> (-VC % 32) or VD = VC >>> -Imm5",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 67
+  },
+  {
+    "instruction": "SFPSHFT2",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VB << ( VC % 32) orVD = VB >> (-VC % 32)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 68
+  },
+  {
+    "instruction": "SFPCAST",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = SignMag32ToFp32(VC)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 71
+  },
+  {
+    "instruction": "SFPCAST",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = SignMag32ToInt32(VC), or VD = -231 when VC is -0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 72
+  },
+  {
+    "instruction": "SFPCAST",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Int32ToSignMag32(VC), or VD = -0 when VC is -231",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 73
+  },
+  {
+    "instruction": "SFPSTOCHRND",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Fp32ToBf16(VC) << 16 orVD = Fp32ToTf32(VC)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 74
+  },
+  {
+    "instruction": "SFPSTOCHRND",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Fp32ToInt32(Min(Abs(VC), 255)) orVD = Fp32ToInt32(Min(Abs(VC), 65535))",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 75
+  },
+  {
+    "instruction": "SFPSTOCHRND",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Fp32ToSignMag32(Clamp(VC, \u00b1127)) orVD = Fp32ToSignMag32(Clamp(VC, \u00b132767))",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 76
+  },
+  {
+    "instruction": "SFPLOADI",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Bf16ToFp32(Imm16) orVD = Fp16ToFp32(Imm16) orVD = Imm16 orVD = \u00b1Imm15 orVD.High16 = Imm16 orVD.Low16 = Imm16",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 77
+  },
+  {
+    "instruction": "SFPLOAD",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Dst[R:R+4, 0:15:2] or VD = Dst[R:R+4, 1:16:2]",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 80
+  },
+  {
+    "instruction": "SFPSTORE",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Dst[R:R+4, 0:15:2] = VD or Dst[R:R+4, 1:16:2] = VD",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 81
+  },
+  {
+    "instruction": "SFPLOADMACRO",
+    "ipc": "1",
+    "latency": "Complex",
+    "semantics": "Like SFPLOAD, then schedule up to four additional vector instructions",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 82
+  },
+  {
+    "instruction": "SFPMOV",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = VC",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 83
+  },
+  {
+    "instruction": "SFPCONFIG",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Broadcast(LReg[0][0:8]) (when 11 \u2264 VD \u2264 14)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 84
+  },
+  {
+    "instruction": "SFPSWAP",
+    "ipc": "\u2264 1",
+    "latency": "2 cycles",
+    "semantics": "VD = VC andVC = VD (simultaneous assignments)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 85
+  },
+  {
+    "instruction": "SFPTRANSP",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Within each column, transpose rows of LReg[0:4] and of LReg[4:8]",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 86
+  },
+  {
+    "instruction": "SFPSHFT2",
+    "ipc": "\u2264 1",
+    "latency": "2 cycles",
+    "semantics": "VD = RotateLanesRight(VC) orVD = ShiftLanesRight(VC)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 87
+  },
+  {
+    "instruction": "SFPSHFT2",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "LReg[0] = LReg[1] andLReg[1] = LReg[2] andLReg[2] = LReg[3] andLReg[3] = Zeroes (simultaneous assignments)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 88
+  },
+  {
+    "instruction": "SFPSHFT2",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "LReg[0] = LReg[1] andLReg[1] = LReg[2] andLReg[2] = LReg[3] andLReg[3] = {LReg[0][8:32], Zeroes[0:8]} (simultaneous assignments)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 89
+  },
+  {
+    "instruction": "SFPSHFT2",
+    "ipc": "\u2264 1",
+    "latency": "2 cycles",
+    "semantics": "LReg[0] = LReg[1] andLReg[1] = LReg[2] andLReg[2] = LReg[3] andLReg[3] = RotateLanesRight(VC) (simultaneous assignments)",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 90
+  },
+  {
+    "instruction": "SFPENCC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Enable or disable conditional execution",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 93
+  },
+  {
+    "instruction": "SFPSETCC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Set per-lane flags based on VC < 0 or VC != 0 or VC >= 0 or VC == 0",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 94
+  },
+  {
+    "instruction": "SFPPUSHC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Push flags onto flag stack or mutate top of flag stack",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 95
+  },
+  {
+    "instruction": "SFPCOMPC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "SIMT mapping of else in context of if / else",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 96
+  },
+  {
+    "instruction": "SFPPOPC",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Pop or peek flag stack",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 97
+  },
+  {
+    "instruction": "SFPCONFIG",
+    "ipc": "1",
+    "latency": "\u2264 2 cycles",
+    "semantics": "Configuration = Broadcast(LReg[0][0:8]) or Configuration = Imm16",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 100
+  },
+  {
+    "instruction": "SFPMOV",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = Configuration",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 101
+  },
+  {
+    "instruction": "SFPMOV",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "VD = AdvancePRNG()",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 102
+  },
+  {
+    "instruction": "SFPNOP",
+    "ipc": "1",
+    "latency": "1 cycle",
+    "semantics": "Causes no effects",
+    "source": "tt-isa-documentation/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
+    "line": 103
+  }
+]

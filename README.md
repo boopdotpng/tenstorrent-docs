@@ -58,6 +58,10 @@ The current blackhole-py path uses tt-kmd, Python instruction emitters, and C
 worker/service firmware. Older SFPI/LLK-based blackhole-py APIs live in the
 archive. TT-Metal and SFPI remain useful separate programming interfaces.
 
+## Cycle timing reference
+
+[Blackhole cycle cheat sheet and five-stream predictor reference](microbenching/timing-reference/README.md): RISC-V, SFPU result availability, FPU, unpack/pack, synchronization, complete opcode coverage, and source-indexed hardware measurements.
+
 ## Sources and maintenance
 
 Source links beginning with `../blackhole-py`, `../tinygrad`, or other sibling

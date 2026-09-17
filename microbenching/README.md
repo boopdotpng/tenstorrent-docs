@@ -7,6 +7,7 @@ used to live in `blackhole-py/microbenching/`.
 
 | Need | File |
 |------|------|
+| Cycle latencies, all opcode coverage, five-stream predictor, fresh hardware probes | [timing-reference/README.md](timing-reference/README.md) |
 | Current pass/fail state, missing primitives, quarantined benches | `status.md` |
 | Raw report index | `docs/README.md` |
 | NoC guide from zero | `docs/noc/reading-guide.md` |
