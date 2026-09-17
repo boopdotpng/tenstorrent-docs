@@ -133,7 +133,7 @@ def main():
         server = ThreadingHTTPServer(('0.0.0.0', options.port), Handler)
     except OSError as error:
         parser.exit(1, f'{error}. Try ./serve.sh --port 8001\n')
-    print(f'Blackhole field notes → http://0.0.0.0:{server.server_port}\nCtrl+C to stop. Read-only; no hardware access.', flush=True)
+    print(f'Blackhole docs → http://0.0.0.0:{server.server_port}\nCtrl+C to stop. Read-only; no hardware access.', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
