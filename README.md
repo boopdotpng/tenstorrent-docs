@@ -27,6 +27,13 @@ Documentation opens at `/`; `/isa` has its own instruction navigation;
 `/archives` contains historical studies and measurement reports. Global search
 covers all three, with historical results labeled.
 
+## Device functions site
+
+**[boopdotpng.github.io/tenstorrent-docs](https://boopdotpng.github.io/tenstorrent-docs/)** is a one-time
+export (2026-10-07) of what the blackhole-py hardware tests demonstrate about each device function. It
+includes test summaries, grouped parameter variants, test source, captured assembly, quirks, known hangs and an
+instruction index, and can be exported as Markdown or JSON. It is served from the `gh-pages` branch.
+
 ## Choose a path
 
 | Task | Start here |
