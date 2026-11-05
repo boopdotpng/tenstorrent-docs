@@ -72,7 +72,8 @@ columns, and the data arrives at the DRAM tile along that tile's own row.
 
 ### 1.3 The DRAM itself
 
-Provided separately (decoded from MRISC firmware and live controller memory):
+Decoded from the MRISC (memory-controller) firmware and confirmed against live controller
+memory; sources, confidence and the full table are in [GDDR6](../hardware/gddr6.md):
 
 * Samsung C-die GDDR6, 16 Gbps, **clamshell** (2 × 16 Gb x8 devices per controller,
   forming 2 × x16 channels), 32 GB total.

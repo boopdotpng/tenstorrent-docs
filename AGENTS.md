@@ -31,6 +31,7 @@
 | Hardware results (DRAM, NoC, RMSNorm, Llama) | `measurements/README.md` |
 | Misattributed "hardware bugs", unverified errata | `kernel-dev/known-issues.md` |
 | FP8/FP4 unpack/pack behavior | `hardware/fp8-and-fp4.md` |
+| GDDR6 part, clamshell config, controller timing table | `hardware/gddr6.md` |
 | TT-Metal build, ELF/XIP, worker boot | `build-and-dispatch/tt-metal-build.md` |
 | TT-Metal CQ commands and launch ABI | `build-and-dispatch/tt-metal-dispatch.md` |
 | Debug tools, environment variables, dispatch benchmark | `build-and-dispatch/debugging.md` |

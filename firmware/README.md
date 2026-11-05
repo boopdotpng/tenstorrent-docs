@@ -33,7 +33,7 @@ The firmware bundle (`.fwbundle`) is a tar.gz containing per-board directories. 
 | dmfwtail | MCUBoot trailer | 0x29d000 (4K) | DMC image trailer |
 | dmfw | Padding | 0x22d000 (452K) | MCUBoot swap slot (includes dmfwimg) |
 | ethfw | RISC-V (erisc) | 0x1fc000 (64K) | Ethernet tile firmware |
-| memfw | RISC-V (gddr_init) | 0x20c000 (64K) | GDDR init firmware |
+| memfw | RISC-V (gddr_init) | 0x20c000 (64K) | GDDR init firmware ([timing table](../hardware/gddr6.md)) |
 | ethsdfw | RISC-V (serdes) | 0x21c000 (64K) | SerDes ethernet firmware |
 
 <a id="firmware-source-architecture--config--metadata-protobuf"></a>
