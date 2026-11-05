@@ -39,16 +39,16 @@ instruction index, and can be exported as Markdown or JSON. It is served from th
 | Task | Start here |
 |---|---|
 | Understand the chip | [Hardware](hardware/README.md) → [architecture](hardware/architecture.md) |
-| Write or fuse a kernel | [Kernel development](kernel-dev/README.md) |
-| Understand current blackhole-py | [Runtime map](build-and-dispatch/blackhole-py-runtime.md) |
+| Write or fuse a kernel | [Kernel development](kernel-dev/README.md); [known issues](kernel-dev/known-issues.md) |
+| Use or change blackhole-py | [blackhole-py](blackhole-py/README.md) (runtime, tests, ISA suite, ttk) |
+| Estimate cycles | [Timing](timing/README.md) and the `/isa` page |
+| Find hardware results | [Measurements](measurements/README.md), [matmul results](matmul/README.md#measured-results) |
+| Optimize matrix multiplication | [Matmul](matmul/README.md) |
 | Study TT-Metal build/dispatch | [Build and dispatch](build-and-dispatch/README.md) |
 | Distinguish board firmware from worker firmware | [Firmware](firmware/README.md) |
-| Optimize matrix multiplication | [Matmul](matmul/README.md) |
-| Find measurements and timing limits | [Microbenchmarks](microbenching/README.md) |
 | Learn compilers or plan a backend | [Compiler maps](compiler-maps/README.md) |
 | Study TT-Fabric and multi-host execution | [Multi-chip](multi-chip/README.md) |
-| Inspect old instruction usage or assembly | [ISA workload samples](llk-sfpi/README.md), [disassemblies](disasms/README.md) |
-| Find a retired document or historical result | [Archive](archive/README.md) |
+| Old microbenchmarks, instruction-frequency studies, disassemblies | [Archive](archive/README.md) |
 
 ## How to read the evidence
 
@@ -65,9 +65,12 @@ The current blackhole-py path uses tt-kmd, Python instruction emitters, and C
 worker/service firmware. Older SFPI/LLK-based blackhole-py APIs live in the
 archive. TT-Metal and SFPI remain useful separate programming interfaces.
 
-## Cycle timing reference
+## Hardware bug or software bug?
 
-[Blackhole cycle cheat sheet and five-stream predictor reference](microbenching/timing-reference/README.md): RISC-V, SFPU result availability, FPU, unpack/pack, synchronization, complete opcode coverage, and source-indexed hardware measurements.
+Several failures once blamed on the silicon came from TT-Metal's compiler or
+from old harnesses. One example is NaNs from packer L1 accumulation with
+Float16. Check [known issues](kernel-dev/known-issues.md) before treating a
+failure as hardware behavior.
 
 ## Sources and maintenance
 

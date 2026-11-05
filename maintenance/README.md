@@ -1,4 +1,4 @@
-# Documentation maintenance, September 17, 2026
+# Documentation maintenance
 
 This pass inventories the Markdown collection, separates current entry points
 from dated software studies, and rewrites the main hardware/runtime onboarding
@@ -10,6 +10,22 @@ no second hand-maintained list to go stale. The
 [relocation manifest](relocations.json) maps old paths to replacements;
 [the consolidation manifest](consolidation.json) records this pass. Git history
 retains removed versions.
+
+## November 2026 pass
+
+- Moved every prose doc out of blackhole-py into `blackhole-py/`, `measurements/`,
+  `matmul/results/`, `timing/` and `hardware/fp8-and-fp4.md`. Merged the four ISA
+  suite pages into one. Dropped the generated `audit.md`, `coverage.md`,
+  `modifiers.md` and `tensix_timing.md` tables, since the `/isa` page renders the
+  same JSON. Also dropped the stale 2026-09-16 coverage audit.
+- Moved `microbenching/timing-reference` to `timing/`. Moved the rest of
+  `microbenching/`, plus `llk-sfpi/` and `disasms/`, into `archive/`. Deleted 127
+  microbench scripts that imported modules removed from blackhole-py.
+- Corrected the packer L1-accumulation Float16 "hardware bug". It was a
+  TT-Metal compiler bug, fixed by direct RISC-V kernels. Reviewed other
+  hardware-bug claims and corrected them; the results are in
+  [known issues](../kernel-dev/known-issues.md).
+- `relocations.json` maps every moved path.
 
 ## Consolidation and corrections
 

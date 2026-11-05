@@ -76,6 +76,6 @@ whether extra buffering and ownership transitions actually improve completion.
 
 For TT-Metal, initialization wrappers establish LLK format, synchronization,
 and address state; the source is compiled for separate TRISCs. For blackhole-py,
-read its emitter helpers and [runtime](../build-and-dispatch/blackhole-py-runtime.md).
+read its emitter helpers and [runtime](../blackhole-py/runtime.md).
 The [hardware evidence guide](../hardware/behavior-from-tests.md) links actual
 assertions. No hardware benchmark was rerun for this reference rewrite.

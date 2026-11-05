@@ -15,9 +15,9 @@ its particular inputs, modes, placement, and output. A benchmark with no output
 check establishes neither numerical correctness nor general instruction semantics.
 A test used only to initialize an engine does not validate all that engine's modes.
 
-The [ISA review](../../blackhole-py/tests/isa/review.md) records partial behavioral
+The [ISA review](../blackhole-py/isa-conformance.md) records partial behavioral
 claims for 66 instructions and no reviewed claim for 71 others. It explicitly
-declares none exhaustively tested. Its [recorded combined run](../../blackhole-py/tests/isa/results.md)
+declares none exhaustively tested. Its [recorded combined run](../blackhole-py/isa-conformance.md#recorded-validation-2026-09-17)
 has 33,725 passes, 60 deselections, and five expected failures, mixing offline
 checks and hardware cases. Those counts must not be presented as 33,725 distinct
 hardware features. The reported device/core scope is device 0, worker index 0.
@@ -30,7 +30,7 @@ hardware features. The reported device/core scope is device 0, worker index 0.
 | Do semaphore posts stop at configured Max? | [test_semaphore_masks_saturation](../../blackhole-py/tests/isa/test_sync.py) | For the tested initialization boundaries and all 256 masks, post saturates at 15; get floors at zero; unselected counters retain their values | Max controls the maximum-value wait condition; it is not the post saturation limit |
 | Does a wait release after any selected semaphore changes? | [test_semaphore_wait_all_conditions](../../blackhole-py/tests/isa/test_sync.py) | Selected masks and conditions require the tested full release; a partial release does not let the observer pass early | All possible schedules and fairness are not tested |
 | Are mutexes recursive locks? | [test_mutex_exclusion](../../blackhole-py/tests/isa/test_sync.py) | Indices 0, 2, 3, 4 protect a shared counter with two/three contenders; reacquisition by the owner needs only one release | No recursive depth counter is implied; invalid indices are not exercised |
-| Can the packer add to existing L1? | [test_l1_accumulation](../../blackhole-py/tests/movement/packer/test_l1_accumulation.py) | BF16 and FP32 output, 16/256/1,024 elements, one/four passes, nonzero initial L1, zero contributions, cancellation, guards | FP16 format A, arbitrary rounding, overflow, and all mixed-format combinations |
+| Can the packer add to existing L1? | [test_l1_accumulation](../../blackhole-py/tests/movement/packer/test_l1_accumulation.py) | BF16 and FP32 output, 16/256/1,024 elements, one/four passes, nonzero initial L1, zero contributions, cancellation, guards | FP16 (format A) is not yet parametrized; arbitrary rounding, overflow, and mixed-format combinations |
 | Can SFPU work overlap across load macros? | [test_scale_pipeline](../../blackhole-py/tests/compute/sfpu/test_loadmacro_pipeline.py) | Five schedules double all 8,192 FP32 inputs and preserve output guards | A model-level speedup or universal replay advantage |
 | Does min/max implement the desired argmax ties? | [min/max tests](../../blackhole-py/tests/movement/sfpu/test_minmax.py), [argmax implementation](../../blackhole-py/ttko/argmax.py) | Paired indices, signed zero and negative ties need explicit treatment; sortable keys preserve the tested first-index rule | NaN ordering is unspecified by the prototype |
 | Must matmul inputs be host-tilized? | [row-major unpack tests](../../blackhole-py/tests/movement/unpacker/test_unpack_row_major.py) | FP8/BF16 panels can be gathered from row-major L1 into source banks | The two formats do not have identical gather cost |
@@ -46,12 +46,13 @@ The tested recipe enables `Pack_L1_Acc` (configuration word 71, bit 19) and
 settings afterward. If a new Dst contribution is zero, the old L1 sum must
 survive. The tests include a whole zero face to detect this failure.
 
-The [recorded pack timings](../../blackhole-py/tests/compute/sfpu/hardware_probe_results.md)
+The [recorded pack timings](../measurements/sfpu-argmax-l1acc-loadmacro.md)
 show identical overwrite/accumulate medians for these cases. That demonstrates
 no added measured cost within the pack interval, not a free end-to-end matmul.
 BF16 L1 accumulation rounds at spills; FP32 L1 accumulation does not have the
-same precision loss. Neither observation disproves a separate Float16-format
-bug or a mixed-format limitation.
+same precision loss. The old Float16 NaN failure was a TT-Metal compiler bug,
+not hardware ([known issues](../kernel-dev/known-issues.md)); mixed formats
+remain untested.
 
 ### A load macro is a schedule, not just a shorter spelling
 
@@ -80,7 +81,7 @@ old pass counts after changes.
 Major gaps include address-counter/config state, replay/MOP transitions,
 modifier interactions, exceptional arithmetic values, wider format coverage,
 stream transport, cross-thread scheduling, and additional cards/cores. The
-[coverage audit](../../blackhole-py/tests/hardware_coverage_audit.md) also separates
+[coverage audit](../blackhole-py/isa-conformance.md) also separates
 DRISC GDDR DMA from the current Tensix DRAM service and overlay counter use from
 autonomous overlay message transport.
 

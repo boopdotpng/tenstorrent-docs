@@ -41,12 +41,12 @@ def locate(repo, name, *, assets=False):
 
 def category(path):
     parts = path.parts
+    if str(path).startswith('archive/microbenching/docs/noc/'):
+        return 'benchmark-noc'
+    if str(path).startswith('archive/microbenching/docs/tensix/'):
+        return 'benchmark-tensix'
     if len(parts) > 2 and parts[0] == 'archive':
         return 'archive-' + parts[1]
-    if str(path).startswith('microbenching/docs/noc/'):
-        return 'benchmark-noc'
-    if str(path).startswith('microbenching/docs/tensix/'):
-        return 'benchmark-tensix'
     if str(path) == 'AGENTS.md':
         return 'maintenance'
     if str(path).startswith('hardware/blackhole-emulator-specs/'):
@@ -66,7 +66,7 @@ def document_index():
         title = re.search(r'^# (.+)$', content, re.M)
         docs.append({'path': str(rel), 'title': title[1].replace('`', '') if title else p.stem,
                      'category': category(rel),
-                     'historical': rel.parts[0] in {'archive', 'disasms', 'llk-sfpi'} or 'historical' in rel.parts or (rel.parts[0] == 'microbenching' and 'timing-reference' not in rel.parts) or rel.name == 'packer-l1-acc-float16-hardware-bug.md',
+                     'historical': rel.parts[0] == 'archive' or 'historical' in rel.parts,
                      'words': len(content.split()), 'content': content})
     return docs
 

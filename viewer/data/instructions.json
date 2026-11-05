@@ -2,29 +2,29 @@
   "schema": 1,
   "title": "Tensix instruction reference",
   "review_date": "2026-09-17",
-  "blackhole_py_commit": "0ebd556c6c686b18b7b10bc8ea5bd75ea12259dd",
+  "blackhole_py_commit": "85f72f2c0480c8096b77b4339f299f13a36218ff",
   "manual_commit": "82f600dca3ec664b721bcb0effc087f0c3fd7c11",
   "timing_date": "2026-09-17",
   "sources": [
     {
       "source": "blackhole-py:tests/isa/inventory.json",
       "sha256": "eaa7fb7ca6ae85b83a242ecf94d62ee38b93e9ba32e4bbf504b83fda88748973",
-      "git_status": "?? tests/isa/inventory.json"
+      "git_status": "clean"
     },
     {
       "source": "blackhole-py:tests/isa/audit.json",
       "sha256": "23c156f188d7f013f33b15b862f037c3851458c0d880b5379fc3711390544467",
-      "git_status": "?? tests/isa/audit.json"
+      "git_status": "clean"
     },
     {
       "source": "blackhole-py:tests/timing/tensix_timing.json",
-      "sha256": "a3f929dffded44cadab092ab16ca8ac2e886df5accbfeee72d688e2417e65d91",
-      "git_status": "?? tests/timing/tensix_timing.json"
+      "sha256": "c845945d4aefeab4b53c038605606f1c238cc342fe7355425ecdbd05b2f1941c",
+      "git_status": "M tests/timing/tensix_timing.json"
     },
     {
       "source": "blackhole-py:tests/timing/tensix_measured.jsonl",
       "sha256": "d810265776e1a2555ada001f17c69df2c30d87bdf46b4ff890eedc6b2bf6af2d",
-      "git_status": "?? tests/timing/tensix_measured.jsonl"
+      "git_status": "clean"
     }
   ],
   "manual_sources": [
@@ -50,19 +50,19 @@
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/ELWADD.md",
-      "sha256": "b65209ed6339143440309eb456d5583359ec07e16841ccadfce1202fcbb0d7e3"
+      "sha256": "03b0320ad194c2134d2d7289d2b5e734a5d722f834da717738dfecb604f70594"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/ELWMUL.md",
-      "sha256": "64c7b255d91013d7b356b382e69cf40bccd06d87626427cf57b0ca80845f81e4"
+      "sha256": "0178b970e364aef3a048f98384077cda4c147ed928dd27094aadc86958e08497"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/ELWSUB.md",
-      "sha256": "9e0bc29a39b1a46e26eb1dd8fde8d4e147f85c03710b29d8be7b39145afe4c22"
+      "sha256": "1b993a37013fb97b755aaec21b79c8b607547b9dc0d22a546320ffe76046aeae"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/GAPOOL.md",
-      "sha256": "3a6149815b79145a6f6bab124c565c272b579e48f6f5be908406816b89a2de71"
+      "sha256": "c15547e63b58c23ea5a3c2e4bb461716f0cdaf344ef8f06d79c78293467813c2"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/GATESRCRST.md",
@@ -70,7 +70,7 @@
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/GMPOOL.md",
-      "sha256": "64ba0dd3724b398aa6f1199bc0b091f56873b4285afd21306c2269ac28146f83"
+      "sha256": "2e82cb6c2d1a53ffb278831384272eaf108fed9475673e1c4f52871a4c363fbb"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/INCRWC.md",
@@ -82,27 +82,27 @@
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/MOVA2D.md",
-      "sha256": "0bf704795c0bcfdca0b4378e935f9964c7f3dcb3ba3cb08858518a70344c34a3"
+      "sha256": "44d2f9eb836813f2b60c4fb184926522bc0accd50542a78ab04c4a5632c306a7"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/MOVB2A.md",
-      "sha256": "800399f9a180277970c27df953b64fb0eb0d6b629a90081fc436527911d25ca5"
+      "sha256": "6cebdb410aaa3a7520bd00e1321964a72f833b73b6d730a9cbc2029a1825631e"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/MOVB2D.md",
-      "sha256": "4af1e58752999d2b07cd9ce5d97078718cc124a1b51ee5e6ea84317b43d1088a"
+      "sha256": "178653cee21aab11f43014b60dad2631318ee6d54f2dacdf8f0b9264f0e8473e"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/MOVD2A.md",
-      "sha256": "2c4e2046b3d80035c3a9f8ec4db7d7d97a776e787f508a2848d18ccd4a1163f9"
+      "sha256": "99a99ad864f1db41856ca60d9fad0907eeadf07e68a9d7ad02dc43b0fdf3f34d"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/MOVD2B.md",
-      "sha256": "d0e11d494cebbf4e0ee6426c39c84b22999b65388bd490bfe2a3ab19a7402078"
+      "sha256": "ccdbeb908c3ca51f36095b392e51b4d96239f8f8b66a72124e9e17abc83fc9f3"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/MVMUL.md",
-      "sha256": "1bdf59dcb78e9be06641579279cb21ca67bed946c22bafb0b60dc6e115861caf"
+      "sha256": "d1314b49adcf99e6f0d0ea7d9a5eba6a593c501305bf815705df8ea9bdaf7015"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/NOP.md",
@@ -114,43 +114,43 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/RDCFG.md",
-      "sha256": "8653895ebdc750fb20bf613331b4c0748edb8fafb76979538af6525fd4e3850c"
+      "sha256": "a892ef3c1f2c64cc6e62a1766892fe69e763642623cf7ac22f8023b0da33c0e2"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/REPLAY.md",
-      "sha256": "41bac8fe8e05f7a62a24f0ae551d106c28092cc8abd722ea110c431d703fc58c"
+      "sha256": "820b765b43e1442da99e9644a4d48463c0ad6eaa5ca8160d88886e25e0a33ced"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/RMWCIB.md",
-      "sha256": "6417c1f5f4239cc0c4063d2a2f98d446a8a98ddc8fb527ecb486c41048d24ad5"
+      "sha256": "89f95cfbf1a0718d7b5e5b5109d422704b2a304bfac1b407cdf25f7daa5753bc"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/RMWCIB.md",
-      "sha256": "6417c1f5f4239cc0c4063d2a2f98d446a8a98ddc8fb527ecb486c41048d24ad5"
+      "sha256": "89f95cfbf1a0718d7b5e5b5109d422704b2a304bfac1b407cdf25f7daa5753bc"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/RMWCIB.md",
-      "sha256": "6417c1f5f4239cc0c4063d2a2f98d446a8a98ddc8fb527ecb486c41048d24ad5"
+      "sha256": "89f95cfbf1a0718d7b5e5b5109d422704b2a304bfac1b407cdf25f7daa5753bc"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/RMWCIB.md",
-      "sha256": "6417c1f5f4239cc0c4063d2a2f98d446a8a98ddc8fb527ecb486c41048d24ad5"
+      "sha256": "89f95cfbf1a0718d7b5e5b5109d422704b2a304bfac1b407cdf25f7daa5753bc"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SEMGET.md",
-      "sha256": "0cd2281ab7abe437285b1aab91d9a7bfde392e010d0de2b7aaa73c13936311aa"
+      "sha256": "6837f6e7e0285f92f66b68c7f67a6f40e3c3f184fab635e09e9ec8f2667e8bee"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SEMINIT.md",
-      "sha256": "e50eb3e5655cabdccbb19e99d4c4422a40cae171d2ff4bceaa75375217744c89"
+      "sha256": "d34bc1fe54bb4335dbbe34aa5601ff9abf28ade2927283a7f53c6178077c2883"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SEMPOST.md",
-      "sha256": "0015604960782f9a218c85736d888623399d74e56218039f65f5a9fee36fcd5e"
+      "sha256": "c59f2c9fed8ed669cafb4809d37e1bce04f76234dbd814e93c04dfbadf1d2477"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SEMWAIT.md",
-      "sha256": "af15a7a4d69ca7ceaf99689c125020120c4a96b6d25a7d6299746d37081dcff2"
+      "sha256": "ed9e191f97b4759452ac5da58228dd8e3df1c9fe359f5e7bf4a8eaebf403292a"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SETADC.md",
@@ -170,11 +170,11 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SETC16.md",
-      "sha256": "d43b018a642a09b0ad164247b7a893ebe12717ece412a5b88ee3fcf075b5337f"
+      "sha256": "be93458a9391abadbc972e236a45b107cb3e3b90583eae971bf905b26ee01694"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SETDMAREG_Immediate.md",
-      "sha256": "5784517450ead485e2a4bbdb70b95cdb2e0eb4534d132bb15fa11178a988e5d9"
+      "sha256": "ed7437711be171a3c5bbeab721cca956a261d41b93d460c5622fac5c3edc16b1"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SETRWC.md",
@@ -210,7 +210,7 @@
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPCONFIG.md",
-      "sha256": "e9c3d610c495ab265f52db42ce87368977cb048d78d357243466962de0d64285"
+      "sha256": "2d6e96f014aebb7bc7eb6f9e3bc32eb756bdf360ccfadc3a42a999544e5ce7a2"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPDIVP2.md",
@@ -230,7 +230,7 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPGT.md",
-      "sha256": "44f338a3363f61a87ab3d9523f8a00e172f2acf9575a3d0234e7a17db2c9ce3b"
+      "sha256": "b954ed4d25fbb82e27aa8f3dff1c64c00a31b6c29e1b94794a22c5b5a7e53ce9"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPIADD.md",
@@ -238,19 +238,19 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPLE.md",
-      "sha256": "f64f6abc292502c3c04322356d0eeaec560c66fcf7e74fd6c2a1a0ee977f590a"
+      "sha256": "2ba41f301759a195cd4affa52612e96e9fcb2ab6a69254a330143fbe3142a9dc"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPLOAD.md",
-      "sha256": "9b97a28f5d82ccd84d0d7b23ce70fabb473e8b482228072bbd6cf357dfa51ac3"
+      "sha256": "c16e4a65cc060664243f8666df65909d0e49718630717a3ca313d6dedfd02a80"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPLOADI.md",
-      "sha256": "54f1441f60f4a89879ca7ac577f6bc2860f884eda8b6219f992c87107a9ef26f"
+      "sha256": "8b3bd0af02f31cb1f6ab62affd27db2979160a869f4105d37b0635cd40ebb167"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPLOADMACRO.md",
-      "sha256": "0498dad52ece1c9cca0ecaf6e10a1cda447dd3ba82830737d54700ccdd3c05ee"
+      "sha256": "f15b2950ff390df34582f5d1cc16a7f3222e6b1290f2f2c3134274055e51eccb"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPLUT.md",
@@ -266,11 +266,11 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPMAD.md",
-      "sha256": "214f3805762ee0d22072f06b705f8c46e1117df4cc5763b7b299f7903377ebf5"
+      "sha256": "7112bfa98241c2221b1d3e8679a9d1cd63a48a092b2afc81e9ebe390f85ae553"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPMOV.md",
-      "sha256": "2a5e2b6ae366943dde5ffcc99d9a91d1414cad1be1e24d0c95a4bb07c0894153"
+      "sha256": "b205c149dc783f55d38a19f34b0fe6af58d863d2d5280cf0205aec153cf9365e"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPMUL.md",
@@ -278,7 +278,7 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPMUL24.md",
-      "sha256": "efb25fc25c78c9980622ac6568c7d282f0827984cb825d9a0afec3a103426619"
+      "sha256": "b3e4f8bece5f009e0088409801af8c74634a0ac8a86cffecfb26bcc57ad387a3"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPMULI.md",
@@ -298,11 +298,11 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPPOPC.md",
-      "sha256": "f1026e9d168ec2a9158e659293a68ad8220e3f06a7ab1e4443cea67aa22f2158"
+      "sha256": "b819e2f195a079c1bca97bacf051f382cb5b7c7045f37b91c1ed30dc9d15205f"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPPUSHC.md",
-      "sha256": "27ec0e9b4eeef1062656b81ee903c87975d65a5f9451e02daad9878736f54cf4"
+      "sha256": "4a6baa5dd5bd399f069c0746d34138f9a5e7fa35c2ff68087759ceeec127490b"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPSETCC.md",
@@ -326,7 +326,7 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPSHFT2.md",
-      "sha256": "84ce9d5421352adf06f57f122289e55ce505c30365c8c36f211dfc254a56c4a0"
+      "sha256": "5af8289805ba63f9d409409312a0a898b1031204932f250aef056bd952a5e47f"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPSTOCHRND.md",
@@ -334,11 +334,11 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPSTORE.md",
-      "sha256": "3477350d45c97d50fc06a8be3254887bf873e18fd2b40a22d5b024d2cb9f8334"
+      "sha256": "40ef461bb9d636ba954c9b0522fce77ad375f20e5c77f1ce23f179813ab2a82f"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/SFPSWAP.md",
-      "sha256": "c0b507b285a14d0f74a2b7b309f6ffbeebf38084f029e6b27468c847b08fa889"
+      "sha256": "a5d2fba81a396fdf4d71da348cdb8af67176d6bec5c06bd5eb5bcfd0b465394e"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/SFPTRANSP.md",
@@ -350,11 +350,11 @@
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/STALLWAIT.md",
-      "sha256": "6c3d00d826b3c89ab7d05cb2299ebf6060f27bc032e8950c080907e1cf374328"
+      "sha256": "e3225b4e80017f3c97c615960c025404fd71580a7d1fe9eb609441354721123e"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/STREAMWAIT.md",
-      "sha256": "94689746105eb5f841491b5b7ac1d2bb1ff799acc07b4a28816701eb43e49463"
+      "sha256": "b09842fb86814f47578554d54ae7fa54d7422e20fa903a678bd36374987472b6"
     },
     {
       "path": "BlackholeA0/TensixTile/TensixCoprocessor/STREAMWRCFG.md",
@@ -366,23 +366,23 @@
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/UNPACR_Regular.md",
-      "sha256": "81c9fdc8fa30b36d05115086c6602093c105072b81da4b752e1643f2863aae88"
+      "sha256": "26dd21cf6171ee4d8fe925f66c5299803411a666bba9235ab4819f72cae7f24a"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/UNPACR_NOP_SETDVALID.md",
-      "sha256": "a697428776dc8c80bdc750b11751d22892fa071e694b5f50e21a6e63ae72c30e"
+      "sha256": "6a61dbacb566f9ffb38847e354f8415ba067a5ec9f25ce5145ebe8ac2fbe652e"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/WRCFG.md",
-      "sha256": "834b5f89bf2d1b3025a51b3636df2937aa7f244add1cb2e9aeb118bd27c962f9"
+      "sha256": "8ba9949c16bd0ef06719b7dd6b5cad9202e760dcc801624e91bd4d148f05599b"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/ZEROACC.md",
-      "sha256": "948fdf927f051a4ce575547a73a88b3d4374fa78dd4e3a76ef2abba718caa9c0"
+      "sha256": "a231035e1dc43eb4f6995dea4b964ecce7a2290709c834e7f32a930d980fe7fd"
     },
     {
       "path": "WormholeB0/TensixTile/TensixCoprocessor/ZEROSRC.md",
-      "sha256": "4df72a72d3c021077570b6491d2b5e3fc82dfd229567a2acd32a74ff99a300fb"
+      "sha256": "ae8a3291582058d300d708c8338cb558f23c186e345b642f1ae3b38111263bcd"
     }
   ],
   "scope": "Local working-tree snapshot. Behavioral claims are partial. Encoding presence and source sightings are not functional coverage. Recorded hardware runs are not rerun by this viewer.",
@@ -1175,7 +1175,7 @@
               "selector": "tests/isa/test_scalar.py::test_scalar_gpr",
               "path": "tests/isa/test_scalar.py",
               "line": 44,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53"
             }
           ],
@@ -1203,6 +1203,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
           "title": "Scalar and configuration instructions"
+        },
+        {
+          "path": "matmul/results/fp8-stall-profile.md",
+          "title": "matmul_peak FP8/FP16 stall profile — Card 1, 2026-09-16"
         }
       ]
     },
@@ -1646,7 +1650,7 @@
               "selector": "tests/isa/test_sync.py::test_mutex_exclusion",
               "path": "tests/isa/test_sync.py",
               "line": 84,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -1883,7 +1887,7 @@
               "selector": "tests/isa/test_sync.py::test_mutex_exclusion",
               "path": "tests/isa/test_sync.py",
               "line": 84,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -2741,7 +2745,7 @@
               "selector": "tests/isa/test_scalar.py::test_scalar_gpr",
               "path": "tests/isa/test_scalar.py",
               "line": 44,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53"
             }
           ],
@@ -3762,7 +3766,7 @@
               "selector": "tests/isa/test_scalar.py::test_scalar_gpr",
               "path": "tests/isa/test_scalar.py",
               "line": 44,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53"
             }
           ],
@@ -4615,6 +4619,10 @@
       ],
       "documents": [
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -4690,7 +4698,7 @@
           "latency": "5",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/MatrixUnit.md",
-          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
+          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md.",
           "status": "shared manual"
         }
       ],
@@ -4699,7 +4707,7 @@
       "caveats": [
         {
           "title": "Timing scope",
-          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
+          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md."
         }
       ],
       "contracts": [
@@ -4756,6 +4764,10 @@
         ]
       ],
       "documents": [
+        {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
         {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
@@ -5066,6 +5078,10 @@
       ],
       "documents": [
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/specialty-fpu-operations.md",
           "title": "Specialty FPU (Matrix Unit) Operations"
         },
@@ -5265,6 +5281,10 @@
       ],
       "documents": [
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -5279,6 +5299,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/synchronization.md",
           "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
         }
       ]
     },
@@ -5872,6 +5896,10 @@
           "title": "Blackhole behavior demonstrated by tests"
         },
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -5906,10 +5934,6 @@
         {
           "path": "kernel-dev/tensix-compute-pipeline.md",
           "title": "Compute pipeline and scheduling"
-        },
-        {
-          "path": "kernel-dev/tilize-untilize-and-tile-layout.md",
-          "title": "Tilize, Untilize, and Tile Layout"
         }
       ]
     },
@@ -6186,6 +6210,10 @@
       ],
       "documents": [
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -6196,6 +6224,14 @@
         {
           "path": "hardware/blackhole-emulator-specs/synchronization.md",
           "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
+        },
+        {
+          "path": "matmul/results/fp8-fp32-accumulation.md",
+          "title": "FP8 matmul with FP32 accumulation — Card 1, 2026-09-16"
         }
       ]
     },
@@ -6252,7 +6288,7 @@
       "caveats": [
         {
           "title": "Instruction scheduling",
-          "text": "`MOVB2A` does not automatically wait at the Wait Gate to ensure that `SrcA[MatrixUnit.SrcABank].AllowedClient == SrcClient::MatrixUnit`, so software may wish to use [`STALLWAIT`](STALLWAIT.md) (with block bit B6 and condition code C10) prior to `MOVB2A`."
+          "text": "`MOVB2A` does not wait at the Wait Gate for `SrcA[MatrixUnit.SrcABank].AllowedClient == SrcClient::MatrixUnit`: it writes the bank that `MatrixUnit.SrcABank` selects even while the Unpackers own it, which is the bank unpacker 0 writes next. If unpacker 0 writes that bank (an [`UNPACR`](UNPACR_Regular.md), or an [`UNPACR_NOP`](UNPACR_NOP_ZEROSRC.md) that clears it) before giving it to the Matrix Unit, and `MOVB2A` runs before the Matrix Unit has the bank, then which of the two writes survives depends on timing, and the result is `UndefinedBehavior`. This includes an unpacker instruction issued before `MOVB2A`, even from the same thread, as the Unpackers can finish it after `MOVB2A` writes. Software should first make sure the Matrix Unit has the bank: with [`STALLWAIT`](STALLWAIT.md) (block bit B6 and condition code C10, or C7 on Blackhole), with an earlier instruction from the same thread that waits for it (e.g. `MOVA2D` or `ELWADD`), or by having the thread that issued the unpacker's instructions wait for that unpacker to finish (`STALLWAIT` condition C1) before it signals this thread. If the Unpackers give the bank without writing it ([`SETDVALID`](SETDVALID.md), or the [`UNPACR_NOP`](UNPACR_NOP_SETDVALID.md) that only gives it), what `MOVB2A` wrote is still there once the Matrix Unit has the bank."
         },
         {
           "title": "Timing scope",
@@ -6475,6 +6511,10 @@
       ],
       "documents": [
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -6551,7 +6591,7 @@
       "caveats": [
         {
           "title": "Instruction scheduling",
-          "text": "`MOVD2A` does not automatically wait at the Wait Gate to ensure that `SrcA[MatrixUnit.SrcABank].AllowedClient == SrcClient::MatrixUnit`, so software may wish to use [`STALLWAIT`](STALLWAIT.md) (with block bit B6 and condition code C10) prior to `MOVD2A`."
+          "text": "`MOVD2A` does not wait at the Wait Gate for `SrcA[MatrixUnit.SrcABank].AllowedClient == SrcClient::MatrixUnit`: it writes the bank that `MatrixUnit.SrcABank` selects even while the Unpackers own it, which is the bank unpacker 0 writes next. If unpacker 0 writes that bank (an [`UNPACR`](UNPACR_Regular.md), or an [`UNPACR_NOP`](UNPACR_NOP_ZEROSRC.md) that clears it) before giving it to the Matrix Unit, and `MOVD2A` runs before the Matrix Unit has the bank, then which of the two writes survives depends on timing, and the result is `UndefinedBehavior`. This includes an unpacker instruction issued before `MOVD2A`, even from the same thread, as the Unpackers can finish it after `MOVD2A` writes. Software should first make sure the Matrix Unit has the bank: with [`STALLWAIT`](STALLWAIT.md) (block bit B6 and condition code C10, or C7 on Blackhole), with an earlier instruction from the same thread that waits for it (e.g. `MOVA2D` or `ELWADD`), or by having the thread that issued the unpacker's instructions wait for that unpacker to finish (`STALLWAIT` condition C1) before it signals this thread. If the Unpackers give the bank without writing it ([`SETDVALID`](SETDVALID.md), or the [`UNPACR_NOP`](UNPACR_NOP_SETDVALID.md) that only gives it), what `MOVD2A` wrote is still there once the Matrix Unit has the bank."
         },
         {
           "title": "Timing scope",
@@ -6681,7 +6721,7 @@
       "caveats": [
         {
           "title": "Instruction scheduling",
-          "text": "`MOVD2B` does not automatically wait at the Wait Gate to ensure that `SrcB[MatrixUnit.SrcBBank].AllowedClient == SrcClient::MatrixUnit`, so software may wish to use [`STALLWAIT`](STALLWAIT.md) (with block bit B6 and condition code C11) prior to `MOVD2B`."
+          "text": "`MOVD2B` does not wait at the Wait Gate for `SrcB[MatrixUnit.SrcBBank].AllowedClient == SrcClient::MatrixUnit`: it writes the bank that `MatrixUnit.SrcBBank` selects even while the Unpackers own it, which is the bank unpacker 1 writes next. If unpacker 1 writes that bank (an [`UNPACR`](UNPACR_Regular.md), or an [`UNPACR_NOP`](UNPACR_NOP_ZEROSRC.md) that clears it) before giving it to the Matrix Unit, and `MOVD2B` runs before the Matrix Unit has the bank, then which of the two writes survives depends on timing, and the result is `UndefinedBehavior`. This includes an unpacker instruction issued before `MOVD2B`, even from the same thread, as the Unpackers can finish it after `MOVD2B` writes. Software should first make sure the Matrix Unit has the bank: with [`STALLWAIT`](STALLWAIT.md) (block bit B6 and condition code C11, or C8 on Blackhole), with an earlier instruction from the same thread that waits for it (e.g. `MOVB2D` or `ELWADD`), or by having the thread that issued the unpacker's instructions wait for that unpacker to finish (`STALLWAIT` condition C2) before it signals this thread. If the Unpackers give the bank without writing it ([`SETDVALID`](SETDVALID.md), or the [`UNPACR_NOP`](UNPACR_NOP_SETDVALID.md) that only gives it), what `MOVD2B` wrote is still there once the Matrix Unit has the bank."
         },
         {
           "title": "Timing scope",
@@ -6749,6 +6789,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/synchronization.md",
           "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
         }
       ]
     },
@@ -7790,7 +7834,7 @@
               "selector": "tests/isa/test_scalar.py::test_scalar_gpr",
               "path": "tests/isa/test_scalar.py",
               "line": 44,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53"
             }
           ],
@@ -7853,7 +7897,7 @@
           "latency": "5",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/MatrixUnit.md",
-          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
+          "note": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md.",
           "status": "shared manual"
         }
       ],
@@ -7862,7 +7906,7 @@
       "caveats": [
         {
           "title": "Timing scope",
-          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
+          "text": "Rotate through >=5 independent aligned 8x16 Dst blocks for accumulating ops. Reusing a dependent block costs about 5 cycles/op. Count each fidelity phase separately. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md."
         }
       ],
       "contracts": [
@@ -7927,6 +7971,10 @@
           "title": "Blackhole architecture: engines, memory, and ownership"
         },
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/dest-srca-srcb-registers.md",
           "title": "Dest, SrcA, and SrcB Register Files"
         },
@@ -7957,6 +8005,14 @@
         {
           "path": "matmul/README.md",
           "title": "Matrix multiplication: layout, precision, and fusion"
+        },
+        {
+          "path": "matmul/results/compute-only-peak.md",
+          "title": "Resident-source MVMUL throughput — Card 1, 2026-09-16"
+        },
+        {
+          "path": "matmul/results/fp8-scheduling-experiments.md",
+          "title": "FP8 matmul scheduling experiments — card 1, 2026-09-16"
         }
       ]
     },
@@ -8286,6 +8342,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/network.md",
           "title": "NoC interfaces, atomics, and streams"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
         }
       ]
     },
@@ -8846,6 +8906,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
           "title": "Scalar and configuration instructions"
+        },
+        {
+          "path": "matmul/results/fp8-stall-profile.md",
+          "title": "matmul_peak FP8/FP16 stall profile — Card 1, 2026-09-16"
         }
       ]
     },
@@ -9100,6 +9164,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/synchronization.md",
           "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "matmul/results/fp8-stall-profile.md",
+          "title": "matmul_peak FP8/FP16 stall profile — Card 1, 2026-09-16"
         }
       ]
     },
@@ -9483,7 +9551,7 @@
       "opcode": "0xa5",
       "group": "Synchronization",
       "resource": "sync",
-      "overview": "Various semaphores are selected using a bitmask, and the selected semaphores have their `Value` decremented (unless their `Value` is already zero, in which case it remains at zero).",
+      "overview": "Various semaphores are selected using a bitmask, and the selected semaphores have their `Value` decremented. Software should not decrement a semaphore whose `Value` is already zero; what current hardware then does (the `Value` remains at zero) is a `NonContractualBehavior`.",
       "overview_source": "tt-isa-documentation:WormholeB0/TensixTile/TensixCoprocessor/SEMGET.md",
       "syntax": "TT_SEMGET(/* u8 */ SemaphoreMask)",
       "manual": "WormholeB0/TensixTile/TensixCoprocessor/SEMGET.md",
@@ -9558,7 +9626,7 @@
               "selector": "tests/isa/test_sync.py::test_semaphore_masks_saturation",
               "path": "tests/isa/test_sync.py",
               "line": 17,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -9607,7 +9675,7 @@
       "opcode": "0xa3",
       "group": "Synchronization",
       "resource": "sync",
-      "overview": "Various semaphores are selected using a bitmask, and the selected semaphores have their `Value` and `Max` set to the provided values. Note that `Max` is only subsequently used by [`SEMWAIT`](SEMWAIT.md); it has no effect on [`SEMPOST`](SEMPOST.md).",
+      "overview": "Various semaphores are selected using a bitmask, and the selected semaphores have their `Value` and `Max` set to the provided values. `Max` is subsequently used by [`SEMWAIT`](SEMWAIT.md), and software should not [`SEMPOST`](SEMPOST.md) a semaphore whose `Value` is at or above its `Max` (current hardware ignores `Max` in `SEMPOST`; this is a `NonContractualBehavior`). Software should also not set a `Value` above the `Max` (current hardware stores both as given; this is a `NonContractualBehavior`).",
       "overview_source": "tt-isa-documentation:WormholeB0/TensixTile/TensixCoprocessor/SEMINIT.md",
       "syntax": "TT_SEMINIT(/* u4 */ NewMax, /* u4 */ NewValue, /* u8 */ SemaphoreMask)",
       "manual": "WormholeB0/TensixTile/TensixCoprocessor/SEMINIT.md",
@@ -9694,7 +9762,7 @@
               "selector": "tests/isa/test_sync.py::test_semaphore_masks_saturation",
               "path": "tests/isa/test_sync.py",
               "line": 17,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -9712,7 +9780,7 @@
               "selector": "tests/isa/test_sync.py::test_semaphore_wait_all_conditions",
               "path": "tests/isa/test_sync.py",
               "line": 48,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -9781,7 +9849,7 @@
       "opcode": "0xa4",
       "group": "Synchronization",
       "resource": "sync",
-      "overview": "Various semaphores are selected using a bitmask, and the selected semaphores have their `Value` incremented (unless their `Value` is already 15, in which case it remains at 15).",
+      "overview": "Various semaphores are selected using a bitmask, and the selected semaphores have their `Value` incremented. Software should not increment a semaphore whose `Value` is already at or above its `Max`; what current hardware then does (increment, unless the `Value` is 15, in which case it remains at 15) is a `NonContractualBehavior`.",
       "overview_source": "tt-isa-documentation:WormholeB0/TensixTile/TensixCoprocessor/SEMPOST.md",
       "syntax": "TT_SEMPOST(/* u8 */ SemaphoreMask)",
       "manual": "WormholeB0/TensixTile/TensixCoprocessor/SEMPOST.md",
@@ -9856,7 +9924,7 @@
               "selector": "tests/isa/test_sync.py::test_semaphore_masks_saturation",
               "path": "tests/isa/test_sync.py",
               "line": 17,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -9996,7 +10064,7 @@
               "selector": "tests/isa/test_sync.py::test_semaphore_wait_all_conditions",
               "path": "tests/isa/test_sync.py",
               "line": 48,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "876c8b0eb5bb29185f41c6a02c14629346acf02987c8463d58e0a9ac637c66ec"
             }
           ],
@@ -10947,6 +11015,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/scalar-and-config.md",
           "title": "Scalar and configuration instructions"
+        },
+        {
+          "path": "matmul/results/fp8-stall-profile.md",
+          "title": "matmul_peak FP8/FP16 stall profile — Card 1, 2026-09-16"
         }
       ]
     },
@@ -11233,6 +11305,10 @@
         }
       ],
       "caveats": [
+        {
+          "title": "Instruction scheduling",
+          "text": "On Blackhole, if an instruction executing at a unit other than the Scalar Unit (for example [`WRCFG`](WRCFG.md)) wants to consume the GPR written by `SETDMAREG`, then software must place a [`STALLWAIT`](STALLWAIT.md) with condition C0 between the two; see [Scalar Unit (ThCon)](ScalarUnit.md). This is not required on Wormhole."
+        },
         {
           "title": "Timing scope",
           "text": "SETDMAREG immediate mode. Nonpipelined scalar unit; resource contention can add issue gaps."
@@ -11788,6 +11864,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/synchronization.md",
           "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "matmul/results/fp8-stall-profile.md",
+          "title": "matmul_peak FP8/FP16 stall profile — Card 1, 2026-09-16"
         }
       ]
     },
@@ -11908,7 +11988,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -12748,7 +12828,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -13465,7 +13545,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -13598,7 +13678,7 @@
               "selector": "tests/isa/test_predicate_stack.py::test_predicate_stack",
               "path": "tests/isa/test_predicate_stack.py",
               "line": 76,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "0db644ddbad5c7e674908f22fece6f058968e4f794a4f517c858a20c126d00e3"
             }
           ],
@@ -13965,7 +14045,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -14331,7 +14411,7 @@
               "selector": "tests/isa/test_predicate_stack.py::test_predicate_stack",
               "path": "tests/isa/test_predicate_stack.py",
               "line": 76,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "0db644ddbad5c7e674908f22fece6f058968e4f794a4f517c858a20c126d00e3"
             }
           ],
@@ -14581,7 +14661,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -14674,7 +14754,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -14779,7 +14859,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -14797,7 +14877,7 @@
               "selector": "tests/isa/test_predicate_stack.py::test_predicate_stack",
               "path": "tests/isa/test_predicate_stack.py",
               "line": 76,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "0db644ddbad5c7e674908f22fece6f058968e4f794a4f517c858a20c126d00e3"
             }
           ],
@@ -15142,7 +15222,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -15280,7 +15360,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -15298,7 +15378,7 @@
               "selector": "tests/isa/test_predicate_stack.py::test_predicate_stack",
               "path": "tests/isa/test_predicate_stack.py",
               "line": 76,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "0db644ddbad5c7e674908f22fece6f058968e4f794a4f517c858a20c126d00e3"
             }
           ],
@@ -15322,7 +15402,7 @@
       "opcode": "0x70",
       "group": "Vector / SFPU",
       "resource": "SFPU",
-      "overview": "Move (up to) 32 datums from the even or odd columns of four consecutive rows of [`Dst`](Dst.md) to an `LReg`. To bridge the gap between [`Dst` data types](Dst.md#data-types) and [`LReg` data types](LReg.md#data-types), some data type conversions are supported as part of the instruction, though software might still want a subsequent `SFPSTOCHRND` or `SFPCAST` instruction to achieve a richer set of conversions.",
+      "overview": "Move (up to) 32 datums from the even or odd columns of four consecutive rows of [`Dst`](Dst.md) to an `LReg`. To bridge the gap between [`Dst` data types](Dst.md#data-types) and [`LReg` data types](../../../WormholeB0/TensixTile/TensixCoprocessor/LReg.md#data-types), some data type conversions are supported as part of the instruction, though software might still want a subsequent `SFPSTOCHRND` or `SFPCAST` instruction to achieve a richer set of conversions.",
       "overview_source": "tt-isa-documentation:BlackholeA0/TensixTile/TensixCoprocessor/SFPLOAD.md",
       "syntax": "TT_SFPLOAD(/* u4 */ VD, /* u4 */ Mod0, /* u3 */ AddrMod, /* u10 */ Imm10)",
       "manual": "BlackholeA0/TensixTile/TensixCoprocessor/SFPLOAD.md",
@@ -15361,7 +15441,7 @@
           "latency": "1",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
-          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
+          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md.",
           "status": "Blackhole manual"
         }
       ],
@@ -15374,7 +15454,7 @@
         },
         {
           "title": "Timing scope",
-          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
+          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md."
         }
       ],
       "contracts": [
@@ -16060,7 +16140,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -16621,7 +16701,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -17313,6 +17393,10 @@
         {
           "path": "kernel-dev/tensix-compute-pipeline.md",
           "title": "Compute pipeline and scheduling"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
         }
       ]
     },
@@ -17726,7 +17810,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -18528,7 +18612,7 @@
       "opcode": "0x98",
       "group": "Vector / SFPU",
       "resource": "SFPU",
-      "overview": "Performs lanewise multiplication of two 23-bit integers, returning either the low 23 bits or high 23 bits of their product. In some modes, the `VA` and/or `VD` indices from the instruction bits are ignored, and instead come from the low four bits of `LReg[7]` (which allows these bits to potentially differ between lanes). Due to how the floating-point datapath is reused for `SFPMUL24`, an exotic shift/add-like operation is performed after the multiply. This is a `NonContractualBehavior` and software is strongly encouraged to turn this operation into a no-op by always setting `VC == 9` (which refers to the constant zero; see the definition of [`LReg[9]`](LReg.md)).",
+      "overview": "Performs lanewise multiplication of two 23-bit integers, returning either the low 23 bits or high 23 bits of their product. In some modes, the `VA` and/or `VD` indices from the instruction bits are ignored, and instead come from the low four bits of `LReg[7]` (which allows these bits to potentially differ between lanes). Due to how the floating-point datapath is reused for `SFPMUL24`, an exotic shift/add-like operation is seen after the multiply when the exponent field of `LReg[VC]` is not zero. This is `UndefinedBehavior`, so software should turn this operation into a no-op by always setting `VC == 9` (which refers to the constant zero; see the definition of [`LReg[9]`](LReg.md)).",
       "overview_source": "tt-isa-documentation:BlackholeA0/TensixTile/TensixCoprocessor/SFPMUL24.md",
       "syntax": "TT_SFPMUL24(/* u4 */ VA, /* u4 */ VB, /* u4 */ VC, /* u4 */ VD, /* u4 */ Mod1)",
       "manual": "BlackholeA0/TensixTile/TensixCoprocessor/SFPMUL24.md",
@@ -18847,7 +18931,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -19422,7 +19506,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -19515,7 +19599,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -19560,7 +19644,7 @@
       "opcode": "0x88",
       "group": "Vector / SFPU",
       "resource": "SFPU",
-      "overview": "In its simplest mode, `SFPPOPC` pops from the vector conditional execution stack, replacing `LaneFlags` and `UseLaneFlagsForLaneEnable` with values popped from the stack. In its more complex modes, `SFPPOPC` peeks from the vector conditional execution stack, mutating `LaneFlags` and `UseLaneFlagsForLaneEnable` in various ways based on the contents of the top of the stack. The simple mode must not be used when the stack is empty. Due to a hardware bug, the complex modes should not be used when the stack is full.",
+      "overview": "In its simplest mode, `SFPPOPC` pops from the vector conditional execution stack, replacing `LaneFlags` and `UseLaneFlagsForLaneEnable` with values popped from the stack. In its more complex modes, `SFPPOPC` peeks from the vector conditional execution stack, mutating `LaneFlags` and `UseLaneFlagsForLaneEnable` in various ways based on the contents of the top of the stack. The simple mode must not be used when the stack is empty (what current hardware then does is a `NonContractualBehavior`; see [the flag stack](VectorUnit.md#lane-predication-masks)). Due to a hardware bug, the complex modes should not be used when the stack is full.",
       "overview_source": "tt-isa-documentation:BlackholeA0/TensixTile/TensixCoprocessor/SFPPOPC.md",
       "syntax": "TT_SFPPOPC(0, 0, /* u4 */ VD, /* u4 */ Mod1)",
       "manual": "BlackholeA0/TensixTile/TensixCoprocessor/SFPPOPC.md",
@@ -19624,7 +19708,7 @@
               "selector": "tests/isa/test_predicate_stack.py::test_predicate_stack",
               "path": "tests/isa/test_predicate_stack.py",
               "line": 76,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "0db644ddbad5c7e674908f22fece6f058968e4f794a4f517c858a20c126d00e3"
             }
           ],
@@ -19657,7 +19741,7 @@
       "opcode": "0x87",
       "group": "Vector / SFPU",
       "resource": "SFPU",
-      "overview": "Pushes a copy of the current lane predication masks (per-lane `LaneFlags` and `UseLaneFlagsForLaneEnable`) onto the vector conditional execution stack. The stack has a maximum capacity of eight elements, and this instruction must not be used if the stack is already full.",
+      "overview": "Pushes a copy of the current lane predication masks (per-lane `LaneFlags` and `UseLaneFlagsForLaneEnable`) onto the vector conditional execution stack. The stack has a maximum capacity of eight elements, and this instruction must not be used if the stack is already full (what current hardware then does is a `NonContractualBehavior`; see [the flag stack](VectorUnit.md#lane-predication-masks)).",
       "overview_source": "tt-isa-documentation:BlackholeA0/TensixTile/TensixCoprocessor/SFPPUSHC.md",
       "syntax": "TT_SFPPUSHC(0, 0, /* u4 */ VD, /* u4 */ Mod1)",
       "manual": "BlackholeA0/TensixTile/TensixCoprocessor/SFPPUSHC.md",
@@ -19721,7 +19805,7 @@
               "selector": "tests/isa/test_predicate_stack.py::test_predicate_stack",
               "path": "tests/isa/test_predicate_stack.py",
               "line": 76,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "0db644ddbad5c7e674908f22fece6f058968e4f794a4f517c858a20c126d00e3"
             }
           ],
@@ -20096,7 +20180,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -20210,7 +20294,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -20303,7 +20387,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -20396,7 +20480,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -20497,7 +20581,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -21448,6 +21532,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/sfpu-operations.md",
           "title": "Vector Unit (SFPU) Operations"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
         }
       ]
     },
@@ -21456,7 +21544,7 @@
       "opcode": "0x72",
       "group": "Vector / SFPU",
       "resource": "SFPU",
-      "overview": "Move (up to) 32 datums from an `LReg` to the even or odd columns of four consecutive rows of [`Dst`](Dst.md). To bridge the gap between [`LReg` data types](LReg.md#data-types) and [`Dst` data types](Dst.md#data-types), some data type conversions are supported as part of the instruction, though software might still want a preceding [`SFPSTOCHRND`](SFPSTOCHRND.md) or [`SFPCAST`](SFPCAST.md) instruction to achieve a richer set of conversions.",
+      "overview": "Move (up to) 32 datums from an `LReg` to the even or odd columns of four consecutive rows of [`Dst`](Dst.md). To bridge the gap between [`LReg` data types](../../../WormholeB0/TensixTile/TensixCoprocessor/LReg.md#data-types) and [`Dst` data types](Dst.md#data-types), some data type conversions are supported as part of the instruction, though software might still want a preceding [`SFPSTOCHRND`](SFPSTOCHRND.md) or [`SFPCAST`](SFPCAST.md) instruction to achieve a richer set of conversions.",
       "overview_source": "tt-isa-documentation:BlackholeA0/TensixTile/TensixCoprocessor/SFPSTORE.md",
       "syntax": "TT_SFPSTORE(/* u4 */ VD, /* u4 */ Mod0, /* u3 */ AddrMod, /* u10 */ Imm10)",
       "manual": "BlackholeA0/TensixTile/TensixCoprocessor/SFPSTORE.md",
@@ -21495,7 +21583,7 @@
           "latency": "1",
           "issue_interval": "1",
           "source": "https://github.com/tenstorrent/tt-isa-documentation/blob/82f600dca3ec664b721bcb0effc087f0c3fd7c11/BlackholeA0/TensixTile/TensixCoprocessor/VectorUnit.md",
-          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md.",
+          "note": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md.",
           "status": "Blackhole manual"
         }
       ],
@@ -21504,7 +21592,7 @@
       "caveats": [
         {
           "title": "Timing scope",
-          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See tests/timing/fpu_sfpu_interleave.md."
+          "text": "Ordinary direct mode; 32 lanes per instruction. Dst access, resource conflicts and macros can add stalls. Measured FP32 Dst: alternating FPU and SFPU memory operations in the same Dst half adds burst-dependent stalls; opposite halves avoid the penalty. Separate threads alone do not remove same-half contention. See boop-docs timing/fpu-sfpu-interleave.md."
         }
       ],
       "contracts": [
@@ -22779,7 +22867,7 @@
               "selector": "tests/isa/test_sfpu_bits.py::test_sfpu_bits",
               "path": "tests/isa/test_sfpu_bits.py",
               "line": 130,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "7f64389c0a7c59bdf393c8ee0374b4c14cced2414cb5acf3cb5a63f9e5701989"
             }
           ],
@@ -23572,7 +23660,7 @@
               "selector": "tests/isa/test_scalar.py::test_scalar_gpr",
               "path": "tests/isa/test_scalar.py",
               "line": 44,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53"
             }
           ],
@@ -23645,6 +23733,10 @@
         {
           "path": "hardware/blackhole-emulator-specs/synchronization.md",
           "title": "Tensix synchronization: waits, semaphores, and mutexes"
+        },
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
         }
       ]
     },
@@ -24890,7 +24982,7 @@
               "selector": "tests/isa/test_scalar.py::test_scalar_gpr",
               "path": "tests/isa/test_scalar.py",
               "line": 44,
-              "source_status": "matches audit",
+              "source_status": "changed or unavailable",
               "source_sha256": "d10a9e20257b873005c31cd12e0483e2cf775b807122f2e290411997fee7ba53"
             }
           ],
@@ -24977,7 +25069,12 @@
       ],
       "contracts": [],
       "sightings": [],
-      "documents": []
+      "documents": [
+        {
+          "path": "kernel-dev/known-issues.md",
+          "title": "Known issues and misattributed \"hardware bugs\""
+        }
+      ]
     },
     {
       "name": "TRNSPSRCB",
@@ -25339,6 +25436,10 @@
       ],
       "documents": [
         {
+          "path": "hardware/fp8-and-fp4.md",
+          "title": "FP8 E4M3 and FP4 (E2M1) on Blackhole"
+        },
+        {
           "path": "hardware/blackhole-emulator-specs/address-space.md",
           "title": "Blackhole Tensix Tile Address Space"
         },
@@ -25627,6 +25728,10 @@
         {
           "path": "kernel-dev/tilize-untilize-and-tile-layout.md",
           "title": "Tilize, Untilize, and Tile Layout"
+        },
+        {
+          "path": "matmul/results/fp8-stall-profile.md",
+          "title": "matmul_peak FP8/FP16 stall profile — Card 1, 2026-09-16"
         }
       ]
     },
@@ -25700,7 +25805,7 @@
       "opcode": "0x10",
       "group": "Matrix / FPU",
       "resource": "FPU",
-      "overview": "Mark either 1, 16, 256, 512, or 1024 rows of `Dst` as undefined. Subsequent operations which read from `Dst` then interpret undefined:\n* Packers reading from `Dst` read undefined rows as zero.\n* Matrix Unit (FPU) instructions read undefined rows as the identity element for the instruction being executed, which is negative infinity for `GMPOOL` / `MPOOL3S1` / `MPOOL3S2`, and is zero for all other instructions. In any event, the write performed by these instructions will then cause the row contents to become well defined.\n* The Vector Unit (SFPU) exhibits `UndefinedBehavior` when reading (i.e. `SFPLOAD` / `SFPLOADMACRO`) an undefined row. It also exhibits `UndefinedBehavior` if `SFPSTORE` writes to _some_ columns of an undefined row but leaves other columns unwritten.\n* Unpackers exhibit `UndefinedBehavior` if an unpack to `Dst` writes to _some_ columns of an undefined row but leaves other columns unwritten.",
+      "overview": "Mark either 1, 16, 256, 512, or 1024 rows of `Dst` as undefined. Subsequent operations which read from `Dst` then interpret undefined:\n* Packers reading from `Dst` read undefined rows as zero.\n* Matrix Unit (FPU) instructions read undefined rows as the identity element for the instruction being executed, which is negative infinity for `GMPOOL` / `MPOOL3S1` / `MPOOL3S2`, and is zero for all other instructions. In any event, the write performed by these instructions will then cause the row contents to become well defined, with the sole exception of [`MVMUL`](MVMUL.md) with `BroadcastSrcBRow` set, which updates the valid bits of a set of rows that is neither a subset nor a superset of the rows that it writes.\n* The Vector Unit (SFPU) exhibits `UndefinedBehavior` when reading (i.e. `SFPLOAD` / `SFPLOADMACRO`) an undefined row. It also exhibits `UndefinedBehavior` if `SFPSTORE` writes to _some_ columns of an undefined row but leaves other columns unwritten.\n* Unpackers exhibit `UndefinedBehavior` if an unpack to `Dst` writes to _some_ columns of an undefined row but leaves other columns unwritten.\n* If a Vector Unit or unpacker write to `Dst` executes in the same cycle, rows in the same 256-row group as the written rows, and congruent to them modulo 8, may not be marked undefined. On Blackhole it is the other way around: the `ZEROACC` takes full effect and the write's update of `DstRowValid` is lost (see [`Dst.md` in the Blackhole tree](../../../BlackholeA0/TensixTile/TensixCoprocessor/Dst.md)).",
       "overview_source": "tt-isa-documentation:WormholeB0/TensixTile/TensixCoprocessor/ZEROACC.md",
       "syntax": "TT_ZEROACC(((/* bool */ UseDst32b) << 2) +\n             /* u2 */ Mode,\n             /* u2 */ AddrMod,\n             /* u10 */ Imm10)",
       "manual": "WormholeB0/TensixTile/TensixCoprocessor/ZEROACC.md",

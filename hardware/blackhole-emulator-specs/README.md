@@ -3,7 +3,7 @@
 Source-derived models for Blackhole hardware and the recorded firmware ABI.
 These are not an independently validated emulator. Use the ISA viewer for
 per-instruction test assertions and timing evidence, and the
-[current runtime](../../build-and-dispatch/blackhole-py-runtime.md) for
+[current runtime](../../blackhole-py/runtime.md) for
 blackhole-py software allocations and launch behavior.
 
 Frontend, synchronization, scalar/configuration, boot state, topology, and

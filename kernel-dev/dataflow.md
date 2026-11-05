@@ -2,7 +2,7 @@
 
 TT-Metal's circular-buffer API is a software protocol over L1 storage. Current
 blackhole-py uses its own emitters and firmware; translate the ownership rules,
-not the C++ API names. See [the runtime map](../build-and-dispatch/blackhole-py-runtime.md).
+not the C++ API names. See [the runtime map](../blackhole-py/runtime.md).
 
 ## Publish only completed data
 

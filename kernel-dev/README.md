@@ -7,3 +7,4 @@ Scheduling, buffer ownership, layouts, and the SFPI/LLK interface. Current black
 - [SFPI and LLK programming](sfpi.md)
 - [Tile layouts and TT-Metal tilize/untilize](tilize-untilize-and-tile-layout.md)
 - [Matmul, precision, row-major inputs, and fusion](../matmul/README.md)
+- [Known issues and misattributed hardware bugs](known-issues.md)

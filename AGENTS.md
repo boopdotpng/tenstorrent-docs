@@ -24,9 +24,13 @@
 | CBs, dataflow patterns, reduction padding | `kernel-dev/dataflow.md` |
 | SFPI/LLK programming and masking | `kernel-dev/sfpi.md` |
 | TT-Metal tile layouts | `kernel-dev/tilize-untilize-and-tile-layout.md` |
-| Matmul, row-major input, fidelity, FP32, fusion | `matmul/README.md` |
+| Matmul, row-major input, fidelity, FP32, fusion, results | `matmul/README.md`, `matmul/results/` |
 | Matmul multicast and scheduling tradeoffs | `matmul/scheduling.md` |
-| Current blackhole-py build/dispatch | `build-and-dispatch/blackhole-py-runtime.md` |
+| Current blackhole-py build/dispatch | `blackhole-py/runtime.md` |
+| blackhole-py tests, ISA suite, ttk design | `blackhole-py/README.md` |
+| Hardware results (DRAM, NoC, RMSNorm, Llama) | `measurements/README.md` |
+| Misattributed "hardware bugs", unverified errata | `kernel-dev/known-issues.md` |
+| FP8/FP4 unpack/pack behavior | `hardware/fp8-and-fp4.md` |
 | TT-Metal build, ELF/XIP, worker boot | `build-and-dispatch/tt-metal-build.md` |
 | TT-Metal CQ commands and launch ABI | `build-and-dispatch/tt-metal-dispatch.md` |
 | Debug tools, environment variables, dispatch benchmark | `build-and-dispatch/debugging.md` |
@@ -35,7 +39,7 @@
 | Compiler internals, rules, worked exercises | `compiler-maps/README.md` |
 | Historical experiments, reports, instruction frequencies | `/archives`; `archive/README.md` |
 
-- **"Cycle counts / instruction latency / five-RISC predictor?"** -> `microbenching/timing-reference/README.md` (documented vs measured timings, full opcode catalog, raw case exports, fresh hardware probes).
+- **"Cycle counts / instruction latency / five-RISC predictor?"** -> `timing/README.md` (cheat sheet, predictor) and `timing/kernel-estimation.md` (current per-encoder table, also on `/isa`).
 
 ## Maintenance
 
@@ -44,6 +48,9 @@
 - Validate with `python3 -m unittest discover -s viewer/tests -v`.
 - Old-to-new document paths are in `maintenance/relocations.json`.
 - Read `maintenance/README.md` for provenance, consolidation scope, and limits.
+- blackhole-py keeps no prose docs; write them here. Its root README links here.
+- Do not call something a hardware bug unless a direct (non-TT-Metal) kernel
+  reproduces it or the ISA manual documents it. Record cases in `kernel-dev/known-issues.md`.
 - Keep hardware behavior separate from runtime conventions. Encoding checks,
   behavioral claims, and measured timing are different evidence.
 - Compiler maps retain pinned source revisions. Historical corpus frequency

@@ -1,7 +1,7 @@
 # TT-Metal kernel build, loading, and worker boot
 
 This is a reference to the recorded TT-Metal stack. Current blackhole-py has a
-separate [runtime and firmware builder](blackhole-py-runtime.md); its L1 layout,
+separate [runtime and firmware builder](../blackhole-py/runtime.md); its L1 layout,
 entry table, and command protocol must not be mixed with these interfaces.
 Board-management ARC/SMC/DMC firmware is covered in [Firmware](../firmware/README.md).
 

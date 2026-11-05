@@ -7,7 +7,7 @@ Choose tooling for the runtime under test. The environment variables and dispatc
 <a id="debug-env-vars--tt-metal-debugging-and-profiling-env-vars"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 This is a quick reference for common runtime debugging/profiling controls.
 
@@ -106,7 +106,7 @@ Debug delays (requires watcher enabled):
 <a id="dispatch-benchmark-howto--dispatch-microbenchmark-fast-vs-slow"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 This note captures how to run the tt-metal dispatch microbenchmark and how it computes the reported timings.
 
@@ -195,7 +195,7 @@ Relevant code:
 <a id="register-memory-tooling--register-and-memory-tooling-for-pure-py"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 <a id="register-memory-tooling--most-relevant-tt-exalens"></a>
 ### Most relevant: tt-exalens

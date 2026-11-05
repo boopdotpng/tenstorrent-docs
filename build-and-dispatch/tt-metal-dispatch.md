@@ -1,13 +1,13 @@
 # TT-Metal dispatch: modes, queues, and ABI
 
-These chapters describe the recorded TT-Metal command protocol and launch path. They are not the current blackhole-py CQ ABI. Hardware coordinates, service counts, addresses, and compile-time defines below belong to their stated configuration. See [blackhole-py runtime](blackhole-py-runtime.md) for the current Python implementation.
+These chapters describe the recorded TT-Metal command protocol and launch path. They are not the current blackhole-py CQ ABI. Hardware coordinates, service counts, addresses, and compile-time defines below belong to their stated configuration. See [blackhole-py runtime](../blackhole-py/runtime.md) for the current Python implementation.
 
 <a id="dispatch-modes"></a>
 ## Dispatch modes (fast vs slow) and architecture mapping
 <a id="dispatch-modes--dispatch-modes-fast-vs-slow-and-architecture-mapping"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 TT-Metal has two mutually exclusive dispatch modes:
 - **Fast dispatch**: host enqueues commands to a device command queue; firmware dispatches on-device.
@@ -83,7 +83,7 @@ If you do your own multicast rectangles:
 <a id="dispatch-kernel-pipeline-internals--dispatch-kernel-pipeline-internals"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 Complete catalog of every dispatch kernel in tt-metal, how they connect, the CQ command protocol, and the multi-chip dispatch flow. This covers the firmware that turns host command queue entries into kernel launches on Tensix workers.
 
@@ -477,7 +477,7 @@ For fabric data movement (all-reduce, tensor sharding, etc.), the ERISC writes d
 <a id="fast-dispatch-abi--fast-dispatch-abi-memory-layout-and-compile-time-defines-blackhole"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 CQ control area layouts, compile-time defines for prefetch/dispatch kernels, and IOMMU/hugepage details. This is the low-level ABI reference.
 
@@ -702,7 +702,7 @@ Relevant defs:
 <a id="slow-dispatch-tlb-writes--slow-dispatch-what-tlb-writes-actually-happen"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 When `TT_USB=1` (or the CQ firmware isn't available), blackhole-py falls back to **slow dispatch** — the host directly MMIO-writes everything into each worker core's L1 through TLB windows. No prefetch core, no dispatch core, no command queue. Just the host CPU driving the NOC through the PCIe BAR.
 

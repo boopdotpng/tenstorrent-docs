@@ -153,7 +153,7 @@ Note: `dual_bh_galaxy` and `bh_qb_4x4` exist on disk but have **no entry** in `c
 | ERISC processors per core | 1 | 2 (ERISC0 + ERISC1) |
 | Max mesh dimensions | 2 | 3 (Z-direction for BH Galaxy UBB internal links) |
 | Z-links | N/A | Channels 8,9 on BH Galaxy (skipped today, fragile hardcode) |
-| NOC inline writes | Normal | Must be non-posted (BH hardware bug, forced flush) |
+| NOC inline writes | Normal | TT-Metal forces non-posted: its comment says posted inline writes *may hang under back-pressure* (unconfirmed; blackhole-py uses posted inline writes) |
 
 BH Galaxy Z-links (channels 8,9) connect cards within a UBB module. Currently skipped in `topology_mapper.cpp:1376` with a TODO acknowledging the port-number hardcode is not sustainable.
 

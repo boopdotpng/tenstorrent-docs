@@ -330,5 +330,5 @@ TTI_SHIFTXB(ADDR_MOD_0, 0, row_addr >> 1);
 | Reduce LLK (GAPOOL usage) | `tt-llk/tt_llk_blackhole/llk_lib/llk_math_reduce.h` |
 | GAPOOL golden generator | `tt-llk/tests/python_tests/helpers/golden_generators.py` (ReduceGapoolGolden) |
 | Python instruction encoders | `tt-exalens/ttexalens/hardware/blackhole/tensix_ops.py` |
-| Instruction frequency data | `boop-docs/llk-sfpi/instruction-frequency-report.md` |
-| Instruction set analysis | `boop-docs/llk-sfpi/blackhole-instruction-set-analysis.md` |
+| Instruction frequency data | `boop-docs/archive/llk-sfpi/instruction-frequency-report.md` |
+| Instruction set analysis | `boop-docs/archive/llk-sfpi/blackhole-instruction-set-analysis.md` |

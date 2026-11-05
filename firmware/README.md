@@ -7,7 +7,7 @@ This guide covers ARC/SMC and DMC board-management firmware, boot images, config
 <a id="firmware-source-architecture--firmware-architecture-source-confirmed"></a>
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 Confirmed against `tt-zephyr-platforms` source. Supersedes the reverse-engineering guesses in `firmware.md`.
 
@@ -245,7 +245,7 @@ DMC → SMC: fan RPM feedback (20ms), power updates (1ms), thermal trip alerts, 
 <a id="firmware-build-system--building-firmware-and-creating-custom-fwbundles"></a>
 
 > Scope: Board-management firmware build snapshot. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 <a id="firmware-build-system--overview"></a>
 ### Overview

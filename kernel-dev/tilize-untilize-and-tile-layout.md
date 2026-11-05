@@ -1,7 +1,7 @@
 # Tilize, Untilize, and Tile Layout
 
 > Scope: TT-Metal/LLK source reference. APIs and layouts belong to that software stack;
-> see the [current blackhole-py runtime](../build-and-dispatch/blackhole-py-runtime.md) for its separate implementation.
+> see the [current blackhole-py runtime](../blackhole-py/runtime.md) for its separate implementation.
 
 How row-major data becomes 32x32 tiles with 4x 16x16 faces, where that conversion happens (host CPU vs device kernel), how data physically moves, and what the hardware expects. Investigated against Blackhole (BH) but largely architecture-neutral except where noted.
 
@@ -296,7 +296,11 @@ Face 3: address = Face 2 + 1x16 row of datums
 
 Each face: unpacks `face_r_dim` rows of 1x16 datums into SrcA using a replay buffer loop, with `CFGSHIFTMASK` instructions incrementing the L1 address by the row stride between rows.
 
-### Blackhole vs Wormhole Differences
+### Blackhole vs Wormhole Differences (TT-Metal/LLK software)
+
+These are TT-Metal library choices, not hardware limits. Blackhole-py issues
+native inline NoC writes and gathers row-major matmul input in the unpacker; see
+[known issues](known-issues.md).
 
 | Feature | Wormhole | Blackhole |
 |---|---|---|
@@ -329,7 +333,7 @@ There is no "tilize during transfer", "tilize during DMA", or "zero-copy tilize"
 
 ## How Matmul Gets Tiled Input
 
-**Matmul does NOT auto-tilize.** Both inputs must already be `Layout::TILE`:
+**TT-Metal matmul does NOT auto-tilize.** Both inputs must already be `Layout::TILE`:
 
 ```cpp
 // matmul_device_operation.cpp:105-107
@@ -338,7 +342,7 @@ TT_FATAL(
     "Inputs to matmul must be tilized");
 ```
 
-There is **no fused tilize+matmul** path. The practical flow:
+TT-Metal has **no fused tilize+matmul** path (blackhole-py's [row-major matmul](../matmul/results/row-major-peak.md) does without one). The practical flow:
 
 1. `ttnn.to_layout(input, ttnn.TILE_LAYOUT)` -- tilizes on host or device
 2. `ttnn.matmul(a, b)` -- reader kernels use `noc_async_read_tile()` to read tiles from DRAM into CBs; compute kernel calls `matmul_tiles()` / `matmul_block()` which operate on 16x16 faces

@@ -47,7 +47,7 @@ TT-Metal compiles a compute source for three TRISC roles and supplies dataflow
 kernels separately. Current blackhole-py can launch raw images for any of the
 five controllers; `Program` fills omitted roles with firmware-return stubs.
 Tests often initialize L1 from the host and launch only the controllers needed
-for an isolated experiment. See the [runtime map](build-and-dispatch/blackhole-py-runtime.md).
+for an isolated experiment. See the [runtime map](blackhole-py/runtime.md).
 
 Circular buffers track when L1 pages are available and when consumers have
 released them. Hardware semaphores coordinate coprocessor work. NoC completion
@@ -118,6 +118,6 @@ scripts, SFPI worker compiler, and `TT_USB=1` instructions are historical.
 
 - [Hardware architecture](hardware/architecture.md): memory, engines, and synchronization.
 - [Behavior demonstrated by tests](hardware/behavior-from-tests.md): assertions and gaps.
-- [Current runtime](build-and-dispatch/blackhole-py-runtime.md): device access through completion.
+- [Current runtime](blackhole-py/runtime.md): device access through completion.
 - [Matmul](matmul/README.md#fast-matmul-eli5): blocking, reuse, and multicast.
 - [Compiler maps](compiler-maps/README.md): source-guided compiler study.

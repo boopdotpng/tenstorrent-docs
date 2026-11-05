@@ -43,7 +43,7 @@ these paths using the same bytes and completion guarantee.
 
 An unsupported direction in one DMA API does not establish that Blackhole lacks
 all PCIe DMA hardware. A controller register map also does not establish that
-blackhole-py uses it. The [DRISC reports](../microbenching/docs/tensix/drisc-gddr-dma.md)
+blackhole-py uses it. The [DRISC reports](../archive/microbenching/docs/tensix/drisc-gddr-dma.md)
 and [local mover model](blackhole-emulator-specs/xmov-and-tdma-mover.md) describe
 other paths.
 

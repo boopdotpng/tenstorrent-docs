@@ -26,7 +26,7 @@ Read the next A/B block into L1
 The loop is split across controllers and engines. BRISC/NCRISC commonly handle
 transfers and TRISCs handle unpack/math/pack, but assignments are software choices.
 Current blackhole-py emits separate controller images; TT-Metal presents its own
-reader/compute/writer interface. See [the runtime map](../build-and-dispatch/blackhole-py-runtime.md).
+reader/compute/writer interface. See [the runtime map](../blackhole-py/runtime.md).
 
 <a id="fast-matmul-eli5--reuse-saves-traffic"></a>
 ### Reuse saves traffic
@@ -112,7 +112,7 @@ and output; FP8 with FP32 accumulation is another mode.
 
 The [FP32 tests](../../blackhole-py/tests/compute/fpu/test_matmul_peak_fp32.py)
 include a K-block cancellation case and compare the complete result to a
-reference. The [row-major report](../../blackhole-py/tests/movement/matmul_row_major.md)
+reference. The [row-major report](results/row-major-peak.md)
 records numerical error and timing scope. These support the inspected paths,
 not every shape, numerical edge, or future emitter change.
 
@@ -125,9 +125,9 @@ validate BF16 and FP32 L1 outputs with nonzero initial values, zero contribution
 cancellation, repeated passes, and adjacent guards. The recipe enables both
 `Pack_L1_Acc` and `Disable_pack_zero_flags`, then restores them.
 
-This does not establish arbitrary mixed-format behavior. In particular, the
-[historical Float16-format bug](../hardware/packer-l1-acc-float16-hardware-bug.md)
-concerns a different format/configuration. FP32 Dst and FP32 L1 accumulation
+This does not establish arbitrary mixed-format behavior. The old Float16 NaN
+failure was a [TT-Metal compiler bug, not hardware](../kernel-dev/known-issues.md#packer-l1-accumulation-with-ieee-float16-tt-metal-compiler-bug);
+direct kernels fixed it. FP32 Dst and FP32 L1 accumulation
 should not be conflated with FP32 Dst converted to a narrower output before
 accumulation. See the [test evidence guide](../hardware/behavior-from-tests.md).
 
@@ -157,7 +157,7 @@ panel-copy loop. This replaces the old proposal in `tilize-fusion-todo.md`.
 <a id="row-major-matmul--fp8-and-bf16-take-different-paths"></a>
 ### FP8 and BF16 take different paths
 
-The [source report](../../blackhole-py/tests/movement/matmul_row_major.md) describes:
+The [source report](results/row-major-peak.md) describes:
 
 - **FP8:** native tileize gathers two 32×16 panels into each source bank and
   expands FP8 to FP16 sources. Physical input row stride is padded to 1,024 bytes.
@@ -283,7 +283,7 @@ call it an avoided math sequence rather than assuming an end-to-end zero cost.
 
 - [Load-macro scale test](../../blackhole-py/tests/compute/sfpu/test_loadmacro_pipeline.py): all 8,192 FP32 values and guards are checked across five schedules; configuration/unpack/pack are outside its timed compute interval.
 - [Hardware evidence guide](../hardware/behavior-from-tests.md): reported results and their limitations.
-- [Current timing guide](../../blackhole-py/tests/timing/README.md): result readiness, issue spacing, resource sharing, and completion.
+- [Current timing guide](../timing/kernel-estimation.md): result readiness, issue spacing, resource sharing, and completion.
 - [Compute pipeline](../kernel-dev/tensix-compute-pipeline.md): the TT-Metal/LLK programming interface.
 
 ## Product fidelity
@@ -310,3 +310,18 @@ check tails, multiple subblocks, repeated launches, range, and a cancellation
 case whose small partial must survive across K blocks. Those assertions are more
 useful than selecting a fidelity label alone. They cover the exercised paths,
 not arbitrary shapes or numerical edge cases.
+
+## Measured results
+
+Dated blackhole-py runs. Each report states its card, grid, shape and timing
+boundary.
+
+| Report | Summary |
+|---|---|
+| [Row-major peak](results/row-major-peak.md) | FP8/BF16 row-major inputs with no host tilization (current path) |
+| [Compute-only peak](results/compute-only-peak.md) | Resident-source MVMUL: 608 TFLOPS on 110 cores, 647 on 117 |
+| [FP8 with FP32 accumulation](results/fp8-fp32-accumulation.md) | Opt-in FP32 accumulation mode and its cost |
+| [FP8 scheduling experiments](results/fp8-scheduling-experiments.md) | Block/multicast schedule variants at 5000³ |
+| [FP8/FP16-acc profile](results/fp8-fp16acc-profile.md), [stall profile](results/fp8-stall-profile.md) | Per-core timestamps and where TRISC1 stalls |
+
+Older P100A results are in the [archive](../archive/matmul/matmul-peak-sweep.md).

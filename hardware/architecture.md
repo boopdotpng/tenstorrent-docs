@@ -33,7 +33,7 @@ whose output will be consumed.
 
 L1 spans `0x00000000..0x0017ffff`. The split between firmware, kernels, parameters,
 and buffers is not a hardware constant. Use the active runtime's layout; the
-[current runtime map](../build-and-dispatch/blackhole-py-runtime.md) points to
+[current runtime map](../blackhole-py/runtime.md) points to
 `firmware/consts.py`. The [address reference](blackhole-emulator-specs/address-space.md)
 contains more MMIO detail and historical firmware partitions.
 
@@ -79,7 +79,7 @@ packet size, NIU issue rate, arbitration, and endpoint capacity all matter.
 NoC reads, writes, multicasts, and atomics have different completion semantics.
 Posted writes do not offer the same acknowledgment contract as non-posted writes.
 A buffer must not be reused merely because its transfer was issued. See the
-[NoC reading guide](../microbenching/docs/noc/reading-guide.md) and recorded probes
+[NoC reading guide](../archive/microbenching/docs/noc/reading-guide.md) and recorded probes
 for route and contention behavior.
 
 The current host interface pins pages through tt-kmd and obtains a device-visible

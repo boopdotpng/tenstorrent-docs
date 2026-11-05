@@ -4,6 +4,7 @@ Architecture and host interfaces. Detailed emulator models are a separate sectio
 
 - [Architecture and compute engines](architecture.md)
 - [Behavior demonstrated by blackhole-py tests](behavior-from-tests.md)
+- [FP8 and FP4 unpack/pack behavior](fp8-and-fp4.md)
 - [Coordinates and worker placement](topology.md)
 - [Host memory and transfers](host-memory.md)
 - [PCIe registers and tt-kmd interface](pcie-and-tt-kmd.md)

@@ -912,7 +912,7 @@ All four instructions share the same STALLWAIT behavior:
 | Blackhole C macros | `tt-llk/tt_llk_blackhole/common/inc/ckernel_ops.h` |
 | Blackhole assembly YAML | `tt-llk/tt_llk_blackhole/instructions/assembly.yaml` |
 | Python instruction encoders | `tt-exalens/ttexalens/hardware/blackhole/tensix_ops.py` |
-| Instruction frequency data | `boop-docs/llk-sfpi/instruction-frequency-report.md` |
+| Instruction frequency data | `boop-docs/archive/llk-sfpi/instruction-frequency-report.md` |
 | AutoTTSync classes | `tt-isa-documentation/BlackholeA0/TensixTile/BabyRISCV/AutoTTSync.md` |
 
 <a id="config-sync-instructions"></a>
