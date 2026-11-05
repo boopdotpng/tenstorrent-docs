@@ -5,40 +5,59 @@ worktree. Measurements use card 0 through `tt-device-queue`. The baseline is
 that pre-edit worktree, not clean Git HEAD. Its source hash and the measured
 results are in [llama_fp8_speedup_results.json](../../../blackhole-py/tools/llama_fp8_speedup_results.json).
 
-## Usage
+## Current status (2026-11-05)
 
-The default path batches transfers and uses larger FP8 weight pages while
-retaining the BF16 LM head and original attention arithmetic.
+The env vars and flags this page originally described are gone; there is
+one decode path per model:
 
-Enable the two numerical changes explicitly:
+- **Split attention is always on for 8B** (BF16 and FP8 weights). The runtime
+  captures a second resident decode trace; from position 511 on, four
+  workers per KV head process interleaved quarters of the sequence and a
+  merge launch combines their FP32 `(O, m, l)` states with stable
+  exponential rescaling. Shorter positions replay the original unsplit
+  trace, so short-context speed is unchanged. It costs 32 extra merge
+  launches per token on the long trace, extra build time, and resident code
+  storage. Rounding differs from unsplit attention (different summation
+  order) but stays in FP32/BF16.
+- **The FP8 LM head was removed.** It was faster but changed greedy tokens
+  (63/64 matched), so it failed the "no quality loss" bar.
+- FP8 KV cache/attention (`LLAMA_ATTENTION_DTYPE`), FP8 fidelity 2
+  (`LLAMA_FP8_FIDELITY`), and the hybrid RMSNorm (`LLAMA_RMSNORM`) were
+  removed. The first two were untested or unmeasured; the hybrid RMSNorm was
+  slower in decode.
+- 2 KiB FP8 weight pages, DRAM port rotation, 88/96 projection cores, and the
+  NoC split at column 7 for the down projection are now fixed constants in
+  `examples/llama3/config.py`.
 
-```sh
-tt-device-queue run --device 0 --timeout 180 -- \
-  ../.venv/bin/python -m examples.llama3 \
-  --model 8b --dtype fp8 --lm-head-dtype fp8 --split-attention \
-  --prompt 'Write a story about a robot learning to paint.' \
-  --steps 64 --profile
-```
+Measured on card 0 against unsplit HEAD (card 1), 64 tokens, 4096-token prefix:
 
-`--lm-head-dtype fp8` quantizes the checkpoint's BF16 LM head at load time,
-with one E4M3 scale per vocabulary row. It also uses the existing FP8 input
-conversion for the final normalized activation. It saves about 0.52 GB of
-weights and 1.1 ms/token here, but adds several seconds to model loading and
-can change greedy token choices. The checkpoint files are untouched.
+| Model | Unsplit | Split | Speedup | Teacher-forced token agreement |
+| --- | ---: | ---: | ---: | ---: |
+| 8B FP8 | 28.06 ms | 22.20 ms | 1.26× | 60/64 |
+| 8B BF16 | 41.95 ms | 36.06 ms | 1.16× | 63/64 |
 
-`--split-attention` builds a second resident decode trace. At positions 511
-and above, four workers per KV head process interleaved quarters of the
-sequence, each computing all four query heads. A merge launch combines
-FP32 partial `(O, m, l)` states using stable exponential rescaling. The
-short-context trace retains the original head assignment. This requires
-8B with BF16 attention; it works independently of the weight dtype. It adds
-32 merge launches per token on the long-context trace and increases build
-time and resident code storage. It can change rounding and token choices.
+Short-context (20-token prompt) timing and tokens are identical to unsplit
+(64/64 on both 8B models). At 4K, free-running generation diverges at token
+9 (FP8) and 33 (BF16). The 4K prefix is the chat prompt repeated, so FP8's
+flips are template tokens (`assistant` vs `<|start_header_id|>`).
 
-Equivalent environment variables for API/chat users are
-`LLAMA_LM_HEAD_DTYPE=fp8` and `LLAMA_SPLIT_ATTENTION=1`.
-Both are opt-in. Explicit CLI choices override their environment defaults.
-`--no-split-attention` disables the alternate trace.
+Top-2 logits at the disagreeing teacher-forced positions (unsplit → split):
+
+| Model | Step | Unsplit | Split |
+| --- | ---: | --- | --- |
+| BF16 | 33 | 18.375 vs 18.25 | 18.5 vs 18.5 (exact tie) |
+| FP8 | 9 | 21.5 vs 20.75 | 20.75 vs 20.75 (exact tie) |
+| FP8 | 14 | 21.5 vs 21.0 | 21.375 vs 21.0 (order flipped) |
+| FP8 | 34 | 21.875 vs 21.375 | 21.875 vs 21.625 (order flipped) |
+| FP8 | 43 | 16.625 vs 16.25 | 16.875 vs 15.375 (order flipped) |
+
+BF16 differs by one BF16 step. FP8 logits move by up to ~1.5: each FP8
+projection rounds its input to E4M3, which amplifies the small change in
+attention summation order. Neither path is a higher-precision reference;
+an FP32 CPU comparison on natural long text is still to do.
+
+The sections below are the original record and still mention the removed
+options.
 
 ## Implemented
 
